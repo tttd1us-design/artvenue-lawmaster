@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+extensions/
+argv.json
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+
+# Temp files
+*.tmp
+_BACKUP*
+scratch/
