@@ -47,7 +47,7 @@
         </div>
       </div>
 
-      <!-- Quick Preset Selector & Status Indicators -->
+      <!-- Quick Preset Selector, Local Ordinance Selector & Status Indicators -->
       <div class="header-center">
         <div class="preset-selector-box">
           <label class="preset-label"><i data-lucide="building"></i> 모델 프리셋:</label>
@@ -58,6 +58,18 @@
             <option value="custom">사용자 직접 정의 (Custom Spec)</option>
           </select>
         </div>
+
+        <div class="preset-selector-box" style="margin-left: 8px;">
+          <label class="preset-label"><i data-lucide="map-pin"></i> 관할 지자체/소방서:</label>
+          <select id="localOrdinanceSelect" class="preset-dropdown" style="border-color: #4F46E5; background: #EEF2FF; font-weight: 700; color: #3730A3;">
+            <option value="seoul-jongno" selected>🏛️ 서울특별시 종로구 (종로소방서 / 조례 강화)</option>
+            <option value="seoul-gangnam">🏢 서울특별시 강남구 (강남소방서 / PBD 의무)</option>
+            <option value="gyeonggi-seongnam">🎭 경기도 성남시 (분당소방서 / BF 최우수 권장)</option>
+            <option value="busan-haeundae">🌊 부산광역시 해운대구 (해운대소방서)</option>
+            <option value="daegu-suseong">🏛️ 대구광역시 수성구 (수성소방서)</option>
+          </select>
+        </div>
+
         <div class="safety-indicator-badge success" id="globalComplianceBadge">
           <span class="status-dot"></span>
           <span class="status-txt">법규 상충 0건 (설계 완벽 정합)</span>
@@ -67,11 +79,11 @@
       <div class="header-right">
         <button class="btn btn-outline" id="btnOpenRoiModal">
           <i data-lucide="calculator"></i>
-          <span>손실예방(ROI) 산출</span>
+          <span>손실예방(ROI) ₩6억</span>
         </button>
-        <button class="btn btn-primary" id="btnExportFullReport">
+        <button class="btn btn-primary" id="btnExportFullReport" style="background: linear-gradient(135deg, #4F46E5, #7C3AED);">
           <i data-lucide="file-check-2"></i>
-          <span>인허가 검토서 출력</span>
+          <span>30P 세움터/소방서 제출도서 출력</span>
         </button>
       </div>
     </div>
@@ -79,47 +91,617 @@
     <!-- MAIN TAB NAVIGATION -->
     <nav class="main-tab-nav">
       <div class="tab-list">
-        <button class="tab-item active" data-tab="blueprint">
+        <button class="tab-item active" data-tab="aichat">
+          <i data-lucide="bot-message-square"></i>
+          <span>AI 멀티모달 챗봇</span>
+          <span class="tab-badge-hot">AI COPILOT</span>
+        </button>
+        <button class="tab-item" data-tab="cadparser">
+          <i data-lucide="ruler"></i>
+          <span>AutoCAD 실측 벡터 파서</span>
+          <span class="tab-badge-hot">1mm 정밀실측</span>
+        </button>
+        <button class="tab-item" data-tab="chronolegal">
+          <i data-lucide="history"></i>
+          <span>지자체 조례 & 소급적용 엔진</span>
+          <span class="tab-count-badge">226개 조례</span>
+        </button>
+        <button class="tab-item" data-tab="evacuation">
+          <i data-lucide="activity"></i>
+          <span>3D 피난 대피 병목 시뮬레이션</span>
+          <span class="tab-badge-hot">RSET 연산</span>
+        </button>
+        <button class="tab-item" data-tab="blueprint">
           <i data-lucide="scan-line"></i>
-          <span>AI 도면 법률 스캐너 & 정밀진단</span>
+          <span>AI 도면 법률 스캐너</span>
           <span class="tab-badge-hot">AI VISION</span>
         </button>
-        <button class="tab-item" data-tab="legalqa">
-          <i data-lucide="help-circle"></i>
-          <span>AI 법률 질의응답 & 법적근거</span>
-          <span class="tab-badge-hot">LEGAL AI</span>
+        <button class="tab-item" data-tab="checklist">
+          <i data-lucide="check-square"></i>
+          <span>전수 체크리스트 & AI자문</span>
+          <span class="tab-count-badge">36개 항목</span>
         </button>
         <button class="tab-item" data-tab="matrix">
           <i data-lucide="table-2"></i>
-          <span>법규 상충 매트릭스 & 지배기준</span>
-          <span class="tab-count-badge">9대 상충 / 23부위</span>
+          <span>법규 상충 매트릭스</span>
+          <span class="tab-count-badge">9대 상충</span>
         </button>
         <button class="tab-item" data-tab="spatial3d">
           <i data-lucide="box"></i>
-          <span>3D/2D 인터랙티브 공간 검증</span>
+          <span>3D 디지털 트윈</span>
           <span class="tab-badge-hot">LIVE 3D</span>
-        </button>
-        <button class="tab-item" data-tab="calculator">
-          <i data-lucide="cpu"></i>
-          <span>원클릭 AI 적합성 자동진단</span>
         </button>
         <button class="tab-item" data-tab="documents">
           <i data-lucide="file-text"></i>
-          <span>소방·인허가 공문/협의서 생성</span>
+          <span>인허가 공문·협의서 생성</span>
           <span class="tab-count-badge">3종 패키지</span>
         </button>
-        <button class="tab-item" data-tab="guide">
-          <i data-lucide="book-marked"></i>
-          <span>실무 인허가 마스터 가이드</span>
+        <button class="tab-item" data-tab="auditlog">
+          <i data-lucide="clipboard-check"></i>
+          <span>감사로그 & B2B 팀협업</span>
         </button>
       </div>
     </nav>
   </header>
 
     <!-- ======================================================== -->
-    <!-- TAB 0: AI 도면 법률 스캐너 & 정밀진단 (AI Vision Blueprint Legal Scanner) -->
+    <!-- TAB 0: AI 멀티모달 채팅 어시스턴트 (Multimodal AI Legal Chatbot) -->
     <!-- ======================================================== -->
-    <section class="tab-pane active" id="tab-blueprint">
+    <section class="tab-pane active" id="tab-aichat">
+      <!-- Chat Hero Banner -->
+      <div class="section-hero-card">
+        <div class="hero-text-content">
+          <div class="hero-pill-badge">
+            <i data-lucide="sparkles"></i> 이미지·도면·문서 파일 & 텍스트 통합 AI 법률 해결사
+          </div>
+          <h2>공연장 AI 멀티모달 법률 챗봇 & 원스톱 문제해결실</h2>
+          <p>
+            공연장 설계 평면도, 현장 사진, 인허가 공문 파일(PDF/DWG/이미지) 또는 텍스트로 궁금한 점을 질문하세요. 
+            AI가 <strong>이미지 시각 분석(Vision)과 6대 복합법령 지식베이스</strong>를 융합하여 <strong>법적 근거, 위반 리스크, 지배기준, 해결 도면 가이드</strong>를 즉시 완벽하게 풀어드립니다.
+          </p>
+        </div>
+        <div class="hero-legend-card">
+          <span class="legend-title">지원하는 입력 형태</span>
+          <div class="legend-items">
+            <span class="legend-tag dominant"><i class="dot dominant"></i> 📷 도면/현장 이미지 (Drag & Drop)</span>
+            <span class="legend-tag mandatory"><i class="dot mandatory"></i> 📄 PDF/DWG/문서 파일 분석</span>
+            <span class="legend-tag review"><i class="dot review"></i> 💬 자연어 법률 질문 & 실무 상담</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Chat Workspace Layout: Left/Center Chatbot + Right Context & Tool Inspector -->
+      <div class="chat-workspace-grid">
+        
+        <!-- Left/Center: Main Interactive Chat Console -->
+        <div class="chat-console-card glass-card">
+          <!-- Chat Header Bar -->
+          <div class="chat-header-bar">
+            <div class="chat-header-left">
+              <div class="ai-bot-avatar">
+                <i data-lucide="bot"></i>
+                <span class="online-indicator"></span>
+              </div>
+              <div class="ai-bot-info">
+                <div class="ai-bot-name-row">
+                  <span class="ai-bot-name">ArtVenue AI Legal Copilot</span>
+                  <span class="badge-ai-model">Multi-Vision + Legal RAG</span>
+                </div>
+                <span class="ai-bot-desc">공연장 6대 복합법령 & 도면/서류 정밀 판정 엔진 활성화</span>
+              </div>
+            </div>
+
+            <div class="chat-header-actions">
+              <button class="btn btn-ghost btn-sm" id="btnExportChatLog" title="대화 내역 인쇄/PDF">
+                <i data-lucide="printer"></i> 대화록 출력
+              </button>
+              <button class="btn btn-ghost btn-sm" id="btnClearChatHistory" title="대화 초기화">
+                <i data-lucide="trash-2"></i> 대화 초기화
+              </button>
+            </div>
+          </div>
+
+          <!-- Chat Message Thread (Scrollable) -->
+          <div class="chat-messages-container" id="chatMessagesContainer">
+            <!-- Welcome Initial Message rendered dynamically -->
+          </div>
+
+          <!-- Chat Input Area with Multimodal Attachment & Dropzone -->
+          <div class="chat-input-wrapper">
+            <!-- Drag & Drop Overlay inside Chat Area -->
+            <div class="chat-drop-overlay" id="chatDropOverlay">
+              <div class="drop-overlay-content">
+                <i data-lucide="upload-cloud"></i>
+                <span>도면 이미지 또는 문서 파일을 여기에 놓으세요</span>
+              </div>
+            </div>
+
+            <!-- Attached Files Preview Bar -->
+            <div class="chat-attachments-preview" id="chatAttachmentsPreview" style="display: none;">
+              <!-- Dynamically populated files/images chips -->
+            </div>
+
+            <!-- Quick Starter Prompts Chips Bar -->
+            <div class="chat-quick-chips-bar" id="chatQuickChipsBar">
+              <button class="chat-chip" data-prompt="사운드록 이중 방음문의 개폐방향과 유효폭 기준을 명확히 정리해줘.">
+                🚪 사운드록 도어 기준
+              </button>
+              <button class="chat-chip" data-prompt="850석 공연장에서 BF 최우수 등급을 받기 위한 휠체어석 배치 공식은?">
+                ♿ BF 휠체어석 골든존
+              </button>
+              <button class="chat-chip" data-prompt="공연 암전 시 객석유도등 소등을 위한 소방서 사전협의 절차와 법적 요건을 알려줘.">
+                💡 객석유도등 감광 협의
+              </button>
+              <button class="chat-chip" data-prompt="FOH 복도 유효폭 2.4m 산정 시 소화전함 돌출이 허용되는지 법적 근거를 설명해줘.">
+                🚶 FOH 복도 유효폭
+              </button>
+              <button class="chat-chip" data-prompt="관람실 대공간의 방화구획 완화 요건과 필수 대체 소방설비(드렌처/제연) 기준은?">
+                🔥 방화구획 완화 요건
+              </button>
+            </div>
+
+            <!-- Main Input Bar -->
+            <div class="chat-input-box">
+              <div class="chat-input-tools-left">
+                <!-- File upload button -->
+                <label class="chat-tool-btn" title="도면 이미지/문서 파일 첨부 (PNG, JPG, PDF, DWG)">
+                  <i data-lucide="paperclip"></i>
+                  <input type="file" id="chatFileInput" multiple accept="image/*,.pdf,.dwg,.dxf,.txt,.doc,.docx" style="display: none;">
+                </label>
+                <!-- Image upload button -->
+                <label class="chat-tool-btn" title="도면 캡처/사진 즉시 첨부 (Ctrl+V 붙여넣기 지원)">
+                  <i data-lucide="image"></i>
+                  <input type="file" id="chatImageInput" accept="image/*" style="display: none;">
+                </label>
+                <!-- Preset Sample Drawing Injection -->
+                <button class="chat-tool-btn" id="btnInsertSamplePlan" title="실무 공연장 샘플 평면도 즉시 첨부">
+                  <i data-lucide="layout-template"></i>
+                </button>
+              </div>
+
+              <textarea id="chatTextInput" class="chat-textarea" rows="1" placeholder="공연장 법규 관련 질문을 입력하거나, 도면 이미지·파일을 드래그해 첨부하세요... (Enter 전송 / Shift+Enter 줄바꿈)"></textarea>
+
+              <button class="chat-send-btn" id="btnSendChatMessage" title="메시지 전송">
+                <i data-lucide="send"></i>
+              </button>
+            </div>
+            
+            <div class="chat-input-footer-hint">
+              <span><i data-lucide="info"></i> <strong>Tip:</strong> 클립보드의 스크린샷 이미지(Ctrl+V)를 바로 붙여넣거나, 도면 파일을 끌어다 놓으면 AI가 자동 인식합니다.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: AI Knowledge Context & Inspector Sidebar -->
+        <div class="chat-sidebar-card glass-card">
+          <!-- Active Knowledge Base Card -->
+          <div class="sidebar-section">
+            <div class="sidebar-section-title">
+              <i data-lucide="shield-check" class="text-indigo"></i>
+              <span>AI 연동 6대 복합법령 지식베이스</span>
+            </div>
+            <div class="knowledge-sources-list">
+              <div class="source-item">
+                <span class="source-badge">건축법</span>
+                <span class="source-text">피난·방화구조 등의 기준에 관한 규칙</span>
+              </div>
+              <div class="source-item">
+                <span class="source-badge fire">소방법</span>
+                <span class="source-text">소방시설 설치 및 관리에 관한 법률 & NFPC</span>
+              </div>
+              <div class="source-item">
+                <span class="source-badge bf">BF/장애인</span>
+                <span class="source-text">장애인등편의법 & BF인증 심사기준(2024)</span>
+              </div>
+              <div class="source-item">
+                <span class="source-badge stage">공연법</span>
+                <span class="source-text">공연법 제12조 무대시설 안전진단 기준</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Solution Templates -->
+          <div class="sidebar-section">
+            <div class="sidebar-section-title">
+              <i data-lucide="file-check-2" class="text-indigo"></i>
+              <span>원클릭 실무 샘플 주입</span>
+            </div>
+            <div class="sidebar-action-buttons">
+              <button class="sidebar-action-btn" data-sample-chat="medium-hall">
+                <i data-lucide="file-image"></i>
+                <div class="btn-texts">
+                  <span class="t-main">850석 뮤지컬홀 도면 분석 요청</span>
+                  <span class="t-sub">사운드록 & 피난로 상충 자동 진단</span>
+                </div>
+              </button>
+              <button class="sidebar-action-btn" data-sample-chat="bf-wheelchair">
+                <i data-lucide="file-text"></i>
+                <div class="btn-texts">
+                  <span class="t-main">BF 최우수 관람석 적합성 검토</span>
+                  <span class="t-sub">휠체어석 2% & 시야각 30° 산출</span>
+                </div>
+              </button>
+              <button class="sidebar-action-btn" data-sample-chat="fire-dimming">
+                <i data-lucide="file-text"></i>
+                <div class="btn-texts">
+                  <span class="t-main">소방서 객석유도등 감광 협의서 초안</span>
+                  <span class="t-sub">공문 서식 및 필수 첨부자료 생성</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Safety Guarantee Box -->
+          <div class="sidebar-guarantee-box">
+            <div class="guarantee-header">
+              <i data-lucide="award"></i>
+              <span>인허가 안전 보증 시스템</span>
+            </div>
+            <p>
+              AI의 답변은 최신 대법원 판례, 법제처 유권해석, 소방청 고시를 엄격히 준수하여 인허가 반려 리스크를 사전에 완벽히 차단합니다.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 1: AutoCAD 실측 벡터 파서 (CAD Vector Layer Inspector) -->
+    <!-- ======================================================== -->
+    <section class="tab-pane" id="tab-cadparser">
+      <div class="section-hero-card">
+        <div class="hero-text-content">
+          <div class="hero-pill-badge">
+            <i data-lucide="ruler"></i> AutoCAD (DWG/DXF) 1mm 정밀 벡터 파싱 & 마감재 공제 순(純) 유효폭 산출기
+          </div>
+          <h2>공연장 CAD 실측 벡터 파서 & 인허가 도면 검측기</h2>
+          <p>
+            AutoCAD 파일(DWG/DXF)을 업로드하면, 벽체(WALL)·문(DOOR)·기둥(COL) 레이어를 1mm 단위로 파싱하여 
+            <strong>마감재 두께(석고보드+흡음재 30mm)를 공제한 '순 유효폭'을 자동 연산</strong>하고, 법정 기준 미달 부위를 붉은색 치수선(Dimension Line)으로 오버레이합니다.
+          </p>
+        </div>
+        <div class="hero-legend-card">
+          <span class="legend-title">CAD 레이어 검측 상태</span>
+          <div class="legend-items">
+            <span class="legend-tag dominant"><i class="dot dominant"></i> 🔴 1.5m 미달 (관람실 출구)</span>
+            <span class="legend-tag review"><i class="dot review"></i> 🟠 2.4m 미달 (FOH 주복도)</span>
+            <span class="legend-tag mandatory"><i class="dot mandatory"></i> 🟢 법정 기준 완벽 충족</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAD Workspace Bento Grid -->
+      <div class="cad-workspace-grid">
+        <!-- Left: CAD Viewer Stage -->
+        <div class="cad-viewer-card glass-card">
+          <div class="cad-viewer-header">
+            <div class="cad-file-info">
+              <i data-lucide="file-code" class="text-indigo"></i>
+              <span id="currentCadFileName">850석_뮤지컬홀_1F_골조_피난도면.dxf</span>
+              <span class="badge-amber" style="font-size: 11px;">1mm 벡터 정밀연산</span>
+            </div>
+            <div class="cad-layer-toggles">
+              <label class="cad-layer-chk active"><input type="checkbox" id="cadLayerWall" checked> 벽체(WALL)</label>
+              <label class="cad-layer-chk active"><input type="checkbox" id="cadLayerDoor" checked> 문/사운드록(DOOR)</label>
+              <label class="cad-layer-chk active"><input type="checkbox" id="cadLayerDim" checked> 실측치수(DIM)</label>
+              <label class="cad-layer-chk active"><input type="checkbox" id="cadLayerFinish" checked> 마감공제선(-30mm)</label>
+              <label class="cad-layer-chk active"><input type="checkbox" id="cadLayerBF" checked> BF동선(BF_PATH)</label>
+            </div>
+          </div>
+
+          <!-- Interactive CAD Canvas -->
+          <div class="cad-canvas-box" id="cadCanvasBox">
+            <svg id="cadVectorSvg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet">
+              <!-- Dynamically populated CAD Vector drawing -->
+            </svg>
+            <div class="cad-measurement-pins" id="cadMeasurementPins"></div>
+          </div>
+
+          <div class="cad-viewer-footer">
+            <div class="finish-deduct-box">
+              <label><i data-lucide="sliders"></i> 흡음 마감재 두께 공제 설정:</label>
+              <select id="finishDeductThickness" class="preset-dropdown" style="padding: 4px 8px; font-size: 12px;">
+                <option value="30" selected>기본 30mm (석고2P + 흡음패널)</option>
+                <option value="50">고급 50mm (다공질 흡음재 + 음향판)</option>
+                <option value="70">특수 70mm (차음시트 + 목재음향벽)</option>
+                <option value="0">골조 마감 없음 (0mm)</option>
+              </select>
+            </div>
+            <button class="btn btn-outline btn-sm" id="btnExportCadDxfReport">
+              <i data-lucide="download"></i> CAD 검측 리포트 (DXF) 다운로드
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: CAD Inspection Summary Table -->
+        <div class="cad-inspect-sidebar glass-card">
+          <div class="sidebar-section-title">
+            <i data-lucide="table" class="text-indigo"></i>
+            <span>부위별 1mm 실측 검측표</span>
+          </div>
+
+          <div class="cad-inspect-table-wrap">
+            <table class="cad-inspect-table" id="cadInspectTable">
+              <thead>
+                <tr>
+                  <th>검측 부위</th>
+                  <th>도면 치수</th>
+                  <th>순 유효폭</th>
+                  <th>법정 기준</th>
+                  <th>판정</th>
+                </tr>
+              </thead>
+              <tbody id="cadInspectTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="cad-remedy-box">
+            <div class="remedy-title"><i data-lucide="sparkles"></i> AI 자동 보정 치수 (건축사 승인용)</div>
+            <p id="cadRemedyText">
+              사운드록 2중문 개구부를 1.8m ➔ <strong>2.4m</strong>로 확장하고, FOH 복도 벽체를 <strong>150mm 외측으로 이동</strong>하면 모든 법령 기준을 100% 충족합니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 2: 지자체 226개 조례 & 소급적용 타임라인 (Chrono-Legal Engine) -->
+    <!-- ======================================================== -->
+    <section class="tab-pane" id="tab-chronolegal">
+      <div class="section-hero-card">
+        <div class="hero-text-content">
+          <div class="hero-pill-badge">
+            <i data-lucide="history"></i> 전국 226개 시·군·구 조례 & 법령 소급적용(부칙) 판정 엔진
+          </div>
+          <h2>지자체 조례 전수 DB & 법령 소급적용 타임라인 엔진</h2>
+          <p>
+            공연장 소재지(시·군·구)와 건물 허가일자(연도)를 입력하면, 
+            <strong>지자체 문화시설 조례(화장실 비율, 복도폭, 주차대수)</strong>와 <strong>개정 법령의 소급적용 대상 여부</strong>를 법제처 유권해석과 함께 명확히 판정합니다.
+          </p>
+        </div>
+        <div class="hero-legend-card">
+          <span class="legend-title">소급적용 판정 구분</span>
+          <div class="legend-items">
+            <span class="legend-tag dominant"><i class="dot dominant"></i> ⚠️ 소급적용 필수 (의무 시공)</span>
+            <span class="legend-tag mandatory"><i class="dot mandatory"></i> 🛡️ 기득권 보호 (소급 면제)</span>
+            <span class="legend-tag review"><i class="dot review"></i> ⚡ 대수선/증축 시 적용</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chrono-Legal Controls Bar -->
+      <div class="chrono-controls-bar glass-card">
+        <div class="chrono-input-group">
+          <label><i data-lucide="calendar"></i> 건축허가 접수일자:</label>
+          <input type="date" id="buildingPermitDate" value="2021-04-15" class="preset-dropdown" style="padding: 6px 12px;">
+        </div>
+        <div class="chrono-input-group">
+          <label><i data-lucide="hammer"></i> 리모델링/대수선 공사 연도:</label>
+          <input type="date" id="remodelDate" value="2026-08-27" class="preset-dropdown" style="padding: 6px 12px;">
+        </div>
+        <div class="chrono-input-group">
+          <label><i data-lucide="map"></i> 사업지 지자체 조례:</label>
+          <select id="chronoDistrictSelect" class="preset-dropdown" style="padding: 6px 12px; font-weight: 700;">
+            <option value="jongno" selected>서울특별시 종로구 (문화지구 특별조례)</option>
+            <option value="gangnam">서울특별시 강남구 (초고밀도 피난기준)</option>
+            <option value="seongnam">경기도 성남시 (BF 최우수 보조금 지원조례)</option>
+            <option value="haeundae">부산광역시 해운대구 (관광문화시설 조례)</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" id="btnRunChronoDiagnosis">
+          <i data-lucide="cpu"></i> 소급적용 & 조례 정밀진단
+        </button>
+      </div>
+
+      <!-- Chrono Results Grid -->
+      <div class="chrono-results-grid">
+        <!-- Left: Ordinance Comparison Table -->
+        <div class="chrono-card glass-card">
+          <div class="sidebar-section-title">
+            <i data-lucide="scale" class="text-indigo"></i>
+            <span id="chronoOrdinanceTitle">서울특별시 종로구 문화시설 조례 vs 국가 표준법령</span>
+          </div>
+          <div class="chrono-table-wrap">
+            <table class="cad-inspect-table">
+              <thead>
+                <tr>
+                  <th>규제 항목</th>
+                  <th>국가 법령(최저기준)</th>
+                  <th>지자체 조례(지배기준)</th>
+                  <th>인허가 주의사항</th>
+                </tr>
+              </thead>
+              <tbody id="chronoOrdinanceTbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Right: Retroactive Enforcement Timeline -->
+        <div class="chrono-card glass-card">
+          <div class="sidebar-section-title">
+            <i data-lucide="git-commit" class="text-indigo"></i>
+            <span>개정 법령별 소급적용(부칙) 판정 타임라인</span>
+          </div>
+          <div class="retroactive-timeline-list" id="retroactiveTimelineList">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 3: 3D 피난 대피 병목 시뮬레이션 (Evacuation Simulator) -->
+    <!-- ======================================================== -->
+    <section class="tab-pane" id="tab-evacuation">
+      <div class="section-hero-card">
+        <div class="hero-text-content">
+          <div class="hero-pill-badge">
+            <i data-lucide="activity"></i> 소방 성능위주설계(PBD) 공인 피난 허용시간(ASET) vs 소요시간(RSET) 연산기
+          </div>
+          <h2>3D 피난 대피 병목 시뮬레이터 & RSET 연산 엔진</h2>
+          <p>
+            관람객 850명(또는 사용자 지정 인원)이 비상시 객석에서 사운드록 및 피난계단으로 탈출하는 
+            <strong>피난 병목 시간(RSET)을 실시간 연산</strong>하고, 연기층 하강 허용시간(ASET 360초) 이내 전원 탈출 가능 여부를 소방청 공인 그래프로 제시합니다.
+          </p>
+        </div>
+        <div class="hero-legend-card">
+          <span class="legend-title">피난 안전성 등급</span>
+          <div class="legend-items">
+            <span class="legend-tag mandatory"><i class="dot mandatory"></i> 🟢 안전 (RSET 148초 &lt; ASET 360초)</span>
+            <span class="legend-tag review"><i class="dot review"></i> 🟠 병목 주의 (출구 2번 집중)</span>
+            <span class="legend-tag dominant"><i class="dot dominant"></i> 🔴 대피 지연 (사운드록 병목)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Evacuation Simulation Bento Grid -->
+      <div class="evac-bento-grid">
+        <!-- 3D Evacuation Flow Visualizer -->
+        <div class="evac-flow-card glass-card">
+          <div class="cad-viewer-header">
+            <div class="cad-file-info">
+              <i data-lucide="users" class="text-indigo"></i>
+              <span>관람객 850명 피난 동선 유동(Flow) 시각화</span>
+            </div>
+            <div class="evac-play-controls">
+              <button class="btn btn-primary btn-sm" id="btnPlayEvacSim"><i data-lucide="play"></i> 시뮬레이션 시작</button>
+              <button class="btn btn-outline btn-sm" id="btnResetEvacSim"><i data-lucide="rotate-ccw"></i> 리셋</button>
+            </div>
+          </div>
+
+          <!-- Flow Stage -->
+          <div class="evac-stage-box" id="evacStageBox">
+            <div class="evac-agent-canvas" id="evacAgentCanvas">
+              <!-- Animated Evacuee Dots -->
+            </div>
+            <div class="evac-hud-overlay">
+              <div class="hud-timer">경과 시간: <span id="evacTimerSec">0</span> 초 / 목표 360초</div>
+              <div class="hud-escaped">대피 완료: <span id="evacEscapedCount">0</span> / 850 명 (<span id="evacEscapedPercent">0%</span>)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Evacuation Metrics & Exit Bottleneck Analysis -->
+        <div class="evac-metrics-card glass-card">
+          <div class="sidebar-section-title">
+            <i data-lucide="bar-chart-3" class="text-indigo"></i>
+            <span>출구별 피난 유출량(Flow Rate) & 병목 분석</span>
+          </div>
+
+          <div class="exit-bars-container">
+            <div class="exit-bar-item">
+              <div class="exit-bar-label">
+                <span>출구 1 (좌측 사운드록 1.5m)</span>
+                <span id="exit1Count">280명 (33%)</span>
+              </div>
+              <div class="progress-bar-bg"><div class="progress-bar-fill" id="exit1Progress" style="width: 33%;"></div></div>
+            </div>
+
+            <div class="exit-bar-item">
+              <div class="exit-bar-label">
+                <span>출구 2 (중앙 주출구 2.4m)</span>
+                <span id="exit2Count">420명 (49%)</span>
+              </div>
+              <div class="progress-bar-bg"><div class="progress-bar-fill" id="exit2Progress" style="width: 49%; background: #4F46E5;"></div></div>
+            </div>
+
+            <div class="exit-bar-item">
+              <div class="exit-bar-label">
+                <span>출구 3 (우측 피난계단 1.2m)</span>
+                <span id="exit3Count">150명 (18%)</span>
+              </div>
+              <div class="progress-bar-bg"><div class="progress-bar-fill" id="exit3Progress" style="width: 18%; background: #10B981;"></div></div>
+            </div>
+          </div>
+
+          <!-- RSET vs ASET Safety Result Box -->
+          <div class="rset-safety-box">
+            <div class="rset-title">🔥 성능위주설계(PBD) 피난 허용시간 판정:</div>
+            <div class="rset-calc-line">
+              <strong>총 소요시간 (RSET): 148초</strong> (감지 15초 + 반응 30초 + 이동 103초)
+            </div>
+            <div class="rset-calc-line" style="color: #059669;">
+              <strong>허용시간 (ASET): 360초</strong> (연기층 하강 1.8m 기준)
+            </div>
+            <div class="rset-verdict-badge pass">
+              🏆 안전율 243% 확보 — 소방 심의 완벽 통과 판정
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 4: 감사로그 & B2B 팀협업 (Audit Trail & Enterprise Collaboration) -->
+    <!-- ======================================================== -->
+    <section class="tab-pane" id="tab-auditlog">
+      <div class="section-hero-card">
+        <div class="hero-text-content">
+          <div class="hero-pill-badge">
+            <i data-lucide="shield"></i> 법적 면책 감사로그 (Audit Trail) & 설계·시공·감리 B2B 협업 시스템
+          </div>
+          <h2>프로젝트 감사로그 & B2B 책임소재 관리 시스템</h2>
+          <p>
+            건축사, 소방감리원, 음향엔지니어, 시공사가 각 법규 항목을 검토하고 판정한 이력을 
+            <strong>타임스탬프와 함께 위변조 불가능한 감사 로그(Audit Log)</strong>로 기록하여, 향후 인허가 반려나 하자 분쟁 시 <strong>법적 면책 증빙자료</strong>로 활용할 수 있습니다.
+          </p>
+        </div>
+        <div class="hero-legend-card">
+          <span class="legend-title">프로젝트 권한 상태</span>
+          <div class="legend-items">
+            <span class="legend-tag mandatory"><i class="dot mandatory"></i> 👤 김수석 건축사 (Lead)</span>
+            <span class="legend-tag review"><i class="dot review"></i> 🛡️ 박소방 기술사 (Reviewer)</span>
+            <span class="legend-tag dominant"><i class="dot dominant"></i> 🔒 수정 이력 블록체인 해시</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Audit Trail Table Card -->
+      <div class="audit-card glass-card">
+        <div class="audit-toolbar">
+          <div class="audit-project-select">
+            <label><i data-lucide="folder"></i> 활성 프로젝트:</label>
+            <select class="preset-dropdown" style="font-weight: 700;">
+              <option selected>[2026-P01] 세종아트센터 중형 뮤지컬홀 신축 인허가</option>
+              <option>[2026-P02] 강남아트홀 소극장 음향/BF 리모델링</option>
+              <option>[2026-P03] 부산오페라하우스 피난성능설계 검토</option>
+            </select>
+          </div>
+          <button class="btn btn-outline btn-sm" id="btnExportAuditCertificate">
+            <i data-lucide="file-badge"></i> 법적 면책 확인서(PDF) 발급
+          </button>
+        </div>
+
+        <div class="audit-table-wrap">
+          <table class="cad-inspect-table">
+            <thead>
+              <tr>
+                <th>타임스탬프</th>
+                <th>작업자</th>
+                <th>검토 항목</th>
+                <th>변경 전 ➔ 변경 후</th>
+                <th>검토자 의견 / 사유</th>
+                <th>면책 해시 (SHA-256)</th>
+              </tr>
+            </thead>
+            <tbody id="auditTrailTbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 5: AI 도면 법률 스캐너 & 정밀진단 (AI Vision Blueprint Legal Scanner) -->
+    <!-- ======================================================== -->
+    <section class="tab-pane" id="tab-blueprint">
       <!-- Blueprint Scanner Hero Banner -->
       <div class="section-hero-card">
         <div class="hero-text-content">
@@ -402,7 +984,99 @@
     </section>
 
     <!-- ======================================================== -->
-    <!-- TAB 2: 법규 상충 매트릭스 & 지배기준 탐색기 -->
+    <!-- TAB 2: 공연장 복합법령 전수 체크리스트 (Regulatory Compliance Checklist) -->
+    <!-- ======================================================== -->
+    <section class="tab-pane" id="tab-checklist">
+      <!-- Checklist Hero Banner -->
+      <div class="section-hero-card">
+        <div class="hero-text-content">
+          <div class="hero-pill-badge">
+            <i data-lucide="check-check"></i> 5대 핵심 분야 / 36개 법정 기준 전수 심층 검토 시스템
+          </div>
+          <h2>공연장 복합법령 전수 체크리스트 & 인허가 자가점검표</h2>
+          <p>
+            공연장 건축 인허가, 소방 착공동의, BF인증 심사, 공연장 등록 시 반드시 검토해야 하는 
+            <strong>36개 법정 필수 체크포인트</strong>를 전수 점검하고, <strong>실시간 적합률(%), 미달 항목 보완 가이드, 인허가청 제출용 자가점검표</strong>를 즉시 생성합니다.
+          </p>
+        </div>
+        <div class="hero-legend-card">
+          <span class="legend-title">체크리스트 판정 상태</span>
+          <div class="legend-items">
+            <span class="legend-tag dominant"><i class="dot dominant"></i> ❌ 부적합 (허가 반려 사유)</span>
+            <span class="legend-tag review"><i class="dot review"></i> ⚡ 보완 요망 (상충 검토)</span>
+            <span class="legend-tag mandatory"><i class="dot mandatory"></i> ✅ 적합 (법정 기준 충족)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Checklist Score & Metrics Dashboard -->
+      <div class="checklist-score-dashboard glass-card">
+        <div class="score-metric-box">
+          <span class="score-label">인허가 적합률 (Compliance)</span>
+          <div class="score-val-flex">
+            <span class="score-num" id="checklistScorePercent">86%</span>
+            <span class="score-grade-badge pass" id="checklistGradeBadge">인허가 통과 유력</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="checklistProgressBar" style="width: 86%;"></div>
+          </div>
+        </div>
+
+        <div class="checklist-counts-grid">
+          <div class="count-pill pass">
+            <span class="pill-label">✅ 적합</span>
+            <span class="pill-val" id="cntPass">31건</span>
+          </div>
+          <div class="count-pill fail">
+            <span class="pill-label">❌ 부적합</span>
+            <span class="pill-val" id="cntFail">3건</span>
+          </div>
+          <div class="count-pill warn">
+            <span class="pill-label">⚡ 보완요</span>
+            <span class="pill-val" id="cntWarn">2건</span>
+          </div>
+          <div class="count-pill total">
+            <span class="pill-label">📋 총 항목</span>
+            <span class="pill-val">36개 항목</span>
+          </div>
+        </div>
+
+        <div class="score-action-box">
+          <button class="btn btn-outline btn-sm" id="btnResetChecklist">
+            <i data-lucide="rotate-ccw"></i> 기본값 복원
+          </button>
+          <button class="btn btn-primary" id="btnPrintChecklistReport">
+            <i data-lucide="printer"></i> 인허가 자가점검표 출력
+          </button>
+        </div>
+      </div>
+
+      <!-- Checklist Filter & Search Toolbar -->
+      <div class="checklist-toolbar-wrap">
+        <div class="checklist-search-box">
+          <i data-lucide="search"></i>
+          <input type="text" id="checklistSearchInput" placeholder="체크리스트 항목명, 조항, 키워드 검색...">
+        </div>
+
+        <div class="checklist-cat-filters">
+          <button class="cat-filter-chip active" data-cat="all">전체 (36)</button>
+          <button class="cat-filter-chip" data-cat="egress">🚪 피난·출구·통로 (8)</button>
+          <button class="cat-filter-chip" data-cat="fire">🔥 방화·소방·제연 (8)</button>
+          <button class="cat-filter-chip" data-cat="bf">♿ 장애인편의·BF (8)</button>
+          <button class="cat-filter-chip" data-cat="stage">🎭 무대안전·공연법 (6)</button>
+          <button class="cat-filter-chip" data-cat="acoustic">🔊 음향·환경·조명 (6)</button>
+          <button class="cat-filter-chip highlight" id="btnFilterDefectsOnly">⚠️ 결함/보완 항목만 (5)</button>
+        </div>
+      </div>
+
+      <!-- Main Checklist Items Container -->
+      <div class="checklist-items-container" id="checklistItemsList">
+        <!-- Dynamically rendered via app.js -->
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 3: 법규 상충 매트릭스 & 지배기준 탐색기 -->
     <!-- ======================================================== -->
     <section class="tab-pane" id="tab-matrix">
       <!-- Top Overview Banner -->
@@ -948,6 +1622,109 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-primary" id="btnConfirmRoi">확인 및 진단 계속하기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- AI DEEP ANALYSIS SLIDE-OVER PANEL -->
+  <!-- ======================================================== -->
+  <div class="ai-panel-overlay" id="aiPanelOverlay"></div>
+  <aside class="ai-analysis-panel" id="aiAnalysisPanel">
+    <!-- Panel Header -->
+    <div class="ai-panel-header">
+      <div class="ai-panel-title-area">
+        <div class="ai-avatar-badge">
+          <i data-lucide="brain-circuit"></i>
+          <span class="ai-pulse-ring"></span>
+        </div>
+        <div>
+          <h3 class="ai-panel-heading">AI 법규 심층분석 컨설턴트</h3>
+          <p class="ai-panel-sub" id="aiPanelItemTitle">항목을 선택하면 AI가 상세히 분석합니다</p>
+        </div>
+      </div>
+      <button class="ai-panel-close-btn" id="btnCloseAiPanel">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <!-- Analysis Content Area (Scrollable) -->
+    <div class="ai-panel-body" id="aiPanelBody">
+      <!-- Default State: Empty -->
+      <div class="ai-empty-state" id="aiEmptyState">
+        <div class="ai-empty-icon">🤖</div>
+        <p>체크리스트 항목의 <strong>"AI 상세분석"</strong> 버튼을 클릭하면<br>해당 법규에 대한 심층 분석이 여기에 표시됩니다.</p>
+      </div>
+
+      <!-- Dynamic AI Analysis Content -->
+      <div class="ai-analysis-content" id="aiAnalysisContent" style="display: none;">
+        <!-- Section 1: 핵심 결론 요약 -->
+        <div class="ai-section ai-conclusion-box" id="aiConclusionBox"></div>
+
+        <!-- Section 2: 법조문 전문 및 해설 -->
+        <div class="ai-section" id="aiLawTextSection"></div>
+
+        <!-- Section 3: 왜 이 규정이 중요한가 (Why it matters) -->
+        <div class="ai-section" id="aiWhyMattersSection"></div>
+
+        <!-- Section 4: 실제 위반 사례 & 판례 -->
+        <div class="ai-section" id="aiCaseStudySection"></div>
+
+        <!-- Section 5: 설계 실무 적용 가이드 -->
+        <div class="ai-section" id="aiDesignGuideSection"></div>
+
+        <!-- Section 6: 자주 묻는 질문 (FAQ) -->
+        <div class="ai-section ai-faq-section" id="aiFaqSection"></div>
+
+        <!-- Section 7: 관련 상충 법규 크로스 레퍼런스 -->
+        <div class="ai-section" id="aiCrossRefSection"></div>
+      </div>
+    </div>
+
+    <!-- Bottom: Follow-up Question Input -->
+    <div class="ai-panel-footer">
+      <div class="ai-followup-input-wrap">
+        <i data-lucide="message-circle-question"></i>
+        <input type="text" id="aiFollowupInput" placeholder="이 규정에 대해 더 궁금한 점을 물어보세요...">
+        <button class="btn btn-primary btn-sm" id="btnAiFollowup">
+          <i data-lucide="send"></i> 질문
+        </button>
+      </div>
+      <div class="ai-followup-chips" id="aiFollowupChips">
+        <!-- Dynamic suggested follow-up questions -->
+      </div>
+    </div>
+  </aside>
+
+  <!-- FLOATING AI ASSISTANT BUTTON -->
+  <button class="floating-ai-btn" id="floatingAiBtn" title="AI 법규 컨설턴트 열기">
+    <i data-lucide="bot-message-square"></i>
+    <span class="floating-ai-label">AI 분석</span>
+  </button>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: 세움터/소방서 제출용 30P 마스터 인허가 기술검토서 출력 모달 -->
+  <!-- ======================================================== -->
+  <div class="app-modal-overlay" id="reportModalOverlay">
+    <div class="app-modal-dialog glass-card" style="max-width: 960px; max-height: 90vh;">
+      <div class="modal-header">
+        <div class="title-with-icon">
+          <i data-lucide="file-check-2" class="section-icon text-indigo"></i>
+          <h3>공연장 6대 복합법령 마스터 인허가 기술검토도서 (세움터/소방서 제출용)</h3>
+        </div>
+        <button class="modal-close-btn" id="btnCloseReportModal" onclick="document.getElementById('reportModalOverlay').classList.remove('active')">&times;</button>
+      </div>
+      <div class="modal-body" style="max-height: calc(90vh - 140px); overflow-y: auto; background: #FAFAFA; padding: 20px;">
+        <div id="printableReportArea" class="printable-doc-sheet" style="background: #FFFFFF; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-radius: 8px;">
+          <!-- Dynamically populated via setupReportModal() or print functions -->
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 12px; color: var(--text-muted);"><i data-lucide="shield-check" style="width: 13px; height: 13px; display: inline;"></i> 공인건축사 및 소방기술사 직인 날인 포함 (법적 효력 보증)</span>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-outline btn-sm" onclick="document.getElementById('reportModalOverlay').classList.remove('active')">닫기</button>
+          <button class="btn btn-primary btn-sm" onclick="window.print()"><i data-lucide="printer"></i> 즉시 인쇄 / PDF 저장</button>
+        </div>
       </div>
     </div>
   </div>
