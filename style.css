@@ -4093,6 +4093,81 @@ kbd, .kbd-key {
    ENTERPRISE CAD VECTOR PARSER STYLES
    ========================================================================== */
 
+.cad-upload-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  margin-bottom: 20px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.upload-left-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.toolbar-divider {
+  width: 1px;
+  height: 24px;
+  background: #CBD5E1;
+}
+
+.sample-plan-dropdown-wrap, .scale-selector-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pdf-viewer-overlay-controls {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(4px);
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 10;
+}
+
+.pdf-ctrl-btn {
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+.pdf-ctrl-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+.pdf-ctrl-btn svg, .pdf-ctrl-btn i {
+  width: 16px;
+  height: 16px;
+}
+
+.pdf-zoom-level {
+  font-family: var(--font-mono, monospace);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #38BDF8;
+  padding: 0 4px;
+}
+
 .cad-workspace-grid {
   display: grid;
   grid-template-columns: 1fr 380px;

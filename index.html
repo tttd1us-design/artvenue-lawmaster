@@ -347,22 +347,22 @@
     </section>
 
     <!-- ======================================================== -->
-    <!-- TAB 1: AutoCAD 실측 벡터 파서 (CAD Vector Layer Inspector) -->
+    <!-- TAB 1: AutoCAD & PDF 실측 벡터 파서 (CAD/PDF Vector Layer Inspector) -->
     <!-- ======================================================== -->
     <section class="tab-pane" id="tab-cadparser">
       <div class="section-hero-card">
         <div class="hero-text-content">
           <div class="hero-pill-badge">
-            <i data-lucide="ruler"></i> AutoCAD (DWG/DXF) 1mm 정밀 벡터 파싱 & 마감재 공제 순(純) 유효폭 산출기
+            <i data-lucide="ruler"></i> AutoCAD (DWG/DXF) & PDF 인허가 도면 1mm 정밀 벡터 파서 & 마감재 공제 순 유효폭 산출기
           </div>
-          <h2>공연장 CAD 실측 벡터 파서 & 인허가 도면 검측기</h2>
+          <h2>공연장 CAD & PDF 실측 벡터 파서 & 인허가 도면 검측기</h2>
           <p>
-            AutoCAD 파일(DWG/DXF)을 업로드하면, 벽체(WALL)·문(DOOR)·기둥(COL) 레이어를 1mm 단위로 파싱하여 
-            <strong>마감재 두께(석고보드+흡음재 30mm)를 공제한 '순 유효폭'을 자동 연산</strong>하고, 법정 기준 미달 부위를 붉은색 치수선(Dimension Line)으로 오버레이합니다.
+            AutoCAD 파일(DWG/DXF) 또는 <strong>인허가 도면 PDF 파일</strong>을 업로드하면, AI가 벽체·문·복도·계단 치수를 1mm 단위로 정밀 파싱하여 
+            <strong>마감재 두께(석고보드+흡음재 30mm)를 공제한 '순(純) 유효폭'을 자동 연산</strong>하고 법정 기준 미달 부위를 도면 위에 붉은색 치수선으로 시각화합니다.
           </p>
         </div>
         <div class="hero-legend-card">
-          <span class="legend-title">CAD 레이어 검측 상태</span>
+          <span class="legend-title">CAD / PDF 검측 상태</span>
           <div class="legend-items">
             <span class="legend-tag dominant"><i class="dot dominant"></i> 🔴 1.5m 미달 (관람실 출구)</span>
             <span class="legend-tag review"><i class="dot review"></i> 🟠 2.4m 미달 (FOH 주복도)</span>
@@ -371,15 +371,52 @@
         </div>
       </div>
 
+      <!-- File Upload & Mode Controller Bar -->
+      <div class="cad-upload-toolbar glass-card">
+        <div class="upload-left-group">
+          <!-- File Input for DWG, DXF, PDF -->
+          <label class="btn btn-primary btn-sm" style="cursor: pointer;">
+            <i data-lucide="upload-cloud"></i>
+            <span>도면 파일 업로드 (PDF / DWG / DXF)</span>
+            <input type="file" id="cadPdfFileInput" accept=".pdf,.dwg,.dxf,image/*" style="display: none;">
+          </label>
+
+          <span class="toolbar-divider"></span>
+
+          <!-- Preset Sample Plans -->
+          <div class="sample-plan-dropdown-wrap">
+            <label style="font-size: 12px; font-weight: 700; color: var(--text-muted);"><i data-lucide="layout-template"></i> 실무 샘플 도면:</label>
+            <select id="cadSampleSelect" class="preset-dropdown" style="padding: 5px 10px; font-size: 12px; font-weight: 700;">
+              <option value="sample-musical-pdf" selected>📄 [PDF] 850석 뮤지컬홀 1F 피난인허가 평면도.pdf</option>
+              <option value="sample-opera-pdf">📄 [PDF] 1,800석 오페라하우스 방화구획도.pdf</option>
+              <option value="sample-blackbox-dxf">📐 [DXF] 300석 블랙박스 극장 골조실측도.dxf</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="upload-right-group">
+          <!-- Scale Ratio Selector -->
+          <div class="scale-selector-wrap">
+            <label style="font-size: 12px; font-weight: 700; color: var(--text-muted);"><i data-lucide="maximize-2"></i> 도면 축척(Scale):</label>
+            <select id="cadScaleRatioSelect" class="preset-dropdown" style="padding: 5px 10px; font-size: 12px;">
+              <option value="100" selected>1 : 100 (실측 표준)</option>
+              <option value="200">1 : 200 (대형 평면도)</option>
+              <option value="300">1 : 300 (배치도)</option>
+              <option value="50">1 : 50 (상세도)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
       <!-- CAD Workspace Bento Grid -->
       <div class="cad-workspace-grid">
-        <!-- Left: CAD Viewer Stage -->
+        <!-- Left: CAD / PDF Viewer Stage -->
         <div class="cad-viewer-card glass-card">
           <div class="cad-viewer-header">
             <div class="cad-file-info">
-              <i data-lucide="file-code" class="text-indigo"></i>
-              <span id="currentCadFileName">850석_뮤지컬홀_1F_골조_피난도면.dxf</span>
-              <span class="badge-amber" style="font-size: 11px;">1mm 벡터 정밀연산</span>
+              <i data-lucide="file-check-2" class="text-indigo" id="cadFileIcon"></i>
+              <span id="currentCadFileName">850석_뮤지컬홀_1F_피난인허가_평면도.pdf</span>
+              <span class="badge-ai-model" id="cadFileFormatBadge">PDF Vector Mode</span>
             </div>
             <div class="cad-layer-toggles">
               <label class="cad-layer-chk active"><input type="checkbox" id="cadLayerWall" checked> 벽체(WALL)</label>
@@ -390,27 +427,40 @@
             </div>
           </div>
 
-          <!-- Interactive CAD Canvas -->
+          <!-- Interactive CAD/PDF Canvas -->
           <div class="cad-canvas-box" id="cadCanvasBox">
             <svg id="cadVectorSvg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet">
-              <!-- Dynamically populated CAD Vector drawing -->
+              <!-- Dynamically populated CAD/PDF Vector drawing -->
             </svg>
             <div class="cad-measurement-pins" id="cadMeasurementPins"></div>
+
+            <!-- PDF Page / Zoom Controls Overlay -->
+            <div class="pdf-viewer-overlay-controls">
+              <button class="pdf-ctrl-btn" id="btnCadZoomIn" title="확대"><i data-lucide="zoom-in"></i></button>
+              <button class="pdf-ctrl-btn" id="btnCadZoomOut" title="축소"><i data-lucide="zoom-out"></i></button>
+              <button class="pdf-ctrl-btn" id="btnCadResetView" title="화면 맞춤"><i data-lucide="maximize"></i></button>
+              <span class="pdf-zoom-level" id="cadZoomLevelText">100%</span>
+            </div>
           </div>
 
           <div class="cad-viewer-footer">
             <div class="finish-deduct-box">
               <label><i data-lucide="sliders"></i> 흡음 마감재 두께 공제 설정:</label>
-              <select id="finishDeductThickness" class="preset-dropdown" style="padding: 4px 8px; font-size: 12px;">
+              <select id="finishDeductThickness" class="preset-dropdown" style="padding: 4px 8px; font-size: 12px; font-weight: 700; border-color: #4F46E5;">
                 <option value="30" selected>기본 30mm (석고2P + 흡음패널)</option>
                 <option value="50">고급 50mm (다공질 흡음재 + 음향판)</option>
                 <option value="70">특수 70mm (차음시트 + 목재음향벽)</option>
                 <option value="0">골조 마감 없음 (0mm)</option>
               </select>
             </div>
-            <button class="btn btn-outline btn-sm" id="btnExportCadDxfReport">
-              <i data-lucide="download"></i> CAD 검측 리포트 (DXF) 다운로드
-            </button>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn-outline btn-sm" id="btnExportCadDxfReport">
+                <i data-lucide="download"></i> CAD 검측서 (DXF)
+              </button>
+              <button class="btn btn-primary btn-sm" id="btnExportCadPdfReport">
+                <i data-lucide="file-text"></i> PDF 정밀검측도서 출력
+              </button>
+            </div>
           </div>
         </div>
 

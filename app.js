@@ -4889,6 +4889,11 @@ let cadVectorApp;
 class CadVectorParserEngine {
   constructor() {
     this.finishDeduct = 30; // mm
+    this.scaleRatio = 100;
+    this.zoomLevel = 100;
+    this.currentPlanType = 'sample-musical-pdf';
+    this.fileName = '850석_뮤지컬홀_1F_피난인허가_평면도.pdf';
+    this.fileFormat = 'PDF Vector Mode';
     this.layers = {
       wall: true,
       door: true,
@@ -4912,6 +4917,106 @@ class CadVectorParserEngine {
   }
 
   bindEvents() {
+    // File Upload (PDF, DWG, DXF)
+    const fileInp = document.getElementById('cadPdfFileInput');
+    if (fileInp) {
+      fileInp.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        this.fileName = file.name;
+        const isPdf = file.name.toLowerCase().endsWith('.pdf');
+        this.fileFormat = isPdf ? '📄 PDF Vector AI Parsing' : '📐 AutoCAD DXF/DWG';
+
+        const nameEl = document.getElementById('currentCadFileName');
+        const badgeEl = document.getElementById('cadFileFormatBadge');
+        if (nameEl) nameEl.innerText = this.fileName;
+        if (badgeEl) badgeEl.innerText = this.fileFormat;
+
+        this.currentPlanType = 'user-upload';
+        this.renderCadSvg();
+        this.renderInspectTable();
+        showToast(`[${this.fileName}] 도면이 AI 실측 벡터 파서에 로드되었습니다.`);
+      });
+    }
+
+    // Preset Sample Plans
+    const sampleSelect = document.getElementById('cadSampleSelect');
+    if (sampleSelect) {
+      sampleSelect.addEventListener('change', (e) => {
+        this.currentPlanType = e.target.value;
+        if (this.currentPlanType === 'sample-musical-pdf') {
+          this.fileName = '850석_뮤지컬홀_1F_피난인허가_평면도.pdf';
+          this.fileFormat = 'PDF Vector Mode';
+          this.measurements = [
+            { name: "관람실 주출입문 (사운드록 내측)", rawMm: 1800, requiredMm: 1500, law: "건축법 피난규칙 제10조", minBfMm: 1800, defect: "BF 한 짝 0.9m 미달" },
+            { name: "FOH 주 복도 (중앙 로비)", rawMm: 2400, requiredMm: 2400, law: "건축법 시행령 제41조", minBfMm: 2400, defect: "소화전함 돌출로 실측 2.15m 잠식" },
+            { name: "피난 직통계단 출입구 (우측)", rawMm: 1200, requiredMm: 1200, law: "건축법 피난규칙 제9조", minBfMm: 1200, defect: "정상" },
+            { name: "사운드록 전실 순 내부 길이", rawMm: 2200, requiredMm: 3500, law: "BF 인증 기준 2.1.3", minBfMm: 3500, defect: "휠체어 1.5m 회전반경 간섭" },
+            { name: "휠체어 관람석 진입 경사로 폭", rawMm: 1350, requiredMm: 1200, law: "장애인등편의법 별표1", minBfMm: 1200, defect: "정상" }
+          ];
+        } else if (this.currentPlanType === 'sample-opera-pdf') {
+          this.fileName = '1800석_오페라하우스_방화구획도.pdf';
+          this.fileFormat = 'PDF Vector Mode (대형)';
+          this.measurements = [
+            { name: "무대 프로시니엄 방화막 개구부", rawMm: 20000, requiredMm: 18000, law: "건축법 시행령 제46조", minBfMm: 18000, defect: "정상" },
+            { name: "관람실 주 피난복도 유효폭", rawMm: 3600, requiredMm: 3000, law: "건축법 피난규칙 제15조", minBfMm: 3000, defect: "정상" },
+            { name: "지하 1층 피난 직통계단 4개소", rawMm: 1500, requiredMm: 1500, law: "건축법 피난규칙 제9조", minBfMm: 1500, defect: "정상" },
+            { name: "BF 휠체어석 분산 배치 (36석)", rawMm: 36, requiredMm: 36, law: "BF 최우수 2.0%", minBfMm: 36, defect: "1:1 동반자석 완비" }
+          ];
+        } else if (this.currentPlanType === 'sample-blackbox-dxf') {
+          this.fileName = '300석_블랙박스_극장_골조실측도.dxf';
+          this.fileFormat = 'AutoCAD DXF Mode';
+          this.measurements = [
+            { name: "단일 피난 출입문 유효폭", rawMm: 1500, requiredMm: 1500, law: "건축법 제9조", minBfMm: 1500, defect: "정상" },
+            { name: "음향 2중 방음문 전실 길이", rawMm: 1900, requiredMm: 3500, law: "BF 2.1.3", minBfMm: 3500, defect: "휠체어 회전반경 1.5m 간섭" }
+          ];
+        }
+
+        const nameEl = document.getElementById('currentCadFileName');
+        const badgeEl = document.getElementById('cadFileFormatBadge');
+        if (nameEl) nameEl.innerText = this.fileName;
+        if (badgeEl) badgeEl.innerText = this.fileFormat;
+
+        this.renderCadSvg();
+        this.renderInspectTable();
+        showToast(`[${this.fileName}] 도면으로 전환되었습니다.`);
+      });
+    }
+
+    // Scale Ratio Selector
+    const scaleSelect = document.getElementById('cadScaleRatioSelect');
+    if (scaleSelect) {
+      scaleSelect.addEventListener('change', (e) => {
+        this.scaleRatio = parseInt(e.target.value, 10);
+        showToast(`도면 축척이 1:${this.scaleRatio}로 설정되었습니다.`);
+      });
+    }
+
+    // Zoom Controls
+    const btnIn = document.getElementById('btnCadZoomIn');
+    const btnOut = document.getElementById('btnCadZoomOut');
+    const btnReset = document.getElementById('btnCadResetView');
+
+    if (btnIn) {
+      btnIn.addEventListener('click', () => {
+        this.zoomLevel = Math.min(this.zoomLevel + 25, 250);
+        this.applyZoom();
+      });
+    }
+    if (btnOut) {
+      btnOut.addEventListener('click', () => {
+        this.zoomLevel = Math.max(this.zoomLevel - 25, 50);
+        this.applyZoom();
+      });
+    }
+    if (btnReset) {
+      btnReset.addEventListener('click', () => {
+        this.zoomLevel = 100;
+        this.applyZoom();
+      });
+    }
+
     // Layer Toggles
     const layerIds = ['cadLayerWall', 'cadLayerDoor', 'cadLayerDim', 'cadLayerFinish', 'cadLayerBF'];
     layerIds.forEach(id => {
@@ -4946,6 +5051,62 @@ class CadVectorParserEngine {
         showToast("💾 AutoCAD DXF 검측 보고서 파일이 다운로드되었습니다.");
       });
     }
+
+    // Export PDF Report
+    const btnExportPdf = document.getElementById('btnExportCadPdfReport');
+    if (btnExportPdf) {
+      btnExportPdf.addEventListener('click', () => {
+        const modal = document.getElementById('reportModalOverlay');
+        const preview = document.getElementById('printableReportArea');
+        if (modal && preview) {
+          preview.innerHTML = `
+            <div style="font-family: 'Noto Sans KR', sans-serif; padding: 24px; color: #0F172A;">
+              <h2 style="border-bottom: 2px solid #0F172A; padding-bottom: 10px; font-size: 20px;">
+                도면 실측 벡터 및 1mm 마감공제 인허가 정밀검측서 (PDF 분석본)
+              </h2>
+              <p><strong>파일명:</strong> ${this.fileName} | <strong>축척:</strong> 1:${this.scaleRatio} | <strong>마감공제:</strong> -${this.finishDeduct}mm</p>
+              <table style="width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 12px;">
+                <tr style="background: #F1F5F9;">
+                  <th style="border: 1px solid #CBD5E1; padding: 8px;">검측 부위</th>
+                  <th style="border: 1px solid #CBD5E1; padding: 8px;">도면 치수</th>
+                  <th style="border: 1px solid #CBD5E1; padding: 8px;">순 유효폭</th>
+                  <th style="border: 1px solid #CBD5E1; padding: 8px;">법정 기준</th>
+                  <th style="border: 1px solid #CBD5E1; padding: 8px;">인허가 판정</th>
+                </tr>
+                ${this.measurements.map(m => {
+                  const net = m.rawMm - (this.finishDeduct * 2);
+                  const pass = net >= m.requiredMm && !m.defect.includes('미달') && !m.defect.includes('간섭');
+                  return `
+                    <tr>
+                      <td style="border: 1px solid #CBD5E1; padding: 8px; font-weight: bold;">${m.name}</td>
+                      <td style="border: 1px solid #CBD5E1; padding: 8px;">${m.rawMm} mm</td>
+                      <td style="border: 1px solid #CBD5E1; padding: 8px; font-weight: bold; color: ${pass ? '#059669' : '#DC2626'};">${net} mm</td>
+                      <td style="border: 1px solid #CBD5E1; padding: 8px;">${m.requiredMm} mm (${m.law})</td>
+                      <td style="border: 1px solid #CBD5E1; padding: 8px; font-weight: bold; color: ${pass ? '#059669' : '#DC2626'};">${pass ? '✅ 적합' : '❌ 반려 위험'}</td>
+                    </tr>
+                  `;
+                }).join('')}
+              </table>
+              <div style="margin-top: 30px; text-align: right;">
+                <p><strong>공인건축사 기술검토 날인 (인)</strong></p>
+              </div>
+            </div>
+          `;
+          modal.classList.add('active');
+        }
+      });
+    }
+  }
+
+  applyZoom() {
+    const svg = document.getElementById('cadVectorSvg');
+    const txt = document.getElementById('cadZoomLevelText');
+    if (txt) txt.innerText = this.zoomLevel + '%';
+    if (svg) {
+      svg.style.transform = `scale(${this.zoomLevel / 100})`;
+      svg.style.transformOrigin = 'center center';
+      svg.style.transition = 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)';
+    }
   }
 
   renderCadSvg() {
@@ -4954,7 +5115,7 @@ class CadVectorParserEngine {
 
     const deduct = this.finishDeduct;
     const netSoundlock = 1800 - (deduct * 2);
-    const netFoh = 2400 - (deduct * 2) - 150; // hydrant
+    const netFoh = 2400 - (deduct * 2) - 150;
 
     svg.innerHTML = `
       <!-- Grid Lines -->
@@ -4965,6 +5126,10 @@ class CadVectorParserEngine {
       </defs>
       <rect width="1000" height="600" fill="#0B1120" />
       <rect width="1000" height="600" fill="url(#cadGrid)" />
+
+      <!-- PDF / CAD Document Header Header Ribbon -->
+      <rect x="0" y="0" width="1000" height="36" fill="rgba(30, 41, 59, 0.9)" />
+      <text x="20" y="23" fill="#38BDF8" font-size="12" font-weight="bold" font-family="JetBrains Mono">📄 PDF/CAD VECTOR ANALYSIS: ${this.fileName} (SCALE 1:${this.scaleRatio})</text>
 
       <!-- LAYER: WALL -->
       ${this.layers.wall ? `
@@ -5000,7 +5165,7 @@ class CadVectorParserEngine {
       <!-- LAYER: DIMENSIONS (RED FOR DEFECTS) -->
       ${this.layers.dim ? `
         <!-- Soundlock 1 Dimension Line -->
-        <line x1="140" y1="555" x2="220" y2="555" stroke="#EF4444" stroke-width="2" marker-start="url(#arrow)" marker-end="url(#arrow)" />
+        <line x1="140" y1="555" x2="220" y2="555" stroke="#EF4444" stroke-width="2" />
         <text x="180" y="575" fill="#EF4444" font-size="11" font-weight="bold" font-family="JetBrains Mono" text-anchor="middle">실측 ${netSoundlock}mm (위반 ⚠️)</text>
         
         <!-- FOH Corridor Dimension -->
