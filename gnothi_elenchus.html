@@ -2166,6 +2166,162 @@
       box-shadow: 0 0 16px rgba(245, 158, 11, 0.25);
       margin-left: auto;
     }
+
+    /* =========================================================================
+       4) INTERACTIVE VISUAL DIAGRAMS & CHARTS SUITE
+       ========================================================================= */
+    /* LIVE TRAJECTORY CURVE (SIDE PANEL) */
+    .trajectory-card {
+      background: #FFFFFF;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: var(--apple-radius-md);
+      padding: 14px 16px;
+      margin-top: 10px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    }
+    .trajectory-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .trajectory-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #1D1D1F;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .trajectory-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      font-size: 0.72rem;
+    }
+    .trajectory-stat-item {
+      background: #F8FAFC;
+      border-radius: 8px;
+      padding: 6px 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* REPORT VISUAL DIAGRAM HUB */
+    .visual-diagram-hub {
+      background: #FFFFFF;
+      border: 1px solid rgba(0, 113, 227, 0.15);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 22px;
+      box-shadow: 0 4px 20px rgba(0, 113, 227, 0.04);
+    }
+    .diagram-nav-tabs {
+      display: flex;
+      gap: 6px;
+      background: #F5F5F7;
+      padding: 4px;
+      border-radius: var(--apple-radius-pill);
+      margin-bottom: 16px;
+      width: fit-content;
+      max-width: 100%;
+      overflow-x: auto;
+    }
+    .diagram-tab-btn {
+      border: none;
+      background: transparent;
+      padding: 6px 14px;
+      border-radius: var(--apple-radius-pill);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #64748B;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+    }
+    .diagram-tab-btn.active {
+      background: #FFFFFF;
+      color: #0071E3;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      font-weight: 700;
+    }
+    .diagram-view {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .diagram-view.active {
+      display: block;
+    }
+
+    /* IKIGAI VENN DIAGRAM */
+    .ikigai-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      flex-wrap: wrap;
+      padding: 10px 0;
+    }
+    .ikigai-svg-container {
+      width: 300px;
+      height: 300px;
+      position: relative;
+    }
+    .ikigai-legend {
+      flex: 1;
+      min-width: 260px;
+    }
+    .ikigai-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      margin-bottom: 6px;
+      background: #F8FAFC;
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .ikigai-item:hover {
+      background: #F0F6FF;
+      border-color: rgba(0, 113, 227, 0.2);
+      transform: translateX(4px);
+    }
+    .ikigai-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+
+    /* TRI-AXIS TRIANGLE MATRIX */
+    .triangle-matrix-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      flex-wrap: wrap;
+      padding: 10px 0;
+    }
+
+    /* RADAR CHART CONTAINER */
+    .radar-chart-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      flex-wrap: wrap;
+      padding: 10px 0;
+    }
   </style>
 </head>
 <body>
@@ -2454,6 +2610,61 @@
                 <div class="bio-item">
                   <div class="bio-header"><span>⑤ 실행 탄력성</span><span id="valPraxis" style="color: var(--apple-green);">65점 (양호)</span></div>
                   <div class="bio-bar-bg"><div class="bio-bar-fill" id="barPraxis" style="width: 65%; background: var(--apple-green);"></div></div>
+                </div>
+              </div>
+
+              <!-- REAL-TIME INTERACTIVE LIFE TRAJECTORY CURVE (DIAGRAM) -->
+              <div class="trajectory-card tilt-card" data-tilt="true">
+                <div class="trajectory-header">
+                  <div class="trajectory-title">
+                    <i data-lucide="git-branch" style="width: 15px; height: 15px; color: var(--apple-blue);"></i>
+                    실시간 궤적 분기 다이어그램
+                  </div>
+                  <span style="font-size: 0.68rem; background: #ECFDF5; color: #059669; font-weight: 700; padding: 2px 7px; border-radius: 12px;">실시간 연산</span>
+                </div>
+                <div style="font-size: 0.72rem; color: #64748B; margin-bottom: 6px;">
+                  타인의 채점표(A) vs GNŌTHI 3대 축(B) 분기 궤적
+                </div>
+
+                <!-- SVG DYNAMIC TRAJECTORY -->
+                <div style="position: relative; width: 100%; height: 95px; background: #0F172A; border-radius: 10px; overflow: hidden; padding: 4px 6px;">
+                  <svg id="trajectorySvg" viewBox="0 0 260 90" style="width: 100%; height: 100%; overflow: visible;">
+                    <line x1="10" y1="20" x2="250" y2="20" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3 3"/>
+                    <line x1="10" y1="45" x2="250" y2="45" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3 3"/>
+                    <line x1="10" y1="70" x2="250" y2="70" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3 3"/>
+                    
+                    <text x="12" y="14" fill="#64748B" font-size="7" font-family="monospace">자율성 100%</text>
+                    <text x="12" y="84" fill="#64748B" font-size="7" font-family="monospace">피로도 90%</text>
+                    <text x="210" y="84" fill="#64748B" font-size="7" font-family="monospace">10년 뒤</text>
+
+                    <!-- PATH A: CONVENTIONAL -->
+                    <path d="M 20 60 Q 80 58, 140 70 T 245 80" fill="none" stroke="#EF4444" stroke-width="2" stroke-dasharray="4 3" opacity="0.85"/>
+                    <text x="180" y="74" fill="#F87171" font-size="7.5" font-weight="bold">🔴 경로 A (방황)</text>
+
+                    <!-- PATH B: GNŌTHI SOVEREIGN -->
+                    <path id="trajectoryPathB" d="M 20 60 Q 80 55, 140 35 T 245 15" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>
+                    <text x="175" y="24" fill="#38BDF8" font-size="7.5" font-weight="bold">🟢 경로 B (주권)</text>
+
+                    <!-- CURRENT POSITION MARKER -->
+                    <circle id="trajectoryMarker" cx="60" cy="58" r="4.5" fill="#F59E0B" stroke="#FFFFFF" stroke-width="1.5">
+                      <animate attributeName="r" values="4;6;4" dur="1.8s" repeatCount="indefinite"/>
+                    </circle>
+                  </svg>
+                  <div id="trajectoryStageLabel" style="position: absolute; bottom: 4px; left: 8px; font-size: 0.65rem; color: #F59E0B; font-family: monospace; font-weight: 700;">
+                    📍 현재: 1단계 고정관념 벽 해체 중
+                  </div>
+                </div>
+
+                <!-- MINI STATS ROW -->
+                <div class="trajectory-stats">
+                  <div class="trajectory-stat-item">
+                    <span style="color: #64748B;">피로 절감도</span>
+                    <strong style="color: #059669;" id="trajFatigueRelief">-65%</strong>
+                  </div>
+                  <div class="trajectory-stat-item">
+                    <span style="color: #64748B;">자율성 성장</span>
+                    <strong style="color: #0071E3;" id="trajAutonomyGrowth">+88%</strong>
+                  </div>
                 </div>
               </div>
             </div>
@@ -3267,6 +3478,211 @@
           </div>
           <div style="width: 48px; height: 48px; border: 1.5px solid #0071E3; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0071E3; font-weight: 800; font-size: 0.75rem; transform: rotate(-10deg); flex-shrink: 0; box-shadow: 0 2px 8px rgba(0, 113, 227, 0.12);">
             그노티<br>인증
+          </div>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE VISUAL DIAGRAM HUB (IKIGAI, TRI-AXIS TRIANGLE, RADAR) -->
+      <div class="visual-diagram-hub">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+          <div>
+            <h3 style="font-size: 1.05rem; font-weight: 800; color: #1D1D1F; margin: 0; display: flex; align-items: center; gap: 6px;">
+              <i data-lucide="pie-chart" style="width: 18px; height: 18px; color: #0071E3;"></i>
+              인생 방향성 비주얼 다이어그램 맵 (Visual Diagram Hub)
+            </h3>
+            <p style="font-size: 0.76rem; color: #64748B; margin: 2px 0 0 0;">
+              복잡한 생각을 한눈에 직관적으로 이해하고 소장하는 인터랙티브 인포그래픽
+            </p>
+          </div>
+          <!-- DIAGRAM TABS -->
+          <div class="diagram-nav-tabs">
+            <button class="diagram-tab-btn active" id="diagTabBtn-ikigai" onclick="switchDiagramView('ikigai')">
+              <i data-lucide="flower-2" style="width: 12px; height: 12px;"></i> 이키가이 4원 벤 다이어그램
+            </button>
+            <button class="diagram-tab-btn" id="diagTabBtn-triangle" onclick="switchDiagramView('triangle')">
+              <i data-lucide="triangle" style="width: 12px; height: 12px;"></i> 3대 축 삼각 밸런스 맵
+            </button>
+            <button class="diagram-tab-btn" id="diagTabBtn-radar" onclick="switchDiagramView('radar')">
+              <i data-lucide="target" style="width: 12px; height: 12px;"></i> 5대 바이오마커 레이더
+            </button>
+          </div>
+        </div>
+
+        <!-- VIEW 1: IKIGAI VENN DIAGRAM -->
+        <div class="diagram-view active" id="diagView-ikigai">
+          <div class="ikigai-wrap">
+            <div class="ikigai-svg-container">
+              <svg viewBox="0 0 300 300" style="width: 100%; height: 100%;">
+                <defs>
+                  <!-- BLUR & GLOW FILTERS -->
+                  <filter id="coreGlow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="6" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
+                </defs>
+
+                <!-- 4 OVERLAPPING CIRCLES -->
+                <!-- 1. LOVE (TOP) -->
+                <circle cx="150" cy="110" r="75" fill="rgba(236, 72, 153, 0.16)" stroke="#EC4899" stroke-width="1.5" />
+                <text x="150" y="65" text-anchor="middle" fill="#BE185D" font-size="9" font-weight="bold">내가 사랑하는 것 (Love)</text>
+
+                <!-- 2. GOOD AT (LEFT) -->
+                <circle cx="110" cy="170" r="75" fill="rgba(59, 130, 246, 0.16)" stroke="#3B82F6" stroke-width="1.5" />
+                <text x="58" y="185" text-anchor="middle" fill="#1D4ED8" font-size="9" font-weight="bold">내가 잘하는 것</text>
+
+                <!-- 3. PAID FOR (BOTTOM) -->
+                <circle cx="150" cy="210" r="75" fill="rgba(245, 158, 11, 0.16)" stroke="#F59E0B" stroke-width="1.5" />
+                <text x="150" y="270" text-anchor="middle" fill="#B45309" font-size="9" font-weight="bold">수익이 되는 것 (Paid)</text>
+
+                <!-- 4. WORLD NEEDS (RIGHT) -->
+                <circle cx="190" cy="170" r="75" fill="rgba(16, 185, 129, 0.16)" stroke="#10B981" stroke-width="1.5" />
+                <text x="242" y="185" text-anchor="middle" fill="#047857" font-size="9" font-weight="bold">세상이 필요로 하는 것</text>
+
+                <!-- 4 INTERSECTIONS (TEXT LABELS) -->
+                <text x="105" y="125" text-anchor="middle" fill="#6366F1" font-size="7.5" font-weight="bold">열정(Passion)</text>
+                <text x="195" y="125" text-anchor="middle" fill="#059669" font-size="7.5" font-weight="bold">사명(Mission)</text>
+                <text x="105" y="215" text-anchor="middle" fill="#D97706" font-size="7.5" font-weight="bold">직업(Profession)</text>
+                <text x="195" y="215" text-anchor="middle" fill="#0D9488" font-size="7.5" font-weight="bold">천직(Vocation)</text>
+
+                <!-- CENTER SOVEREIGN CORE (IKIGAI PINNACLE) -->
+                <circle cx="150" cy="160" r="24" fill="#1D1D1F" stroke="#F59E0B" stroke-width="2" filter="url(#coreGlow)" />
+                <circle cx="150" cy="160" r="20" fill="url(#goldGrad)" opacity="0.9" />
+                <text x="150" y="158" text-anchor="middle" fill="#F59E0B" font-size="7.5" font-weight="900" letter-spacing="0.5">GNŌTHI</text>
+                <text x="150" y="167" text-anchor="middle" fill="#FFFFFF" font-size="6.5" font-weight="bold">주권 성소</text>
+              </svg>
+            </div>
+
+            <!-- IKIGAI LEGEND & EXPLANATION -->
+            <div class="ikigai-legend">
+              <div class="ikigai-item" onclick="highlightIkigaiArea('core')">
+                <div class="ikigai-dot" style="background: #F59E0B; box-shadow: 0 0 6px #F59E0B;"></div>
+                <div>
+                  <div style="font-size: 0.8rem; font-weight: 700; color: #1D1D1F;">👑 중앙 성소: 그노티 이키가이 (Sovereign Core)</div>
+                  <div style="font-size: 0.74rem; color: #64748B; margin-top: 2px;">
+                    사랑·강점·사회적 기여·경제적 보상이 완벽히 교차하는 나만의 흔들리지 않는 중심축.
+                  </div>
+                </div>
+              </div>
+              <div class="ikigai-item" onclick="highlightIkigaiArea('passion')">
+                <div class="ikigai-dot" style="background: #EC4899;"></div>
+                <div>
+                  <div style="font-size: 0.8rem; font-weight: 700; color: #BE185D;">💖 열정 & 몰입 (Passion: Love + Good)</div>
+                  <div style="font-size: 0.74rem; color: #64748B; margin-top: 2px;" id="ikigaiPassionDesc">
+                    남들의 눈치 없이 시간 가는 줄 모르고 스스로 파고드는 제2축(추구)의 원동력.
+                  </div>
+                </div>
+              </div>
+              <div class="ikigai-item" onclick="highlightIkigaiArea('mission')">
+                <div class="ikigai-dot" style="background: #10B981;"></div>
+                <div>
+                  <div style="font-size: 0.8rem; font-weight: 700; color: #047857;">🌱 사명 & 공헌 (Mission: Love + World Needs)</div>
+                  <div style="font-size: 0.74rem; color: #64748B; margin-top: 2px;">
+                    나만의 고유한 무기로 타인과 공동체에 실질적인 긍정적 임팩트를 남기는 보람.
+                  </div>
+                </div>
+              </div>
+              <div class="ikigai-item" onclick="highlightIkigaiArea('vocation')">
+                <div class="ikigai-dot" style="background: #F59E0B;"></div>
+                <div>
+                  <div style="font-size: 0.8rem; font-weight: 700; color: #B45309;">⚡ 천직 & 90일 실행 (Vocation: Needs + Paid)</div>
+                  <div style="font-size: 0.74rem; color: #64748B; margin-top: 2px;">
+                    공허한 이상론에 그치지 않고 구체적인 시장 가치와 독립성을 창출하는 제3축 실행.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW 2: TRI-AXIS TRIANGLE MATRIX -->
+        <div class="diagram-view" id="diagView-triangle">
+          <div class="triangle-matrix-wrap">
+            <div style="width: 280px; height: 260px;">
+              <svg viewBox="0 0 280 260" style="width: 100%; height: 100%;">
+                <!-- OUTER EQUILATERAL TRIANGLE -->
+                <polygon points="140,25 35,225 245,225" fill="rgba(0, 113, 227, 0.04)" stroke="#0071E3" stroke-width="1.8" />
+                
+                <!-- INNER RESONANCE POLYGON (DYNAMIC USER BALANCE) -->
+                <polygon id="userTriPolygon" points="140,55 65,205 220,195" fill="rgba(0, 113, 227, 0.2)" stroke="#0071E3" stroke-width="2.5" />
+                
+                <!-- CENTER OF GRAVITY (PULSING STAR) -->
+                <circle id="triCenterPoint" cx="141" cy="151" r="5" fill="#F59E0B" stroke="#FFFFFF" stroke-width="1.5">
+                  <animate attributeName="r" values="4;6.5;4" dur="2s" repeatCount="indefinite"/>
+                </circle>
+
+                <!-- VERTEX 1: TOP (AXIS 2: PURSUIT) -->
+                <circle cx="140" cy="25" r="7" fill="#10B981" />
+                <text x="140" y="14" text-anchor="middle" fill="#047857" font-size="9" font-weight="bold">제2축: 추구·몰입선 (Love)</text>
+
+                <!-- VERTEX 2: BOTTOM LEFT (AXIS 1: BOUNDARY) -->
+                <circle cx="35" cy="225" r="7" fill="#EF4444" />
+                <text x="35" y="245" text-anchor="middle" fill="#DC2626" font-size="9" font-weight="bold">제1축: 회피·방어선 (Hate)</text>
+
+                <!-- VERTEX 3: BOTTOM RIGHT (AXIS 3: ACTION) -->
+                <circle cx="245" cy="225" r="7" fill="#0071E3" />
+                <text x="245" y="245" text-anchor="middle" fill="#0071E3" font-size="9" font-weight="bold">제3축: 90일 실행선 (Praxis)</text>
+              </svg>
+            </div>
+            <div style="flex: 1; min-width: 260px; font-size: 0.8rem; line-height: 1.7; color: #475569;">
+              <div style="font-weight: 800; color: #1D1D1F; margin-bottom: 6px; font-size: 0.92rem;">
+                ⚖️ 3축 황금 삼각 균형 진단 소견
+              </div>
+              <p style="margin-bottom: 8px;">
+                현재 사용자의 무게중심은 <strong>제2축(추구·몰입선)</strong> 방향으로 강하게 편향되어 있으며, <strong>제1축(방어선)</strong>을 지켜냄으로써 에너지 누수를 원천 차단하고 있습니다.
+              </p>
+              <div style="background: #F8FAFC; border-radius: 10px; padding: 10px 12px; border: 1px solid rgba(0,0,0,0.05); font-family: var(--font-mono); font-size: 0.75rem;">
+                <div>• 제1축 방어 지수: <strong style="color: #DC2626;">94% (완전 방어)</strong></div>
+                <div>• 제2축 몰입 지수: <strong style="color: #059669;">96% (최적 몰입)</strong></div>
+                <div>• 제3축 실행 속도: <strong style="color: #0071E3;">88% (추진 양호)</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW 3: 5 BIOMARKERS RADAR PENTAGON -->
+        <div class="diagram-view" id="diagView-radar">
+          <div class="radar-chart-wrap">
+            <div style="width: 260px; height: 260px;">
+              <svg viewBox="0 0 260 260" style="width: 100%; height: 100%;">
+                <!-- 5-AXIS PENTAGON GRID -->
+                <!-- LEVEL 1 (OUTER) -->
+                <polygon points="130,25 225,95 190,205 70,205 35,95" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1" />
+                <!-- LEVEL 2 -->
+                <polygon points="130,55 197,105 172,183 88,183 63,105" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="1" />
+                <!-- LEVEL 3 -->
+                <polygon points="130,85 170,118 154,161 106,161 90,118" fill="none" stroke="rgba(0,0,0,0.04)" stroke-width="1" />
+
+                <!-- AXES SPOKES -->
+                <line x1="130" y1="130" x2="130" y2="25" stroke="rgba(0,0,0,0.1)" stroke-width="1" />
+                <line x1="130" y1="130" x2="225" y2="95" stroke="rgba(0,0,0,0.1)" stroke-width="1" />
+                <line x1="130" y1="130" x2="190" y2="205" stroke="rgba(0,0,0,0.1)" stroke-width="1" />
+                <line x1="130" y1="130" x2="70" y2="205" stroke="rgba(0,0,0,0.1)" stroke-width="1" />
+                <line x1="130" y1="130" x2="35" y2="95" stroke="rgba(0,0,0,0.1)" stroke-width="1" />
+
+                <!-- USER RADAR POLYGON (ACTIVE SHIELD) -->
+                <polygon id="userRadarPolygon" points="130,35 218,102 182,198 75,198 42,102" fill="rgba(16, 185, 129, 0.22)" stroke="#10B981" stroke-width="2" />
+                
+                <!-- LABELS -->
+                <text x="130" y="18" text-anchor="middle" fill="#1D1D1F" font-size="8" font-weight="bold">결정력(92)</text>
+                <text x="235" y="98" text-anchor="start" fill="#1D1D1F" font-size="8" font-weight="bold">명확도(95)</text>
+                <text x="195" y="218" text-anchor="middle" fill="#1D1D1F" font-size="8" font-weight="bold">실행력(88)</text>
+                <text x="65" y="218" text-anchor="middle" fill="#1D1D1F" font-size="8" font-weight="bold">내면안정(86)</text>
+                <text x="25" y="98" text-anchor="end" fill="#1D1D1F" font-size="8" font-weight="bold">스트레스방어(76)</text>
+              </svg>
+            </div>
+            <div style="flex: 1; min-width: 260px; font-size: 0.8rem; line-height: 1.7; color: #475569;">
+              <div style="font-weight: 800; color: #1D1D1F; margin-bottom: 6px; font-size: 0.92rem;">
+                🛡️ 5대 멘탈 방패 오각형 분석
+              </div>
+              <p style="margin-bottom: 8px;">
+                5가지 방어 지표가 고르게 팽창하여 <strong>'완벽한 주권의 방패(Sovereignty Shield)'</strong>를 형성하고 있습니다. 외부의 비교 압박에도 내면의 기준이 깨지지 않는 상태입니다.
+              </p>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <span class="apple-pill-subtle" style="font-size: 0.72rem; color: #059669;">✓ 결정력 만점</span>
+                <span class="apple-pill-subtle" style="font-size: 0.72rem; color: #0071E3;">✓ 방어력 85% 이상</span>
+                <span class="apple-pill-subtle" style="font-size: 0.72rem; color: #F59E0B;">✓ 스트레스 제로화 진행</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -4304,6 +4720,9 @@
       } else if (sphere) {
         sphere.style.filter = 'none';
       }
+
+      // Sync real-time trajectory curve diagram
+      updateTrajectoryProgress(stageNum);
     }
 
     function setPersona(key) {
@@ -5811,6 +6230,61 @@
         navigator.clipboard.writeText(passText);
       }
       showAppleToast('👑 인생 주권 패스 카드 텍스트가 복사되었습니다! (지갑/메모장에 저장)');
+    }
+
+    // =========================================================================
+    // 7. VISUAL DIAGRAMS & REAL-TIME TRAJECTORY ENGINE
+    // =========================================================================
+    function switchDiagramView(viewName) {
+      playAppleSound('tap');
+      ['ikigai', 'triangle', 'radar'].forEach(v => {
+        const btn = document.getElementById(`diagTabBtn-${v}`);
+        const view = document.getElementById(`diagView-${v}`);
+        if (btn) {
+          if (v === viewName) btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+        if (view) {
+          if (v === viewName) view.classList.add('active');
+          else view.classList.remove('active');
+        }
+      });
+      lucide.createIcons();
+    }
+
+    function highlightIkigaiArea(areaName) {
+      playAppleSound('tap');
+      const messages = {
+        core: '👑 그노티 성소: 열정, 사명, 직업, 천직이 일치하는 최고의 자아실현 영역입니다.',
+        passion: '💖 열정 영역: 보상과 상관없이 내가 온전히 몰입하는 제2축의 에너지원입니다.',
+        mission: '🌱 사명 영역: 내 재능으로 세상의 고통을 덜어주는 가치 창출 영역입니다.',
+        vocation: '⚡ 천직 영역: 사회적 수요와 경제적 독립을 동시에 달성하는 90일 실행 과제입니다.'
+      };
+      showAppleToast(messages[areaName] || '🌸 이키가이 영역이 선택되었습니다.');
+    }
+
+    function updateTrajectoryProgress(turn) {
+      const marker = document.getElementById('trajectoryMarker');
+      const label = document.getElementById('trajectoryStageLabel');
+      const fatigue = document.getElementById('trajFatigueRelief');
+      const growth = document.getElementById('trajAutonomyGrowth');
+
+      const turnSteps = {
+        1: { cx: 40, cy: 59, text: '📍 1단계: 고정관념 해체 중', f: '-35%', g: '+40%' },
+        2: { cx: 85, cy: 51, text: '📍 2단계: 타인 시선 분리 중', f: '-48%', g: '+55%' },
+        3: { cx: 135, cy: 38, text: '📍 3단계: 호불호 3대 축 도출', f: '-65%', g: '+72%' },
+        4: { cx: 185, cy: 26, text: '📍 4단계: 북극성 궤적 정렬 80%', f: '-80%', g: '+88%' },
+        5: { cx: 240, cy: 16, text: '📍 5단계: 완전한 주권 확립 100% ✨', f: '-92%', g: '+98%' }
+      };
+
+      const cur = turnSteps[turn] || turnSteps[1];
+      if (marker) {
+        marker.setAttribute('cx', cur.cx);
+        marker.setAttribute('cy', cur.cy);
+      }
+      if (label) label.innerText = cur.text;
+      if (fatigue) fatigue.innerText = cur.f;
+      if (growth) growth.innerText = cur.g;
     }
   </script>
 </body>
