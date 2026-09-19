@@ -2902,29 +2902,352 @@
     }
 
     // =========================================================================
-    // 9,900 KRW SUBSCRIPTION MEMBERSHIP ENGINE
+    // AUTH STATE MANAGEMENT (localStorage 기반 세션 유지)
     // =========================================================================
-    function openSubscriptionModal() {
-      document.getElementById('subscriptionModal').classList.add('active');
+    const AUTH_STATE = {
+      isLoggedIn: false,
+      userName: '',
+      userEmail: '',
+      loginMethod: '',
+      isVip: false,
+      payMethod: 'kakaopay',
+      subscriptionDate: null,
+    };
+
+    function initAuthState() {
+      const saved = localStorage.getItem('gnothi_auth');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          Object.assign(AUTH_STATE, parsed);
+        } catch(e) { /* ignore parse error */ }
+      }
+      syncAuthUI();
     }
 
+    function saveAuthState() {
+      localStorage.setItem('gnothi_auth', JSON.stringify(AUTH_STATE));
+    }
+
+    function syncAuthUI() {
+      const authBtn = document.getElementById('userAuthBtn');
+      const authText = document.getElementById('userAuthText');
+      const memberBtn = document.getElementById('membershipBadgeBtn');
+      const memberText = document.getElementById('membershipStatusText');
+
+      if (AUTH_STATE.isLoggedIn) {
+        if (authText) authText.innerText = AUTH_STATE.userName || '내 계정';
+        if (authBtn) {
+          authBtn.style.background = 'var(--apple-blue-soft)';
+          authBtn.style.color = 'var(--apple-blue)';
+          authBtn.style.borderColor = 'rgba(0,113,227,0.2)';
+        }
+      } else {
+        if (authText) authText.innerText = '로그인';
+        if (authBtn) {
+          authBtn.style.background = '';
+          authBtn.style.color = '';
+          authBtn.style.borderColor = '';
+        }
+      }
+
+      if (AUTH_STATE.isVip && memberBtn && memberText) {
+        memberText.innerText = '👑 VIP 정기 구독 중';
+        memberBtn.style.background = 'var(--apple-green-soft)';
+        memberBtn.style.borderColor = 'rgba(52,199,89,0.3)';
+        memberBtn.style.color = 'var(--apple-green)';
+      } else if (memberBtn && memberText) {
+        memberText.innerText = '월 9,900원 멤버십';
+        memberBtn.style.background = '';
+        memberBtn.style.borderColor = '';
+        memberBtn.style.color = '';
+      }
+    }
+
+    // =========================================================================
+    // LOGIN / LOGOUT
+    // =========================================================================
+    function handleUserAuthClick() {
+      if (AUTH_STATE.isLoggedIn) {
+        openUserAccountModal();
+      } else {
+        document.getElementById('loginModal').classList.add('active');
+        lucide.createIcons();
+      }
+    }
+
+    function loginWith(provider) {
+      const names = { kakao: '카카오', google: 'Google', apple: 'Apple' };
+      const emails = { kakao: 'user@kakao.com', google: 'user@gmail.com', apple: 'user@icloud.com' };
+      AUTH_STATE.isLoggedIn = true;
+      AUTH_STATE.userName = `${names[provider]} 사용자`;
+      AUTH_STATE.userEmail = emails[provider];
+      AUTH_STATE.loginMethod = provider;
+      saveAuthState();
+      syncAuthUI();
+      closeModal('loginModal');
+      showLoginSuccessToast(names[provider]);
+    }
+
+    function loginWithEmail() {
+      const email = document.getElementById('authEmailInput').value.trim();
+      const pw = document.getElementById('authPasswordInput').value;
+      if (!email || !email.includes('@')) {
+        alert('올바른 이메일 주소를 입력해주세요.');
+        return;
+      }
+      if (!pw || pw.length < 4) {
+        alert('비밀번호를 4자 이상 입력해주세요.');
+        return;
+      }
+      AUTH_STATE.isLoggedIn = true;
+      AUTH_STATE.userName = email.split('@')[0];
+      AUTH_STATE.userEmail = email;
+      AUTH_STATE.loginMethod = 'email';
+      saveAuthState();
+      syncAuthUI();
+      closeModal('loginModal');
+      showLoginSuccessToast('이메일');
+    }
+
+    function loginDemoUser() {
+      AUTH_STATE.isLoggedIn = true;
+      AUTH_STATE.userName = '체험 사용자';
+      AUTH_STATE.userEmail = 'demo@gnothi.io';
+      AUTH_STATE.loginMethod = 'demo';
+      saveAuthState();
+      syncAuthUI();
+      closeModal('loginModal');
+      showLoginSuccessToast('체험 계정');
+    }
+
+    function showLoginSuccessToast(method) {
+      const toast = document.createElement('div');
+      toast.style.cssText = `
+        position: fixed; top: 80px; left: 50%; transform: translateX(-50%); z-index: 9999;
+        background: var(--apple-green); color: #FFF; padding: 10px 24px; border-radius: 30px;
+        font-size: 0.86rem; font-weight: 600; box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+        animation: modalScale 0.3s ease; display: flex; align-items: center; gap: 8px;
+      `;
+      toast.innerHTML = `✅ ${method}으로 로그인 완료! 환영합니다, ${AUTH_STATE.userName}님.`;
+      document.body.appendChild(toast);
+      setTimeout(() => { toast.style.transition = 'opacity 0.4s'; toast.style.opacity = '0'; }, 2200);
+      setTimeout(() => toast.remove(), 2700);
+    }
+
+    function logoutUser() {
+      AUTH_STATE.isLoggedIn = false;
+      AUTH_STATE.userName = '';
+      AUTH_STATE.userEmail = '';
+      AUTH_STATE.loginMethod = '';
+      AUTH_STATE.isVip = false;
+      AUTH_STATE.payMethod = 'kakaopay';
+      AUTH_STATE.subscriptionDate = null;
+      saveAuthState();
+      syncAuthUI();
+      closeModal('userAccountModal');
+    }
+
+    // =========================================================================
+    // USER ACCOUNT MODAL
+    // =========================================================================
+    function openUserAccountModal() {
+      const avatar = document.getElementById('accountAvatar');
+      const name = document.getElementById('accountUserName');
+      const email = document.getElementById('accountUserEmail');
+      const planBadge = document.getElementById('accountPlanBadge');
+      const planTitle = document.getElementById('accountPlanTitle');
+      const planDesc = document.getElementById('accountPlanDesc');
+      const billing = document.getElementById('vipBillingDetails');
+      const subBox = document.getElementById('accountSubscribeActionBox');
+      const cancelBox = document.getElementById('accountCancelActionBox');
+
+      if (avatar) avatar.innerText = (AUTH_STATE.userName || 'U').charAt(0).toUpperCase();
+      if (name) name.innerText = AUTH_STATE.userName || '사용자';
+      if (email) email.innerText = AUTH_STATE.userEmail || '';
+
+      if (AUTH_STATE.isVip) {
+        if (planBadge) { planBadge.innerText = '👑 VIP 프리미엄'; planBadge.style.background = 'var(--apple-green-soft)'; planBadge.style.color = 'var(--apple-green)'; }
+        if (planTitle) planTitle.innerText = 'VIP 정기 구독 중 (월 9,900원)';
+        if (planDesc) planDesc.innerText = '모든 프리미엄 기능 무제한 이용 중';
+        if (billing) billing.style.display = 'block';
+        if (subBox) subBox.style.display = 'none';
+        if (cancelBox) cancelBox.style.display = 'block';
+        const payNames = { kakaopay:'카카오페이', tosspay:'토스페이', card:'신용/체크카드', naverpay:'네이버페이' };
+        const pmn = document.getElementById('accountPayMethodName');
+        if (pmn) pmn.innerText = payNames[AUTH_STATE.payMethod] || '카카오페이';
+        const nbd = document.getElementById('accountNextBillingDate');
+        if (nbd && AUTH_STATE.subscriptionDate) {
+          const d = new Date(AUTH_STATE.subscriptionDate);
+          d.setDate(d.getDate() + 30);
+          nbd.innerText = d.toISOString().slice(0, 10);
+        }
+      } else {
+        if (planBadge) { planBadge.innerText = '일반 무료 플랜'; planBadge.style.background = 'var(--apple-blue-soft)'; planBadge.style.color = 'var(--apple-blue)'; }
+        if (planTitle) planTitle.innerText = '무료 체험 회원';
+        if (planDesc) planDesc.innerText = '기본 1:1 대화 코칭 및 3초 스와이프 이용 가능';
+        if (billing) billing.style.display = 'none';
+        if (subBox) subBox.style.display = 'block';
+        if (cancelBox) cancelBox.style.display = 'none';
+      }
+
+      document.getElementById('userAccountModal').classList.add('active');
+      lucide.createIcons();
+    }
+
+    // =========================================================================
+    // PAYMENT PROCESSING (결제 수단 선택 → 승인 → 영수증 발급)
+    // =========================================================================
+    let selectedPayMethod = 'kakaopay';
+
+    function selectPayMethod(method) {
+      selectedPayMethod = method;
+      ['kakaopay','tosspay','card','naverpay'].forEach(m => {
+        const card = document.getElementById(`payMethodCard-${m}`);
+        const radio = document.getElementById(`radio-${m}`);
+        if (card) card.classList.toggle('active', m === method);
+        if (radio) radio.checked = (m === method);
+      });
+    }
+
+    function openSubscriptionModal() {
+      if (!AUTH_STATE.isLoggedIn) {
+        document.getElementById('loginModal').classList.add('active');
+        lucide.createIcons();
+        return;
+      }
+      document.getElementById('subscriptionModal').classList.add('active');
+      lucide.createIcons();
+    }
+
+    function processPayment() {
+      if (!AUTH_STATE.isLoggedIn) {
+        closeModal('subscriptionModal');
+        document.getElementById('loginModal').classList.add('active');
+        lucide.createIcons();
+        return;
+      }
+
+      const btn = document.getElementById('btnSubmitSubscription');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i data-lucide="loader" style="width: 18px; height: 18px; animation: spin 1s linear infinite;"></i> 결제 승인 처리 중...';
+        lucide.createIcons();
+      }
+
+      setTimeout(() => {
+        AUTH_STATE.isVip = true;
+        AUTH_STATE.payMethod = selectedPayMethod;
+        AUTH_STATE.subscriptionDate = new Date().toISOString();
+        saveAuthState();
+        syncAuthUI();
+        closeModal('subscriptionModal');
+
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '<i data-lucide="zap" style="width: 18px; height: 18px;"></i> 7일 무료 체험 시작하기 (이후 월 9,900원)';
+          lucide.createIcons();
+        }
+
+        showReceipt();
+      }, 1600);
+    }
+
+    function showReceipt() {
+      const payNames = { kakaopay:'카카오페이 간편결제', tosspay:'토스페이 간편결제', card:'신용/체크카드 결제', naverpay:'네이버페이 간편결제' };
+      const now = new Date();
+      const next = new Date(now); next.setDate(next.getDate() + 7);
+      const orderNum = `GN-PAY-${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${Math.floor(Math.random()*9000+1000)}`;
+
+      const on = document.getElementById('receiptOrderNum');
+      const pd = document.getElementById('receiptPayDate');
+      const pm = document.getElementById('receiptPayMethod');
+      const nd = document.getElementById('receiptNextDate');
+      if (on) on.innerText = orderNum;
+      if (pd) pd.innerText = now.toISOString().replace('T',' ').slice(0, 19);
+      if (pm) pm.innerText = payNames[selectedPayMethod] || '카카오페이';
+      if (nd) nd.innerText = `${next.toISOString().slice(0,10)} (월 9,900원)`;
+
+      document.getElementById('receiptModal').classList.add('active');
+      lucide.createIcons();
+    }
+
+    function cancelSubscription() {
+      if (!confirm('정말 VIP 멤버십을 해지하시겠습니까?\n\n7일 이내 가입이시라면 전액 환불됩니다.\n해지 후에도 현재 결제 주기 종료일까지 이용 가능합니다.')) return;
+      AUTH_STATE.isVip = false;
+      AUTH_STATE.subscriptionDate = null;
+      saveAuthState();
+      syncAuthUI();
+      closeModal('userAccountModal');
+      const toast = document.createElement('div');
+      toast.style.cssText = `position: fixed; top: 80px; left: 50%; transform: translateX(-50%); z-index: 9999; background: var(--apple-rose); color: #FFF; padding: 10px 24px; border-radius: 30px; font-size: 0.86rem; font-weight: 600; box-shadow: 0 8px 24px rgba(0,0,0,0.18); animation: modalScale 0.3s ease;`;
+      toast.innerText = '✅ VIP 멤버십이 해지되었습니다. 환불이 진행됩니다.';
+      document.body.appendChild(toast);
+      setTimeout(() => { toast.style.transition = 'opacity 0.4s'; toast.style.opacity = '0'; }, 2500);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // =========================================================================
+    // FREE AI 연동 (Gemini Flash API — 무료 가성비 AI 코칭 응답 생성)
+    // =========================================================================
+    const GEMINI_API_KEY = localStorage.getItem('gnothi_gemini_key') || '';
+    const GEMINI_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+
+    async function getAICoachingResponse(userText, turnContext, persona) {
+      if (!GEMINI_API_KEY) return null;
+
+      const systemPrompt = `당신은 GNŌTHI(그노티)의 소크라테스 AI 코칭 멘토입니다.
+역할: 사용자가 인생의 방향성을 찾을 수 있도록 산파술(Socratic Method) 기반의 깊이 있는 질문과 공감적 피드백을 제공합니다.
+현재 페르소나: ${persona}
+현재 대화 단계: ${turnContext}
+원칙:
+1. 절대 정답을 제시하지 말고 사용자 스스로 깨닫도록 질문으로 유도하세요.
+2. 과학적 근거(인지심리학, 행동경제학, 긍정심리학)를 바탕으로 구체적이고 상세하게 분석하세요.
+3. 전문 코치의 관점에서 진지하고 진정성 있게 응답하세요.
+4. 한국어로 자연스럽고 따뜻하게 답변하되, 상업 서비스 수준의 완성도로 작성하세요.
+5. 응답은 200자 이상, 500자 이하로 유지하세요.`;
+
+      try {
+        const resp = await fetch(`${GEMINI_ENDPOINT}?key=${GEMINI_API_KEY}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            system_instruction: { parts: [{ text: systemPrompt }] },
+            contents: [{ parts: [{ text: userText }] }],
+            generationConfig: { temperature: 0.8, maxOutputTokens: 600 }
+          })
+        });
+        if (!resp.ok) return null;
+        const data = await resp.json();
+        return data?.candidates?.[0]?.content?.parts?.[0]?.text || null;
+      } catch (e) {
+        console.warn('Gemini API 호출 실패:', e);
+        return null;
+      }
+    }
+
+    function setGeminiApiKey() {
+      const key = prompt('Gemini API 키를 입력하세요 (무료: https://aistudio.google.com/apikey)');
+      if (key && key.trim()) {
+        localStorage.setItem('gnothi_gemini_key', key.trim());
+        location.reload();
+      }
+    }
+
+    // =========================================================================
+    // MEMBERSHIP CHECK (기존 호환 유지)
+    // =========================================================================
     function subscribeMembership(method) {
-      localStorage.setItem('gnothi_vip_member', 'true');
-      checkMembershipStatus();
+      AUTH_STATE.isVip = true;
+      AUTH_STATE.payMethod = method || 'kakaopay';
+      AUTH_STATE.subscriptionDate = new Date().toISOString();
+      saveAuthState();
+      syncAuthUI();
       closeModal('subscriptionModal');
-      alert('🎉 환영합니다! GNŌTHI VIP 7일 무료체험이 활성화되었습니다.\n이제 24시간 마인드 쿨다운과 멘토 4인의 전문 조언을 무제한으로 이용하실 수 있습니다.');
     }
 
     function checkMembershipStatus() {
-      const isVip = localStorage.getItem('gnothi_vip_member') === 'true';
-      const statusText = document.getElementById('membershipStatusText');
-      const badgeBtn = document.getElementById('membershipBadgeBtn');
-      if (isVip && statusText && badgeBtn) {
-        statusText.innerText = '👑 VIP 정기 구독 중';
-        badgeBtn.style.background = 'var(--apple-green-soft)';
-        badgeBtn.style.borderColor = 'rgba(52,199,89,0.3)';
-        badgeBtn.style.color = 'var(--apple-green)';
-      }
+      initAuthState();
     }
 
     // =========================================================================
@@ -2933,10 +3256,12 @@
     function openFullReportModal() {
       document.getElementById('reportPersonaCell').innerText = PERSONA_CONFIGS[currentPersonaKey].badge;
       document.getElementById('reportModal').classList.add('active');
+      lucide.createIcons();
     }
 
     function closeModal(id) {
-      document.getElementById(id).classList.remove('active');
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('active');
     }
   </script>
 </body>
