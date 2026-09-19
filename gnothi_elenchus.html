@@ -533,6 +533,169 @@
     }
 
     /* =========================================================================
+       TWO-SIDED DUAL NAVIGATION & COMPANION DOCK SYSTEM (측면 좌우 탭 분할 배치)
+       ========================================================================= */
+    .top-header { display: none !important; } /* 상단 과밀 헤더 숨김, 측면 듀얼 독으로 완전 이관 */
+
+    /* LEFT SIDEBAR NAVIGATION DOCK */
+    .left-nav-dock {
+      position: fixed;
+      left: 18px;
+      top: 18px;
+      bottom: 18px;
+      width: 250px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: saturate(180%) blur(28px);
+      -webkit-backdrop-filter: saturate(180%) blur(28px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 22px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.06);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      padding: 18px 12px;
+      overflow-y: auto;
+      gap: 14px;
+      scrollbar-width: none;
+    }
+    .left-nav-dock::-webkit-scrollbar { display: none; }
+
+    /* RIGHT COMPANION & QUICK ACTION DOCK */
+    .right-companion-dock {
+      position: fixed;
+      right: 18px;
+      top: 18px;
+      bottom: 18px;
+      width: 275px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: saturate(180%) blur(28px);
+      -webkit-backdrop-filter: saturate(180%) blur(28px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 22px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.06);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      padding: 18px 14px;
+      overflow-y: auto;
+      gap: 14px;
+      scrollbar-width: none;
+    }
+    .right-companion-dock::-webkit-scrollbar { display: none; }
+
+    /* CENTER WORKSPACE MAIN */
+    .app-main {
+      margin-left: 285px !important;
+      margin-right: 310px !important;
+      max-width: 1260px !important;
+      padding: 16px 20px 100px !important;
+      transition: all 0.3s ease;
+    }
+
+    /* DOCK SECTION LABELS */
+    .dock-section-title {
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: #64748B;
+      text-transform: uppercase;
+      padding: 0 8px;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* VERTICAL NAV LIST & ITEMS */
+    .dock-nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .dock-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 12px;
+      border-radius: 11px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #475569;
+      background: transparent;
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 100%;
+    }
+    .dock-nav-item:hover {
+      background: rgba(0, 0, 0, 0.04);
+      color: var(--apple-text-primary);
+      transform: translateX(2px);
+    }
+    .dock-nav-item.active {
+      background: var(--apple-blue-soft) !important;
+      color: var(--apple-blue) !important;
+      font-weight: 750 !important;
+      border-color: rgba(0, 113, 227, 0.2) !important;
+      box-shadow: 0 2px 8px rgba(0, 113, 227, 0.08);
+    }
+
+    /* COMPANION WIDGET CARDS IN RIGHT DOCK */
+    .dock-widget-card {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+    }
+
+    /* THEME OVERRIDES FOR DOCKS */
+    body.persona-theme-founder .left-nav-dock,
+    body.persona-theme-founder .right-companion-dock {
+      background: rgba(17, 24, 39, 0.94) !important;
+      border-color: rgba(245, 158, 11, 0.3) !important;
+      color: #F8FAFC !important;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5) !important;
+    }
+    body.persona-theme-founder .dock-nav-item {
+      color: #94A3B8 !important;
+    }
+    body.persona-theme-founder .dock-nav-item:hover {
+      background: rgba(245, 158, 11, 0.1) !important;
+      color: #FBBF24 !important;
+    }
+    body.persona-theme-founder .dock-nav-item.active {
+      background: rgba(245, 158, 11, 0.2) !important;
+      color: #F59E0B !important;
+      border-color: rgba(245, 158, 11, 0.4) !important;
+    }
+    body.persona-theme-founder .dock-widget-card {
+      background: rgba(31, 41, 55, 0.8) !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+      color: #F8FAFC !important;
+    }
+
+    body.persona-theme-senior .left-nav-dock,
+    body.persona-theme-senior .right-companion-dock {
+      background: rgba(253, 251, 247, 0.95) !important;
+      border-color: #E7E0D3 !important;
+    }
+
+    @media (max-width: 1280px) {
+      .top-header { display: flex !important; }
+      .left-nav-dock, .right-companion-dock { display: none !important; }
+      .app-main {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: 16px !important;
+      }
+    }
+
+    /* =========================================================================
        1. APPLE GLOBAL NAVIGATION
        ========================================================================= */
     .top-header {
@@ -3349,6 +3512,174 @@
   </div>
 
   <!-- TOP HEADER (APPLE MINIMAL GLOBAL NAV) -->
+  <!-- =========================================================================
+       TWO-SIDED DUAL NAVIGATION & COMPANION DOCK (측면 좌우 분할 독)
+       ========================================================================= -->
+
+  <!-- 1. LEFT SIDEBAR NAVIGATION DOCK (좌측 독: 메인 탐색, 특화 도구, 페르소나) -->
+  <aside class="left-nav-dock" id="leftNavDock">
+    <!-- BRAND -->
+    <div class="brand-area" onclick="switchTab('chamber')">
+      <div class="brand-icon-wrap">
+        <i data-lucide="compass" style="width: 18px; height: 18px;"></i>
+      </div>
+      <div class="brand-text">
+        <h1>GNŌTHI</h1>
+        <div class="motto">LIFE COMPASS</div>
+      </div>
+    </div>
+
+    <!-- SECTION: CORE NAVIGATION -->
+    <div>
+      <div class="dock-section-title">
+        <i data-lucide="compass" style="width: 12px; height: 12px;"></i> 핵심 탐색
+      </div>
+      <div class="dock-nav-list">
+        <button class="dock-nav-item active" id="dockBtn-chamber" onclick="switchTab('chamber')">
+          <i data-lucide="message-square" style="width: 15px; height: 15px; color: var(--apple-blue);"></i>
+          <span>1:1 대화 코칭</span>
+        </button>
+        <button class="dock-nav-item" id="dockBtn-sanctuary" onclick="switchTab('sanctuary')">
+          <i data-lucide="sparkles" style="width: 15px; height: 15px; color: #F59E0B;"></i>
+          <span>시크릿 룸 & 캐릭터</span>
+        </button>
+        <button class="dock-nav-item" id="dockBtn-board" onclick="switchTab('board')">
+          <i data-lucide="users" style="width: 15px; height: 15px; color: #8B5CF6;"></i>
+          <span>멘토단 & 결정 나침반</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- SECTION: SPECIALIZED TOOLS -->
+    <div>
+      <div class="dock-section-title">
+        <i data-lucide="wrench" style="width: 12px; height: 12px;"></i> 특화 도구함
+      </div>
+      <div class="dock-nav-list">
+        <button class="dock-nav-item" id="dockBtn-swipe" onclick="switchTab('swipe')">
+          <i data-lucide="zap" style="width: 14px; height: 14px; color: #F59E0B;"></i>
+          <span>3초 본능 스와이프</span>
+        </button>
+        <button class="dock-nav-item" id="dockBtn-sos" onclick="switchTab('sos')">
+          <i data-lucide="shield-alert" style="width: 14px; height: 14px; color: var(--apple-rose);"></i>
+          <span>3분 감정 쿨다운</span>
+        </button>
+        <button class="dock-nav-item" id="dockBtn-parallel" onclick="switchTab('parallel')">
+          <i data-lucide="git-branch" style="width: 14px; height: 14px; color: #8B5CF6;"></i>
+          <span>10년 미래 시나리오</span>
+        </button>
+        <button class="dock-nav-item" id="dockBtn-tracker" onclick="switchTab('tracker')">
+          <i data-lucide="trending-up" style="width: 14px; height: 14px; color: var(--apple-green);"></i>
+          <span>성장 트래커 & 습관</span>
+        </button>
+        <button class="dock-nav-item" id="dockBtn-reborn" onclick="switchTab('reborn')">
+          <i data-lucide="sunrise" style="width: 14px; height: 14px; color: var(--apple-orange);"></i>
+          <span>인생 2막 은퇴 나침반</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- SECTION: PERSONA SELECTOR RAIL -->
+    <div style="margin-top: auto; padding-top: 10px; border-top: 1px solid rgba(0, 0, 0, 0.06);">
+      <div class="dock-section-title">
+        <i data-lucide="user-check" style="width: 12px; height: 12px;"></i> 맞춤 페르소나
+      </div>
+      <div class="dock-nav-list" style="gap: 2px;">
+        <button class="dock-nav-item active" id="dockPersona-student" onclick="setPersona('student')">
+          <span>🎒</span> <span>중고생 진로</span>
+        </button>
+        <button class="dock-nav-item" id="dockPersona-undergrad" onclick="setPersona('undergrad')">
+          <span>🚀</span> <span>대학생 취업</span>
+        </button>
+        <button class="dock-nav-item" id="dockPersona-worker" onclick="setPersona('worker')">
+          <span>💼</span> <span>직장인 이직</span>
+        </button>
+        <button class="dock-nav-item" id="dockPersona-founder" onclick="setPersona('founder')">
+          <span>⚡</span> <span>창업가·파운더</span>
+        </button>
+        <button class="dock-nav-item" id="dockPersona-senior" onclick="setPersona('senior')">
+          <span>🌅</span> <span>은퇴준비·신중년</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 2. RIGHT COMPANION & QUICK ACTION DOCK (우측 독: 아바타, 일기장, 528Hz, 유틸리티) -->
+  <aside class="right-companion-dock" id="rightCompanionDock">
+    <!-- WIDGET 1: SOUL AVATAR MINI PROFILE -->
+    <div class="dock-widget-card" onclick="switchTab('sanctuary')" style="cursor: pointer;" title="클릭 시 시크릿 룸 & 캐릭터 스튜디오로 이동">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="dock-section-title" style="padding: 0; margin: 0; color: #B45309;">
+          <i data-lucide="sparkles" style="width: 11px; height: 11px;"></i> 수호 동물 동반자
+        </div>
+        <span style="font-size: 0.68rem; background: rgba(245, 158, 11, 0.15); color: #B45309; padding: 2px 6px; border-radius: 8px; font-weight: 700;" id="dockAvatarExp">65%</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px; margin-top: 4px;">
+        <div id="dockAvatarEmoji" style="font-size: 1.8rem; line-height: 1;">🦊</div>
+        <div>
+          <div style="font-size: 0.85rem; font-weight: 800; color: var(--apple-text-primary);" id="dockAvatarLevel">Lv.3 지혜의 여우</div>
+          <div style="font-size: 0.7rem; color: var(--apple-text-secondary);" id="dockAvatarTitle">깊은 통찰의 탐구자</div>
+        </div>
+      </div>
+      <!-- EXP PROGRESS BAR -->
+      <div style="width: 100%; height: 5px; background: rgba(0, 0, 0, 0.06); border-radius: 4px; overflow: hidden; margin-top: 4px;">
+        <div id="dockAvatarExpBar" style="width: 65%; height: 100%; background: linear-gradient(90deg, #F59E0B, #10B981); border-radius: 4px; transition: width 0.3s ease;"></div>
+      </div>
+    </div>
+
+    <!-- WIDGET 2: QUICK SOUL JOURNAL PAD -->
+    <div class="dock-widget-card">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="dock-section-title" style="padding: 0; margin: 0; color: #0284C7;">
+          <i data-lucide="book-heart" style="width: 11px; height: 11px;"></i> 소울 마인드 일기장
+        </div>
+        <button onclick="openSoulDiaryQuick()" style="border: none; background: transparent; font-size: 0.68rem; color: var(--apple-blue); font-weight: 700; cursor: pointer;">
+          크게 쓰기 ↗
+        </button>
+      </div>
+      <div style="font-size: 0.72rem; color: #64748B;">
+        오늘 하루 나를 흔들었던 순간을 짧게 남겨보세요:
+      </div>
+      <input type="text" id="dockJournalInput" placeholder="오늘 마음에 남은 생각 한 줄..." style="width: 100%; padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(0, 0, 0, 0.08); font-size: 0.78rem;">
+      <button class="apple-pill-btn primary" onclick="saveDockJournal()" style="width: 100%; justify-content: center; font-size: 0.76rem; padding: 6px;">
+        ✨ AI 멘토 기억 저장 (+30 EXP)
+      </button>
+    </div>
+
+    <!-- WIDGET 3: 528Hz SOLFEGGIO PLAYER -->
+    <div class="dock-widget-card" style="background: rgba(14, 165, 233, 0.05); border-color: rgba(14, 165, 233, 0.2);">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="dock-section-title" style="padding: 0; margin: 0; color: #0284C7;">
+          <i data-lucide="headphones" style="width: 11px; height: 11px;"></i> 528Hz 솔페지오 파동
+        </div>
+        <span style="font-size: 0.65rem; color: #0284C7; font-weight: 700;">치유 & 사랑</span>
+      </div>
+      <button class="apple-pill-btn subtle" id="dockSound528Btn" onclick="toggleSecretSolfeggio(this)" style="width: 100%; justify-content: center; font-size: 0.76rem; font-weight: 700; border-color: #BAE6FD;">
+        <i data-lucide="play" style="width: 12px; height: 12px; color: #0284C7;"></i>
+        <span>528Hz 재생하기</span>
+      </button>
+    </div>
+
+    <!-- WIDGET 4: UTILITIES & MEMBERSHIP -->
+    <div style="margin-top: auto; display: flex; flex-direction: column; gap: 6px;">
+      <div style="display: flex; gap: 6px;">
+        <button class="apple-pill-btn subtle" id="dockSoundToggleBtn" onclick="toggleAppleSound()" style="flex: 1; justify-content: center; font-size: 0.74rem;">
+          <i data-lucide="volume-2" id="dockSoundIcon" style="width: 12px; height: 12px; color: var(--apple-blue);"></i>
+          <span id="dockSoundText">효과음 ON</span>
+        </button>
+        <button class="apple-pill-btn subtle" onclick="openSubscriptionModal()" style="flex: 1; justify-content: center; font-size: 0.74rem; font-weight: 700;">
+          👑 멤버십
+        </button>
+      </div>
+      <button class="apple-pill-btn subtle" onclick="openConsultantMatchModal()" style="width: 100%; justify-content: center; font-size: 0.76rem; color: #059669; border-color: rgba(5, 150, 105, 0.25); font-weight: 700;">
+        <i data-lucide="stethoscope" style="width: 12px; height: 12px;"></i> 전문가 1:1 상담
+      </button>
+      <button class="apple-pill-btn primary" onclick="openFullReportModal()" style="width: 100%; justify-content: center; font-size: 0.78rem; font-weight: 750;">
+        <i data-lucide="file-text" style="width: 13px; height: 13px;"></i> 인생 결과 리포트 출력
+      </button>
+    </div>
+  </aside>
+
   <!-- TOP HEADER (BALANCED APPLE PRO GLOBAL NAV) -->
   <header class="top-header">
     <!-- LEFT NAVIGATION ZONE -->
@@ -6664,6 +6995,11 @@
       showAppleToast(curMood.toast);
       playAppleSound('tap');
 
+      // Sync Left Dock Persona Rail
+      document.querySelectorAll('[id^="dockPersona-"]').forEach(c => c.classList.remove('active'));
+      const dockChip = document.getElementById(`dockPersona-${key}`);
+      if (dockChip) dockChip.classList.add('active');
+
       restartSession();
       lucide.createIcons();
     }
@@ -6671,10 +7007,16 @@
     function switchTab(tabId) {
       document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
       document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.dock-nav-item').forEach(b => b.classList.remove('active'));
+
       const v = document.getElementById(`view-${tabId}`);
       const b = document.getElementById(`tabBtn-${tabId}`);
+      const dockBtn = document.getElementById(`dockBtn-${tabId}`);
+
       if (v) v.classList.add('active');
       if (b) b.classList.add('active');
+      if (dockBtn) dockBtn.classList.add('active');
+
       window.scrollTo({ top: 0, behavior: 'smooth' });
       lucide.createIcons();
       // Re-init tilt for elements in active tab
@@ -7872,14 +8214,21 @@
       soundEnabled = !soundEnabled;
       const textEl = document.getElementById('soundToggleText');
       const iconEl = document.getElementById('soundIcon');
+      const dockTextEl = document.getElementById('dockSoundText');
+      const dockIconEl = document.getElementById('dockSoundIcon');
+
       if (soundEnabled) {
         if (textEl) textEl.innerText = '효과음 ON';
         if (iconEl) iconEl.style.color = 'var(--apple-blue)';
+        if (dockTextEl) dockTextEl.innerText = '효과음 ON';
+        if (dockIconEl) dockIconEl.style.color = 'var(--apple-blue)';
         playAppleSound('tap');
         showAppleToast('🔊 효과음이 켜졌습니다.');
       } else {
         if (textEl) textEl.innerText = '효과음 OFF';
         if (iconEl) iconEl.style.color = 'var(--apple-text-tertiary)';
+        if (dockTextEl) dockTextEl.innerText = '효과음 OFF';
+        if (dockIconEl) dockIconEl.style.color = 'var(--apple-text-tertiary)';
         showAppleToast('🔇 효과음이 꺼졌습니다.');
       }
       lucide.createIcons();
@@ -8645,7 +8994,41 @@
       const expText = document.getElementById('avatarExpText');
       if (expText) expText.innerText = `${currentAnimalExp} / ${EXP_PER_LEVEL} (${expPercent}%)`;
 
+      // Update Right Companion Dock Avatar Card
+      const dockEmoji = document.getElementById('dockAvatarEmoji');
+      if (dockEmoji) dockEmoji.innerText = animal.emoji;
+      const dockLevel = document.getElementById('dockAvatarLevel');
+      if (dockLevel) dockLevel.innerText = `Lv.${currentAnimalLevel} ${animal.name.split(' ')[0]}`;
+      const dockTitle = document.getElementById('dockAvatarTitle');
+      if (dockTitle) dockTitle.innerText = title;
+      const dockExp = document.getElementById('dockAvatarExp');
+      if (dockExp) dockExp.innerText = `${expPercent}%`;
+      const dockExpBar = document.getElementById('dockAvatarExpBar');
+      if (dockExpBar) dockExpBar.style.width = `${expPercent}%`;
+
       renderAnimalSvg();
+    }
+
+    function saveDockJournal() {
+      const input = document.getElementById('dockJournalInput');
+      if (!input || !input.value.trim()) {
+        showAppleToast('오늘 마음에 남은 생각을 한 줄 적어주세요.');
+        return;
+      }
+      const text = input.value.trim();
+      playAppleSound('success');
+      gainSoulExp(30, '우측 독 소울 일기 기록');
+
+      const memoryEntry = {
+        date: new Date().toLocaleDateString('ko-KR'),
+        mood: currentJournalMood || '☀️ 맑음',
+        snippet: text.slice(0, 100),
+        extractedDesire: text.includes('인정') ? '타인 인정 탈피 및 고유 가치 창조' : '시간 주권 및 자율적 몰입'
+      };
+      LIFETIME_MEMORY_LAKE.push(memoryEntry);
+
+      showAppleToast('📖 일기가 멘토의 영구 기억 창고에 성공적으로 저장되었습니다!');
+      input.value = '';
     }
 
     function renderAnimalSvg() {
