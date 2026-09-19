@@ -130,6 +130,90 @@
     ::-webkit-scrollbar-thumb { background: #D1D1D6; border-radius: var(--apple-radius-pill); }
 
     /* =========================================================================
+       SPATIAL 3D DEPTH & AMBIENT GLOW SYSTEM
+       ========================================================================= */
+    .spatial-ambient-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .ambient-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.28;
+      transform: translate3d(0,0,0);
+      will-change: transform, opacity;
+      animation: ambientDrift 22s ease-in-out infinite alternate;
+    }
+    .ambient-orb.orb-blue {
+      top: -10%;
+      left: 15%;
+      width: 550px;
+      height: 550px;
+      background: radial-gradient(circle, rgba(0, 113, 227, 0.45) 0%, rgba(0, 113, 227, 0) 70%);
+      animation-duration: 24s;
+    }
+    .ambient-orb.orb-emerald {
+      top: 40%;
+      right: -5%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(52, 199, 89, 0.35) 0%, rgba(52, 199, 89, 0) 70%);
+      animation-duration: 28s;
+      animation-delay: -5s;
+    }
+    .ambient-orb.orb-purple {
+      bottom: -15%;
+      left: 20%;
+      width: 650px;
+      height: 650px;
+      background: radial-gradient(circle, rgba(175, 82, 222, 0.3) 0%, rgba(175, 82, 222, 0) 70%);
+      animation-duration: 32s;
+      animation-delay: -10s;
+    }
+    @keyframes ambientDrift {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(40px, 30px) scale(1.08); }
+      100% { transform: translate(-30px, 50px) scale(0.96); }
+    }
+
+    /* 3D TILT CARD ENGINE */
+    .tilt-card {
+      position: relative;
+      transform-style: preserve-3d;
+      perspective: 1200px;
+      transition: transform 0.12s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+      will-change: transform;
+    }
+    .tilt-card:hover {
+      box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 113, 227, 0.18);
+    }
+    .tilt-glare {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border-radius: inherit;
+      background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.32) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      mix-blend-mode: overlay;
+      z-index: 10;
+    }
+    .tilt-card:hover .tilt-glare {
+      opacity: 1;
+    }
+    .tilt-elevate {
+      transform: translateZ(24px);
+      transform-style: preserve-3d;
+    }
+
+    /* =========================================================================
        1. APPLE GLOBAL NAVIGATION
        ========================================================================= */
     .top-header {
@@ -836,17 +920,203 @@
       font-variant-numeric: tabular-nums;
     }
 
+    /* 3D INTERACTIVE GYROSCOPE COMPASS COMPONENT */
+    .compass-3d-card {
+      background: #FFFFFF;
+      border: 1px solid var(--apple-border);
+      border-radius: var(--apple-radius-lg);
+      padding: 14px 12px;
+      box-shadow: var(--apple-shadow-sm);
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .compass-3d-card:hover {
+      box-shadow: 0 14px 32px -8px rgba(0, 113, 227, 0.18), 0 0 0 1px rgba(0, 113, 227, 0.25);
+    }
+    .compass-3d-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--apple-text-primary);
+    }
+    .compass-sync-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--apple-blue-soft);
+      border: 1px solid rgba(0, 113, 227, 0.2);
+      color: var(--apple-blue);
+      padding: 2px 8px;
+      border-radius: var(--apple-radius-pill);
+      font-size: 0.68rem;
+      font-weight: 700;
+      font-family: var(--font-display);
+    }
+    .gyro-stage {
+      width: 100%;
+      height: 145px;
+      position: relative;
+      perspective: 750px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      user-select: none;
+      background: radial-gradient(circle at center, rgba(0, 113, 227, 0.05) 0%, transparent 70%);
+      border-radius: var(--apple-radius-md);
+      overflow: hidden;
+    }
+    .gyro-stage:active {
+      cursor: grabbing;
+    }
+    .gyro-sphere {
+      width: 110px;
+      height: 110px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.1s ease-out;
+      will-change: transform;
+    }
+    /* GIMBAL RINGS */
+    .gimbal-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1.5px solid transparent;
+      transform-style: preserve-3d;
+      pointer-events: none;
+    }
+    .gimbal-ring.ring-x {
+      border-color: rgba(0, 113, 227, 0.65);
+      box-shadow: 0 0 12px rgba(0, 113, 227, 0.2), inset 0 0 8px rgba(0, 113, 227, 0.15);
+      animation: spinRingX 16s linear infinite;
+    }
+    .gimbal-ring.ring-y {
+      border-color: rgba(52, 199, 89, 0.6);
+      box-shadow: 0 0 10px rgba(52, 199, 89, 0.2), inset 0 0 6px rgba(52, 199, 89, 0.12);
+      animation: spinRingY 20s linear infinite;
+    }
+    .gimbal-ring.ring-z {
+      border-color: rgba(255, 149, 0, 0.55);
+      border-style: dashed;
+      animation: spinRingZ 24s linear infinite;
+    }
+    @keyframes spinRingX {
+      0% { transform: rotateX(0deg) rotateY(25deg); }
+      100% { transform: rotateX(360deg) rotateY(25deg); }
+    }
+    @keyframes spinRingY {
+      0% { transform: rotateY(0deg) rotateZ(35deg); }
+      100% { transform: rotateY(360deg) rotateZ(35deg); }
+    }
+    @keyframes spinRingZ {
+      0% { transform: rotateZ(0deg) rotateX(15deg); }
+      100% { transform: rotateZ(360deg) rotateX(15deg); }
+    }
+    /* NORTH STAR 3D CORE */
+    .north-star-core {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 22px;
+      height: 22px;
+      margin-top: -11px;
+      margin-left: -11px;
+      transform-style: preserve-3d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulseCore 3s ease-in-out infinite;
+    }
+    .star-diamond {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: linear-gradient(135deg, #0071E3, #60A5FA, #34C759);
+      transform: rotate(45deg) translateZ(10px);
+      box-shadow: 0 0 18px rgba(0, 113, 227, 0.7);
+      border-radius: 3px;
+    }
+    .star-sparkle {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      font-size: 10px;
+      transform: translateZ(16px);
+      text-shadow: 0 0 8px rgba(255,255,255,0.9);
+    }
+    @keyframes pulseCore {
+      0%, 100% { transform: scale(1) translateZ(0); filter: brightness(1); }
+      50% { transform: scale(1.18) translateZ(6px); filter: brightness(1.3); }
+    }
+    .compass-data-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      padding-top: 6px;
+      border-top: 1px solid var(--apple-border);
+      font-size: 0.68rem;
+      color: var(--apple-text-secondary);
+    }
+    .compass-data-row strong {
+      color: var(--apple-text-primary);
+      font-family: var(--font-mono);
+    }
+
+    /* REFINED BIOMARKERS WITH NEON PULSE & DEPTH */
+    .bio-item {
+      background: #FFFFFF;
+      border: 1px solid var(--apple-border);
+      border-radius: var(--apple-radius-md);
+      padding: 11px 13px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.025), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .bio-item:hover {
+      transform: translateX(2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
     .bio-bar-bg {
-      height: 5px;
+      height: 6px;
       background: var(--apple-surface-tertiary);
       border-radius: var(--apple-radius-pill);
       overflow: hidden;
+      position: relative;
     }
-
     .bio-bar-fill {
       height: 100%;
       border-radius: var(--apple-radius-pill);
-      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
+      position: relative;
+      box-shadow: 0 0 8px rgba(0, 113, 227, 0.3);
+    }
+    .bio-bar-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+      animation: barShine 2.8s ease-in-out infinite;
+    }
+    @keyframes barShine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(200%); }
     }
 
     .action-report-btn {
@@ -1373,6 +1643,13 @@
 </head>
 <body>
 
+  <!-- SPATIAL 3D AMBIENT BACKGROUND GLOW -->
+  <div class="spatial-ambient-bg" aria-hidden="true">
+    <div class="ambient-orb orb-blue"></div>
+    <div class="ambient-orb orb-emerald"></div>
+    <div class="ambient-orb orb-purple"></div>
+  </div>
+
   <!-- TOP HEADER (APPLE MINIMAL GLOBAL NAV) -->
   <header class="top-header">
     <div class="brand-area" onclick="switchTab('chamber')">
@@ -1556,9 +1833,39 @@
           <!-- RIGHT: 5 DIRECTION INDICATORS (APPLE HEALTH STYLE) -->
           <aside class="metrics-panel">
             <div>
-              <div class="panel-header-title" style="margin-bottom: 14px;">
+              <div class="panel-header-title" style="margin-bottom: 12px;">
                 <span>5대 핵심 방향성 지표</span>
                 <span style="color: var(--apple-blue); font-weight: 700;" id="turnCountDisplay">1 / 5 단계</span>
+              </div>
+
+              <!-- 3D INTERACTIVE GYROSCOPE COMPASS -->
+              <div class="compass-3d-card tilt-card" id="compass3DCard" data-tilt="true">
+                <div class="tilt-glare"></div>
+                <div class="compass-3d-header">
+                  <span style="display: flex; align-items: center; gap: 5px;">
+                    <i data-lucide="compass" style="width: 14px; height: 14px; color: var(--apple-blue);"></i>
+                    실시간 3D 인생 나침반
+                  </span>
+                  <span class="compass-sync-pill" id="compassSyncPill">
+                    <span style="width: 5px; height: 5px; border-radius: 50%; background: var(--apple-blue); animation: pulseDot 1.6s infinite;"></span>
+                    동기화 20%
+                  </span>
+                </div>
+                <div class="gyro-stage" id="gyroStage" title="마우스 드래그로 360도 입체 회전해보세요">
+                  <div class="gyro-sphere" id="gyroSphere">
+                    <div class="gimbal-ring ring-x"></div>
+                    <div class="gimbal-ring ring-y"></div>
+                    <div class="gimbal-ring ring-z"></div>
+                    <div class="north-star-core">
+                      <div class="star-diamond"></div>
+                      <div class="star-sparkle">✦</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="compass-data-row">
+                  <span>방위각: <strong id="compassAzimuth">342° NW</strong></span>
+                  <span>중심축: <strong id="compassAxis">자율성 탐색 중</strong></span>
+                </div>
               </div>
 
               <div class="biomarkers-card">
@@ -1602,7 +1909,8 @@
 
         <div class="apple-bento-grid">
           <!-- BENTO 1: LARGE CARD -->
-          <div class="bento-card card-large" onclick="switchTab('chamber')">
+          <div class="bento-card card-large tilt-card" data-tilt="true" onclick="switchTab('chamber')">
+            <div class="tilt-glare"></div>
             <div>
               <div class="bento-icon blue"><i data-lucide="message-square" style="width: 22px; height: 22px;"></i></div>
               <div class="bento-badge">CORE FEATURE 01</div>
@@ -1623,7 +1931,8 @@
           </div>
 
           <!-- BENTO 2: 3초 본능 스와이프 -->
-          <div class="bento-card" onclick="switchTab('swipe')">
+          <div class="bento-card tilt-card" data-tilt="true" onclick="switchTab('swipe')">
+            <div class="tilt-glare"></div>
             <div>
               <div class="bento-icon amber"><i data-lucide="zap" style="width: 22px; height: 22px;"></i></div>
               <div class="bento-badge">CORE FEATURE 02</div>
@@ -1634,7 +1943,8 @@
           </div>
 
           <!-- BENTO 3: 멘토 4인의 조언 -->
-          <div class="bento-card" onclick="switchTab('board')">
+          <div class="bento-card tilt-card" data-tilt="true" onclick="switchTab('board')">
+            <div class="tilt-glare"></div>
             <div>
               <div class="bento-icon purple"><i data-lucide="users" style="width: 22px; height: 22px;"></i></div>
               <div class="bento-badge">CORE FEATURE 03</div>
@@ -1645,7 +1955,8 @@
           </div>
 
           <!-- BENTO 4: 3분 감정 쿨다운 -->
-          <div class="bento-card" onclick="switchTab('sos')">
+          <div class="bento-card tilt-card" data-tilt="true" onclick="switchTab('sos')">
+            <div class="tilt-glare"></div>
             <div>
               <div class="bento-icon rose"><i data-lucide="shield-alert" style="width: 22px; height: 22px;"></i></div>
               <div class="bento-badge">CORE FEATURE 04</div>
@@ -1877,7 +2188,8 @@
       </div>
 
       <div class="board-grid">
-        <div class="director-card">
+        <div class="director-card tilt-card" data-tilt="true">
+          <div class="tilt-glare"></div>
           <div class="director-avatar" style="background: #EFF6FF; color: #2563EB;">Σ</div>
           <div>
             <div class="director-name">소크라테스</div>
@@ -1888,7 +2200,8 @@
           </div>
         </div>
 
-        <div class="director-card">
+        <div class="director-card tilt-card" data-tilt="true">
+          <div class="tilt-glare"></div>
           <div class="director-avatar" style="background: #F8FAFC; color: #0F172A; border: 1px solid #CBD5E1;"></div>
           <div>
             <div class="director-name">스티브 잡스</div>
@@ -1899,7 +2212,8 @@
           </div>
         </div>
 
-        <div class="director-card">
+        <div class="director-card tilt-card" data-tilt="true">
+          <div class="tilt-glare"></div>
           <div class="director-avatar" style="background: #ECFDF5; color: #059669;">📈</div>
           <div>
             <div class="director-name">레이 달리오</div>
@@ -1910,7 +2224,8 @@
           </div>
         </div>
 
-        <div class="director-card">
+        <div class="director-card tilt-card" data-tilt="true">
+          <div class="tilt-glare"></div>
           <div class="director-avatar" style="background: #F5F3FF; color: #7C3AED;">🏛️</div>
           <div>
             <div class="director-name">마르쿠스 아우렐리우스</div>
@@ -1981,12 +2296,14 @@
       </div>
 
       <div class="parallel-grid">
-        <div class="parallel-card regret">
+        <div class="parallel-card regret tilt-card" data-tilt="true">
+          <div class="tilt-glare"></div>
           <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 10px;">🌑 시나리오 A: 남들의 기준에 맞추어 살아온 10년 뒤</h3>
           <p><strong>10년 뒤 나의 일상:</strong> 남들의 시선과 안전한 정답만 좇아 살아온 결과, 겉으로는 무난해 보이지만 매일 아침 출근길마다 마음 깊은 곳에서 허전함이 밀려옵니다. "그때 왜 내가 진짜 원하던 일에 용기 내보지 않았을까? 내 삶은 온통 남의 기대에 맞추느라 흘러가버렸다."</p>
         </div>
 
-        <div class="parallel-card sovereign">
+        <div class="parallel-card sovereign tilt-card" data-tilt="true">
+          <div class="tilt-glare"></div>
           <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 10px;">☀️ 시나리오 B: 나만의 방향성을 갖고 주도적으로 살아온 10년 뒤</h3>
           <p><strong>10년 뒤 나의 일상:</strong> 질문을 통해 나만의 기준을 세우고 작은 실천부터 차근차근 시작한 결과, 시간과 삶의 완전한 주도권을 확보했습니다. 타인의 눈치를 보지 않고, 내가 진정으로 잘하고 좋아하는 일로 세상에 당당하게 가치를 전하며 살아갑니다.</p>
         </div>
@@ -2535,7 +2852,128 @@
       setPersona('student');
       checkMembershipStatus();
       initKeyboardNavigation();
+      init3DTiltEngine();
+      init3DCompassGyroscope();
+      updateCompassAlignment(1);
     });
+
+    /* =========================================================================
+       3D TILT CARD ENGINE (SPATIAL PERSPECTIVE & DYNAMIC GLARE)
+       ========================================================================= */
+    function init3DTiltEngine() {
+      const tiltCards = document.querySelectorAll('.tilt-card, [data-tilt="true"]');
+      tiltCards.forEach(card => {
+        let glare = card.querySelector('.tilt-glare');
+        if (!glare) {
+          glare = document.createElement('div');
+          glare.className = 'tilt-glare';
+          card.appendChild(glare);
+        }
+
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          
+          const rotateX = ((y - centerY) / centerY) * -8.5; // Max 8.5 deg tilt
+          const rotateY = ((x - centerX) / centerX) * 8.5;
+          
+          card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-2px)`;
+          
+          const glareX = (x / rect.width) * 100;
+          const glareY = (y / rect.height) * 100;
+          glare.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.36) 0%, transparent 62%)`;
+          glare.style.opacity = '1';
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+          glare.style.opacity = '0';
+        });
+      });
+    }
+
+    /* =========================================================================
+       3D INTERACTIVE GYROSCOPE COMPASS ENGINE
+       ========================================================================= */
+    let gyroState = { rotX: 18, rotY: -24, isDragging: false, startX: 0, startY: 0 };
+
+    function init3DCompassGyroscope() {
+      const stage = document.getElementById('gyroStage');
+      const sphere = document.getElementById('gyroSphere');
+      if (!stage || !sphere) return;
+
+      // Mouse drag 3D rotation
+      stage.addEventListener('mousedown', (e) => {
+        gyroState.isDragging = true;
+        gyroState.startX = e.clientX;
+        gyroState.startY = e.clientY;
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!gyroState.isDragging) return;
+        const deltaX = e.clientX - gyroState.startX;
+        const deltaY = e.clientY - gyroState.startY;
+        gyroState.rotY += deltaX * 0.45;
+        gyroState.rotX -= deltaY * 0.45;
+        gyroState.startX = e.clientX;
+        gyroState.startY = e.clientY;
+        updateSphereTransform();
+      });
+
+      window.addEventListener('mouseup', () => {
+        gyroState.isDragging = false;
+      });
+
+      // Subtle hover parallax
+      stage.addEventListener('mousemove', (e) => {
+        if (gyroState.isDragging) return;
+        const rect = stage.getBoundingClientRect();
+        const offsetX = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+        const offsetY = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+        sphere.style.transform = `rotateX(${gyroState.rotX - offsetY * 16}deg) rotateY(${gyroState.rotY + offsetX * 16}deg)`;
+      });
+
+      stage.addEventListener('mouseleave', () => {
+        if (!gyroState.isDragging) updateSphereTransform();
+      });
+    }
+
+    function updateSphereTransform() {
+      const sphere = document.getElementById('gyroSphere');
+      if (sphere) {
+        sphere.style.transform = `rotateX(${gyroState.rotX}deg) rotateY(${gyroState.rotY}deg)`;
+      }
+    }
+
+    function updateCompassAlignment(stageNum) {
+      const syncPill = document.getElementById('compassSyncPill');
+      const azimuthEl = document.getElementById('compassAzimuth');
+      const axisEl = document.getElementById('compassAxis');
+      const sphere = document.getElementById('gyroSphere');
+      if (!syncPill) return;
+
+      const stageData = {
+        1: { sync: '동기화 20%', azimuth: '342° NW', axis: '고정관념 해체 중', color: 'var(--apple-orange)' },
+        2: { sync: '동기화 40%', azimuth: '018° NNE', axis: '타인 시선 분리 중', color: 'var(--apple-orange)' },
+        3: { sync: '동기화 60%', azimuth: '006° N', axis: '호불호 기준 확립', color: 'var(--apple-blue)' },
+        4: { sync: '동기화 80%', azimuth: '002° N', axis: '북극성 조준 80%', color: 'var(--apple-green)' },
+        5: { sync: '정렬 완료 100%', azimuth: '000° TRUE NORTH', axis: '나만의 3대 축 완성 ✨', color: 'var(--apple-green)' }
+      };
+
+      const cur = stageData[stageNum] || stageData[1];
+      syncPill.innerHTML = `<span style="width: 5px; height: 5px; border-radius: 50%; background: ${cur.color}; animation: pulseDot 1.2s infinite;"></span> ${cur.sync}`;
+      if (azimuthEl) azimuthEl.innerText = cur.azimuth;
+      if (axisEl) axisEl.innerText = cur.axis;
+
+      if (stageNum === 5 && sphere) {
+        sphere.style.filter = 'drop-shadow(0 0 16px rgba(52, 199, 89, 0.65))';
+      } else if (sphere) {
+        sphere.style.filter = 'none';
+      }
+    }
 
     function setPersona(key) {
       currentPersonaKey = key;
@@ -2560,6 +2998,8 @@
       if (b) b.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
       lucide.createIcons();
+      // Re-init tilt for elements in active tab
+      setTimeout(() => init3DTiltEngine(), 100);
     }
 
     function setActiveStage(stageNum) {
@@ -2576,6 +3016,7 @@
           node.classList.remove('current', 'completed');
         }
       }
+      updateCompassAlignment(stageNum);
     }
 
     function updateQuickChips(turn) {

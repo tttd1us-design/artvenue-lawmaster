@@ -133,7 +133,33 @@ const GEMINI_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models
 - **환불 정책**: 구독 후 7일 이내 100% 전액 환불 보장
 - **결제 보안**: 256-bit SSL 보안 결제
 
-## 9. 외부 리소스
+## 10. 3D 입체 시각화 & 공간 인터랙션 엔진 (Spatial 3D & Depth Engine)
+
+### 1) 실시간 3D 자이로스코프 나침반 (Interactive 3D Compass)
+- **컴포넌트**: `#compass3DCard`, `.gyro-stage`, `.gyro-sphere`
+- **3D 짐벌 링 시스템**:
+  - `ring-x`: X축 3D 회전 링 (사파이어 블루 네온 글로우)
+  - `ring-y`: Y축 3D 회전 링 (에메랄드 림 글로우)
+  - `ring-z`: Z축 3D 회전 링 (골드 대시 방위계)
+  - `north-star-core`: 3D 공간 상에서 반짝이는 다이아몬드 북극성 코어 (`✦`)
+- **실시간 단계별 동기화 (`updateCompassAlignment`)**:
+  - 1단계: 동기화 20% | 방위각 342° NW | 고정관념 해체 중
+  - 2단계: 동기화 40% | 방위각 018° NNE | 타인 시선 분리 중
+  - 3단계: 동기화 60% | 방위각 006° N | 호불호 기준 확립
+  - 4단계: 동기화 80% | 방위각 002° N | 북극성 조준 80%
+  - 5단계: 정렬 완료 100% | 방위각 000° TRUE NORTH | 나만의 3대 축 완성 ✨ (에메랄드/사파이어 광채 발산)
+- **360도 공간 인터랙션**: 마우스 드래그를 통한 3차원 자이로스코프 회전 및 호버 패럴랙스 반응
+
+### 2) Apple 스타일 3D 카드 틸트 & 다이내믹 글래어 (3D Tilt & Glare Engine)
+- **적용 대상**: `.bento-card`, `.director-card`, `.parallel-card`, `.compass-3d-card` 등
+- **원리**: 커서 위치에 따른 실시간 원근 각도(`rotateX`, `rotateY`) 계산 + 래디얼 그라디언트 반사광(`.tilt-glare`) 추적
+- **시각 효과**: 마우스 호버 시 실물 글래스 카드가 부드럽게 떠오르며 자연광이 반사되는 감각 선사
+
+### 3) 공간 3D 엠비언트 백그라운드 (Spatial Ambient Glow)
+- **컴포넌트**: `.spatial-ambient-bg`, `.ambient-orb` (Blue, Emerald, Purple)
+- **효과**: 80px 초미세 블러와 유기적 3D 부유 애니메이션으로 2D 평면을 탈피한 깊이 있는 공간감(Spatial Depth) 및 편안한 시각 경험 제공
+
+## 11. 외부 리소스
 
 | 리소스 | CDN |
 |--------|-----|
@@ -142,12 +168,13 @@ const GEMINI_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models
 | MaruBuri 폰트 | `cdn.jsdelivr.net/gh/projectnoonnu/noonfonts` |
 | Google Fonts | Cinzel, Gowun Batang, Noto Serif KR, Outfit, Plus Jakarta Sans, Fira Code |
 
-## 10. 개발 가이드
+## 12. 개발 가이드
 
 ### 새 탭 추가 방법
 1. CSS에 `.tab-view` 스타일 추가
 2. HTML에 `<div class="tab-view" id="view-{탭ID}">` 추가
 3. `<nav class="apple-nav-tabs">`에 `<button class="nav-tab-btn">` 추가
+4. JS `switchTab(tabId)` 및 `init3DTiltEngine()` 연동
 4. JS `switchTab()` 함수가 자동으로 토글 처리
 
 ### 새 모달 추가 방법
