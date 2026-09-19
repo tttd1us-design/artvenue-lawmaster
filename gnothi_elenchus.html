@@ -1491,9 +1491,64 @@
       text-decoration: none;
     }
     .social-login-btn:hover { transform: translateY(-1px); box-shadow: var(--apple-shadow-sm); }
-    .social-login-btn.kakao { background: #FEE500; color: #191919; border-color: #FDD835; }
+    .social-login-btn.kakao { background: #FEE500; color: #191919; border-color: #FDD835; font-weight: 700; font-size: 0.92rem; }
+    .social-login-btn.naver { background: #03C75A; color: #FFFFFF; font-weight: 700; }
     .social-login-btn.google { background: #FFFFFF; color: #374151; border-color: #E5E7EB; }
     .social-login-btn.apple { background: #000000; color: #FFFFFF; }
+    .social-grid-secondary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .social-mini-btn {
+      height: 42px;
+      border-radius: var(--apple-radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--apple-border);
+      background: #FFFFFF;
+      transition: all 0.2s ease;
+    }
+    .social-mini-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .social-mini-btn.naver { background: #03C75A; color: #FFFFFF; border-color: #02B350; }
+    .social-mini-btn.google { background: #FFFFFF; color: #374151; border-color: #E5E7EB; }
+    .social-mini-btn.apple { background: #000000; color: #FFFFFF; border-color: #000000; }
+
+    /* AUTH SEGMENT TABS */
+    .auth-tab-bar {
+      display: flex;
+      background: var(--apple-surface-secondary);
+      border-radius: var(--apple-radius-pill);
+      padding: 3px;
+      margin-bottom: 20px;
+    }
+    .auth-tab-btn {
+      flex: 1;
+      padding: 8px 12px;
+      border: none;
+      background: transparent;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--apple-text-secondary);
+      cursor: pointer;
+      border-radius: var(--apple-radius-pill);
+      transition: all 0.2s ease;
+    }
+    .auth-tab-btn.active {
+      background: #FFFFFF;
+      color: var(--apple-text-primary);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      font-weight: 700;
+    }
+
     .auth-divider {
       display: flex;
       align-items: center;
@@ -2683,51 +2738,102 @@
        MODAL: 로그인 / 회원가입 (소셜 1초 로그인 & 데모 계정)
        ========================================================================= -->
   <div class="modal-overlay" id="loginModal">
-    <div class="auth-modal-card">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+    <div class="auth-modal-card" style="max-width: 440px;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
         <div>
-          <div style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.74rem; font-weight: 700; color: var(--apple-blue); background: var(--apple-blue-soft); padding: 3px 10px; border-radius: var(--apple-radius-pill); margin-bottom: 8px;">
-            <i data-lucide="shield-check" style="width: 12px; height: 12px;"></i> 안전한 1초 간편 로그인
+          <div style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.74rem; font-weight: 700; color: var(--apple-blue); background: var(--apple-blue-soft); padding: 3px 10px; border-radius: var(--apple-radius-pill); margin-bottom: 6px;">
+            <i data-lucide="shield-check" style="width: 12px; height: 12px;"></i> 국내 1위 코칭 표준 보안 로그인
           </div>
-          <h3 style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; color: var(--apple-text-primary); margin: 0;">GNŌTHI 계정 로그인</h3>
-          <p style="font-size: 0.84rem; color: var(--apple-text-secondary); margin-top: 4px;">나만의 방향성 진단 결과와 3대 축 리포트를 영구 보관하세요.</p>
+          <h3 style="font-family: var(--font-display); font-size: 1.35rem; font-weight: 800; color: var(--apple-text-primary); margin: 0;">GNŌTHI 시작하기</h3>
+          <p style="font-size: 0.82rem; color: var(--apple-text-secondary); margin-top: 3px;">나만의 방향성 진단 결과와 3대 축 리포트를 안전하게 보관하세요.</p>
         </div>
         <button class="close-btn" onclick="closeModal('loginModal')">&times;</button>
       </div>
 
-      <!-- 1-CLICK SOCIAL LOGINS -->
-      <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px;">
-        <button class="social-login-btn kakao" onclick="loginWith('kakao')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="#191919"><path d="M12 3C6.477 3 2 6.477 2 10.765c0 2.766 1.878 5.187 4.717 6.545l-.97 3.563c-.085.313.267.57.534.394l4.24-2.805c.484.053.978.083 1.479.083 5.523 0 10-3.477 10-7.765S17.523 3 12 3z"/></svg>
-          카카오로 1초 시작하기
+      <!-- AUTH MODE SEGMENT TABS (경쟁사 표준) -->
+      <div class="auth-tab-bar">
+        <button class="auth-tab-btn active" id="authTabBtnSocial" onclick="switchAuthTab('social')">
+          <i data-lucide="zap" style="width: 12px; height: 12px; display: inline-block; vertical-align: -1px;"></i> 간편 소셜 로그인
         </button>
-        <button class="social-login-btn google" onclick="loginWith('google')">
-          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
-          Google 계정으로 계속하기
-        </button>
-        <button class="social-login-btn apple" onclick="loginWith('apple')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.78c.62-.76 1.04-1.82.93-2.88-.9.04-1.99.6-2.63 1.36-.58.67-.99 1.74-.88 2.78 1.01.08 2.05-.51 2.58-1.26z"/></svg>
-          Apple로 계속하기
+        <button class="auth-tab-btn" id="authTabBtnDirect" onclick="switchAuthTab('direct')">
+          <i data-lucide="mail" style="width: 12px; height: 12px; display: inline-block; vertical-align: -1px;"></i> 휴대폰 / 이메일
         </button>
       </div>
 
-      <div class="auth-divider">또는 이메일로 로그인</div>
+      <!-- VIEW 1: 간편 소셜 로그인 (카카오 주력 + 네이버/구글/애플) -->
+      <div id="authViewSocial">
+        <!-- KAKAO MAIN 3-SECOND ONE-TAP (국내 1위 선호도) -->
+        <button class="social-login-btn kakao" onclick="loginWith('kakao')" style="margin-bottom: 10px; height: 48px; box-shadow: 0 4px 12px rgba(254, 229, 0, 0.4);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#191919"><path d="M12 3C6.477 3 2 6.477 2 10.765c0 2.766 1.878 5.187 4.717 6.545l-.97 3.563c-.085.313.267.57.534.394l4.24-2.805c.484.053.978.083 1.479.083 5.523 0 10-3.477 10-7.765S17.523 3 12 3z"/></svg>
+          카카오로 3초 만에 시작하기
+        </button>
 
-      <div class="auth-input-group">
-        <input type="email" id="authEmailInput" class="auth-input" placeholder="이메일 주소 (name@example.com)">
-        <input type="password" id="authPasswordInput" class="auth-input" placeholder="비밀번호">
+        <!-- SECONDARY SOCIAL 3-GRID (네이버 / 구글 / 애플) -->
+        <div class="social-grid-secondary" style="margin-bottom: 14px;">
+          <!-- NAVER (시니어/직장인 1위) -->
+          <button class="social-mini-btn naver" onclick="loginWith('naver')" title="네이버로 계속하기">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727z"/></svg>
+            <span>네이버</span>
+          </button>
+          <!-- GOOGLE -->
+          <button class="social-mini-btn google" onclick="loginWith('google')" title="Google로 계속하기">
+            <svg width="14" height="14" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+            <span>Google</span>
+          </button>
+          <!-- APPLE -->
+          <button class="social-mini-btn apple" onclick="loginWith('apple')" title="Apple로 계속하기">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.78c.62-.76 1.04-1.82.93-2.88-.9.04-1.99.6-2.63 1.36-.58.67-.99 1.74-.88 2.78 1.01.08 2.05-.51 2.58-1.26z"/></svg>
+            <span>Apple</span>
+          </button>
+        </div>
       </div>
 
-      <button class="apple-pill-btn primary" onclick="loginWithEmail()" style="width: 100%; height: 44px; justify-content: center; font-size: 0.9rem; margin-bottom: 10px;">
-        로그인 / 간편 가입
-      </button>
+      <!-- VIEW 2: 휴대폰 / 이메일 직접 로그인 -->
+      <div id="authViewDirect" style="display: none;">
+        <!-- PHONE NUMBER FAST OTP (경쟁사 필수 방식) -->
+        <div style="background: var(--apple-surface-secondary); padding: 12px; border-radius: var(--apple-radius-md); border: 1px solid var(--apple-border); margin-bottom: 12px;">
+          <div style="font-size: 0.76rem; font-weight: 700; color: var(--apple-text-secondary); margin-bottom: 6px;">📱 휴대폰 번호로 1초 간편 시작</div>
+          <div style="display: flex; gap: 6px;">
+            <input type="tel" id="authPhoneInput" class="auth-input" placeholder="010-1234-5678" style="height: 38px; font-size: 0.84rem;">
+            <button class="apple-pill-btn primary" onclick="loginWithPhone()" style="white-space: nowrap; font-size: 0.78rem; padding: 0 14px; height: 38px;">
+              인증 로그인
+            </button>
+          </div>
+        </div>
 
-      <button class="apple-pill-btn subtle" onclick="loginDemoUser()" style="width: 100%; height: 42px; justify-content: center; font-size: 0.82rem; background: var(--apple-surface-secondary); color: var(--apple-blue); border: 1px solid var(--apple-border);">
-        <i data-lucide="zap" style="width: 14px; height: 14px;"></i> 체험용 계정으로 1초 로그인 (demo@gnothi.io)
-      </button>
+        <div class="auth-divider">또는 이메일 로그인</div>
 
-      <div style="text-align: center; margin-top: 14px; font-size: 0.74rem; color: var(--apple-text-tertiary);">
-        로그인 시 그노티의 <a href="javascript:void(0)" style="color: var(--apple-blue);">이용약관</a> 및 <a href="javascript:void(0)" style="color: var(--apple-blue);">개인정보처리방침</a>에 동의하게 됩니다.
+        <div class="auth-input-group">
+          <input type="email" id="authEmailInput" class="auth-input" placeholder="이메일 주소 (name@example.com)">
+          <input type="password" id="authPasswordInput" class="auth-input" placeholder="비밀번호 (4자 이상)">
+        </div>
+
+        <button class="apple-pill-btn primary" onclick="loginWithEmail()" style="width: 100%; height: 44px; justify-content: center; font-size: 0.9rem; margin-bottom: 10px;">
+          로그인 / 간편 가입
+        </button>
+      </div>
+
+      <!-- REMEMBER ME & PASSWORD RECOVERY (경쟁사 공통 옵션) -->
+      <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.76rem; color: var(--apple-text-secondary); margin-bottom: 14px; padding: 0 4px;">
+        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+          <input type="checkbox" id="authRememberMe" checked style="accent-color: var(--apple-blue);">
+          <span>로그인 상태 유지</span>
+        </label>
+        <a href="javascript:void(0)" onclick="alert('가입하신 이메일 또는 휴대폰 번호로 임시 비밀번호가 발송됩니다.')" style="color: var(--apple-text-secondary); text-decoration: none;">비밀번호 찾기</a>
+      </div>
+
+      <!-- DEMO & GUEST ONE-CLICK -->
+      <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+        <button class="apple-pill-btn subtle" onclick="loginDemoUser()" style="flex: 1; height: 38px; justify-content: center; font-size: 0.78rem; background: var(--apple-surface-secondary); color: var(--apple-blue); border: 1px solid var(--apple-border);">
+          <i data-lucide="zap" style="width: 13px; height: 13px;"></i> 체험용 계정 (demo)
+        </button>
+        <button class="apple-pill-btn subtle" onclick="loginAsGuest()" style="flex: 1; height: 38px; justify-content: center; font-size: 0.78rem; background: var(--apple-surface-secondary); color: var(--apple-text-primary); border: 1px solid var(--apple-border);">
+          <i data-lucide="compass" style="width: 13px; height: 13px;"></i> 게스트 바로 둘러보기
+        </button>
+      </div>
+
+      <div style="text-align: center; font-size: 0.72rem; color: var(--apple-text-tertiary); line-height: 1.5;">
+        시작 시 <a href="javascript:void(0)" style="color: var(--apple-blue);">서비스 이용약관</a> 및 <a href="javascript:void(0)" style="color: var(--apple-blue);">개인정보 수집·이용</a>에 동의하게 됩니다.
       </div>
     </div>
   </div>
@@ -3757,17 +3863,64 @@
       }
     }
 
+    function switchAuthTab(tab) {
+      const socialBtn = document.getElementById('authTabBtnSocial');
+      const directBtn = document.getElementById('authTabBtnDirect');
+      const socialView = document.getElementById('authViewSocial');
+      const directView = document.getElementById('authViewDirect');
+
+      if (tab === 'social') {
+        socialBtn.classList.add('active');
+        directBtn.classList.remove('active');
+        socialView.style.display = 'block';
+        directView.style.display = 'none';
+      } else {
+        directBtn.classList.add('active');
+        socialBtn.classList.remove('active');
+        directView.style.display = 'block';
+        socialView.style.display = 'none';
+      }
+      lucide.createIcons();
+    }
+
     function loginWith(provider) {
-      const names = { kakao: '카카오', google: 'Google', apple: 'Apple' };
-      const emails = { kakao: 'user@kakao.com', google: 'user@gmail.com', apple: 'user@icloud.com' };
+      const names = { kakao: '카카오', naver: '네이버', google: 'Google', apple: 'Apple' };
+      const emails = { kakao: 'user@kakao.com', naver: 'user@naver.com', google: 'user@gmail.com', apple: 'user@icloud.com' };
       AUTH_STATE.isLoggedIn = true;
       AUTH_STATE.userName = `${names[provider]} 사용자`;
-      AUTH_STATE.userEmail = emails[provider];
+      AUTH_STATE.userEmail = emails[provider] || `${provider}@user.io`;
       AUTH_STATE.loginMethod = provider;
       saveAuthState();
       syncAuthUI();
       closeModal('loginModal');
-      showLoginSuccessToast(names[provider]);
+      showLoginSuccessToast(names[provider] || provider);
+    }
+
+    function loginWithPhone() {
+      const phone = document.getElementById('authPhoneInput').value.trim();
+      if (!phone || phone.length < 9) {
+        alert('올바른 휴대폰 번호를 입력해주세요. (예: 010-1234-5678)');
+        return;
+      }
+      AUTH_STATE.isLoggedIn = true;
+      AUTH_STATE.userName = `회원(${phone.slice(-4)})`;
+      AUTH_STATE.userEmail = `${phone.replace(/[^0-9]/g, '')}@mobile.user`;
+      AUTH_STATE.loginMethod = 'phone';
+      saveAuthState();
+      syncAuthUI();
+      closeModal('loginModal');
+      showLoginSuccessToast('휴대폰 간편인증');
+    }
+
+    function loginAsGuest() {
+      AUTH_STATE.isLoggedIn = true;
+      AUTH_STATE.userName = '게스트 탐색자';
+      AUTH_STATE.userEmail = 'guest@gnothi.io';
+      AUTH_STATE.loginMethod = 'guest';
+      saveAuthState();
+      syncAuthUI();
+      closeModal('loginModal');
+      showLoginSuccessToast('게스트 둘러보기');
     }
 
     function loginWithEmail() {

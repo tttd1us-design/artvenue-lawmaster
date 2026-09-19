@@ -69,22 +69,38 @@ const AUTH_STATE = {
   isLoggedIn: false,
   userName: '',
   userEmail: '',
-  loginMethod: '',  // 'kakao' | 'google' | 'apple' | 'email' | 'demo'
+  loginMethod: '',  // 'kakao' | 'naver' | 'google' | 'apple' | 'phone' | 'email' | 'demo' | 'guest'
   isVip: false,
   payMethod: 'kakaopay',
   subscriptionDate: null,
 };
 ```
 
+### 경쟁사(마인드카페, 클래스101, 원티드) 표준 로그인 체계
+1. **메인 간편 로그인**: 카카오톡 1초 원탭 (`kakao`, #FEE500 풀사이즈)
+2. **2차 소셜 그리드 3종**:
+   - 네이버 (`naver`, #03C75A) - 4050/60대 시니어 및 신중년 점유율 1위
+   - Google (`google`, 구글 멀티컬러)
+   - Apple (`apple`, 블랙)
+3. **휴대폰 간편 로그인 (`phone`)**: 복잡한 이메일 대신 휴대폰 번호 원클릭 인증
+4. **이메일 로그인 (`email`)**: 전통적 이메일/비밀번호 가입 및 로그인
+5. **체험 및 게스트 모드**:
+   - 체험용 데모 계정 (`demo`)
+   - 게스트 바로 둘러보기 (`guest`)
+6. **편의 옵션**: 로그인 상태 유지(자동 로그인) 체크박스 및 비밀번호 찾기
+
 ### 핵심 함수
 | 함수 | 설명 |
 |------|------|
 | `initAuthState()` | localStorage에서 세션 복원 → UI 동기화 |
-| `loginWith(provider)` | 소셜 로그인 (kakao/google/apple) |
+| `switchAuthTab(tab)` | `[간편 소셜 로그인]` ↔ `[휴대폰 / 이메일]` 세그먼트 탭 전환 |
+| `loginWith(provider)` | 4대 소셜 로그인 (kakao / naver / google / apple) |
+| `loginWithPhone()` | 휴대폰 번호 간편 인증 로그인 |
 | `loginWithEmail()` | 이메일 + 비밀번호 로그인 |
 | `loginDemoUser()` | 체험 계정 1초 로그인 |
-| `logoutUser()` | 로그아웃 + 상태 초기화 |
-| `handleUserAuthClick()` | 헤더 버튼 → 로그인 or 계정관리 라우팅 |
+| `loginAsGuest()` | 게스트 바로 둘러보기 모드 |
+| `logoutUser()` | 로그아웃 + 세션 초기화 |
+| `handleUserAuthClick()` | 헤더 버튼 → 로그인 or 계정관리 모달 라우팅 |
 
 ## 5. 결제 시스템
 
