@@ -1964,6 +1964,208 @@
       transform: translateX(-50%) translateY(0);
       opacity: 1;
     }
+
+    /* =========================================================================
+       8. ROOT & PRIMAL VALUE ENGINES: MICRO-ROUTINE, SOVEREIGNTY PASS & EMOTION SCANNER
+       ========================================================================= */
+    /* 1) EMOTION SCANNER QUICK CHIPS */
+    .scanner-trigger-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 22px;
+      background: #FFFFFF;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      font-size: 0.76rem;
+      color: #86868B;
+    }
+    .scanner-trigger-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #0071E3;
+      font-weight: 700;
+      background: #F0F6FF;
+      border: 1px solid rgba(0, 113, 227, 0.2);
+      padding: 3px 10px;
+      border-radius: var(--apple-radius-pill);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .scanner-trigger-btn:hover {
+      background: #E1EFFF;
+      transform: translateY(-1px);
+    }
+    .scanner-drawer {
+      display: none;
+      padding: 10px 22px;
+      background: #F8FAFC;
+      border-top: 1px dashed rgba(0, 113, 227, 0.2);
+      gap: 8px;
+      flex-wrap: wrap;
+      animation: appleFadeIn 0.25s ease;
+    }
+    .scanner-drawer.active {
+      display: flex;
+    }
+    .scanner-chip {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: #1D1D1F;
+      background: #FFFFFF;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: var(--apple-radius-pill);
+      padding: 6px 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+    .scanner-chip:hover {
+      background: #F0F6FF;
+      border-color: #0071E3;
+      color: #0071E3;
+      transform: translateY(-1px);
+    }
+
+    /* 2) NEXT-MORNING MICRO-ROUTINE PROTOCOL */
+    .micro-routine-card {
+      background: #FFFFFF;
+      border: 1px solid rgba(0, 113, 227, 0.16);
+      border-radius: 18px;
+      padding: 20px 22px;
+      margin-bottom: 22px;
+      box-shadow: 0 4px 16px rgba(0, 113, 227, 0.04);
+    }
+    .micro-routine-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .micro-routine-title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #1D1D1F;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .routine-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 768px) {
+      .routine-grid { grid-template-columns: 1fr; }
+    }
+    .routine-step {
+      background: #F5F5F7;
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      border-radius: 14px;
+      padding: 14px 16px;
+      transition: all 0.2s ease;
+    }
+    .routine-step:hover {
+      background: #FFFFFF;
+      border-color: rgba(0, 113, 227, 0.25);
+      box-shadow: 0 4px 12px rgba(0, 113, 227, 0.06);
+      transform: translateY(-2px);
+    }
+    .routine-time-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #0071E3;
+      background: #EBF5FF;
+      padding: 2px 8px;
+      border-radius: var(--apple-radius-pill);
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+    .routine-desc {
+      font-size: 0.84rem;
+      line-height: 1.6;
+      color: #334155;
+      font-weight: 600;
+    }
+
+    /* 3) APPLE WALLET PERSONAL SOVEREIGNTY PASS */
+    .sovereignty-pass-card {
+      background: linear-gradient(135deg, #1D1D1F 0%, #0F172A 60%, #1E293B 100%);
+      color: #FFFFFF;
+      border-radius: 20px;
+      padding: 24px 28px;
+      margin-bottom: 22px;
+      box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    .pass-bg-watermark {
+      position: absolute;
+      right: -10px;
+      bottom: -25px;
+      font-size: 8.5rem;
+      font-weight: 900;
+      font-family: var(--font-classical);
+      color: rgba(255, 255, 255, 0.035);
+      pointer-events: none;
+      user-select: none;
+    }
+    .pass-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .pass-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.08rem;
+      letter-spacing: 0.04em;
+    }
+    .pass-body {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 640px) {
+      .pass-body { grid-template-columns: 1fr; }
+    }
+    .pass-motto {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      line-height: 1.72;
+      color: #F8FAFC;
+      font-weight: 600;
+    }
+    .pass-serial {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #94A3B8;
+      letter-spacing: 0.06em;
+    }
+    .pass-stamp {
+      border: 1.5px solid #F59E0B;
+      color: #F59E0B;
+      border-radius: 50%;
+      width: 54px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 900;
+      text-align: center;
+      transform: rotate(-10deg);
+      box-shadow: 0 0 16px rgba(245, 158, 11, 0.25);
+      margin-left: auto;
+    }
   </style>
 </head>
 <body>
@@ -2157,7 +2359,30 @@
 
           <!-- CENTER: CONVERSATION CHAMBER -->
           <section class="chat-chamber">
-            <div class="chat-messages" id="chatMessages"></div>
+            <!-- COGNITIVE BURDEN RELIEF: EMOTION SCANNER BAR -->
+            <div class="scanner-trigger-bar">
+              <span>내 생각을 글로 쓰기 막막하신가요?</span>
+              <button class="scanner-trigger-btn" onclick="toggleEmotionScanner()">
+                <i data-lucide="sparkles" style="width: 12px; height: 12px;"></i> 마음 언어화 스캐너
+              </button>
+            </div>
+            <div class="scanner-drawer" id="scannerDrawer">
+              <button class="scanner-chip" onclick="applyScannedThought('남들의 시선과 기대에 맞추느라, 정작 내가 무엇을 좋아하는지 완전히 잊어버렸어요.')">
+                🧭 남들 눈치 보느라 진짜 내 욕망을 잊음
+              </button>
+              <button class="scanner-chip" onclick="applyScannedThought('안정적인 직장을 다니고 있지만, 매일 아침 출근길이 공허하고 영혼이 말라가는 기분이에요.')">
+                💸 안정은 있지만 가슴 뛰지 않는 일상
+              </button>
+              <button class="scanner-chip" onclick="applyScannedThought('이대로 10년이 지나면 내 이름으로 이룬 것이 하나도 없이 평생 후회할 것 같아요.')">
+                ⏳ 10년 뒤 평생 후회할 것 같은 두려움
+              </button>
+              <button class="scanner-chip" onclick="applyScannedThought('주변과 비교하며 자책하느라 지쳤습니다. 타인의 채점표를 버리고 온전한 내 삶을 살고 싶어요.')">
+                🔥 남들과의 끝없는 비교에서 탈출 희망
+              </button>
+              <button class="scanner-chip" onclick="applyScannedThought('단순한 월급쟁이가 아니라, 내 고유한 전문성과 무기로 세상에 직접 기여하고 싶어요.')">
+                💡 내 고유한 무기로 세상과 승부하고 싶음
+              </button>
+            </div>
 
             <div class="quick-chips-bar" id="quickChipsBar"></div>
 
@@ -3096,13 +3321,72 @@
         </table>
       </div>
 
-      <!-- RX PRESCRIPTION -->
-      <div style="margin-bottom: 20px;">
-        <h3 style="font-size: 1.05rem; font-weight: 800; color: #1D1D1F; margin-bottom: 8px;">소크라테스 멘토의 맞춤 액션 가이드</h3>
-        <div style="background: #F5F5F7; border: 1px solid rgba(0, 0, 0, 0.05); border-radius: 14px; padding: 16px 20px; font-size: 0.88rem; line-height: 1.7; color: #48484A;">
-          • [가이드 1] 14일간 타인의 SNS 성과나 자랑 피드를 멀리하고 나에게 집중하는 시간을 가질 것.<br>
-          • [가이드 2] 내가 정립한 제2축(즐겁게 몰입하는 환경)에 매일 45분간 방해 없이 집중해볼 것.<br>
-          • [가이드 3] 남들의 시선에서 벗어나 내 이름으로 완성되는 작은 프로젝트를 90일 안에 1개 완성해볼 것.
+      <!-- 1) ROOT PAIN RELIEF: NEXT-MORNING 15-MIN MICRO-ROUTINE PROTOCOL -->
+      <div class="micro-routine-card">
+        <div class="micro-routine-header">
+          <div class="micro-routine-title">
+            <i data-lucide="sun" style="width: 18px; height: 18px; color: #F59E0B;"></i>
+            내일 아침 15분 마이크로 루틴 처방전 (Next-Morning Protocol)
+          </div>
+          <button class="apple-pill-subtle" onclick="copyMicroRoutineProtocol()" style="font-size: 0.74rem;">
+            <i data-lucide="copy" style="width: 12px; height: 12px;"></i> 루틴 클립보드 복사
+          </button>
+        </div>
+        <p style="font-size: 0.8rem; color: #64748B; margin-bottom: 12px;">
+          추상적인 다짐은 3일 만에 무너집니다. 의지력이 필요 없는 <strong>극저항(Zero-Resistance) 15분 단위</strong>로 내일부터 내 삶의 통제권을 되찾으세요.
+        </p>
+        <div class="routine-grid">
+          <div class="routine-step">
+            <span class="routine-time-badge">🌅 오전 08:30 (출근·등교 5분)</span>
+            <div class="routine-desc" id="routineStep1">
+              타인의 SNS 피드를 끄고, 내가 정립한 <strong>제2축(즐거운 몰입)</strong>을 상기하는 몰입 음악 1곡 청취하기.
+            </div>
+          </div>
+          <div class="routine-step">
+            <span class="routine-time-badge">☕ 오후 02:00 (업무 중 5분)</span>
+            <div class="routine-desc" id="routineStep2">
+              타인의 무리한 요구에 즉답하지 않고 <em>"일정 확인 후 10분 뒤 말씀드릴게요"</em> 1회 쿠션 방어권 발동하기.
+            </div>
+          </div>
+          <div class="routine-step">
+            <span class="routine-time-badge">🌙 밤 10:00 (취침 전 5분)</span>
+            <div class="routine-desc" id="routineStep3">
+              남들의 평가와 상관없이 오늘 내 자유의지로 결정한 <strong>'단 하나의 행동'</strong> 메모장에 기록하기.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2) EXISTENTIAL ANCHOR: APPLE WALLET STYLE SOVEREIGNTY PASS CARD -->
+      <div class="sovereignty-pass-card" id="sovereigntyPassCaptureArea">
+        <div class="pass-bg-watermark">GNŌTHI</div>
+        <div class="pass-header">
+          <div class="pass-logo">
+            <i data-lucide="compass" style="width: 20px; height: 20px; color: #60A5FA;"></i>
+            <span>GNŌTHI SOVEREIGNTY PASS</span>
+          </div>
+          <div class="pass-serial" id="passSerialDisplay">ID: GN-PASS-2026-0919</div>
+        </div>
+        <div class="pass-body">
+          <div>
+            <div style="font-size: 0.72rem; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;">나의 인생 주권 선언 (Manifesto)</div>
+            <div class="pass-motto" id="passMottoDisplay">
+              "나는 타인의 채점표를 내려놓고, 온전한 내 삶의 주권자로 전진한다."
+            </div>
+            <div style="margin-top: 10px; font-size: 0.76rem; color: #60A5FA; display: flex; gap: 12px; font-family: var(--font-mono);">
+              <span>북극성: <strong>000° TRUE NORTH</strong></span>
+              <span>상태: <strong id="passStatusDisplay">주도권 확립 (Level 5)</strong></span>
+            </div>
+          </div>
+          <div>
+            <div class="pass-stamp">
+              그노티<br>공식인증
+            </div>
+          </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; display: flex; justify-content: space-between; font-size: 0.72rem; color: #94A3B8;">
+          <span>ISSUED BY GNŌTHI PHILOSOPHICAL STUDIO</span>
+          <span style="color: #F59E0B;">★ LIFETIME SOVEREIGN GUARANTEE</span>
         </div>
       </div>
 
@@ -3128,11 +3412,14 @@
       </div>
 
       <div style="display: flex; justify-content: center; gap: 10px; margin-top: 24px; flex-wrap: wrap;">
+        <button class="apple-pill-btn" onclick="downloadSovereigntyPassCard()" style="padding: 10px 18px; font-weight: 700; background: #1D1D1F; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.1); display: inline-flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+          <i data-lucide="credit-card" style="width: 14px; height: 14px; color: #F59E0B;"></i> 👑 인생 주권 카드 발급·저장
+        </button>
         <button class="apple-pill-btn secondary" onclick="copyReportShareLink()" style="padding: 10px 18px; font-weight: 600; background: #F5F5F7; border: 1px solid rgba(0,0,0,0.08); color: var(--apple-text-primary); display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
           <i data-lucide="link" style="width: 14px; height: 14px;"></i> 진단 리포트 링크 복사
         </button>
         <button class="apple-pill-btn" onclick="shareViaKakao()" style="padding: 10px 18px; font-weight: 700; background: #FEE500; color: #191919; border: 1px solid rgba(0,0,0,0.06); display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
-          <i data-lucide="message-circle" style="width: 14px; height: 14px;"></i> 카카오톡으로 내 방향성 선언 공유
+          <i data-lucide="message-circle" style="width: 14px; height: 14px;"></i> 카카오톡 공유
         </button>
         <button class="apple-pill-btn primary" onclick="window.print()" style="padding: 10px 18px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
           <i data-lucide="printer" style="width: 14px; height: 14px;"></i> 리포트 인쇄 / PDF 저장
@@ -4922,6 +5209,25 @@
     // =========================================================================
     function openFullReportModal() {
       document.getElementById('reportPersonaCell').innerText = PERSONA_CONFIGS[currentPersonaKey].badge;
+      
+      // Sync Sovereignty Pass and Micro-Routine dynamically
+      const manifesto = userDirectionSession.manifesto || '나는 타인의 채점표를 내려놓고, 온전한 내 삶의 주권자로 전진한다.';
+      const mottoEl = document.getElementById('passMottoDisplay');
+      if (mottoEl) mottoEl.innerText = `"${manifesto}"`;
+      
+      const serialEl = document.getElementById('passSerialDisplay');
+      if (serialEl) {
+        const todayStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+        const randomHex = Math.random().toString(36).substring(2, 6).toUpperCase();
+        serialEl.innerText = `ID: GN-PASS-${todayStr}-${randomHex}`;
+      }
+
+      const axis2Name = userDirectionSession.axis2 || '즐거운 몰입 영역';
+      const step1El = document.getElementById('routineStep1');
+      if (step1El) {
+        step1El.innerHTML = `타인의 SNS 피드를 끄고, 내가 정립한 <strong>제2축(${axis2Name})</strong>을 상기하는 몰입 음악 1곡 청취하기.`;
+      }
+
       document.getElementById('reportModal').classList.add('active');
       lucide.createIcons();
     }
@@ -5428,6 +5734,83 @@
       setTimeout(() => {
         toast.classList.remove('show');
       }, 3200);
+    }
+
+    // =========================================================================
+    // 6. CORE CONSUMER INSTINCT & PAIN RELIEF ENGINES
+    // =========================================================================
+    function toggleEmotionScanner() {
+      playAppleSound('tap');
+      const drawer = document.getElementById('scannerDrawer');
+      const icon = document.getElementById('scannerChevron');
+      if (!drawer) return;
+      const isOpen = drawer.classList.contains('active');
+      if (isOpen) {
+        drawer.classList.remove('active');
+        if (icon) icon.style.transform = 'rotate(0deg)';
+      } else {
+        drawer.classList.add('active');
+        if (icon) icon.style.transform = 'rotate(180deg)';
+      }
+    }
+
+    function applyScannedThought(text) {
+      playAppleSound('tap');
+      const input = document.getElementById('userInput');
+      if (input) {
+        input.value = text;
+        input.focus();
+        showAppleToast('💡 감정 문장이 입력창에 주입되었습니다.');
+      }
+    }
+
+    function copyMicroRoutineProtocol() {
+      playAppleSound('tap');
+      const step1 = document.getElementById('routineStep1')?.innerText || '타인의 SNS를 끄고 5분간 내 축에 집중하기';
+      const step2 = document.getElementById('routineStep2')?.innerText || '무리한 부탁에 10분 뒤 답변 쿠션권 사용하기';
+      const step3 = document.getElementById('routineStep3')?.innerText || '내 주권으로 결정한 단 1개의 행동 기록하기';
+      
+      const routineText = `[GNŌTHI 15분 마이크로 루틴 처방전]\n` +
+        `• 🌅 오전 08:30 (출근 5분): ${step1}\n` +
+        `• ☕ 오후 02:00 (업무 5분): ${step2}\n` +
+        `• 🌙 밤 10:00 (취침 5분): ${step3}\n\n` +
+        `※ 매일 15분, 의지력 없이 내 삶의 주권을 회복하는 미니멀 실천법.`;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(routineText).then(() => {
+          showAppleToast('🌅 15분 마이크로 루틴이 클립보드에 복사되었습니다!');
+        }).catch(() => {
+          showAppleToast('🌅 루틴 복사 완료!');
+        });
+      } else {
+        showAppleToast('🌅 루틴 복사 완료!');
+      }
+    }
+
+    function downloadSovereigntyPassCard() {
+      playAppleSound('chime');
+      const serial = document.getElementById('passSerialDisplay')?.innerText || 'ID: GN-PASS-2026';
+      const motto = document.getElementById('passMottoDisplay')?.innerText || '"나는 타인의 채점표를 내려놓고, 온전한 내 삶의 주권자로 전진한다."';
+      const status = document.getElementById('passStatusDisplay')?.innerText || '주도권 확립 (Level 5)';
+      const persona = PERSONA_CONFIGS[currentPersonaKey]?.badge || '자기탐색 페르소나';
+
+      const passText = `══════════════════════════════════════\n` +
+        `  👑 GNŌTHI SOVEREIGNTY PASS (인생 주권 패스)\n` +
+        `══════════════════════════════════════\n` +
+        `• 발급 식별번호: ${serial}\n` +
+        `• 주권자 페르소나: ${persona}\n` +
+        `• 공식 방향성 선언: ${motto}\n` +
+        `• 북극성 방위각: 000° TRUE NORTH\n` +
+        `• 주권 상태: ${status}\n` +
+        `• 발급 기관: GNŌTHI PHILOSOPHICAL STUDIO\n` +
+        `• 보증: LIFETIME SOVEREIGN GUARANTEE\n` +
+        `══════════════════════════════════════\n` +
+        `※ 본 디지털 패스는 타인의 기대가 아닌 나만의 3대 축으로 살아가겠다는 공증된 주권 선언서입니다.`;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(passText);
+      }
+      showAppleToast('👑 인생 주권 패스 카드 텍스트가 복사되었습니다! (지갑/메모장에 저장)');
     }
   </script>
 </body>
