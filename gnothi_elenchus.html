@@ -1798,6 +1798,137 @@
       border-color: var(--apple-blue);
       box-shadow: 0 4px 12px rgba(0, 113, 227, 0.25);
     }
+
+    /* =========================================================================
+       ZEN MINDFUL BREATHING ANIMATION & SOUND TOAST TOKENS
+       ========================================================================= */
+    .zen-breath-container {
+      background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+      border-radius: var(--apple-radius-xl);
+      padding: 24px;
+      color: #FFFFFF;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    .breath-circle-wrapper {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      margin: 16px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .breath-glow-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 113, 227, 0.4) 0%, transparent 70%);
+      transition: transform 4s ease-in-out, opacity 4s ease-in-out;
+    }
+    .breath-main-circle {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0071E3, #34C759);
+      box-shadow: 0 0 25px rgba(0, 113, 227, 0.6);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      transition: transform 4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 2;
+    }
+    .breath-main-circle.inhale {
+      transform: scale(1.4);
+      background: linear-gradient(135deg, #0071E3, #60A5FA);
+      box-shadow: 0 0 35px rgba(0, 113, 227, 0.8);
+    }
+    .breath-main-circle.hold {
+      transform: scale(1.4);
+      background: linear-gradient(135deg, #7C3AED, #A78BFA);
+      box-shadow: 0 0 35px rgba(124, 58, 237, 0.8);
+    }
+    .breath-main-circle.exhale {
+      transform: scale(0.9);
+      background: linear-gradient(135deg, #059669, #34D399);
+      box-shadow: 0 0 20px rgba(5, 150, 105, 0.5);
+    }
+
+    /* TIMELINE CHIPS (PARALLEL TAB) */
+    .timeline-chip-group {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 16px 0 22px;
+    }
+    .timeline-chip {
+      padding: 8px 18px;
+      border-radius: var(--apple-radius-pill);
+      border: 1.5px solid var(--apple-border);
+      background: var(--apple-surface-secondary);
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--apple-text-secondary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .timeline-chip:hover {
+      border-color: var(--apple-blue);
+      color: var(--apple-blue);
+    }
+    .timeline-chip.active {
+      background: var(--apple-blue);
+      color: #FFFFFF;
+      border-color: var(--apple-blue);
+      box-shadow: 0 4px 12px rgba(0, 113, 227, 0.3);
+    }
+
+    /* DAILY CHECKIN & STREAK BADGE */
+    .streak-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #FFF7ED, #FFEDD5);
+      border: 1.5px solid #F97316;
+      color: #C2410C;
+      padding: 4px 14px;
+      border-radius: var(--apple-radius-pill);
+      font-weight: 800;
+      font-size: 0.82rem;
+    }
+
+    /* APPLE TOAST ALERT */
+    .apple-toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(29, 29, 31, 0.94);
+      backdrop-filter: blur(18px);
+      color: #FFFFFF;
+      padding: 12px 24px;
+      border-radius: var(--apple-radius-pill);
+      font-size: 0.88rem;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      z-index: 10000;
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      pointer-events: none;
+    }
+    .apple-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
@@ -1855,6 +1986,10 @@
 
     <!-- HEADER ACTIONS -->
     <div class="header-actions">
+      <button class="apple-pill-btn subtle" id="soundToggleBtn" onclick="toggleAppleSound()" style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.78rem; padding: 6px 12px;" title="효과음 켜기/끄기">
+        <i data-lucide="volume-2" id="soundIcon" style="width: 13px; height: 13px; color: var(--apple-blue);"></i>
+        <span id="soundToggleText">효과음 ON</span>
+      </button>
       <button class="apple-pill-btn subtle" id="membershipBadgeBtn" onclick="openSubscriptionModal()">
         <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--apple-blue); margin-right: 4px;"></span>
         <span id="membershipStatusText">월 9,900원 멤버십</span>
@@ -2164,6 +2299,35 @@
         </div>
       </div>
 
+      <!-- 4-7-8 ZEN MINDFUL BREATHING INTERACTIVE GUIDER -->
+      <div class="zen-breath-container" style="max-width: 1050px; margin: 0 auto 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; max-width: 720px; margin: 0 auto;">
+          <div style="text-align: left;">
+            <div style="font-size: 0.76rem; font-weight: 700; color: #60A5FA; letter-spacing: 0.08em; text-transform: uppercase;">NEUROLOGICAL COOLDOWN</div>
+            <h3 style="font-size: 1.25rem; font-weight: 800; margin-top: 2px;">4-7-8 신경계 이완 호흡 가이드</h3>
+            <p style="font-size: 0.82rem; color: #94A3B8; margin-top: 3px;">화면의 원을 보며 호흡을 맞추면 1분 안에 뇌의 편도체 흥분이 가라앉습니다.</p>
+          </div>
+          <button class="apple-pill-btn" id="breathToggleBtn" onclick="toggleZenBreathing()" style="background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); color: #FFF; font-weight: 700; padding: 10px 18px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+            <i data-lucide="play" id="breathIcon" style="width: 14px; height: 14px;"></i>
+            <span id="breathBtnText">호흡 시작</span>
+          </button>
+        </div>
+
+        <div class="breath-circle-wrapper">
+          <div class="breath-glow-ring" id="breathGlowRing"></div>
+          <div class="breath-main-circle" id="breathCircle">
+            <span id="breathPhaseText" style="font-size: 1.05rem;">준비</span>
+            <span id="breathSecTimer" style="font-size: 0.76rem; opacity: 0.85; margin-top: 2px;">터치하여 시작</span>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: center; gap: 20px; font-size: 0.78rem; color: #94A3B8;">
+          <span>🔵 <strong>들이쉬기</strong> (4초)</span>
+          <span>🟣 <strong>숨 멈추기</strong> (7초)</span>
+          <span>🟢 <strong>천천히 내쉬기</strong> (8초)</span>
+        </div>
+      </div>
+
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1050px; margin: 0 auto;">
         <!-- STEP 1 & 2: 진정 및 생각의 함정 판독 -->
         <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 24px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 16px;">
@@ -2308,8 +2472,55 @@
             </ul>
           </div>
 
-          <button class="apple-pill-btn primary" style="width: 100%; justify-content: center; margin-top: 18px;" onclick="alert('주간 방향성 점검 리포트가 다운로드되었습니다.')">
+          <button class="apple-pill-btn primary" style="width: 100%; justify-content: center; margin-top: 18px;" onclick="downloadWeeklyReportPdf()">
             <i data-lucide="download" style="width: 14px; height: 14px;"></i> 주간 리포트 PDF 저장
+          </button>
+        </div>
+      </div>
+
+      <!-- DAILY CHECK-IN INTERACTIVE CARD -->
+      <div style="max-width: 1100px; margin: 24px auto 0; background: #FFFFFF; border: 1.5px solid var(--apple-border); border-radius: var(--apple-radius-xl); padding: 24px 28px; box-shadow: var(--apple-shadow-sm);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div>
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--apple-text-primary); display: flex; align-items: center; gap: 8px;">
+              <i data-lucide="calendar" style="width: 18px; height: 18px; color: var(--apple-blue);"></i>
+              오늘의 1분 주권 실천 체크인 (Daily Check-in)
+            </h3>
+            <p style="font-size: 0.82rem; color: var(--apple-text-secondary); margin-top: 2px;">매일 1분 성찰을 기록하면 주간 방향성 리포트가 자동으로 고도화됩니다.</p>
+          </div>
+          <div class="streak-badge" id="dailyStreakDisplay">
+            🔥 5일 연속 달성 중
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px;">
+          <div style="background: var(--apple-surface-secondary); padding: 12px 14px; border-radius: var(--apple-radius-md); border: 1px solid var(--apple-border);">
+            <div style="font-size: 0.76rem; font-weight: 700; color: var(--apple-text-secondary); margin-bottom: 4px;">① 타인 시선 분리도</div>
+            <select id="checkinAutonomy" style="width: 100%; padding: 6px 8px; border-radius: 6px; border: 1px solid #CBD5E1; font-size: 0.82rem; background: #FFF;">
+              <option value="5">매우 주도적이었음 (100%)</option>
+              <option value="4" selected>대체로 내 기준 유지 (80%)</option>
+              <option value="3">타인 눈치 조금 봄 (50%)</option>
+              <option value="2">남의 부탁에 끌려다님 (30%)</option>
+            </select>
+          </div>
+          <div style="background: var(--apple-surface-secondary); padding: 12px 14px; border-radius: var(--apple-radius-md); border: 1px solid var(--apple-border);">
+            <div style="font-size: 0.76rem; font-weight: 700; color: var(--apple-text-secondary); margin-bottom: 4px;">② 몰입 에너지 만족도</div>
+            <select id="checkinEnergy" style="width: 100%; padding: 6px 8px; border-radius: 6px; border: 1px solid #CBD5E1; font-size: 0.82rem; background: #FFF;">
+              <option value="5" selected>최고조 몰입 (★★★★★)</option>
+              <option value="4">양호한 흐름 (★★★★☆)</option>
+              <option value="3">보통 수준 (★★★☆☆)</option>
+              <option value="2">피로 과부하 (★★☆☆☆)</option>
+            </select>
+          </div>
+          <div style="background: var(--apple-surface-secondary); padding: 12px 14px; border-radius: var(--apple-radius-md); border: 1px solid var(--apple-border);">
+            <div style="font-size: 0.76rem; font-weight: 700; color: var(--apple-text-secondary); margin-bottom: 4px;">③ 오늘 나를 칭찬할 한마디</div>
+            <input type="text" id="checkinNote" placeholder="예: '불필요한 요청을 정중히 거절했다.'" style="width: 100%; padding: 6px 8px; border-radius: 6px; border: 1px solid #CBD5E1; font-size: 0.82rem; background: #FFF; outline: none;">
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end;">
+          <button class="apple-pill-btn primary" onclick="submitDailyCheckin()" style="padding: 9px 20px; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+            <i data-lucide="check" style="width: 14px; height: 14px;"></i> 오늘 하루 체크인 완료하기
           </button>
         </div>
       </div>
@@ -2469,17 +2680,31 @@
         </div>
       </div>
 
+      <!-- INTERACTIVE TIMELINE SELECTOR CHIPS -->
+      <div class="timeline-chip-group">
+        <button class="timeline-chip" id="timeChip1" onclick="switchTimelineYear(1)">1년 뒤 분기점</button>
+        <button class="timeline-chip" id="timeChip3" onclick="switchTimelineYear(3)">3년 뒤 분기점</button>
+        <button class="timeline-chip" id="timeChip5" onclick="switchTimelineYear(5)">5년 뒤 분기점</button>
+        <button class="timeline-chip active" id="timeChip10" onclick="switchTimelineYear(10)">10년 뒤 궁극의 결과</button>
+      </div>
+
       <div class="parallel-grid">
         <div class="parallel-card regret tilt-card" data-tilt="true">
           <div class="tilt-glare"></div>
-          <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 10px;">🌑 시나리오 A: 남들의 기준에 맞추어 살아온 10년 뒤</h3>
-          <p><strong>10년 뒤 나의 일상:</strong> 남들의 시선과 안전한 정답만 좇아 살아온 결과, 겉으로는 무난해 보이지만 매일 아침 출근길마다 마음 깊은 곳에서 허전함이 밀려옵니다. "그때 왜 내가 진짜 원하던 일에 용기 내보지 않았을까? 내 삶은 온통 남의 기대에 맞추느라 흘러가버렸다."</p>
+          <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 10px;" id="parallelTitleA">🌑 시나리오 A: 남들의 기준에 맞추어 살아온 10년 뒤</h3>
+          <p id="parallelTextA"><strong>10년 뒤 나의 일상:</strong> 남들의 시선과 안전한 정답만 좇아 살아온 결과, 겉으로는 무난해 보이지만 매일 아침 출근길마다 마음 깊은 곳에서 허전함이 밀려옵니다. "그때 왜 내가 진짜 원하던 일에 용기 내보지 않았을까? 내 삶은 온통 남의 기대에 맞추느라 흘러가버렸다."</p>
+          <div style="margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(225, 29, 72, 0.2); font-size: 0.8rem; color: #E11D48;" id="parallelMetricsA">
+            • 심리적 스트레스: 88점 (고위험) | 후회도: 92% | 삶의 주도권: 18%
+          </div>
         </div>
 
         <div class="parallel-card sovereign tilt-card" data-tilt="true">
           <div class="tilt-glare"></div>
-          <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 10px;">☀️ 시나리오 B: 나만의 방향성을 갖고 주도적으로 살아온 10년 뒤</h3>
-          <p><strong>10년 뒤 나의 일상:</strong> 질문을 통해 나만의 기준을 세우고 작은 실천부터 차근차근 시작한 결과, 시간과 삶의 완전한 주도권을 확보했습니다. 타인의 눈치를 보지 않고, 내가 진정으로 잘하고 좋아하는 일로 세상에 당당하게 가치를 전하며 살아갑니다.</p>
+          <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 10px;" id="parallelTitleB">☀️ 시나리오 B: 나만의 방향성을 갖고 주도적으로 살아온 10년 뒤</h3>
+          <p id="parallelTextB"><strong>10년 뒤 나의 일상:</strong> 질문을 통해 나만의 기준을 세우고 작은 실천부터 차근차근 시작한 결과, 시간과 삶의 완전한 주도권을 확보했습니다. 타인의 눈치를 보지 않고, 내가 진정으로 잘하고 좋아하는 일로 세상에 당당하게 가치를 전하며 살아갑니다.</p>
+          <div style="margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(37, 99, 235, 0.2); font-size: 0.8rem; color: #2563EB;" id="parallelMetricsB">
+            • 심리적 안정감: 94점 (극상) | 성취 만족도: 96% | 삶의 주도권: 95%
+          </div>
         </div>
       </div>
     </div>
@@ -2867,8 +3092,16 @@
         </button>
       </div>
 
-      <div style="display: flex; justify-content: center; gap: 12px; margin-top: 24px;">
-        <button class="send-btn" onclick="window.print()"><i data-lucide="printer" style="width: 16px; height: 16px;"></i> 인생 방향성 진단 리포트 인쇄 / PDF 저장</button>
+      <div style="display: flex; justify-content: center; gap: 10px; margin-top: 24px; flex-wrap: wrap;">
+        <button class="apple-pill-btn secondary" onclick="copyReportShareLink()" style="padding: 12px 20px; font-weight: 700; background: var(--apple-surface-secondary); border: 1px solid var(--apple-border); color: var(--apple-text-primary); display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+          <i data-lucide="link" style="width: 15px; height: 15px;"></i> 진단 리포트 링크 복사
+        </button>
+        <button class="apple-pill-btn" onclick="shareViaKakao()" style="padding: 12px 20px; font-weight: 700; background: #FEE500; color: #191919; border: 1px solid rgba(0,0,0,0.06); display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+          <i data-lucide="message-circle" style="width: 15px; height: 15px;"></i> 카카오톡으로 내 방향성 선언 공유
+        </button>
+        <button class="send-btn" onclick="window.print()" style="margin: 0; display: inline-flex; align-items: center; gap: 8px;">
+          <i data-lucide="printer" style="width: 16px; height: 16px;"></i> 리포트 인쇄 / PDF 저장
+        </button>
       </div>
     </div>
   </div>
@@ -4083,6 +4316,7 @@
 
     function handleSwipe(direction) {
       if (currentSwipeIdx >= SWIPE_ITEMS.length) return;
+      playAppleSound('whoosh');
       const card = document.getElementById('swipeCard');
       card.classList.add(direction === 'like' ? 'like-anim' : 'hate-anim');
 
@@ -4094,6 +4328,7 @@
           document.getElementById('swipeCardCategory').innerText = SWIPE_ITEMS[currentSwipeIdx].cat;
           document.getElementById('swipeProgressText').innerText = `${currentSwipeIdx + 1} / ${SWIPE_ITEMS.length} 문항 완료`;
         } else {
+          playAppleSound('chime');
           document.getElementById('swipeCardCategory').innerText = "측정 완료";
           document.getElementById('swipeCardText').innerHTML = `
             🎉 <strong>본능적 선호도 측정 완료!</strong><br>
@@ -4101,11 +4336,14 @@
               당신은 <strong>'주도적 몰입과 창작'</strong>에 큰 활력을 느끼며, <strong>'경직된 통제와 수동적 환경'</strong>에서 강한 에너지고갈을 겪습니다.
             </span>
             <div style="display: flex; gap: 8px; justify-content: center; margin-top: 18px; flex-wrap: wrap;">
-              <button class="apple-pill-btn secondary" onclick="restartSwipe()" style="padding: 6px 14px; font-size: 0.8rem;">
+              <button class="apple-pill-btn secondary" onclick="restartSwipe()" style="padding: 7px 14px; font-size: 0.8rem;">
                 <i data-lucide="rotate-ccw" style="width: 13px; height: 13px;"></i> 다시 측정하기
               </button>
-              <button class="apple-pill-btn primary" onclick="applySwipeToCoaching()" style="padding: 6px 14px; font-size: 0.8rem;">
+              <button class="apple-pill-btn primary" onclick="applySwipeToCoaching()" style="padding: 7px 14px; font-size: 0.8rem;">
                 <i data-lucide="message-square" style="width: 13px; height: 13px;"></i> 1:1 대화 코칭에 반영하기
+              </button>
+              <button class="apple-pill-btn" onclick="openConsultantMatchModal()" style="padding: 7px 14px; font-size: 0.8rem; background: rgba(52, 199, 89, 0.12); color: #059669; border: 1.5px solid rgba(52, 199, 89, 0.35); font-weight: 700;">
+                <i data-lucide="stethoscope" style="width: 13px; height: 13px;"></i> 전문가 상담 연계
               </button>
             </div>
           `;
@@ -4824,6 +5062,337 @@
       closeModal('consultantMatchModal');
       document.getElementById('consultantSuccessModal').classList.add('active');
       lucide.createIcons();
+    }
+
+    // =========================================================================
+    // DELIGHT & SATISFACTION ENGINE: AUDIO, BREATH, TIMELINE, CHECKIN, SHARE
+    // =========================================================================
+
+    // 1. APPLE WEB AUDIO API ENGINE
+    let soundEnabled = true;
+    let audioCtx = null;
+
+    function initAudioContext() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) audioCtx = new AudioContext();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function playAppleSound(type) {
+      if (!soundEnabled) return;
+      try {
+        initAudioContext();
+        if (!audioCtx) return;
+        const now = audioCtx.currentTime;
+
+        if (type === 'tap') {
+          // Subtle soft wooden/haptic tick
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(800, now);
+          osc.frequency.exponentialRampToValueAtTime(300, now + 0.04);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + 0.04);
+        } else if (type === 'chime') {
+          // Dual crystal bell chime
+          [523.25, 659.25, 783.99].forEach((freq, idx) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+            gain.gain.setValueAtTime(0.15, now + idx * 0.06);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.35);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now + idx * 0.06);
+            osc.stop(now + idx * 0.06 + 0.35);
+          });
+        } else if (type === 'whoosh') {
+          // Gentle airy whoosh
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(260, now);
+          osc.frequency.exponentialRampToValueAtTime(140, now + 0.12);
+          gain.gain.setValueAtTime(0.08, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + 0.12);
+        } else if (type === 'success') {
+          // Harmonious victory chord (C - E - G - C)
+          [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, now + idx * 0.05);
+            gain.gain.setValueAtTime(0.18, now + idx * 0.05);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.05 + 0.5);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now + idx * 0.05);
+            osc.stop(now + idx * 0.05 + 0.5);
+          });
+        }
+      } catch (e) {
+        console.warn('Audio play error:', e);
+      }
+    }
+
+    function toggleAppleSound() {
+      soundEnabled = !soundEnabled;
+      const textEl = document.getElementById('soundToggleText');
+      const iconEl = document.getElementById('soundIcon');
+      if (soundEnabled) {
+        if (textEl) textEl.innerText = '효과음 ON';
+        if (iconEl) iconEl.style.color = 'var(--apple-blue)';
+        playAppleSound('tap');
+        showAppleToast('🔊 효과음이 켜졌습니다.');
+      } else {
+        if (textEl) textEl.innerText = '효과음 OFF';
+        if (iconEl) iconEl.style.color = 'var(--apple-text-tertiary)';
+        showAppleToast('🔇 효과음이 꺼졌습니다.');
+      }
+      lucide.createIcons();
+    }
+
+    // 2. ZEN 4-7-8 MINDFUL BREATHING ENGINE
+    let zenBreathingInterval = null;
+    let zenBreathingActive = false;
+
+    function toggleZenBreathing() {
+      initAudioContext();
+      if (zenBreathingActive) {
+        stopZenBreathing();
+      } else {
+        startZenBreathing();
+      }
+    }
+
+    function startZenBreathing() {
+      zenBreathingActive = true;
+      document.getElementById('breathBtnText').innerText = '호흡 중단';
+      document.getElementById('breathIcon').setAttribute('data-lucide', 'square');
+      lucide.createIcons();
+      playAppleSound('chime');
+
+      runBreathLoop();
+    }
+
+    function stopZenBreathing() {
+      zenBreathingActive = false;
+      clearTimeout(zenBreathingInterval);
+      const circle = document.getElementById('breathCircle');
+      if (circle) {
+        circle.className = 'breath-main-circle';
+        document.getElementById('breathPhaseText').innerText = '준비';
+        document.getElementById('breathSecTimer').innerText = '터치하여 시작';
+      }
+      document.getElementById('breathBtnText').innerText = '호흡 시작';
+      document.getElementById('breathIcon').setAttribute('data-lucide', 'play');
+      lucide.createIcons();
+    }
+
+    function runBreathLoop() {
+      if (!zenBreathingActive) return;
+      const circle = document.getElementById('breathCircle');
+      const phaseText = document.getElementById('breathPhaseText');
+      const secTimer = document.getElementById('breathSecTimer');
+
+      // Phase 1: Inhale (4s)
+      circle.className = 'breath-main-circle inhale';
+      phaseText.innerText = '숨 들이쉬기';
+      let sec = 4;
+      secTimer.innerText = `${sec}초`;
+      playAppleSound('whoosh');
+
+      const inhaleCountdown = setInterval(() => {
+        if (!zenBreathingActive) { clearInterval(inhaleCountdown); return; }
+        sec--;
+        if (sec > 0) secTimer.innerText = `${sec}초`;
+        else clearInterval(inhaleCountdown);
+      }, 1000);
+
+      zenBreathingInterval = setTimeout(() => {
+        if (!zenBreathingActive) return;
+        // Phase 2: Hold (7s)
+        circle.className = 'breath-main-circle hold';
+        phaseText.innerText = '숨 멈추기';
+        let holdSec = 7;
+        secTimer.innerText = `${holdSec}초`;
+
+        const holdCountdown = setInterval(() => {
+          if (!zenBreathingActive) { clearInterval(holdCountdown); return; }
+          holdSec--;
+          if (holdSec > 0) secTimer.innerText = `${holdSec}초`;
+          else clearInterval(holdCountdown);
+        }, 1000);
+
+        zenBreathingInterval = setTimeout(() => {
+          if (!zenBreathingActive) return;
+          // Phase 3: Exhale (8s)
+          circle.className = 'breath-main-circle exhale';
+          phaseText.innerText = '천천히 내쉬기';
+          let exhaleSec = 8;
+          secTimer.innerText = `${exhaleSec}초`;
+          playAppleSound('whoosh');
+
+          const exhaleCountdown = setInterval(() => {
+            if (!zenBreathingActive) { clearInterval(exhaleCountdown); return; }
+            exhaleSec--;
+            if (exhaleSec > 0) secTimer.innerText = `${exhaleSec}초`;
+            else clearInterval(exhaleCountdown);
+          }, 1000);
+
+          zenBreathingInterval = setTimeout(() => {
+            if (!zenBreathingActive) return;
+            playAppleSound('tap');
+            runBreathLoop();
+          }, 8000);
+        }, 7000);
+      }, 4000);
+    }
+
+    // 3. PARALLEL TIMELINE YEAR SELECTOR
+    const TIMELINE_DATA = {
+      1: {
+        titleA: '🌑 시나리오 A: 남들의 기준에 맞추어 살아온 1년 뒤',
+        textA: '<strong>1년 뒤 나의 일상:</strong> 남들의 기대에 맞춰 선택한 길에서 매일 버티는 삶을 이어갑니다. "이게 정말 내가 원했던 일인가?"라는 질문이 문득문득 떠오르지만, 주변 시선이 두려워 애써 억누르고 있습니다. 겉은 무난하지만 마음의 에너지는 서서히 고갈되고 있습니다.',
+        metricsA: '• 심리적 피로도: 65점 | 후회도: 45% | 삶의 주도권: 35%',
+        titleB: '☀️ 시나리오 B: 나만의 방향성을 갖고 주도적으로 살아온 1년 뒤',
+        textB: '<strong>1년 뒤 나의 일상:</strong> 질문을 통해 정립한 제2축(나만의 몰입 환경)을 바탕으로, 작은 사이드 프로젝트나 자율적 루틴을 1년째 꾸준히 유지하고 있습니다. 아직 거대한 부나 명예는 아닐지라도, 내 삶의 운전대를 내가 잡고 있다는 명확한 효능감이 샘솟습니다.',
+        metricsB: '• 심리적 안정감: 78점 | 성취 만족도: 80% | 삶의 주도권: 82%'
+      },
+      3: {
+        titleA: '🌑 시나리오 A: 남들의 기준에 맞추어 살아온 3년 뒤',
+        textA: '<strong>3년 뒤 나의 일상:</strong> 남들이 말하는 무난한 트랙을 유지했으나, 동기들과의 맹목적인 승진·연봉 비교에 갇혀 만성 번아웃을 겪습니다. 주말마다 술과 충동 소비로 스트레스를 달래며, "그때 다른 도전을 해봤더라면" 하는 미련이 커져갑니다.',
+        metricsA: '• 심리적 스트레스: 76점 | 후회도: 68% | 삶의 주도권: 28%',
+        titleB: '☀️ 시나리오 B: 나만의 방향성을 갖고 주도적으로 살아온 3년 뒤',
+        textB: '<strong>3년 뒤 나의 일상:</strong> 90일 단위로 실행해온 나만의 프로젝트가 가시적인 성과와 신뢰를 만들어내기 시작했습니다. 나를 필요로 하는 고객과 멘티들이 생겨났고, 타인의 평가에 휘둘리지 않는 단단한 내면의 독립을 달성했습니다.',
+        metricsB: '• 심리적 안정감: 85점 | 성취 만족도: 88% | 삶의 주도권: 90%'
+      },
+      5: {
+        titleA: '🌑 시나리오 A: 남들의 기준에 맞추어 살아온 5년 뒤',
+        textA: '<strong>5년 뒤 나의 일상:</strong> 타협한 선택의 관성이 너무 굳어져 이제는 다른 길을 상상하기조차 두려워집니다. 책임져야 할 것들은 늘어났는데, 일에서 느껴지는 보람은 바닥을 치고 있으며 깊은 공허함과 회의감 속에서 출퇴근을 반복합니다.',
+        metricsA: '• 심리적 스트레스: 82점 | 후회도: 82% | 삶의 주도권: 22%',
+        titleB: '☀️ 시나리오 B: 나만의 방향성을 갖고 주도적으로 살아온 5년 뒤',
+        textB: '<strong>5년 뒤 나의 일상:</strong> 내 고유한 3대 축에 따라 형성된 독보적인 전문성과 영향력을 구축했습니다. 일과 시간의 완전한 자율성을 확보하여, 내가 원하는 사람들과 함께 세상의 구체적인 문제를 해결하며 행복한 성장을 만끽합니다.',
+        metricsB: '• 심리적 안정감: 90점 | 성취 만족도: 92% | 삶의 주도권: 94%'
+      },
+      10: {
+        titleA: '🌑 시나리오 A: 남들의 기준에 맞추어 살아온 10년 뒤',
+        textA: '<strong>10년 뒤 나의 일상:</strong> 남들의 시선과 안전한 정답만 좇아 살아온 결과, 겉으로는 무난해 보이지만 매일 아침 출근길마다 마음 깊은 곳에서 허전함이 밀려옵니다. "그때 왜 내가 진짜 원하던 일에 용기 내보지 않았을까? 내 삶은 온통 남의 기대에 맞추느라 흘러가버렸다."',
+        metricsA: '• 심리적 스트레스: 88점 (고위험) | 후회도: 92% | 삶의 주도권: 18%',
+        titleB: '☀️ 시나리오 B: 나만의 방향성을 갖고 주도적으로 살아온 10년 뒤',
+        textB: '<strong>10년 뒤 나의 일상:</strong> 질문을 통해 나만의 기준을 세우고 작은 실천부터 차근차근 시작한 결과, 시간과 삶의 완전한 주도권을 확보했습니다. 타인의 눈치를 보지 않고, 내가 진정으로 잘하고 좋아하는 일로 세상에 당당하게 가치를 전하며 살아갑니다.',
+        metricsB: '• 심리적 안정감: 94점 (극상) | 성취 만족도: 96% | 삶의 주도권: 95%'
+      }
+    };
+
+    function switchTimelineYear(year) {
+      playAppleSound('tap');
+      [1, 3, 5, 10].forEach(y => {
+        const btn = document.getElementById(`timeChip${y}`);
+        if (btn) {
+          if (y === year) btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+      });
+
+      const data = TIMELINE_DATA[year] || TIMELINE_DATA[10];
+      const tA = document.getElementById('parallelTitleA');
+      const pA = document.getElementById('parallelTextA');
+      const mA = document.getElementById('parallelMetricsA');
+
+      const tB = document.getElementById('parallelTitleB');
+      const pB = document.getElementById('parallelTextB');
+      const mB = document.getElementById('parallelMetricsB');
+
+      if (tA) tA.innerText = data.titleA;
+      if (pA) pA.innerHTML = data.textA;
+      if (mA) mA.innerText = data.metricsA;
+
+      if (tB) tB.innerText = data.titleB;
+      if (pB) pB.innerHTML = data.textB;
+      if (mB) mB.innerText = data.metricsB;
+    }
+
+    // 4. DAILY CHECK-IN & STREAK LOGIC
+    function submitDailyCheckin() {
+      const autonomy = document.getElementById('checkinAutonomy').value;
+      const energy = document.getElementById('checkinEnergy').value;
+      const note = document.getElementById('checkinNote').value.trim();
+
+      const existingStreak = parseInt(localStorage.getItem('gnothi_streak_count') || '5', 10);
+      const newStreak = existingStreak + 1;
+      localStorage.setItem('gnothi_streak_count', newStreak);
+      localStorage.setItem('gnothi_last_checkin', new Date().toISOString());
+
+      const streakEl = document.getElementById('dailyStreakDisplay');
+      if (streakEl) streakEl.innerText = `🔥 ${newStreak}일 연속 달성 중!`;
+
+      playAppleSound('success');
+      showAppleToast(`오늘의 주권 체크인 완료! (🔥 ${newStreak}일 연속 기록)`);
+      if (note) {
+        document.getElementById('checkinNote').value = '';
+      }
+    }
+
+    function downloadWeeklyReportPdf() {
+      playAppleSound('tap');
+      window.print();
+    }
+
+    // 5. REPORT SHARING & TOAST ALERT SYSTEM
+    function copyReportShareLink() {
+      playAppleSound('tap');
+      const url = window.location.href;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(() => {
+          showAppleToast('📋 진단 리포트 링크가 클립보드에 복사되었습니다!');
+        }).catch(() => {
+          showAppleToast('📋 링크 복사 완료: ' + url);
+        });
+      } else {
+        showAppleToast('📋 링크 복사 완료!');
+      }
+    }
+
+    function shareViaKakao() {
+      playAppleSound('chime');
+      const manifesto = userDirectionSession.manifesto || '나는 타인의 기대를 버리고, 오직 나의 3대 축에 따라 내 삶의 온전한 주권자로 전진한다.';
+      const shareText = `[GNŌTHI 인생 방향성 선언문]\n\n"${manifesto}"\n\n나만의 3대 인생 축 진단받기: ${window.location.href}`;
+      
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(shareText);
+      }
+      showAppleToast('💬 카카오톡 공유 텍스트가 복사되었습니다! 채팅방에 붙여넣어 보세요.');
+    }
+
+    function showAppleToast(msg) {
+      let toast = document.getElementById('appleToast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'appleToast';
+        toast.className = 'apple-toast';
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = `<i data-lucide="check-circle" style="width: 16px; height: 16px; color: #34C759;"></i> <span>${msg}</span>`;
+      lucide.createIcons();
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3200);
     }
   </script>
 </body>
