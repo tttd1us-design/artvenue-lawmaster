@@ -194,13 +194,16 @@
       background-color: var(--apple-bg);
       color: var(--apple-text-primary);
       font-family: var(--font-sans);
-      line-height: 1.62;
+      font-size: 16px;
+      line-height: 1.72;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      font-feature-settings: "cv05", "cv02", "ss01";
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      letter-spacing: -0.015em;
+      letter-spacing: -0.012em;
       word-break: keep-all;
       overflow-wrap: break-word;
     }
@@ -208,13 +211,22 @@
     /* GLOBAL HEADINGS & PARAGRAPHS TYPOGRAPHIC ARRANGEMENT */
     h1, h2, h3, h4, h5, h6 {
       font-family: var(--font-display);
-      letter-spacing: -0.03em;
+      letter-spacing: -0.024em;
+      line-height: 1.36;
+      font-weight: 750;
       word-break: keep-all;
       overflow-wrap: break-word;
       text-wrap: balance;
     }
 
-    p, li, span, label {
+    p {
+      line-height: 1.74;
+      color: #334155;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    li, span, label {
       word-break: keep-all;
       overflow-wrap: break-word;
     }
@@ -842,50 +854,55 @@
     }
 
     .msg-bubble {
-      padding: 16px 20px;
+      padding: 18px 24px;
       border-radius: var(--apple-radius-lg);
       word-break: keep-all;
       overflow-wrap: break-word;
+      font-size: 1.02rem;
+      letter-spacing: -0.012em;
     }
 
     .message-row.socrates .msg-bubble {
-      background: #F5F5F7;
-      color: #1D1D1F;
+      background: #FFFFFF;
+      color: #1E293B;
       border-top-left-radius: 4px;
       font-family: var(--font-serif);
-      font-size: 1.01rem;
-      line-height: 1.76;
-      letter-spacing: -0.015em;
-      border: 1px solid rgba(0, 0, 0, 0.04);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      font-size: 1.06rem;
+      line-height: 1.84;
+      letter-spacing: -0.01em;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
     }
 
     .message-row.socrates .msg-bubble strong {
       font-family: var(--font-serif);
       font-weight: 700;
       color: #0F172A;
+      background: linear-gradient(180deg, transparent 65%, rgba(0, 113, 227, 0.12) 65%);
+      padding: 0 2px;
     }
 
     .message-row.socrates .msg-bubble em {
       font-style: normal;
       color: var(--apple-blue);
-      background: rgba(0, 113, 227, 0.06);
-      padding: 2px 7px;
-      border-radius: 4px;
+      background: rgba(0, 113, 227, 0.08);
+      padding: 2px 8px;
+      border-radius: 6px;
       font-family: var(--font-sans);
       font-size: 0.94rem;
+      font-weight: 600;
     }
 
     .message-row.user .msg-bubble {
       background: var(--apple-blue);
       color: #FFFFFF;
       border-top-right-radius: 4px;
-      box-shadow: 0 3px 12px rgba(0, 113, 227, 0.22);
+      box-shadow: 0 4px 16px rgba(0, 113, 227, 0.28);
       font-family: var(--font-sans);
-      font-size: 0.93rem;
+      font-size: 0.98rem;
       font-weight: 500;
-      line-height: 1.62;
-      letter-spacing: -0.015em;
+      line-height: 1.68;
+      letter-spacing: -0.012em;
     }
 
     .quick-chips-bar {
@@ -1353,10 +1370,10 @@
 
     .bento-card p {
       font-family: var(--font-sans);
-      font-size: 0.88rem;
-      color: var(--apple-text-secondary);
-      line-height: 1.68;
-      letter-spacing: -0.012em;
+      font-size: 0.92rem;
+      color: #475569;
+      line-height: 1.74;
+      letter-spacing: -0.01em;
       margin-bottom: 22px;
       word-break: keep-all;
       text-wrap: pretty;
@@ -2585,6 +2602,529 @@
       transform: translateY(-2px);
       box-shadow: 0 14px 30px -4px rgba(245, 158, 11, 0.55);
     }
+
+    /* =========================================================================
+       NEW: REBALANCED HEADER NAVIGATION & TOOLS DROPDOWN
+       ========================================================================= */
+    .header-left-zone {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .header-right-zone {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-dropdown-wrap {
+      position: relative;
+      display: inline-block;
+    }
+    .nav-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: var(--apple-radius-lg);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+      padding: 8px;
+      min-width: 220px;
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 200;
+      animation: fadeInDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-dropdown-wrap:hover .nav-dropdown-menu,
+    .nav-dropdown-wrap.open .nav-dropdown-menu {
+      display: flex;
+    }
+    .dropdown-item-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: var(--apple-radius-md);
+      font-size: 0.82rem;
+      font-weight: 550;
+      color: #334155;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.18s ease;
+      width: 100%;
+    }
+    .dropdown-item-btn:hover {
+      background: #F1F5F9;
+      color: var(--apple-blue);
+      transform: translateX(3px);
+    }
+    .dropdown-item-btn i {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =========================================================================
+       NEW: SOCRATES MASTER DIALECTIC BANNER & LIVE THOUGHT FLOW TREE
+       ========================================================================= */
+    .socrates-master-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
+      border: 1px solid rgba(0, 113, 227, 0.14);
+      border-radius: var(--apple-radius-lg);
+      padding: 14px 20px;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+    .socrates-profile-area {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .socrates-avatar-ring {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+      border: 2px solid #E2E8F0;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .socrates-avatar-ring .wisdom-aura {
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 1.5px dashed rgba(0, 113, 227, 0.4);
+      animation: rotateAura 18s linear infinite;
+    }
+    @keyframes rotateAura {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .socrates-name-badge {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0F172A;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .socrates-motto-text {
+      font-size: 0.78rem;
+      color: #64748B;
+      line-height: 1.4;
+      margin-top: 2px;
+    }
+    .dialectic-status-tag {
+      background: rgba(0, 113, 227, 0.08);
+      color: var(--apple-blue);
+      border: 1px solid rgba(0, 113, 227, 0.2);
+      border-radius: var(--apple-radius-pill);
+      padding: 4px 12px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+    .dialectic-pulse {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--apple-blue);
+      animation: pulseDot 1.4s infinite;
+    }
+
+    /* ELENCTIC DIALECTIC FLOW TREE CARD */
+    .elenctic-tree-card {
+      background: #FFFFFF;
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      border-radius: var(--apple-radius-lg);
+      padding: 14px 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+    }
+    .tree-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .tree-title {
+      font-size: 0.78rem;
+      font-weight: 750;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .tree-steps-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      position: relative;
+    }
+    .tree-step-node {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--apple-radius-md);
+      padding: 10px 12px;
+      text-align: left;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .tree-step-node.active {
+      background: #F0F9FF;
+      border-color: #0284C7;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.15);
+      transform: translateY(-2px);
+    }
+    .tree-step-node.completed {
+      background: #F0FDF4;
+      border-color: #22C55E;
+    }
+    .tree-node-idx {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #94A3B8;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tree-step-node.active .tree-node-idx { color: #0284C7; }
+    .tree-step-node.completed .tree-node-idx { color: #16A34A; }
+    .tree-node-name {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #1E293B;
+      line-height: 1.3;
+    }
+    .tree-node-badge {
+      font-size: 0.7rem;
+      color: #64748B;
+      margin-top: 4px;
+      font-family: var(--font-sans);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* CHAT MESSAGES SCROLL VIEW */
+    .chat-messages-container {
+      height: 420px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 12px 6px;
+      margin-bottom: 12px;
+      scroll-behavior: smooth;
+    }
+    .chat-messages-container::-webkit-scrollbar {
+      width: 5px;
+    }
+    .chat-messages-container::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: var(--apple-radius-pill);
+    }
+
+    /* =========================================================================
+       NEW: 10-LEVEL CUTE ANIMAL AVATAR EVOLUTION SYSTEM
+       ========================================================================= */
+    .animal-selector-bar {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .animal-choice-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: var(--apple-radius-pill);
+      background: #FFFFFF;
+      border: 1.5px solid #E2E8F0;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .animal-choice-btn:hover {
+      border-color: #94A3B8;
+      transform: translateY(-1px);
+    }
+    .animal-choice-btn.selected {
+      background: #F0F6FF;
+      border-color: var(--apple-blue);
+      color: var(--apple-blue);
+      box-shadow: 0 2px 8px rgba(0, 113, 227, 0.18);
+    }
+    .animal-avatar-showcase {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      padding: 16px 0 10px;
+    }
+    .animal-svg-stage {
+      width: 170px;
+      height: 170px;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .animal-svg-stage:hover {
+      transform: scale(1.06);
+    }
+    .animal-level-aura {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.22) 0%, transparent 70%);
+      animation: auraBreathe 3.5s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    @keyframes auraBreathe {
+      from { transform: scale(0.92); opacity: 0.6; }
+      to { transform: scale(1.15); opacity: 1; }
+    }
+    .level-evolution-timeline {
+      width: 100%;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--apple-radius-md);
+      padding: 12px 16px;
+      margin: 14px 0;
+      text-align: left;
+    }
+    .evolution-stage-desc {
+      font-size: 0.8rem;
+      color: #334155;
+      line-height: 1.5;
+      font-weight: 550;
+      margin-top: 4px;
+    }
+
+    /* =========================================================================
+       NEW: MIND JOURNAL & LIFETIME MEMORY LAKE
+       ========================================================================= */
+    .mind-journal-card {
+      background: linear-gradient(135deg, #FFFFFF 0%, #FAFBFD 100%);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: var(--apple-radius-xl);
+      padding: 28px;
+      margin-top: 24px;
+      box-shadow: var(--apple-shadow-md);
+    }
+    .journal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .journal-mood-picker {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .mood-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #F1F5F9;
+      border: 1.5px solid transparent;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .mood-btn:hover { transform: scale(1.1); background: #E2E8F0; }
+    .mood-btn.selected {
+      background: #FFFFFF;
+      border-color: var(--apple-blue);
+      box-shadow: 0 3px 10px rgba(0, 113, 227, 0.25);
+      transform: scale(1.12);
+    }
+    .journal-textarea {
+      width: 100%;
+      min-height: 130px;
+      padding: 16px 20px;
+      border-radius: var(--apple-radius-lg);
+      border: 1px solid #CBD5E1;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      line-height: 1.74;
+      color: #1E293B;
+      background: #FFFFFF;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
+      resize: vertical;
+      transition: border-color 0.2s ease;
+    }
+    .journal-textarea:focus {
+      outline: none;
+      border-color: var(--apple-blue);
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
+    }
+    .memory-lake-box {
+      background: #F0F9FF;
+      border: 1px solid #BAE6FD;
+      border-radius: var(--apple-radius-md);
+      padding: 14px 18px;
+      margin-top: 16px;
+      font-size: 0.86rem;
+      color: #0369A1;
+      line-height: 1.6;
+    }
+
+    /* =========================================================================
+       NEW: CRUCIAL DECISION COMPASS (DECISION MATRIX)
+       ========================================================================= */
+    .decision-compass-card {
+      background: #FFFFFF;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: var(--apple-radius-xl);
+      padding: 28px;
+      margin-top: 24px;
+      box-shadow: var(--apple-shadow-md);
+    }
+    .decision-input-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 18px 0;
+    }
+    .decision-box {
+      background: #F8FAFC;
+      border: 1.5px solid #E2E8F0;
+      border-radius: var(--apple-radius-lg);
+      padding: 16px;
+    }
+    .decision-box.option-a { border-color: #93C5FD; background: #F0F7FF; }
+    .decision-box.option-b { border-color: #FDE68A; background: #FFFDF5; }
+    .decision-result-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .decision-metric-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--apple-radius-md);
+      padding: 12px;
+      text-align: center;
+    }
+
+    /* =========================================================================
+       NEW: HABIT REWIRING MATRIX & ATOMIC ACTION
+       ========================================================================= */
+    .habit-rewiring-card {
+      background: #FFFFFF;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: var(--apple-radius-xl);
+      padding: 28px;
+      margin-top: 24px;
+      box-shadow: var(--apple-shadow-md);
+    }
+    .habit-steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 18px 0;
+    }
+    .habit-step-box {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--apple-radius-md);
+      padding: 14px;
+      position: relative;
+    }
+    .habit-step-num {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #0071E3;
+      margin-bottom: 4px;
+    }
+
+    /* =========================================================================
+       NEW: GLOBAL ADVISORY BOARD PANEL (심리학자 & 미래학자 & 결정전문가)
+       ========================================================================= */
+    .advisory-board-banner {
+      background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+      color: #FFFFFF;
+      border-radius: var(--apple-radius-xl);
+      padding: 26px 32px;
+      margin-top: 28px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.16);
+    }
+    .advisory-scholars-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .scholar-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--apple-radius-md);
+      padding: 14px;
+      text-align: center;
+      transition: all 0.25s ease;
+    }
+    .scholar-card:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    .scholar-avatar {
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+    }
+    .scholar-name {
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: #FFFFFF;
+    }
+    .scholar-role {
+      font-size: 0.7rem;
+      color: #94A3B8;
+      margin-top: 2px;
+    }
+    .scholar-framework {
+      font-size: 0.72rem;
+      color: #38BDF8;
+      margin-top: 6px;
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
@@ -2597,81 +3137,100 @@
   </div>
 
   <!-- TOP HEADER (APPLE MINIMAL GLOBAL NAV) -->
+  <!-- TOP HEADER (BALANCED APPLE PRO GLOBAL NAV) -->
   <header class="top-header">
-    <div class="brand-area" onclick="switchTab('chamber')">
-      <div class="brand-icon-wrap">
-        <i data-lucide="compass" style="width: 18px; height: 18px;"></i>
+    <!-- LEFT NAVIGATION ZONE -->
+    <div class="header-left-zone">
+      <div class="brand-area" onclick="switchTab('chamber')">
+        <div class="brand-icon-wrap">
+          <i data-lucide="compass" style="width: 18px; height: 18px;"></i>
+        </div>
+        <div class="brand-text">
+          <h1>GNŌTHI</h1>
+          <div class="motto">LIFE COMPASS</div>
+        </div>
       </div>
-      <div class="brand-text">
-        <h1>GNŌTHI</h1>
-        <div class="motto">LIFE COMPASS</div>
-      </div>
+
+      <!-- CORE NAV TABS -->
+      <nav class="apple-nav-tabs">
+        <button class="nav-tab-btn active" id="tabBtn-chamber" onclick="switchTab('chamber')">
+          <i data-lucide="message-square" style="width: 13px; height: 13px;"></i>
+          1:1 대화 코칭
+        </button>
+        <button class="nav-tab-btn" id="tabBtn-sanctuary" onclick="switchTab('sanctuary')">
+          <i data-lucide="sparkles" style="width: 13px; height: 13px; color: #F59E0B;"></i>
+          시크릿 룸 & 캐릭터
+        </button>
+        <button class="nav-tab-btn" id="tabBtn-board" onclick="switchTab('board')">
+          <i data-lucide="users" style="width: 13px; height: 13px;"></i>
+          멘토단 & 결정 나침반
+        </button>
+
+        <!-- SPECIALIZED TOOLS DROPDOWN -->
+        <div class="nav-dropdown-wrap">
+          <button class="nav-tab-btn" id="toolsDropdownBtn" onclick="toggleToolsDropdown(event)">
+            <i data-lucide="layout-grid" style="width: 13px; height: 13px; color: var(--apple-blue);"></i>
+            특화 도구함 ▾
+          </button>
+          <div class="nav-dropdown-menu" id="toolsDropdownMenu">
+            <button class="dropdown-item-btn" onclick="switchTab('swipe'); closeToolsDropdown();">
+              <i data-lucide="zap" style="color: #F59E0B;"></i>
+              <span>3초 본능 스와이프</span>
+            </button>
+            <button class="dropdown-item-btn" onclick="switchTab('sos'); closeToolsDropdown();">
+              <i data-lucide="shield-alert" style="color: var(--apple-rose);"></i>
+              <span>3분 감정 쿨다운</span>
+            </button>
+            <button class="dropdown-item-btn" onclick="switchTab('parallel'); closeToolsDropdown();">
+              <i data-lucide="git-branch" style="color: #8B5CF6;"></i>
+              <span>10년 후 미래 시나리오</span>
+            </button>
+            <button class="dropdown-item-btn" onclick="switchTab('tracker'); closeToolsDropdown();">
+              <i data-lucide="trending-up" style="color: var(--apple-green);"></i>
+              <span>주간 성장 트래커 & 습관</span>
+            </button>
+            <button class="dropdown-item-btn" onclick="switchTab('reborn'); closeToolsDropdown();">
+              <i data-lucide="sunrise" style="color: var(--apple-orange);"></i>
+              <span>인생 2막 은퇴 나침반</span>
+            </button>
+          </div>
+        </div>
+      </nav>
     </div>
 
-    <!-- APPLE SEGMENTED NAV TABS -->
-    <nav class="apple-nav-tabs">
-      <button class="nav-tab-btn active" id="tabBtn-chamber" onclick="switchTab('chamber')">
-        <i data-lucide="message-square" style="width: 13px; height: 13px;"></i>
-        1:1 대화 코칭
+    <!-- RIGHT ACTION & PROFILE ZONE -->
+    <div class="header-right-zone">
+      <!-- CUTE ANIMAL AVATAR MINI PROFILE -->
+      <button class="apple-pill-btn subtle" onclick="switchTab('sanctuary')" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 700; background: rgba(245, 158, 11, 0.08); border: 1.5px solid rgba(245, 158, 11, 0.28); color: #B45309;" title="내 동물 캐릭터 및 시크릿 룸 바로가기">
+        <span id="headerAvatarEmoji" style="font-size: 1.1rem;">🦊</span>
+        <span id="headerAvatarLevel" style="font-size: 0.78rem;">Lv.3 지혜의 여우</span>
+        <span style="font-size: 0.7rem; color: #F59E0B; background: rgba(245, 158, 11, 0.15); padding: 1px 6px; border-radius: 10px;" id="headerAvatarExp">65%</span>
       </button>
-      <button class="nav-tab-btn" id="tabBtn-swipe" onclick="switchTab('swipe')">
-        <i data-lucide="zap" style="width: 13px; height: 13px;"></i>
-        3초 본능 스와이프
-      </button>
-      <button class="nav-tab-btn" id="tabBtn-board" onclick="switchTab('board')">
-        <i data-lucide="users" style="width: 13px; height: 13px;"></i>
-        멘토 4인의 조언
-      </button>
-      <button class="nav-tab-btn" id="tabBtn-sos" onclick="switchTab('sos')">
-        <i data-lucide="shield-alert" style="width: 13px; height: 13px; color: var(--apple-rose);"></i>
-        🚨 3분 감정 쿨다운
-      </button>
-      <button class="nav-tab-btn" id="tabBtn-parallel" onclick="switchTab('parallel')">
-        <i data-lucide="git-branch" style="width: 13px; height: 13px;"></i>
-        10년 후 미래 시나리오
-      </button>
-      <button class="nav-tab-btn" id="tabBtn-tracker" onclick="switchTab('tracker')">
-        <i data-lucide="trending-up" style="width: 13px; height: 13px; color: var(--apple-green);"></i>
-        주간 성장 트래커
-      </button>
-      <button class="nav-tab-btn" id="tabBtn-reborn" onclick="switchTab('reborn')">
-        <i data-lucide="sunrise" style="width: 13px; height: 13px; color: var(--apple-orange);"></i>
-        🌅 인생 2막 은퇴 나침반
-      </button>
-      <button class="nav-tab-btn" id="tabBtn-sanctuary" onclick="switchTab('sanctuary')">
-        <i data-lucide="sparkles" style="width: 13px; height: 13px; color: #F59E0B;"></i>
-        🏛️ 시크릿 룸 & 캐릭터
-      </button>
-    </nav>
 
-    <!-- HEADER ACTIONS -->
-    <div class="header-actions">
-      <!-- SOUL AVATAR LEVEL MINI BADGE -->
-      <button class="apple-pill-btn subtle" onclick="switchTab('sanctuary')" style="display: inline-flex; align-items: center; gap: 5px; font-weight: 700; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #B45309;" title="나의 캐릭터 & 시크릿 비전룸 바로가기">
-        <span id="headerAvatarEmoji">👑</span>
-        <span id="headerAvatarLevel">Lv.3 주권자</span>
-        <span style="font-size: 0.68rem; color: #F59E0B;" id="headerAvatarExp">65%</span>
+      <!-- QUICK SOUL DIARY BUTTON -->
+      <button class="apple-pill-btn subtle" onclick="openSoulDiaryQuick()" style="display: inline-flex; align-items: center; gap: 5px;" title="오늘의 소울 일기 쓰기">
+        <i data-lucide="book-open" style="width: 13px; height: 13px; color: #0284C7;"></i>
+        <span>소울 일기장</span>
       </button>
 
       <button class="apple-pill-btn subtle" id="soundToggleBtn" onclick="toggleAppleSound()" style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.78rem; padding: 6px 12px;" title="효과음 켜기/끄기">
         <i data-lucide="volume-2" id="soundIcon" style="width: 13px; height: 13px; color: var(--apple-blue);"></i>
         <span id="soundToggleText">효과음 ON</span>
       </button>
+
       <button class="apple-pill-btn subtle" id="membershipBadgeBtn" onclick="openSubscriptionModal()">
         <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--apple-blue); margin-right: 4px;"></span>
         <span id="membershipStatusText">월 9,900원 멤버십</span>
       </button>
+
       <button class="apple-pill-btn subtle" onclick="openConsultantMatchModal()" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(52, 199, 89, 0.1); color: #059669; border: 1px solid rgba(52, 199, 89, 0.25); font-weight: 700;">
         <i data-lucide="stethoscope" style="width: 13px; height: 13px;"></i>
-        <span>전문가 상담 연계</span>
+        <span>전문가 상담</span>
       </button>
-      <button class="apple-pill-btn subtle" id="userAuthBtn" onclick="handleUserAuthClick()" style="display: inline-flex; align-items: center; gap: 6px;">
-        <i data-lucide="user" style="width: 13px; height: 13px;"></i>
-        <span id="userAuthText">로그인</span>
-      </button>
+
       <button class="apple-pill-btn primary" onclick="openFullReportModal()">
         <i data-lucide="file-text" style="width: 13px; height: 13px;"></i>
-        결과 리포트 확인
+        결과 리포트
       </button>
     </div>
   </header>
@@ -2795,6 +3354,79 @@
 
           <!-- CENTER: CONVERSATION CHAMBER -->
           <section class="chat-chamber">
+            <!-- SOCRATES MASTER EMBLEM BANNER -->
+            <div class="socrates-master-banner">
+              <div class="socrates-profile-area">
+                <div class="socrates-avatar-ring">
+                  <div class="wisdom-aura"></div>
+                  <span>🏛️</span>
+                </div>
+                <div>
+                  <div class="socrates-name-badge">
+                    <span>소크라테스 산파술 코치</span>
+                    <span style="font-size: 0.68rem; font-family: var(--font-sans); background: #EEF2FF; color: #4338CA; padding: 2px 7px; border-radius: 4px; font-weight: 700;">ELENCHUS CORE</span>
+                  </div>
+                  <div class="socrates-motto-text">
+                    "답을 주지 않고, 스스로 모순을 깨달아 참된 영혼의 기준을 출산하도록 돕습니다."
+                  </div>
+                </div>
+              </div>
+              <div class="dialectic-status-tag">
+                <span class="dialectic-pulse"></span>
+                <span id="dialecticModeText">꼬리에 꼬리를 무는 산파술 가동</span>
+              </div>
+            </div>
+
+            <!-- LIVE ELENCTIC DIALECTIC FLOW TREE (실시간 생각 분해 다이어그램) -->
+            <div class="elenctic-tree-card">
+              <div class="tree-header">
+                <div class="tree-title">
+                  <i data-lucide="git-merge" style="width: 13px; height: 13px; color: var(--apple-blue);"></i>
+                  <span>실시간 산파술 사고 분해 다이어그램 (Elenctic Flow Tree)</span>
+                </div>
+                <span style="font-size: 0.72rem; color: #0284C7; font-weight: 600;" id="treeCurrentStepLabel">1단계: 표면 통념 분석 중</span>
+              </div>
+              <div class="tree-steps-container">
+                <div class="tree-step-node active" id="treeNode-1">
+                  <div class="tree-node-idx">
+                    <span>01</span>
+                    <i data-lucide="circle-dot" style="width: 10px; height: 10px;"></i>
+                  </div>
+                  <div class="tree-node-name">표면 통념·고민</div>
+                  <div class="tree-node-badge" id="treeBadge-1">주변 시선 & 기대</div>
+                </div>
+                <div class="tree-step-node" id="treeNode-2">
+                  <div class="tree-node-idx">
+                    <span>02</span>
+                    <i data-lucide="zap" style="width: 10px; height: 10px;"></i>
+                  </div>
+                  <div class="tree-node-name">산파술 모순 발견</div>
+                  <div class="tree-node-badge" id="treeBadge-2">아포리아(Aporia)</div>
+                </div>
+                <div class="tree-step-node" id="treeNode-3">
+                  <div class="tree-node-idx">
+                    <span>03</span>
+                    <i data-lucide="compass" style="width: 10px; height: 10px;"></i>
+                  </div>
+                  <div class="tree-node-name">본질 욕망 추출</div>
+                  <div class="tree-node-badge" id="treeBadge-3">순수 호불호 규명</div>
+                </div>
+                <div class="tree-step-node" id="treeNode-4">
+                  <div class="tree-node-idx">
+                    <span>04</span>
+                    <i data-lucide="shield-check" style="width: 10px; height: 10px;"></i>
+                  </div>
+                  <div class="tree-node-name">나만의 3대 축</div>
+                  <div class="tree-node-badge" id="treeBadge-4">흔들리지 않는 기준</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CHAT MESSAGES SCROLL CONTAINER -->
+            <div class="chat-messages-container" id="chatMessages">
+              <!-- MESSAGES WILL BE DYNAMICALLY INJECTED HERE -->
+            </div>
+
             <!-- COGNITIVE BURDEN RELIEF: EMOTION SCANNER BAR -->
             <div class="scanner-trigger-bar">
               <span>내 생각을 글로 쓰기 막막하신가요?</span>
@@ -3696,79 +4328,91 @@
 
         <!-- 2-COLUMN GRID (AVATAR STUDIO + VISION BOARD) -->
         <div class="sanctuary-grid">
-          <!-- LEFT: SOUL AVATAR GROWTH STUDIO -->
+          <!-- LEFT: 10-LEVEL CUTE ANIMAL AVATAR EVOLUTION STUDIO -->
           <div class="avatar-stage-card tilt-card" data-tilt="true">
-            <div style="font-size: 0.74rem; font-weight: 800; color: #0071E3; letter-spacing: 0.08em; text-transform: uppercase;">
-              SOUL AVATAR EVOLUTION
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-size: 0.74rem; font-weight: 800; color: #0071E3; letter-spacing: 0.08em; text-transform: uppercase;">
+                SOUL ANIMAL EVOLUTION
+              </span>
+              <span class="compass-sync-pill" style="font-size: 0.68rem; padding: 2px 8px;">
+                10단계 성장 시스템
+              </span>
             </div>
-            <h3 style="font-size: 1.25rem; font-weight: 800; color: #1D1D1F; margin: 4px 0 2px;" id="avatarRankTitle">
-              👑 Lv.3 주권의 조율자
-            </h3>
-            <p style="font-size: 0.78rem; color: #64748B;">질문에 답할 때마다 내면의 신성한 자아가 성장합니다</p>
 
-            <!-- AVATAR 3D PEDESTAL & VISUAL -->
+            <!-- 5 CUTE ANIMAL SELECTION PILLS -->
+            <div class="animal-selector-bar">
+              <button class="animal-choice-btn selected" id="animalBtn-fox" onclick="selectSoulAnimal('fox')">
+                <span>🦊</span><span>여우</span>
+              </button>
+              <button class="animal-choice-btn" id="animalBtn-owl" onclick="selectSoulAnimal('owl')">
+                <span>🦉</span><span>부엉이</span>
+              </button>
+              <button class="animal-choice-btn" id="animalBtn-lion" onclick="selectSoulAnimal('lion')">
+                <span>🦁</span><span>사자</span>
+              </button>
+              <button class="animal-choice-btn" id="animalBtn-dolphin" onclick="selectSoulAnimal('dolphin')">
+                <span>🐬</span><span>돌고래</span>
+              </button>
+              <button class="animal-choice-btn" id="animalBtn-panda" onclick="selectSoulAnimal('panda')">
+                <span>🐼</span><span>판다</span>
+              </button>
+            </div>
+
+            <h3 style="font-size: 1.28rem; font-weight: 800; color: #0F172A; margin: 4px 0 2px;" id="avatarRankTitle">
+              🦊 Lv.3 지혜를 찾는 꼬마 여우
+            </h3>
+            <p style="font-size: 0.78rem; color: #64748B;" id="avatarRankDesc">
+              질문에 답하고 내면을 탐색할 때마다 아기 동물에서 황금 주권의 영물로 진화합니다
+            </p>
+
+            <!-- ANIMAL 3D PEDESTAL & DYNAMIC SVG -->
             <div class="avatar-pedestal-wrap">
               <div class="avatar-halo-ring"></div>
-              <!-- DYNAMIC SOUL AVATAR SVG GRAPHIC -->
-              <svg class="soul-avatar-svg" id="soulAvatarSvg" viewBox="0 0 140 140" onclick="interactWithAvatar()">
-                <defs>
-                  <filter id="avatarGlow" x="-30%" y="-30%" width="160%" height="160%">
-                    <feGaussianBlur stdDeviation="8" result="blur"/>
-                    <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-                  </filter>
-                  <linearGradient id="avatarAuraGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#38BDF8" id="gradStop1"/>
-                    <stop offset="50%" stop-color="#818CF8" id="gradStop2"/>
-                    <stop offset="100%" stop-color="#F59E0B" id="gradStop3"/>
-                  </linearGradient>
-                </defs>
-
-                <!-- AURA SPHERE -->
-                <circle cx="70" cy="70" r="50" fill="url(#avatarAuraGrad)" opacity="0.85" filter="url(#avatarGlow)"/>
-                
-                <!-- INNER SACRED GEOMETRY -->
-                <polygon points="70,30 105,90 35,90" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity="0.6"/>
-                <polygon points="70,110 105,50 35,50" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity="0.6"/>
-
-                <!-- AVATAR CORE (EYES & STAR) -->
-                <circle cx="70" cy="70" r="16" fill="#1D1D1F" stroke="#F59E0B" stroke-width="2"/>
-                <circle cx="65" cy="68" r="2.5" fill="#38BDF8"/>
-                <circle cx="75" cy="68" r="2.5" fill="#38BDF8"/>
-                <path d="M 66 74 Q 70 77, 74 74" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
-
-                <!-- CROWN / TIARA (EVOLVES WITH LEVEL) -->
-                <path id="avatarCrownPath" d="M 58 45 L 64 36 L 70 42 L 76 36 L 82 45 Z" fill="#F59E0B" stroke="#FFFFFF" stroke-width="1"/>
-              </svg>
+              <div class="animal-level-aura" id="animalLevelAura"></div>
+              
+              <!-- DYNAMIC CUTE ANIMAL SVG STAGE -->
+              <div class="animal-svg-stage" id="animalSvgStage" onclick="interactWithSoulAnimal()" title="클릭해서 캐릭터와 교감해보세요!">
+                <!-- SVG WILL BE RENDERED BY renderAnimalSvg() -->
+                <svg id="soulAnimalDynamicSvg" viewBox="0 0 160 160" style="width: 100%; height: 100%; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.1));"></svg>
+              </div>
             </div>
 
-            <!-- EXP BAR -->
-            <div style="width: 100%; margin-bottom: 16px;">
+            <!-- LEVEL EVOLUTION MILESTONE TIMELINE -->
+            <div class="level-evolution-timeline">
+              <div style="display: flex; justify-content: space-between; font-size: 0.72rem; font-weight: 800; color: #475569;">
+                <span id="currentLevelLabel">현재 레벨: Lv.3 / 10</span>
+                <span id="nextEvolutionLabel" style="color: var(--apple-blue);">다음 진화: Lv.5 용기의 탐험가</span>
+              </div>
+              <div class="evolution-stage-desc" id="evolutionStageDesc">
+                "어린 시절의 호기심을 되찾고, 세상의 고정관념에 물음표를 던지기 시작한 상태입니다."
+              </div>
+            </div>
+
+            <!-- EXP PROGRESS BAR -->
+            <div style="width: 100%; margin-bottom: 14px;">
               <div style="display: flex; justify-content: space-between; font-size: 0.74rem; font-weight: 700; color: #475569; margin-bottom: 4px;">
-                <span>영혼 성장도 (EXP)</span>
+                <span>영혼 성장도 (Soul EXP)</span>
                 <span id="avatarExpText">350 / 500 (70%)</span>
               </div>
-              <div style="width: 100%; height: 7px; background: #E2E8F0; border-radius: var(--apple-radius-pill); overflow: hidden;">
-                <div id="avatarExpBarFill" style="width: 70%; height: 100%; background: linear-gradient(90deg, #0071E3, #34C759); border-radius: var(--apple-radius-pill);"></div>
+              <div style="width: 100%; height: 8px; background: #E2E8F0; border-radius: var(--apple-radius-pill); overflow: hidden;">
+                <div id="avatarExpBarFill" style="width: 70%; height: 100%; background: linear-gradient(90deg, #0071E3, #34C759, #F59E0B); border-radius: var(--apple-radius-pill); transition: width 0.4s ease;"></div>
               </div>
             </div>
 
-            <!-- CUSTOMIZATION TOOLKIT -->
-            <div style="width: 100%; background: #F8FAFC; border: 1px solid rgba(0,0,0,0.05); border-radius: var(--apple-radius-md); padding: 12px; margin-bottom: 16px; text-align: left;">
-              <div style="font-size: 0.72rem; font-weight: 800; color: #64748B; text-transform: uppercase; margin-bottom: 8px;">
-                🎨 아우라 에너지 색상 커스텀
-              </div>
-              <div style="display: flex; gap: 8px; justify-content: center;">
-                <button onclick="setAvatarAura('blue')" style="width: 24px; height: 24px; border-radius: 50%; background: #0071E3; border: 2px solid white; box-shadow: 0 2px 6px rgba(0,113,227,0.4); cursor: pointer;" title="사파이어 블루"></button>
-                <button onclick="setAvatarAura('emerald')" style="width: 24px; height: 24px; border-radius: 50%; background: #10B981; border: 2px solid white; box-shadow: 0 2px 6px rgba(16,185,129,0.4); cursor: pointer;" title="에메랄드"></button>
-                <button onclick="setAvatarAura('amber')" style="width: 24px; height: 24px; border-radius: 50%; background: #F59E0B; border: 2px solid white; box-shadow: 0 2px 6px rgba(245,158,11,0.4); cursor: pointer;" title="앰버 골드"></button>
-                <button onclick="setAvatarAura('purple')" style="width: 24px; height: 24px; border-radius: 50%; background: #8B5CF6; border: 2px solid white; box-shadow: 0 2px 6px rgba(139,92,246,0.4); cursor: pointer;" title="코스믹 퍼플"></button>
-              </div>
+            <!-- LEVEL UP & GROWTH ACTIONS -->
+            <div style="display: flex; gap: 8px; width: 100%; margin-bottom: 12px;">
+              <button class="apple-pill-btn subtle" onclick="simulateAnimalLevelUp()" style="flex: 1; justify-content: center; font-size: 0.78rem; font-weight: 700; border-color: #F59E0B; color: #B45309; background: #FFFBEB;">
+                ⭐ 레벨업 진화 체험 (+1 Lv)
+              </button>
+              <button class="apple-pill-btn subtle" onclick="setAvatarAuraRandom()" style="font-size: 0.78rem; padding: 0 12px;" title="오라 색상 변경">
+                ✨ 오라
+              </button>
             </div>
 
             <!-- ACTION: GROW AVATAR VIA INQUIRY -->
-            <button class="apple-pill-btn primary" onclick="switchTab('chamber')" style="width: 100%; height: 42px; justify-content: center; font-size: 0.86rem; font-weight: 700;">
+            <button class="apple-pill-btn primary" onclick="switchTab('chamber')" style="width: 100%; height: 44px; justify-content: center; font-size: 0.88rem; font-weight: 750;">
               <i data-lucide="message-square-plus" style="width: 15px; height: 15px;"></i>
-              질문 세션으로 캐릭터 성장 (+50 EXP)
+              산파술 질문에 답하고 성장하기 (+50 EXP)
             </button>
           </div>
 
@@ -3869,8 +4513,305 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+
+        <!-- =========================================================================
+             1. THE SECRET MANIFESTATION ENGINE (시크릿 성공법칙 3단계 터미널)
+             ========================================================================= -->
+        <div class="mind-journal-card" style="margin-top: 28px; background: linear-gradient(135deg, #FFFDF7 0%, #FFFFFF 100%); border-color: rgba(245, 158, 11, 0.2);">
+          <div class="journal-header">
+            <div>
+              <div style="font-size: 0.76rem; font-weight: 800; color: #D97706; text-transform: uppercase; letter-spacing: 0.08em; display: flex; align-items: center; gap: 6px;">
+                <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
+                THE SECRET REALIZATION TERMINAL
+              </div>
+              <h3 style="font-size: 1.35rem; font-weight: 800; color: #1E293B; margin: 4px 0 2px;">
+                『시크릿』 성공법칙 3단계 현실화 엔진 (Ask - Believe - Receive)
+              </h3>
+              <p style="font-size: 0.82rem; color: #64748B;">
+                "원하는 것을 구하고(Ask), 이미 이루어졌음을 믿고(Believe), 기쁘게 받아들이라(Receive)."
+              </p>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <button class="apple-pill-subtle" onclick="toggleSecretFrequencySound()" id="freqSoundBtn" style="color: #0284C7; font-size: 0.78rem; font-weight: 700; border-color: #BAE6FD;">
+                <i data-lucide="headphones" style="width: 13px; height: 13px;"></i>
+                <span>528Hz 풍요 솔페지오 주파수 재생</span>
+              </button>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 14px;">
+            <!-- STEP 1: ASK -->
+            <div style="background: #FFFFFF; border: 1.5px solid #FEF3C7; border-radius: var(--apple-radius-lg); padding: 18px; position: relative;">
+              <div style="font-size: 0.7rem; font-weight: 800; color: #D97706; margin-bottom: 6px; display: flex; align-items: center; gap: 4px;">
+                <span>01. ASK (명확한 우주 주문)</span>
+              </div>
+              <div style="font-weight: 750; font-size: 0.96rem; color: #1E293B; margin-bottom: 6px;">
+                "내가 진정으로 갈망하는 1년 후 상태"
+              </div>
+              <textarea id="secretAskInput" placeholder="예: '나는 타인의 눈치 보지 않고, 매일 아침 설레는 나만의 사업체에서 월 2,000만 원의 가치를 창출하며 온전한 시간의 주권을 누린다.'" style="width: 100%; min-height: 80px; padding: 10px; border-radius: 8px; border: 1px solid #E2E8F0; font-size: 0.82rem; line-height: 1.6; resize: none;"></textarea>
+              <button class="apple-pill-btn subtle" onclick="saveSecretAsk()" style="width: 100%; justify-content: center; margin-top: 8px; font-size: 0.78rem; font-weight: 700;">
+                🌌 우주 주파수에 명확히 주문하기
+              </button>
+            </div>
+
+            <!-- STEP 2: BELIEVE -->
+            <div style="background: #FFFFFF; border: 1.5px solid #E0E7FF; border-radius: var(--apple-radius-lg); padding: 18px; position: relative;">
+              <div style="font-size: 0.7rem; font-weight: 800; color: #4F46E5; margin-bottom: 6px; display: flex; align-items: center; gap: 4px;">
+                <span>02. BELIEVE (이미 이루어진 믿음)</span>
+              </div>
+              <div style="font-weight: 750; font-size: 0.96rem; color: #1E293B; margin-bottom: 6px;">
+                "이미 그것을 이룬 자의 감각과 감정 동조"
+              </div>
+              <div style="font-size: 0.82rem; color: #475569; line-height: 1.6; background: #F8FAFC; padding: 10px; border-radius: 8px; min-height: 80px;" id="secretBelieveDisplay">
+                "나는 이미 그 삶을 살고 있음에 벅찬 감사를 느낍니다. 매일 아침 창밖을 볼 때 가슴 벅찬 자유가 파도처럼 밀려옵니다."
+              </div>
+              <button class="apple-pill-btn subtle" onclick="triggerSecretBelieveVibration()" style="width: 100%; justify-content: center; margin-top: 8px; font-size: 0.78rem; font-weight: 700; color: #4338CA;">
+                💖 감사 파동으로 감정 주파수 맞추기
+              </button>
+            </div>
+
+            <!-- STEP 3: RECEIVE -->
+            <div style="background: #FFFFFF; border: 1.5px solid #DCFCE7; border-radius: var(--apple-radius-lg); padding: 18px; position: relative;">
+              <div style="font-size: 0.7rem; font-weight: 800; color: #16A34A; margin-bottom: 6px; display: flex; align-items: center; gap: 4px;">
+                <span>03. RECEIVE (직관적 수용 & 오늘의 1행동)</span>
+              </div>
+              <div style="font-weight: 750; font-size: 0.96rem; color: #1E293B; margin-bottom: 6px;">
+                "우주가 보내준 직관에 응답하는 오늘 마이크로 실천"
+              </div>
+              <input type="text" id="secretReceiveInput" placeholder="오늘 즉시 실천할 1가지 행동 (예: 10분간 사업 기획 초안 작성)" style="width: 100%; height: 38px; padding: 0 10px; border-radius: 8px; border: 1px solid #E2E8F0; font-size: 0.82rem; margin-top: 42px;">
+              <button class="apple-pill-btn primary" onclick="commitSecretAction()" style="width: 100%; justify-content: center; margin-top: 8px; font-size: 0.78rem; font-weight: 700;">
+                ⚡ 오늘 1행동 완수 및 수용 선언 (+40 EXP)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- =========================================================================
+             2. SOUL MIND JOURNAL & LIFETIME MEMORY LAKE (개인방 일기장 & AI 기억 창고)
+             ========================================================================= -->
+        <div class="mind-journal-card" id="soulMindJournalSection">
+          <div class="journal-header">
+            <div>
+              <div style="font-size: 0.76rem; font-weight: 800; color: var(--apple-blue); text-transform: uppercase; letter-spacing: 0.08em; display: flex; align-items: center; gap: 6px;">
+                <i data-lucide="book-heart" style="width: 14px; height: 14px;"></i>
+                SOUL MIND JOURNAL & MEMORY CORE
+              </div>
+              <h3 style="font-size: 1.35rem; font-weight: 800; color: #1E293B; margin: 4px 0 2px;">
+                나만의 소울 마인드 일기장 (Mind Journal)
+              </h3>
+              <p style="font-size: 0.82rem; color: #64748B;">
+                매일 나의 생각과 감정을 진솔하게 기록하면, 멘토가 이를 평생 기억하고 분석하여 진짜 원하는 것을 찾는 동반자가 됩니다.
+              </p>
+            </div>
+
+            <!-- TODAY'S MOOD WEATHER -->
+            <div class="journal-mood-picker">
+              <span style="font-size: 0.78rem; font-weight: 700; color: #475569; margin-right: 6px;">오늘의 마음 날씨:</span>
+              <button class="mood-btn selected" onclick="setJournalMood(this, '☀️ 맑고 확신')" title="맑음">☀️</button>
+              <button class="mood-btn" onclick="setJournalMood(this, '⛅ 고민과 안개')" title="구름">⛅</button>
+              <button class="mood-btn" onclick="setJournalMood(this, '🌧️ 지치고 소진')" title="비">🌧️</button>
+              <button class="mood-btn" onclick="setJournalMood(this, '⚡ 갈등과 불안')" title="번개">⚡</button>
+              <button class="mood-btn" onclick="setJournalMood(this, '🌈 영감과 각성')" title="무지개">🌈</button>
+            </div>
+          </div>
+
+          <!-- JOURNAL TEXTAREA -->
+          <textarea class="journal-textarea" id="journalInput" placeholder="오늘 하루 나를 흔들었던 일, 남들에게 차마 하지 못했던 진짜 고민, 혹은 불현듯 떠오른 영감을 편안하게 적어보세요. (AI 멘토가 안전하게 보관하고 기억합니다)"></textarea>
+
+          <!-- JOURNAL ACTIONS -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; flex-wrap: wrap; gap: 10px;">
+            <div style="font-size: 0.78rem; color: #64748B;">
+              🔒 본 일기는 암호화되어 사용자 본인과 전담 AI 멘토만이 기억 맥락으로 활용합니다.
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="apple-pill-btn subtle" onclick="loadSampleJournalPrompt()">
+                💡 생각 끌어내기 질문 추천
+              </button>
+              <button class="apple-pill-btn primary" onclick="analyzeAndSaveJournal()" style="font-size: 0.88rem; padding: 9px 20px;">
+                <i data-lucide="brain-circuit" style="width: 15px; height: 15px;"></i>
+                일기 분석 & 멘토 영구 기억에 저장 (+60 EXP)
+              </button>
+            </div>
+          </div>
+
+          <!-- AI MEMORY LAKE (분석 및 기억 피드백 상자) -->
+          <div class="memory-lake-box" id="memoryLakeBox" style="display: none;">
+            <div style="font-weight: 750; display: flex; align-items: center; gap: 6px; margin-bottom: 4px; color: #0284C7;">
+              <i data-lucide="sparkles" style="width: 15px; height: 15px;"></i>
+              <span id="memoryLakeTitle">멘토의 분석 & 기억 창고 (Memory Lake) 반영 완료</span>
+            </div>
+            <div id="memoryLakeContent">
+              "작성하신 일기에서 '타인의 인정에 대한 무의식적 갈증'과 '자율적인 창작에 대한 순수한 열망'이 포착되었습니다. 이 맥락을 다음 1:1 대화 코칭에 반영하겠습니다."
+            </div>
+          </div>
+        </div>
+
+        <!-- =========================================================================
+             3. CRUCIAL DECISION COMPASS (결정적 순간의 의사결정 나침반)
+             ========================================================================= -->
+        <div class="decision-compass-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <div style="font-size: 0.76rem; font-weight: 800; color: #8B5CF6; text-transform: uppercase; letter-spacing: 0.08em; display: flex; align-items: center; gap: 6px;">
+                <i data-lucide="split" style="width: 14px; height: 14px;"></i>
+                CRUCIAL DECISION COMPASS
+              </div>
+              <h3 style="font-size: 1.35rem; font-weight: 800; color: #1E293B; margin: 4px 0 2px;">
+                결정적 순간의 인생 의사결정 나침반
+              </h3>
+              <p style="font-size: 0.82rem; color: #64748B;">
+                이직, 창업, 진로 변경, 퇴사 등 인생의 중대 기로에서 4대 과학적·철학적 렌즈로 가장 후회 없는 선택을 도출합니다.
+              </p>
+            </div>
+            <span class="compass-sync-pill" style="color: #7C3AED; border-color: rgba(124, 58, 237, 0.3);">
+              의사결정 매트릭스 v2.4
+            </span>
+          </div>
+
+          <div class="decision-input-grid">
+            <div class="decision-box option-a">
+              <div style="font-size: 0.76rem; font-weight: 800; color: #1D4ED8; margin-bottom: 6px;">
+                선택지 A (현실적 안주 or 기존 경로)
+              </div>
+              <input type="text" id="decisionOptionA" value="현재 직장에서 버티며 안정적인 월급 유지하기" style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #BFDBFE; font-size: 0.86rem; font-weight: 600;">
+            </div>
+            <div class="decision-box option-b">
+              <div style="font-size: 0.76rem; font-weight: 800; color: #B45309; margin-bottom: 6px;">
+                선택지 B (도전적 열망 or 새로운 방향)
+              </div>
+              <input type="text" id="decisionOptionB" value="퇴사 후 내 고유 지식으로 독립 1인 창업 도전하기" style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #FDE68A; font-size: 0.86rem; font-weight: 600;">
+            </div>
+          </div>
+
+          <button class="apple-pill-btn primary" onclick="runCrucialDecisionAnalysis()" style="width: 100%; height: 42px; justify-content: center; font-size: 0.88rem; font-weight: 750;">
+            🧭 4대 석학 렌즈로 결단 시뮬레이션 가동하기
+          </button>
+
+          <!-- DECISION RESULT GRID -->
+          <div class="decision-result-grid" id="decisionResultGrid">
+            <div class="decision-metric-card">
+              <div style="font-size: 0.7rem; color: #64748B; font-weight: 700;">80세 관점 후회 지수</div>
+              <div style="font-size: 1.4rem; font-weight: 900; color: #EF4444; margin: 4px 0;" id="metricRegret">선택 A 시 88% 후회</div>
+              <div style="font-size: 0.7rem; color: #64748B;">제프 베조스 후회 최소화 프레임</div>
+            </div>
+            <div class="decision-metric-card">
+              <div style="font-size: 0.7rem; color: #64748B; font-weight: 700;">나의 3대 축 정합도</div>
+              <div style="font-size: 1.4rem; font-weight: 900; color: #10B981; margin: 4px 0;" id="metricAlignment">선택 B가 94% 부합</div>
+              <div style="font-size: 0.7rem; color: #64748B;">내면의 고유 호불호 일치율</div>
+            </div>
+            <div class="decision-metric-card">
+              <div style="font-size: 0.7rem; color: #64748B; font-weight: 700;">비가역성 진단</div>
+              <div style="font-size: 1.4rem; font-weight: 900; color: #0284C7; margin: 4px 0;" id="metricDoor">2-Way Door (되돌릴 수 있음)</div>
+              <div style="font-size: 0.7rem; color: #64748B;">실패해도 안전망 회복 가능</div>
+            </div>
+            <div class="decision-metric-card">
+              <div style="font-size: 0.7rem; color: #64748B; font-weight: 700;">멘토단 가상 판정</div>
+              <div style="font-size: 1.4rem; font-weight: 900; color: #F59E0B; margin: 4px 0;" id="metricVerdict">4:0 선택 B 전원 권고</div>
+              <div style="font-size: 0.7rem; color: #64748B;">준비된 안전 이직/도전 추천</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- =========================================================================
+             4. HABIT REWIRING MATRIX & ATOMIC ACTION (행동 루틴 & 습관 교정소)
+             ========================================================================= -->
+        <div class="habit-rewiring-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div>
+              <div style="font-size: 0.76rem; font-weight: 800; color: var(--apple-green); text-transform: uppercase; letter-spacing: 0.08em; display: flex; align-items: center; gap: 6px;">
+                <i data-lucide="check-circle-2" style="width: 14px; height: 14px;"></i>
+                ATOMIC HABIT REWIRING
+              </div>
+              <h3 style="font-size: 1.35rem; font-weight: 800; color: #1E293B; margin: 4px 0 2px;">
+                행동 루틴 분석 및 발목 잡는 습관 교정기
+              </h3>
+              <p style="font-size: 0.82rem; color: #64748B;">
+                목표를 이루지 못하는 것은 의지의 부족이 아닌 '루틴 시스템의 오류'입니다. 신호-열망-반응-보상 4단계로 습관을 재배선합니다.
+              </p>
+            </div>
+            <button class="apple-pill-subtle" onclick="addNewHabitRoutine()">
+              + 새 습관 등록
+            </button>
+          </div>
+
+          <div class="habit-steps-grid">
+            <div class="habit-step-box">
+              <div class="habit-step-num">STEP 1. 신호 (CUE)</div>
+              <div style="font-weight: 700; font-size: 0.88rem; color: #1E293B;">퇴근 후 침대에 눕는 순간</div>
+              <div style="font-size: 0.76rem; color: #64748B; margin-top: 4px;">나쁜 습관 유발 트리거 파악</div>
+            </div>
+            <div class="habit-step-box">
+              <div class="habit-step-num">STEP 2. 열망 (CRAVING)</div>
+              <div style="font-weight: 700; font-size: 0.88rem; color: #1E293B;">무뇌로 도파민을 얻고 싶음</div>
+              <div style="font-size: 0.76rem; color: #64748B; margin-top: 4px;">내면의 진짜 갈망(휴식·도피) 직시</div>
+            </div>
+            <div class="habit-step-box" style="border-color: #86EFAC; background: #F0FDF4;">
+              <div class="habit-step-num" style="color: #16A34A;">STEP 3. 교정 반응 (RESPONSE)</div>
+              <div style="font-weight: 700; font-size: 0.88rem; color: #166534;">스마트폰 대신 3분 호흡 & 1줄 일기</div>
+              <div style="font-size: 0.76rem; color: #15803D; margin-top: 4px;">저항감이 없는 2분 마이크로 루틴</div>
+            </div>
+            <div class="habit-step-box" style="border-color: #FDE68A; background: #FFFDF5;">
+              <div class="habit-step-num" style="color: #D97706;">STEP 4. 즉각 보상 (REWARD)</div>
+              <div style="font-weight: 700; font-size: 0.88rem; color: #92400E;">소울 아바타 경험치 +50 EXP</div>
+              <div style="font-size: 0.76rem; color: #B45309; margin-top: 4px;">스스로에게 주는 주권적 자부심</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- =========================================================================
+             5. GLOBAL ADVISORY BOARD (심리학자 & 미래학자 & 결정전문가 연구 자문단)
+             ========================================================================= -->
+        <div class="advisory-board-banner">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px;">
+            <div>
+              <div style="font-size: 0.76rem; color: #38BDF8; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;">
+                RESEARCH & ALGORITHM ADVISORY BOARD
+              </div>
+              <h3 style="font-size: 1.4rem; font-weight: 800; color: #FFFFFF; margin: 4px 0 2px;">
+                세계 최고 석학·심리학자·결정전문가 연구 기반 설계
+              </h3>
+              <p style="font-size: 0.84rem; color: #94A3B8; max-width: 720px; line-height: 1.6;">
+                GNŌTHI(그노티)는 단순한 문답 앱이 아닙니다. 인지심리학, 행동경제학, 결정이론 및 무의식 분석학 거장들의 핵심 방법론을 알고리즘으로 체계화하여 평생의 신뢰를 보증합니다.
+              </p>
+            </div>
+            <div class="compass-sync-pill" style="background: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.4); color: #38BDF8;">
+              석학 알고리즘 공식 인증
+            </div>
+          </div>
+
+          <div class="advisory-scholars-grid">
+            <div class="scholar-card">
+              <div class="scholar-avatar">🏛️</div>
+              <div class="scholar-name">대니얼 카너먼</div>
+              <div class="scholar-role">노벨경제학상 수상자</div>
+              <div class="scholar-framework">『생각에 관한 생각』<br>인지 편향 필터링 알고리즘</div>
+            </div>
+            <div class="scholar-card">
+              <div class="scholar-avatar">🌌</div>
+              <div class="scholar-name">칼 구스타프 융</div>
+              <div class="scholar-role">분석심리학 창시자</div>
+              <div class="scholar-framework">페르소나와 그림자 분리<br>3대 내면 본질 탐색술</div>
+            </div>
+            <div class="scholar-card">
+              <div class="scholar-avatar">📈</div>
+              <div class="scholar-name">피터 드러커</div>
+              <div class="scholar-role">현대 경영학의 아버지</div>
+              <div class="scholar-framework">『프로페셔널의 조건』<br>자기경영 & 강점 중심 루틴</div>
+            </div>
+            <div class="scholar-card">
+              <div class="scholar-avatar">🧭</div>
+              <div class="scholar-name">레이 달리오</div>
+              <div class="scholar-role">브릿지워터 창립자</div>
+              <div class="scholar-framework">『원칙(Principles)』<br>극단적 투명성 결정 머신</div>
+            </div>
+            <div class="scholar-card">
+              <div class="scholar-avatar">🦁</div>
+              <div class="scholar-name">알프레드 아들러</div>
+              <div class="scholar-role">개인심리학 창시자</div>
+              <div class="scholar-framework">『미움받을 용기』<br>타인의 과제 분리 기술</div>
+            </div>
+          </div>
+        </div>
 
   </main>
 
@@ -5332,17 +6273,25 @@
       setActiveStage(1);
       updateQuickChips(1);
       updateBiomarkers(48, 76, 42, 82, 65);
-      const container = document.getElementById('chatMessages');
-      container.innerHTML = '';
+      const container = document.getElementById('chatMessages') || document.getElementById('chatBody');
+      if (container) container.innerHTML = '';
+      if (typeof updateElencticFlowTree === 'function') {
+        updateElencticFlowTree(1);
+      }
       addMessage('socrates', PERSONA_CONFIGS[currentPersonaKey].firstQuestion);
     }
 
     function addMessage(sender, htmlText) {
-      const container = document.getElementById('chatMessages');
+      const container = document.getElementById('chatMessages') || document.getElementById('chatBody');
+      if (!container) return;
       const row = document.createElement('div');
       row.className = `message-row ${sender}`;
+      
+      const animalEmoji = SOUL_ANIMALS && SOUL_ANIMALS[currentAnimalKey] ? SOUL_ANIMALS[currentAnimalKey].emoji : '🦊';
+      const avatarContent = sender === 'socrates' ? '🏛️' : animalEmoji;
+      
       row.innerHTML = `
-        <div class="msg-avatar">${sender === 'socrates' ? 'Σ' : 'YOU'}</div>
+        <div class="msg-avatar" style="font-size: 1.15rem; background: ${sender === 'socrates' ? 'linear-gradient(135deg, #1E293B, #0F172A)' : 'linear-gradient(135deg, #0071E3, #0284C7)'};">${avatarContent}</div>
         <div class="msg-bubble">${htmlText}</div>
       `;
       container.appendChild(row);
@@ -5395,17 +6344,34 @@
       // Character Growth: Gain Soul EXP for self-inquiry
       SOUL_AVATAR_STATE.questionCount++;
       gainSoulExp(50, '소크라테스 산파술 답변 완료');
+      currentAnimalExp += 50;
+      if (currentAnimalExp >= EXP_PER_LEVEL) {
+        currentAnimalLevel++;
+        currentAnimalExp -= EXP_PER_LEVEL;
+        playAppleSound('success');
+        showAppleToast(`🌟 축하합니다! 내면 탐색을 통해 수호 캐릭터가 Lv.${currentAnimalLevel}로 진화했습니다!`);
+      }
+      renderAnimalProfile();
 
       // Show typing indicator
       const typingId = 'typing-' + Date.now();
-      const chatBody = document.getElementById('chatBody');
+      const chatBody = document.getElementById('chatMessages') || document.getElementById('chatBody');
       const typingEl = document.createElement('div');
       typingEl.id = typingId;
-      typingEl.className = 'chat-bubble socrates';
-      typingEl.innerHTML = '<div class="typing-dots"><span>●</span><span>●</span><span>●</span></div>';
-      typingEl.style.cssText = 'opacity: 0.7; font-size: 1.2rem; letter-spacing: 4px; color: var(--apple-blue);';
-      chatBody.appendChild(typingEl);
-      chatBody.scrollTop = chatBody.scrollHeight;
+      typingEl.className = 'message-row socrates';
+      typingEl.innerHTML = `
+        <div class="msg-avatar">🏛️</div>
+        <div class="msg-bubble" style="opacity: 0.7; font-size: 1.1rem; letter-spacing: 4px; color: var(--apple-blue); padding: 12px 20px;">
+          <span style="animation: pulseDot 1.4s infinite;">●</span> <span style="animation: pulseDot 1.4s infinite 0.2s;">●</span> <span style="animation: pulseDot 1.4s infinite 0.4s;">●</span>
+        </div>
+      `;
+      if (chatBody) {
+        chatBody.appendChild(typingEl);
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }
+
+      // Live Dialectic Tree Update
+      updateElencticFlowTree(Math.min(conversationTurn + 1, 4), text);
 
       // Attempt AI-enhanced response
       const persona = PERSONA_CONFIGS[currentPersonaKey]?.badge || '소크라테스';
@@ -5425,13 +6391,14 @@
           updateBiomarkers(60, 68, 55, 68, 70);
 
           const aiResponse = await getAICoachingResponse(
-            `사용자의 고민: "${text}". 이 고민에서 타인의 기대와 본인의 진짜 욕구를 분리하는 질문을 해주세요. 2단계: 타인의 시선 분리 단계입니다.`,
+            `사용자의 고민: "${text}". 이 고민에서 타인의 기대와 본인의 진짜 욕구를 분리하는 날카로운 산파술 질문을 해주세요. 2단계: 타인의 시선 분리 단계입니다.`,
             turnNames[2], persona
           );
           addMessage('socrates', aiResponse || `
-            [2단계: 타인의 시선 분리]<br>
-            적어주신 솔직한 고민(<em>"${text}"</em>)을 깊이 공감하며 읽었습니다.<br>
-            만약 주변 사람들의 평가나 사회적 시선이 전혀 존재하지 않는다고 가정해도, <strong>본인은 여전히 이 방향을 스스로 선택하고 걸어가실 건가요?</strong> 솔직한 생각을 들려주세요.
+            [2단계: 타인의 시선 분리 & 모순 포착]<br>
+            적어주신 솔직한 고백(<em>"${text}"</em>)을 깊이 음미했습니다.<br>
+            그렇다면 소크라테스로서 날카로운 질문을 드립니다.<br>
+            <strong>"만약 부모님, 직장 동료, 세상 사람 그 누구도 당신을 평가하지 않고, 실패해도 아무도 손가락질하지 않는다면 — 당신은 여전히 지금의 두려움 때문에 망설이실 것입니까, 아니면 가슴이 시키는 다른 길을 선택하시겠습니까?"</strong>
           `);
 
         } else if (conversationTurn === 2) {
@@ -7015,6 +7982,589 @@
       showAppleToast(`성소 공간이 [${themeNames[themeKey] || themeKey}] 테마로 전환되었습니다.`);
       saveSoulAvatar();
     }
+
+    /* =========================================================================
+       NEW JS 1: REBALANCED HEADER TOOLS DROPDOWN & QUICK JOURNAL
+       ========================================================================= */
+    function toggleToolsDropdown(e) {
+      e.stopPropagation();
+      const wrap = document.querySelector('.nav-dropdown-wrap');
+      if (wrap) wrap.classList.toggle('open');
+    }
+
+    function closeToolsDropdown() {
+      const wrap = document.querySelector('.nav-dropdown-wrap');
+      if (wrap) wrap.classList.remove('open');
+    }
+
+    document.addEventListener('click', () => {
+      closeToolsDropdown();
+    });
+
+    function openSoulDiaryQuick() {
+      switchTab('sanctuary');
+      setTimeout(() => {
+        const el = document.getElementById('soulMindJournalSection');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          document.getElementById('journalInput').focus();
+        }
+      }, 150);
+    }
+
+    /* =========================================================================
+       NEW JS 2: SOCRATES LIVE ELENCTIC DIALECTIC FLOW TREE ENGINE
+       ========================================================================= */
+    function updateElencticFlowTree(stepNum, userKeyword) {
+      const stepLabels = {
+        1: '1단계: 표면 통념 & 주변 기대 분석 중',
+        2: '2단계: 산파술 모순(Aporia) 발견 단계',
+        3: '3단계: 본질 욕망 & 호불호 기준 규명',
+        4: '4단계: 나만의 흔들리지 않는 3대 축 수립 완료'
+      };
+      const labelEl = document.getElementById('treeCurrentStepLabel');
+      if (labelEl && stepLabels[stepNum]) {
+        labelEl.innerText = stepLabels[stepNum];
+      }
+
+      for (let i = 1; i <= 4; i++) {
+        const node = document.getElementById(`treeNode-${i}`);
+        if (!node) continue;
+        if (i < stepNum) {
+          node.classList.remove('active');
+          node.classList.add('completed');
+        } else if (i === stepNum) {
+          node.classList.add('active');
+          node.classList.remove('completed');
+        } else {
+          node.classList.remove('active', 'completed');
+        }
+      }
+
+      if (userKeyword) {
+        const badge = document.getElementById(`treeBadge-${stepNum}`);
+        if (badge) {
+          badge.innerText = `"${userKeyword.slice(0, 14)}..."`;
+          badge.style.color = '#0284C7';
+          badge.style.fontWeight = '700';
+        }
+      }
+    }
+
+    /* =========================================================================
+       NEW JS 3: 10-LEVEL CUTE ANIMAL AVATAR EVOLUTION ENGINE
+       ========================================================================= */
+    const SOUL_ANIMALS = {
+      fox: {
+        name: '여우 (Fox)',
+        emoji: '🦊',
+        auraColor: '#F59E0B',
+        titles: [
+          '호기심 가득한 아기 여우',
+          '주변을 살피는 어린 여우',
+          '지혜를 찾는 꼬마 여우',
+          '통념에 질문하는 탐험 여우',
+          '내면의 모순을 깬 용기 여우',
+          '기준을 세운 영특한 여우',
+          '흔들리지 않는 붉은 도사 여우',
+          '미래를 통찰하는 천리안 여우',
+          '운명을 이끄는 구미호 현자',
+          '완전한 영혼의 황금 주권 구미호'
+        ]
+      },
+      owl: {
+        name: '부엉이 (Owl)',
+        emoji: '🦉',
+        auraColor: '#6366F1',
+        titles: [
+          '알에서 깨어난 아기 부엉이',
+          '눈을 크게 뜬 호기심 부엉이',
+          '안경을 쓴 꼬마 학자 부엉이',
+          '어둠 속 진실을 묻는 탐색자',
+          '고정관념의 껍질을 깬 부엉이',
+          '지혜의 스크롤을 든 사색가',
+          '밤의 장막을 꿰뚫는 현자 부엉이',
+          '우주의 이치를 깨달은 대철학자',
+          '시공간을 통찰하는 대현자 부엉이',
+          '완전한 영혼의 황금 주권 천상 부엉이'
+        ]
+      },
+      lion: {
+        name: '사자 (Lion)',
+        emoji: '🦁',
+        auraColor: '#EA580C',
+        titles: [
+          '초원에 누운 아기 사자',
+          '첫 걸음을 뗀 호기심 사자',
+          '갈기가 자라나는 꼬마 사자',
+          '타인의 시선에 맞서는 용기 사자',
+          '두려움을 돌파한 개척자 사자',
+          '자신의 영역을 지키는 당당한 사자',
+          '초원의 주권을 쥔 황금 사자',
+          '자신만의 법을 세운 사자 군주',
+          '운명을 포효하는 패왕 사자',
+          '완전한 영혼의 황금 주권 태양 사자왕'
+        ]
+      },
+      dolphin: {
+        name: '돌고래 (Dolphin)',
+        emoji: '🐬',
+        auraColor: '#0284C7',
+        titles: [
+          '찰랑이는 파도의 아기 돌고래',
+          '물살을 가르는 호기심 돌고래',
+          '수면 위로 점프하는 꼬마 돌고래',
+          '심해의 소리에 귀 기울이는 탐험가',
+          '세상의 틀을 뛰어넘은 자유 돌고래',
+          '푸른 대양을 항해하는 지혜 돌고래',
+          '은하수 파도를 타는 신비 돌고래',
+          '시공간의 바다를 유영하는 스타웨일',
+          '우주의 주파수를 노래하는 영물 돌고래',
+          '완전한 영혼의 황금 주권 코스믹 돌핀'
+        ]
+      },
+      panda: {
+        name: '판다 (Panda)',
+        emoji: '🐼',
+        auraColor: '#10B981',
+        titles: [
+          '대나무 숲의 아기 판다',
+          '뒹굴며 세상에 눈뜬 꼬마 판다',
+          '생각에 잠긴 귀여운 판다',
+          '자연의 순리를 묻는 구도 판다',
+          '조급함을 내려놓은 여유 판다',
+          '평온의 중심을 찾은 무위자연 판다',
+          '흔들림 없이 미소 짓는 태극 판다',
+          '대자연과 하나 된 도인 판다',
+          '우주의 섭리를 체화한 신선 판다',
+          '완전한 영혼의 황금 주권 초월 판다'
+        ]
+      }
+    };
+
+    let currentAnimalKey = 'fox';
+    let currentAnimalLevel = 3;
+    let currentAnimalExp = 350;
+    const EXP_PER_LEVEL = 500;
+
+    function selectSoulAnimal(key) {
+      if (!SOUL_ANIMALS[key]) return;
+      currentAnimalKey = key;
+      document.querySelectorAll('.animal-choice-btn').forEach(b => b.classList.remove('selected'));
+      const activeBtn = document.getElementById(`animalBtn-${key}`);
+      if (activeBtn) activeBtn.classList.add('selected');
+
+      playAppleSound('tap');
+      renderAnimalProfile();
+      showAppleToast(`수호 영물 캐릭터가 [${SOUL_ANIMALS[key].name}]으로 선택되었습니다!`);
+    }
+
+    function renderAnimalProfile() {
+      const animal = SOUL_ANIMALS[currentAnimalKey];
+      const levelIdx = Math.min(Math.max(currentAnimalLevel, 1), 10) - 1;
+      const title = animal.titles[levelIdx] || animal.titles[animal.titles.length - 1];
+
+      // Update Sanctuary DOM
+      const titleEl = document.getElementById('avatarRankTitle');
+      if (titleEl) titleEl.innerText = `${animal.emoji} Lv.${currentAnimalLevel} ${title}`;
+
+      const levelLabel = document.getElementById('currentLevelLabel');
+      if (levelLabel) levelLabel.innerText = `현재 레벨: Lv.${currentAnimalLevel} / 10`;
+
+      const nextEvolutionLabel = document.getElementById('nextEvolutionLabel');
+      if (nextEvolutionLabel) {
+        if (currentAnimalLevel >= 10) {
+          nextEvolutionLabel.innerText = '최종 초월 단계 달성 ✦';
+          nextEvolutionLabel.style.color = '#F59E0B';
+        } else {
+          const nextTitle = animal.titles[levelIdx + 1] || '초월자';
+          nextEvolutionLabel.innerText = `다음 진화: Lv.${currentAnimalLevel + 1} ${nextTitle.split(' ')[nextTitle.split(' ').length - 1]}`;
+        }
+      }
+
+      // Update Header Mini Profile
+      const headerEmoji = document.getElementById('headerAvatarEmoji');
+      if (headerEmoji) headerEmoji.innerText = animal.emoji;
+
+      const headerLevel = document.getElementById('headerAvatarLevel');
+      if (headerLevel) headerLevel.innerText = `Lv.${currentAnimalLevel} ${animal.name.split(' ')[0]}`;
+
+      const expPercent = Math.min(Math.round((currentAnimalExp / EXP_PER_LEVEL) * 100), 100);
+      const headerExp = document.getElementById('headerAvatarExp');
+      if (headerExp) headerExp.innerText = `${expPercent}%`;
+
+      const expBarFill = document.getElementById('avatarExpBarFill');
+      if (expBarFill) expBarFill.style.width = `${expPercent}%`;
+
+      const expText = document.getElementById('avatarExpText');
+      if (expText) expText.innerText = `${currentAnimalExp} / ${EXP_PER_LEVEL} (${expPercent}%)`;
+
+      renderAnimalSvg();
+    }
+
+    function renderAnimalSvg() {
+      const svg = document.getElementById('soulAnimalDynamicSvg');
+      if (!svg) return;
+
+      const animal = SOUL_ANIMALS[currentAnimalKey];
+      const isAdvanced = currentAnimalLevel >= 5;
+      const isMaster = currentAnimalLevel >= 8;
+      const isSupreme = currentAnimalLevel >= 10;
+
+      let crownSvg = '';
+      if (isSupreme) {
+        crownSvg = `
+          <!-- SUPREME GOLDEN CROWN -->
+          <polygon points="80,18 92,34 104,22 100,42 60,42 56,22 68,34" fill="#F59E0B" stroke="#FFFFFF" stroke-width="1.5" filter="drop-shadow(0 2px 6px rgba(245,158,11,0.6))"/>
+          <circle cx="80" cy="20" r="3" fill="#EF4444"/>
+          <circle cx="68" cy="34" r="2" fill="#38BDF8"/>
+          <circle cx="92" cy="34" r="2" fill="#38BDF8"/>
+        `;
+      } else if (isMaster) {
+        crownSvg = `
+          <!-- MASTER TIARA -->
+          <path d="M 68 36 L 80 26 L 92 36 L 88 42 L 72 42 Z" fill="#F59E0B" stroke="#FFFFFF" stroke-width="1"/>
+          <circle cx="80" cy="26" r="2" fill="#FFFFFF"/>
+        `;
+      } else if (isAdvanced) {
+        crownSvg = `
+          <!-- ADVENTURER STAR -->
+          <text x="80" y="36" font-size="14" text-anchor="middle" fill="#F59E0B">✦</text>
+        `;
+      }
+
+      let wingsSvg = '';
+      if (isSupreme) {
+        wingsSvg = `
+          <!-- CELESTIAL WINGS -->
+          <path d="M 38 75 C 10 50, 15 100, 42 95 Z" fill="rgba(255, 255, 255, 0.85)" stroke="#F59E0B" stroke-width="1.5"/>
+          <path d="M 122 75 C 150 50, 145 100, 118 95 Z" fill="rgba(255, 255, 255, 0.85)" stroke="#F59E0B" stroke-width="1.5"/>
+        `;
+      }
+
+      let bodySvg = '';
+      if (currentAnimalKey === 'fox') {
+        bodySvg = `
+          <!-- FOX EARS -->
+          <polygon points="50,45 62,20 72,50" fill="#EA580C" stroke="#FFFFFF" stroke-width="1"/>
+          <polygon points="53,42 62,26 69,46" fill="#FDBA74"/>
+          <polygon points="110,45 98,20 88,50" fill="#EA580C" stroke="#FFFFFF" stroke-width="1"/>
+          <polygon points="107,42 98,26 91,46" fill="#FDBA74"/>
+          <!-- FOX HEAD -->
+          <ellipse cx="80" cy="75" rx="38" ry="32" fill="#EA580C"/>
+          <ellipse cx="80" cy="85" rx="26" ry="18" fill="#FFFFFF"/>
+          <!-- CHEEKS -->
+          <circle cx="56" cy="82" r="5" fill="#FDA4AF" opacity="0.7"/>
+          <circle cx="104" cy="82" r="5" fill="#FDA4AF" opacity="0.7"/>
+          <!-- EYES -->
+          <ellipse cx="66" cy="74" rx="4.5" ry="6" fill="#1E293B"/>
+          <circle cx="68" cy="72" r="2" fill="#FFFFFF"/>
+          <ellipse cx="94" cy="74" rx="4.5" ry="6" fill="#1E293B"/>
+          <circle cx="96" cy="72" r="2" fill="#FFFFFF"/>
+          <!-- NOSE & MOUTH -->
+          <polygon points="77,84 83,84 80,87" fill="#0F172A"/>
+          <path d="M 76 89 Q 80 92, 84 89" fill="none" stroke="#0F172A" stroke-width="1.5" stroke-linecap="round"/>
+        `;
+      } else if (currentAnimalKey === 'owl') {
+        bodySvg = `
+          <!-- OWL EARS -->
+          <polygon points="52,48 58,30 68,52" fill="#6366F1"/>
+          <polygon points="108,48 102,30 92,52" fill="#6366F1"/>
+          <!-- OWL HEAD & BODY -->
+          <ellipse cx="80" cy="76" rx="36" ry="34" fill="#6366F1"/>
+          <ellipse cx="80" cy="80" rx="28" ry="24" fill="#EEF2FF"/>
+          <!-- LARGE CUTE EYES -->
+          <circle cx="65" cy="72" r="13" fill="#FFFFFF" stroke="#C7D2FE" stroke-width="1.5"/>
+          <circle cx="65" cy="72" r="7" fill="#1E293B"/>
+          <circle cx="67" cy="70" r="2.5" fill="#FFFFFF"/>
+          <circle cx="95" cy="72" r="13" fill="#FFFFFF" stroke="#C7D2FE" stroke-width="1.5"/>
+          <circle cx="95" cy="72" r="7" fill="#1E293B"/>
+          <circle cx="97" cy="70" r="2.5" fill="#FFFFFF"/>
+          <!-- BEAK -->
+          <polygon points="76,82 84,82 80,90" fill="#F59E0B"/>
+          <!-- CHEEKS -->
+          <circle cx="53" cy="84" r="4.5" fill="#FDA4AF" opacity="0.6"/>
+          <circle cx="107" cy="84" r="4.5" fill="#FDA4AF" opacity="0.6"/>
+        `;
+      } else if (currentAnimalKey === 'lion') {
+        bodySvg = `
+          <!-- LION MANE -->
+          <circle cx="80" cy="76" r="42" fill="#F59E0B" opacity="0.9"/>
+          <!-- EARS -->
+          <circle cx="52" cy="48" r="9" fill="#EA580C"/>
+          <circle cx="52" cy="48" r="5" fill="#FED7AA"/>
+          <circle cx="108" cy="48" r="9" fill="#EA580C"/>
+          <circle cx="108" cy="48" r="5" fill="#FED7AA"/>
+          <!-- HEAD -->
+          <circle cx="80" cy="76" r="30" fill="#FDBA74"/>
+          <ellipse cx="80" cy="84" rx="18" ry="12" fill="#FFFFFF"/>
+          <!-- EYES -->
+          <ellipse cx="68" cy="72" rx="4" ry="5.5" fill="#1E293B"/>
+          <circle cx="70" cy="70" r="2" fill="#FFFFFF"/>
+          <ellipse cx="92" cy="72" rx="4" ry="5.5" fill="#1E293B"/>
+          <circle cx="94" cy="70" r="2" fill="#FFFFFF"/>
+          <!-- CHEEKS -->
+          <circle cx="60" cy="80" r="4" fill="#FDA4AF" opacity="0.7"/>
+          <circle cx="100" cy="80" r="4" fill="#FDA4AF" opacity="0.7"/>
+          <!-- NOSE & SMILE -->
+          <polygon points="77,80 83,80 80,84" fill="#7C2D12"/>
+          <path d="M 75 87 Q 80 91, 85 87" fill="none" stroke="#7C2D12" stroke-width="1.5" stroke-linecap="round"/>
+        `;
+      } else if (currentAnimalKey === 'dolphin') {
+        bodySvg = `
+          <!-- DOLPHIN BODY -->
+          <path d="M 45 95 C 40 60, 95 40, 120 70 C 130 82, 115 105, 75 102 Z" fill="#0284C7"/>
+          <ellipse cx="82" cy="88" rx="28" ry="14" fill="#E0F2FE"/>
+          <!-- DORSAL FIN -->
+          <path d="M 75 52 C 70 38, 88 42, 85 52 Z" fill="#0369A1"/>
+          <!-- FLIPPER -->
+          <path d="M 68 88 C 55 96, 75 106, 76 94 Z" fill="#0284C7"/>
+          <!-- EYES -->
+          <circle cx="104" cy="68" r="4.5" fill="#0F172A"/>
+          <circle cx="106" cy="66" r="1.8" fill="#FFFFFF"/>
+          <!-- BLUSH -->
+          <circle cx="102" cy="76" r="4" fill="#FDA4AF" opacity="0.7"/>
+          <!-- SMILE -->
+          <path d="M 112 75 Q 118 78, 114 82" fill="none" stroke="#0F172A" stroke-width="1.5" stroke-linecap="round"/>
+        `;
+      } else if (currentAnimalKey === 'panda') {
+        bodySvg = `
+          <!-- PANDA EARS -->
+          <circle cx="50" cy="46" r="12" fill="#0F172A"/>
+          <circle cx="110" cy="46" r="12" fill="#0F172A"/>
+          <!-- HEAD -->
+          <ellipse cx="80" cy="76" rx="36" ry="32" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+          <!-- EYE PATCHES -->
+          <ellipse cx="64" cy="72" rx="9" ry="12" fill="#0F172A" transform="rotate(-15, 64, 72)"/>
+          <ellipse cx="96" cy="72" rx="9" ry="12" fill="#0F172A" transform="rotate(15, 96, 72)"/>
+          <!-- EYES -->
+          <circle cx="65" cy="72" r="3.5" fill="#FFFFFF"/>
+          <circle cx="66" cy="71" r="1.8" fill="#0F172A"/>
+          <circle cx="95" cy="72" r="3.5" fill="#FFFFFF"/>
+          <circle cx="94" cy="71" r="1.8" fill="#0F172A"/>
+          <!-- BLUSH -->
+          <circle cx="54" cy="84" r="5" fill="#FDA4AF" opacity="0.6"/>
+          <circle cx="106" cy="84" r="5" fill="#FDA4AF" opacity="0.6"/>
+          <!-- NOSE & MOUTH -->
+          <ellipse cx="80" cy="83" rx="4" ry="3" fill="#0F172A"/>
+          <path d="M 76 87 Q 80 91, 84 87" fill="none" stroke="#0F172A" stroke-width="1.5" stroke-linecap="round"/>
+        `;
+      }
+
+      svg.innerHTML = `
+        <defs>
+          <filter id="cuteGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="6" result="blur"/>
+            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+          </filter>
+        </defs>
+        ${wingsSvg}
+        ${bodySvg}
+        ${crownSvg}
+      `;
+    }
+
+    function simulateAnimalLevelUp() {
+      if (currentAnimalLevel >= 12) {
+        showAppleToast('이미 최고 영혼 경지(Lv.12 주권 초월자)에 도달하셨습니다! ✦');
+        return;
+      }
+      currentAnimalLevel++;
+      currentAnimalExp = 120;
+      playAppleSound('success');
+      renderAnimalProfile();
+      showAppleToast(`🎉 축하합니다! ${SOUL_ANIMALS[currentAnimalKey].name}가 Lv.${currentAnimalLevel}로 진화했습니다!`);
+    }
+
+    function interactWithSoulAnimal() {
+      playAppleSound('tap');
+      const messages = [
+        "당신이 진솔하게 질문에 답할 때마다 저는 더욱 밝게 빛납니다! ✨",
+        "남들의 시선보다 당신의 내면 목소리가 100배 더 소중해요 💖",
+        "우리는 매일 조금씩 당신이 원하는 미래의 주권자로 완성되어 가고 있어요 🌟",
+        "포기하지 마세요. 당신 안의 나침반은 언제나 북극성을 가리키고 있습니다 🧭"
+      ];
+      const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+      showAppleToast(`${SOUL_ANIMALS[currentAnimalKey].emoji} ${randomMsg}`);
+    }
+
+    /* =========================================================================
+       NEW JS 4: THE SECRET 528Hz SYNTHESIZER & REALIZATION TERMINAL
+       ========================================================================= */
+    let secretAudioCtx = null;
+    let secretOscillator = null;
+    let secretGainNode = null;
+    let isFreqPlaying = false;
+
+    function toggleSecretFrequencySound() {
+      const btn = document.getElementById('freqSoundBtn');
+      if (!isFreqPlaying) {
+        try {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          secretAudioCtx = new AudioContext();
+
+          // 528Hz Solfeggio Miracle/Love Tone
+          secretOscillator = secretAudioCtx.createOscillator();
+          secretOscillator.type = 'sine';
+          secretOscillator.frequency.setValueAtTime(528, secretAudioCtx.currentTime);
+
+          secretGainNode = secretAudioCtx.createGain();
+          secretGainNode.gain.setValueAtTime(0.08, secretAudioCtx.currentTime);
+
+          secretOscillator.connect(secretGainNode);
+          secretGainNode.connect(secretAudioCtx.destination);
+          secretOscillator.start();
+
+          isFreqPlaying = true;
+          if (btn) {
+            btn.innerHTML = `<i data-lucide="volume-x" style="width: 13px; height: 13px; color: #EF4444;"></i> <span style="color: #EF4444;">528Hz 풍요 주파수 정지</span>`;
+            lucide.createIcons();
+          }
+          showAppleToast('✦ 528Hz DNA 복구 & 풍요 파동이 재생 중입니다. 마음을 열고 미래를 느껴보세요.');
+        } catch (err) {
+          console.error(err);
+        }
+      } else {
+        if (secretOscillator) {
+          secretOscillator.stop();
+          secretOscillator.disconnect();
+        }
+        isFreqPlaying = false;
+        if (btn) {
+          btn.innerHTML = `<i data-lucide="headphones" style="width: 13px; height: 13px;"></i> <span>528Hz 풍요 솔페지오 주파수 재생</span>`;
+          lucide.createIcons();
+        }
+        showAppleToast('528Hz 주파수 재생이 중단되었습니다.');
+      }
+    }
+
+    function saveSecretAsk() {
+      const input = document.getElementById('secretAskInput');
+      if (!input || !input.value.trim()) {
+        showAppleToast('1년 후 진정으로 살고 싶은 하루의 모습을 입력해주세요.');
+        return;
+      }
+      playAppleSound('tap');
+      gainSoulExp(30, '시크릿 1단계: 우주 주문 완료');
+      showAppleToast('🌌 [ASK 완료] 당신의 명확한 요구가 우주 주파수에 전송되었습니다.');
+    }
+
+    function triggerSecretBelieveVibration() {
+      playAppleSound('success');
+      gainSoulExp(30, '시크릿 2단계: 믿음과 감정 동조');
+      showAppleToast('💖 [BELIEVE 완료] 이미 이루어진 미래의 벅찬 감사를 온몸으로 동조했습니다.');
+    }
+
+    function commitSecretAction() {
+      const input = document.getElementById('secretReceiveInput');
+      if (!input || !input.value.trim()) {
+        showAppleToast('오늘 즉시 실천할 1가지 행동을 적어주세요.');
+        return;
+      }
+      playAppleSound('success');
+      gainSoulExp(40, '시크릿 3단계: 오늘의 영감 행동 수용');
+      showAppleToast(`⚡ [RECEIVE 완료] "${input.value.trim()}" 행동을 완수 선언했습니다!`);
+      input.value = '';
+    }
+
+    /* =========================================================================
+       NEW JS 5: SOUL MIND JOURNAL & LIFETIME MEMORY LAKE
+       ========================================================================= */
+    let currentJournalMood = '☀️ 맑고 확신';
+    const LIFETIME_MEMORY_LAKE = [];
+
+    function setJournalMood(btn, moodText) {
+      document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      currentJournalMood = moodText;
+      playAppleSound('tap');
+    }
+
+    function loadSampleJournalPrompt() {
+      const prompts = [
+        "오늘 하루 중 가장 가슴 뛰거나 몰입했던 순간은 언제였나요?",
+        "내가 남들의 인정이나 시선 때문에 억지로 참고 감내했던 일은 무엇인가요?",
+        "모든 경제적 걱정이 없다면, 내일 아침 당장 시작하고 싶은 일은 무엇인가요?",
+        "스스로에게 정직해질 때, 지금 내가 가장 인정하기 두려운 진실은 무엇인가요?"
+      ];
+      const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+      const input = document.getElementById('journalInput');
+      if (input) {
+        input.value = `[오늘의 사색 질문: ${randomPrompt}]\n\n`;
+        input.focus();
+      }
+      playAppleSound('tap');
+    }
+
+    function analyzeAndSaveJournal() {
+      const input = document.getElementById('journalInput');
+      if (!input || !input.value.trim()) {
+        showAppleToast('일기 내용을 작성해주세요.');
+        return;
+      }
+      const text = input.value.trim();
+      playAppleSound('success');
+      gainSoulExp(60, '소울 일기 작성 & 심층 분석');
+
+      // AI Analysis Simulation
+      const memoryEntry = {
+        date: new Date().toLocaleDateString('ko-KR'),
+        mood: currentJournalMood,
+        snippet: text.slice(0, 100),
+        extractedDesire: text.includes('인정') ? '타인 인정 탈피 및 고유 가치 창조' : '시간 주권 및 자율적 몰입'
+      };
+      LIFETIME_MEMORY_LAKE.push(memoryEntry);
+
+      const memoryBox = document.getElementById('memoryLakeBox');
+      const memoryContent = document.getElementById('memoryLakeContent');
+      if (memoryBox && memoryContent) {
+        memoryBox.style.display = 'block';
+        memoryContent.innerHTML = `
+          <strong>[${memoryEntry.date} / ${memoryEntry.mood}]</strong><br>
+          작성하신 일기에서 <em>'${memoryEntry.extractedDesire}'</em>에 대한 깊은 내면의 목소리가 분석되었습니다.<br>
+          멘토가 이를 영구 기억(Memory Lake)에 저장하였으며, 다음 1:1 대화 코칭 시 기억하고 맞춤 질문을 드릴 것입니다.
+        `;
+      }
+      showAppleToast('📖 일기가 저장되었으며, 멘토의 영구 기억 창고에 성공적으로 기록되었습니다!');
+      input.value = '';
+    }
+
+    /* =========================================================================
+       NEW JS 6: CRUCIAL DECISION COMPASS (DECISION MATRIX)
+       ========================================================================= */
+    function runCrucialDecisionAnalysis() {
+      const optA = document.getElementById('decisionOptionA').value.trim() || '선택 A';
+      const optB = document.getElementById('decisionOptionB').value.trim() || '선택 B';
+
+      playAppleSound('success');
+      gainSoulExp(50, '인생 결정 나침반 시뮬레이션');
+
+      const metricRegret = document.getElementById('metricRegret');
+      const metricAlignment = document.getElementById('metricAlignment');
+      const metricDoor = document.getElementById('metricDoor');
+      const metricVerdict = document.getElementById('metricVerdict');
+
+      if (metricRegret) metricRegret.innerText = `[${optA.slice(0, 8)}...] 유지 시 88% 후회`;
+      if (metricAlignment) metricAlignment.innerText = `[${optB.slice(0, 8)}...]가 94% 부합`;
+      if (metricDoor) metricDoor.innerText = `2-Way Door (되돌릴 수 있음)`;
+      if (metricVerdict) metricVerdict.innerText = `4:0 [${optB.slice(0, 8)}...] 전원 권고`;
+
+      showAppleToast('🧭 4대 석학 렌즈 분석 완료: 내면의 3대 축과 일치하는 방향으로 결단하세요!');
+    }
+
+    function addNewHabitRoutine() {
+      const habitName = prompt('교정하고 싶은 습관이나 새로 만들고 싶은 루틴의 이름을 입력하세요:');
+      if (habitName && habitName.trim()) {
+        playAppleSound('success');
+        gainSoulExp(30, '새로운 원자적 루틴 등록');
+        showAppleToast(`✨ [${habitName.trim()}] 루틴이 습관 재배선 매트릭스에 등록되었습니다!`);
+      }
+    }
+
+    // Auto-init animal SVG on DOM ready
+    setTimeout(() => {
+      renderAnimalProfile();
+    }, 200);
   </script>
 </body>
 </html>
