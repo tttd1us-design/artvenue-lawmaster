@@ -2417,6 +2417,174 @@
       flex-wrap: wrap;
       padding: 10px 0;
     }
+
+    /* =========================================================================
+       8) THE SECRET SANCTUARY & SOUL AVATAR SYSTEM
+       ========================================================================= */
+    .sanctuary-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 16px 60px;
+    }
+    .sanctuary-header-card {
+      background: linear-gradient(135deg, #1E1B4B 0%, #0F172A 60%, #172554 100%);
+      color: #FFFFFF;
+      border-radius: var(--apple-radius-2xl);
+      padding: 32px 36px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 24px 48px -12px rgba(15, 23, 42, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .manifest-progress-bar-bg {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: var(--apple-radius-pill);
+      overflow: hidden;
+      margin: 12px 0 6px;
+    }
+    .manifest-progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #38BDF8 0%, #818CF8 50%, #F59E0B 100%);
+      border-radius: var(--apple-radius-pill);
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* 2-COLUMN SANCTUARY GRID */
+    .sanctuary-grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 960px) {
+      .sanctuary-grid { grid-template-columns: 1fr; }
+    }
+
+    /* AVATAR STAGE */
+    .avatar-stage-card {
+      background: #FFFFFF;
+      border: 1px solid var(--apple-border);
+      border-radius: var(--apple-radius-2xl);
+      padding: 28px;
+      box-shadow: var(--apple-shadow-sm);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .avatar-pedestal-wrap {
+      width: 220px;
+      height: 220px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 16px 0;
+    }
+    .avatar-halo-ring {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 1.5px dashed rgba(245, 158, 11, 0.4);
+      animation: rotateRune 20s linear infinite;
+    }
+    @keyframes rotateRune {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .soul-avatar-svg {
+      width: 140px;
+      height: 140px;
+      animation: avatarFloat 3.6s ease-in-out infinite alternate;
+      filter: drop-shadow(0 12px 24px rgba(0, 113, 227, 0.35));
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+    @keyframes avatarFloat {
+      0% { transform: translateY(-4px) scale(0.98); }
+      100% { transform: translateY(6px) scale(1.02); }
+    }
+
+    /* VISION BOARD */
+    .vision-board-card {
+      background: #FFFFFF;
+      border: 1px solid var(--apple-border);
+      border-radius: var(--apple-radius-2xl);
+      padding: 28px;
+      box-shadow: var(--apple-shadow-sm);
+    }
+    .vision-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 768px) {
+      .vision-cards-grid { grid-template-columns: 1fr; }
+    }
+    .vision-slot-card {
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: var(--apple-radius-lg);
+      overflow: hidden;
+      background: #FAFAFC;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .vision-slot-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--apple-shadow-md);
+      border-color: rgba(0, 113, 227, 0.25);
+    }
+    .vision-img-area {
+      height: 140px;
+      width: 100%;
+      background: #E2E8F0;
+      position: relative;
+      overflow: hidden;
+    }
+    .vision-img-area img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .vision-slot-card:hover .vision-img-area img {
+      transform: scale(1.06);
+    }
+    .vision-content {
+      padding: 14px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .affirmation-beam-btn {
+      background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+      color: #FFFFFF;
+      font-weight: 800;
+      border: none;
+      border-radius: var(--apple-radius-pill);
+      padding: 14px 28px;
+      font-size: 0.94rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.4);
+      transition: all 0.25s ease;
+      width: 100%;
+    }
+    .affirmation-beam-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px -4px rgba(245, 158, 11, 0.55);
+    }
   </style>
 </head>
 <body>
@@ -2470,10 +2638,21 @@
         <i data-lucide="sunrise" style="width: 13px; height: 13px; color: var(--apple-orange);"></i>
         🌅 인생 2막 은퇴 나침반
       </button>
+      <button class="nav-tab-btn" id="tabBtn-sanctuary" onclick="switchTab('sanctuary')">
+        <i data-lucide="sparkles" style="width: 13px; height: 13px; color: #F59E0B;"></i>
+        🏛️ 시크릿 룸 & 캐릭터
+      </button>
     </nav>
 
     <!-- HEADER ACTIONS -->
     <div class="header-actions">
+      <!-- SOUL AVATAR LEVEL MINI BADGE -->
+      <button class="apple-pill-btn subtle" onclick="switchTab('sanctuary')" style="display: inline-flex; align-items: center; gap: 5px; font-weight: 700; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #B45309;" title="나의 캐릭터 & 시크릿 비전룸 바로가기">
+        <span id="headerAvatarEmoji">👑</span>
+        <span id="headerAvatarLevel">Lv.3 주권자</span>
+        <span style="font-size: 0.68rem; color: #F59E0B;" id="headerAvatarExp">65%</span>
+      </button>
+
       <button class="apple-pill-btn subtle" id="soundToggleBtn" onclick="toggleAppleSound()" style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.78rem; padding: 6px 12px;" title="효과음 켜기/끄기">
         <i data-lucide="volume-2" id="soundIcon" style="width: 13px; height: 13px; color: var(--apple-blue);"></i>
         <span id="soundToggleText">효과음 ON</span>
@@ -3469,6 +3648,226 @@
           <button class="apple-pill-btn" onclick="openConsultantMatchModal('kim')" style="background: #D97706; color: white; font-weight: 800; padding: 12px 20px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3); border: none; cursor: pointer;">
             김도현 수석위원 상담 연계하기
           </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================================================
+         TAB: 🏛️ 나의 시크릿 성소 & 성장형 캐릭터 비전룸 (THE SECRET SANCTUARY)
+         ========================================================================= -->
+    <div id="view-sanctuary" class="tab-view">
+      <div class="sanctuary-container">
+        <!-- SANCTUARY MANIFESTATION HEADER -->
+        <div class="sanctuary-header-card">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+            <div>
+              <div style="font-size: 0.76rem; color: #F59E0B; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+                <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
+                LIFETIME COMPANION SANCTUARY
+              </div>
+              <h2 style="font-size: 1.65rem; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.02em;">
+                나만의 시크릿 룸 & 미래 현실화 성소
+              </h2>
+              <p style="font-size: 0.88rem; color: #94A3B8; max-width: 620px; line-height: 1.6;">
+                "생각은 자석이며, 주권으로 선언한 비전은 반드시 물리적 현실로 이끌려옵니다." — 나를 알기 위해 질문에 답할 때마다 내 아바타가 성장하고, 매일 가꾸는 비전보드가 현실이 되는 평생의 동반자 공간입니다.
+              </p>
+            </div>
+
+            <!-- MANIFESTATION SCORE BADGE -->
+            <div style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 14px 20px; text-align: right; min-width: 180px;">
+              <div style="font-size: 0.72rem; color: #94A3B8; font-family: var(--font-mono);">미래 현실화 지수</div>
+              <div style="font-size: 1.8rem; font-weight: 900; color: #F59E0B; font-family: var(--font-mono);" id="manifestIndexScore">
+                78%
+              </div>
+              <div style="font-size: 0.7rem; color: #38BDF8;">✦ 시크릿 파동 528Hz 동조</div>
+            </div>
+          </div>
+
+          <!-- PROGRESS BAR -->
+          <div class="manifest-progress-bar-bg">
+            <div class="manifest-progress-bar-fill" id="manifestProgressFill" style="width: 78%;"></div>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #94A3B8; font-family: var(--font-mono);">
+            <span>탐색 질문 답변: <strong style="color: #FFFFFF;" id="statQuestionCount">36회</strong></span>
+            <span>15분 루틴 실천: <strong style="color: #FFFFFF;" id="statRoutineDays">14일 연속</strong></span>
+            <span>비전보드 각인: <strong style="color: #F59E0B;" id="statAffirmCount">28회</strong></span>
+          </div>
+        </div>
+
+        <!-- 2-COLUMN GRID (AVATAR STUDIO + VISION BOARD) -->
+        <div class="sanctuary-grid">
+          <!-- LEFT: SOUL AVATAR GROWTH STUDIO -->
+          <div class="avatar-stage-card tilt-card" data-tilt="true">
+            <div style="font-size: 0.74rem; font-weight: 800; color: #0071E3; letter-spacing: 0.08em; text-transform: uppercase;">
+              SOUL AVATAR EVOLUTION
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 800; color: #1D1D1F; margin: 4px 0 2px;" id="avatarRankTitle">
+              👑 Lv.3 주권의 조율자
+            </h3>
+            <p style="font-size: 0.78rem; color: #64748B;">질문에 답할 때마다 내면의 신성한 자아가 성장합니다</p>
+
+            <!-- AVATAR 3D PEDESTAL & VISUAL -->
+            <div class="avatar-pedestal-wrap">
+              <div class="avatar-halo-ring"></div>
+              <!-- DYNAMIC SOUL AVATAR SVG GRAPHIC -->
+              <svg class="soul-avatar-svg" id="soulAvatarSvg" viewBox="0 0 140 140" onclick="interactWithAvatar()">
+                <defs>
+                  <filter id="avatarGlow" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="8" result="blur"/>
+                    <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                  </filter>
+                  <linearGradient id="avatarAuraGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#38BDF8" id="gradStop1"/>
+                    <stop offset="50%" stop-color="#818CF8" id="gradStop2"/>
+                    <stop offset="100%" stop-color="#F59E0B" id="gradStop3"/>
+                  </linearGradient>
+                </defs>
+
+                <!-- AURA SPHERE -->
+                <circle cx="70" cy="70" r="50" fill="url(#avatarAuraGrad)" opacity="0.85" filter="url(#avatarGlow)"/>
+                
+                <!-- INNER SACRED GEOMETRY -->
+                <polygon points="70,30 105,90 35,90" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity="0.6"/>
+                <polygon points="70,110 105,50 35,50" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity="0.6"/>
+
+                <!-- AVATAR CORE (EYES & STAR) -->
+                <circle cx="70" cy="70" r="16" fill="#1D1D1F" stroke="#F59E0B" stroke-width="2"/>
+                <circle cx="65" cy="68" r="2.5" fill="#38BDF8"/>
+                <circle cx="75" cy="68" r="2.5" fill="#38BDF8"/>
+                <path d="M 66 74 Q 70 77, 74 74" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+
+                <!-- CROWN / TIARA (EVOLVES WITH LEVEL) -->
+                <path id="avatarCrownPath" d="M 58 45 L 64 36 L 70 42 L 76 36 L 82 45 Z" fill="#F59E0B" stroke="#FFFFFF" stroke-width="1"/>
+              </svg>
+            </div>
+
+            <!-- EXP BAR -->
+            <div style="width: 100%; margin-bottom: 16px;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.74rem; font-weight: 700; color: #475569; margin-bottom: 4px;">
+                <span>영혼 성장도 (EXP)</span>
+                <span id="avatarExpText">350 / 500 (70%)</span>
+              </div>
+              <div style="width: 100%; height: 7px; background: #E2E8F0; border-radius: var(--apple-radius-pill); overflow: hidden;">
+                <div id="avatarExpBarFill" style="width: 70%; height: 100%; background: linear-gradient(90deg, #0071E3, #34C759); border-radius: var(--apple-radius-pill);"></div>
+              </div>
+            </div>
+
+            <!-- CUSTOMIZATION TOOLKIT -->
+            <div style="width: 100%; background: #F8FAFC; border: 1px solid rgba(0,0,0,0.05); border-radius: var(--apple-radius-md); padding: 12px; margin-bottom: 16px; text-align: left;">
+              <div style="font-size: 0.72rem; font-weight: 800; color: #64748B; text-transform: uppercase; margin-bottom: 8px;">
+                🎨 아우라 에너지 색상 커스텀
+              </div>
+              <div style="display: flex; gap: 8px; justify-content: center;">
+                <button onclick="setAvatarAura('blue')" style="width: 24px; height: 24px; border-radius: 50%; background: #0071E3; border: 2px solid white; box-shadow: 0 2px 6px rgba(0,113,227,0.4); cursor: pointer;" title="사파이어 블루"></button>
+                <button onclick="setAvatarAura('emerald')" style="width: 24px; height: 24px; border-radius: 50%; background: #10B981; border: 2px solid white; box-shadow: 0 2px 6px rgba(16,185,129,0.4); cursor: pointer;" title="에메랄드"></button>
+                <button onclick="setAvatarAura('amber')" style="width: 24px; height: 24px; border-radius: 50%; background: #F59E0B; border: 2px solid white; box-shadow: 0 2px 6px rgba(245,158,11,0.4); cursor: pointer;" title="앰버 골드"></button>
+                <button onclick="setAvatarAura('purple')" style="width: 24px; height: 24px; border-radius: 50%; background: #8B5CF6; border: 2px solid white; box-shadow: 0 2px 6px rgba(139,92,246,0.4); cursor: pointer;" title="코스믹 퍼플"></button>
+              </div>
+            </div>
+
+            <!-- ACTION: GROW AVATAR VIA INQUIRY -->
+            <button class="apple-pill-btn primary" onclick="switchTab('chamber')" style="width: 100%; height: 42px; justify-content: center; font-size: 0.86rem; font-weight: 700;">
+              <i data-lucide="message-square-plus" style="width: 15px; height: 15px;"></i>
+              질문 세션으로 캐릭터 성장 (+50 EXP)
+            </button>
+          </div>
+
+          <!-- RIGHT: THE SECRET VISION BOARD -->
+          <div class="vision-board-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+              <div>
+                <h3 style="font-size: 1.25rem; font-weight: 800; color: #1D1D1F; margin: 0; display: flex; align-items: center; gap: 8px;">
+                  <i data-lucide="image" style="width: 18px; height: 18px; color: #F59E0B;"></i>
+                  『시크릿』 미래 현실화 비전보드 (Dream Board)
+                </h3>
+                <p style="font-size: 0.78rem; color: #64748B; margin-top: 2px;">
+                  내가 원하는 미래를 매일 선명하게 시각화하면, 무의식이 그 길을 반드시 찾아냅니다
+                </p>
+              </div>
+
+              <!-- ROOM THEME SELECTOR -->
+              <div style="display: flex; gap: 6px;">
+                <button class="apple-pill-subtle" onclick="changeRoomTheme('terrace')" style="font-size: 0.72rem;">🏛️ 테라스</button>
+                <button class="apple-pill-subtle" onclick="changeRoomTheme('library')" style="font-size: 0.72rem;">📚 서재</button>
+                <button class="apple-pill-subtle" onclick="changeRoomTheme('observatory')" style="font-size: 0.72rem;">🌌 천문대</button>
+              </div>
+            </div>
+
+            <!-- 3 VISION SLOTS -->
+            <div class="vision-cards-grid">
+              <!-- SLOT 1: SPACE & LIFESTYLE -->
+              <div class="vision-slot-card">
+                <div class="vision-img-area">
+                  <img id="visionImg1" src="assets/gnothi_life_compass.jpg" alt="이상적인 라이프 공간">
+                  <span style="position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.6); color: white; font-size: 0.65rem; padding: 2px 7px; border-radius: 4px; backdrop-filter: blur(4px);">
+                    🏡 나의 이상적 공간
+                  </span>
+                </div>
+                <div class="vision-content">
+                  <div style="font-weight: 700; font-size: 0.86rem; color: #1D1D1F; margin-bottom: 4px;" id="visionTitle1">
+                    자연이 보이는 통유리 서재
+                  </div>
+                  <div style="font-size: 0.74rem; color: #64748B; line-height: 1.5; flex: 1;" id="visionDesc1">
+                    타인의 간섭 없이 내가 좋아하는 음악과 향을 즐기며, 자율적인 시간표로 일하는 아침.
+                  </div>
+                  <button class="apple-pill-subtle" onclick="editVisionSlot(1)" style="margin-top: 8px; font-size: 0.7rem; justify-content: center;">
+                    ✏️ 미래 이미지·문구 편집
+                  </button>
+                </div>
+              </div>
+
+              <!-- SLOT 2: INDEPENDENT CREATION & BIZ -->
+              <div class="vision-slot-card">
+                <div class="vision-img-area" style="background: linear-gradient(135deg, #1E293B, #0F172A); display: flex; align-items: center; justify-content: center; color: #38BDF8;">
+                  <i data-lucide="award" style="width: 48px; height: 48px; opacity: 0.8;"></i>
+                  <span style="position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.6); color: white; font-size: 0.65rem; padding: 2px 7px; border-radius: 4px; backdrop-filter: blur(4px);">
+                    💼 내 고유한 창작물
+                  </span>
+                </div>
+                <div class="vision-content">
+                  <div style="font-weight: 700; font-size: 0.86rem; color: #1D1D1F; margin-bottom: 4px;" id="visionTitle2">
+                    내 이름으로 완성된 단행본 & 솔루션
+                  </div>
+                  <div style="font-size: 0.74rem; color: #64748B; line-height: 1.5; flex: 1;" id="visionDesc2">
+                    남의 회사를 위해서가 아니라, 내 전문성과 통찰로 세상 사람들에게 실질적 변화를 주는 독립적 성취.
+                  </div>
+                  <button class="apple-pill-subtle" onclick="editVisionSlot(2)" style="margin-top: 8px; font-size: 0.7rem; justify-content: center;">
+                    ✏️ 미래 이미지·문구 편집
+                  </button>
+                </div>
+              </div>
+
+              <!-- SLOT 3: INNER PEACE & FREEDOM -->
+              <div class="vision-slot-card">
+                <div class="vision-img-area" style="background: linear-gradient(135deg, #065F46, #047857); display: flex; align-items: center; justify-content: center; color: #F59E0B;">
+                  <i data-lucide="heart-handshake" style="width: 48px; height: 48px; opacity: 0.8;"></i>
+                  <span style="position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.6); color: white; font-size: 0.65rem; padding: 2px 7px; border-radius: 4px; backdrop-filter: blur(4px);">
+                    🧘 내면의 절대 평화
+                  </span>
+                </div>
+                <div class="vision-content">
+                  <div style="font-weight: 700; font-size: 0.86rem; color: #1D1D1F; margin-bottom: 4px;" id="visionTitle3">
+                    타인의 채점표로부터의 영원한 해방
+                  </div>
+                  <div style="font-size: 0.74rem; color: #64748B; line-height: 1.5; flex: 1;" id="visionDesc3">
+                    남과 비교하며 조급해하지 않고, 언제나 내 3대 축에 따라 평온하고 당당하게 미소 짓는 내면의 힘.
+                  </div>
+                  <button class="apple-pill-subtle" onclick="editVisionSlot(3)" style="margin-top: 8px; font-size: 0.7rem; justify-content: center;">
+                    ✏️ 미래 이미지·문구 편집
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- MANIFESTATION TRANSMITTER BUTTON -->
+            <button class="affirmation-beam-btn" onclick="transmitSecretAffirmation()">
+              <i data-lucide="sparkles" style="width: 20px; height: 20px;"></i>
+              🔮 [시크릿 현실화 파동 발동] 나의 미래 비전을 무의식과 우주에 각인하기
+            </button>
+            <div style="text-align: center; font-size: 0.73rem; color: #64748B; margin-top: 8px;">
+              매일 아침 1회 발동 시 <strong>영혼 경험치 +30 EXP & 현실화 지수 +2%</strong>가 축적됩니다.
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -4703,6 +5102,7 @@
       init3DTiltEngine();
       init3DCompassGyroscope();
       updateCompassAlignment(1);
+      initSoulAvatar();
     });
 
     /* =========================================================================
@@ -4991,6 +5391,10 @@
       if (!text) return;
       input.value = '';
       addMessage('user', text);
+
+      // Character Growth: Gain Soul EXP for self-inquiry
+      SOUL_AVATAR_STATE.questionCount++;
+      gainSoulExp(50, '소크라테스 산파술 답변 완료');
 
       // Show typing indicator
       const typingId = 'typing-' + Date.now();
@@ -6427,6 +6831,189 @@
       if (label) label.innerText = cur.text;
       if (fatigue) fatigue.innerText = cur.f;
       if (growth) growth.innerText = cur.g;
+    }
+
+    // =========================================================================
+    // 8. THE SECRET SANCTUARY & SOUL AVATAR ENGINE
+    // =========================================================================
+    const SOUL_AVATAR_STATE = {
+      level: 3,
+      exp: 350,
+      maxExp: 500,
+      aura: 'blue',
+      manifestIndex: 78,
+      questionCount: 36,
+      routineDays: 14,
+      affirmCount: 28,
+      roomTheme: 'terrace'
+    };
+
+    const AVATAR_LEVELS = {
+      1: { name: '🌟 Lv.1 별빛의 씨앗', emoji: '🌟', max: 200, crown: 'M 65 52 L 70 42 L 75 52 Z' },
+      2: { name: '🧭 Lv.2 깨어난 탐색자', emoji: '🧭', max: 350, crown: 'M 60 48 L 70 38 L 80 48 Z' },
+      3: { name: '👑 Lv.3 주권의 조율자', emoji: '👑', max: 500, crown: 'M 58 45 L 64 36 L 70 42 L 76 36 L 82 45 Z' },
+      4: { name: '📜 Lv.4 지혜의 멘토', emoji: '📜', max: 750, crown: 'M 56 42 L 63 32 L 70 38 L 77 32 L 84 42 Z' },
+      5: { name: '✨ Lv.5 완전한 인생 주권자', emoji: '✨', max: 1000, crown: 'M 54 40 L 62 28 L 70 36 L 78 28 L 86 40 Z' }
+    };
+
+    function initSoulAvatar() {
+      const saved = localStorage.getItem('gnothi_soul_avatar');
+      if (saved) {
+        try {
+          Object.assign(SOUL_AVATAR_STATE, JSON.parse(saved));
+        } catch(e) {}
+      }
+      updateSoulAvatarUI();
+    }
+
+    function saveSoulAvatar() {
+      localStorage.setItem('gnothi_soul_avatar', JSON.stringify(SOUL_AVATAR_STATE));
+    }
+
+    function updateSoulAvatarUI() {
+      const curLv = AVATAR_LEVELS[SOUL_AVATAR_STATE.level] || AVATAR_LEVELS[3];
+      SOUL_AVATAR_STATE.maxExp = curLv.max;
+
+      // Header Mini Badge
+      const headEmoji = document.getElementById('headerAvatarEmoji');
+      const headLv = document.getElementById('headerAvatarLevel');
+      const headExp = document.getElementById('headerAvatarExp');
+      if (headEmoji) headEmoji.innerText = curLv.emoji;
+      if (headLv) headLv.innerText = `Lv.${SOUL_AVATAR_STATE.level}`;
+      if (headExp) {
+        const pct = Math.round((SOUL_AVATAR_STATE.exp / SOUL_AVATAR_STATE.maxExp) * 100);
+        headExp.innerText = `${pct}%`;
+      }
+
+      // Sanctuary Room UI
+      const titleEl = document.getElementById('avatarRankTitle');
+      if (titleEl) titleEl.innerText = curLv.name;
+
+      const expTextEl = document.getElementById('avatarExpText');
+      if (expTextEl) {
+        const pct = Math.round((SOUL_AVATAR_STATE.exp / SOUL_AVATAR_STATE.maxExp) * 100);
+        expTextEl.innerText = `${SOUL_AVATAR_STATE.exp} / ${SOUL_AVATAR_STATE.maxExp} (${pct}%)`;
+      }
+
+      const barEl = document.getElementById('avatarExpBarFill');
+      if (barEl) {
+        const pct = Math.min(100, Math.round((SOUL_AVATAR_STATE.exp / SOUL_AVATAR_STATE.maxExp) * 100));
+        barEl.style.width = `${pct}%`;
+      }
+
+      // Crown path
+      const crownEl = document.getElementById('avatarCrownPath');
+      if (crownEl) crownEl.setAttribute('d', curLv.crown);
+
+      // Manifestation Score & Progress
+      const manifestScoreEl = document.getElementById('manifestIndexScore');
+      if (manifestScoreEl) manifestScoreEl.innerText = `${SOUL_AVATAR_STATE.manifestIndex}%`;
+
+      const manifestFillEl = document.getElementById('manifestProgressFill');
+      if (manifestFillEl) manifestFillEl.style.width = `${SOUL_AVATAR_STATE.manifestIndex}%`;
+
+      const qEl = document.getElementById('statQuestionCount');
+      if (qEl) qEl.innerText = `${SOUL_AVATAR_STATE.questionCount}회`;
+
+      const rEl = document.getElementById('statRoutineDays');
+      if (rEl) rEl.innerText = `${SOUL_AVATAR_STATE.routineDays}일 연속`;
+
+      const aEl = document.getElementById('statAffirmCount');
+      if (aEl) aEl.innerText = `${SOUL_AVATAR_STATE.affirmCount}회`;
+    }
+
+    function gainSoulExp(amount, reason) {
+      SOUL_AVATAR_STATE.exp += amount;
+      let leveledUp = false;
+
+      while (SOUL_AVATAR_STATE.exp >= SOUL_AVATAR_STATE.maxExp && SOUL_AVATAR_STATE.level < 5) {
+        SOUL_AVATAR_STATE.exp -= SOUL_AVATAR_STATE.maxExp;
+        SOUL_AVATAR_STATE.level++;
+        leveledUp = true;
+      }
+
+      if (leveledUp) {
+        playAppleSound('success');
+        const curLv = AVATAR_LEVELS[SOUL_AVATAR_STATE.level];
+        showAppleToast(`🎊 축하합니다! 내면의 영혼 아바타가 [${curLv.name}]으로 진화했습니다!`);
+      } else {
+        showAppleToast(`✨ ${reason} (+${amount} EXP 획득)`);
+      }
+
+      saveSoulAvatar();
+      updateSoulAvatarUI();
+    }
+
+    function setAvatarAura(color) {
+      playAppleSound('tap');
+      SOUL_AVATAR_STATE.aura = color;
+      const auraColors = {
+        blue: { s1: '#38BDF8', s2: '#818CF8', s3: '#0071E3', name: '사파이어 블루' },
+        emerald: { s1: '#34D399', s2: '#10B981', s3: '#047857', name: '에메랄드 포레스트' },
+        amber: { s1: '#FBBF24', s2: '#F59E0B', s3: '#D97706', name: '앰버 골드' },
+        purple: { s1: '#C084FC', s2: '#8B5CF6', s3: '#6D28D9', name: '코스믹 퍼플' }
+      };
+
+      const c = auraColors[color] || auraColors.blue;
+      const s1 = document.getElementById('gradStop1');
+      const s2 = document.getElementById('gradStop2');
+      const s3 = document.getElementById('gradStop3');
+      if (s1) s1.setAttribute('stop-color', c.s1);
+      if (s2) s2.setAttribute('stop-color', c.s2);
+      if (s3) s3.setAttribute('stop-color', c.s3);
+
+      showAppleToast(`🎨 아우라가 [${c.name}] 에너지로 변경되었습니다.`);
+      saveSoulAvatar();
+    }
+
+    function interactWithAvatar() {
+      playAppleSound('chime');
+      const quotes = [
+        '"당신이 생각하는 이상적인 모습이 곧 미래의 당신입니다."',
+        '"타인의 채점표를 버릴 때, 영혼의 진정한 날개가 펼쳐집니다."',
+        '"오늘 한 번의 솔직한 답변이 인생의 방위각을 바꿉니다."',
+        '"비전보드에 새긴 소망은 이미 무의식 속에서 실현되고 있습니다."'
+      ];
+      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+      showAppleToast(`💬 영혼 아바타: ${randomQuote}`);
+    }
+
+    function transmitSecretAffirmation() {
+      playAppleSound('success');
+      SOUL_AVATAR_STATE.affirmCount++;
+      SOUL_AVATAR_STATE.manifestIndex = Math.min(100, SOUL_AVATAR_STATE.manifestIndex + 2);
+      gainSoulExp(30, '시크릿 현실화 파동 발동 완료 (528Hz 각인)');
+    }
+
+    function editVisionSlot(slotNum) {
+      playAppleSound('tap');
+      const titleEl = document.getElementById(`visionTitle${slotNum}`);
+      const descEl = document.getElementById(`visionDesc${slotNum}`);
+      if (!titleEl || !descEl) return;
+
+      const newTitle = prompt('미래에 현실화하고 싶은 비전의 제목을 입력하세요:', titleEl.innerText);
+      if (newTitle && newTitle.trim()) {
+        const newDesc = prompt('비전이 실현되었을 때의 구체적인 느낌과 장면을 적어주세요:', descEl.innerText);
+        if (newDesc && newDesc.trim()) {
+          titleEl.innerText = newTitle.trim();
+          descEl.innerText = newDesc.trim();
+          playAppleSound('success');
+          showAppleToast(`🖼️ 비전 슬롯 ${slotNum}번이 새로운 미래 청사진으로 업데이트되었습니다!`);
+          gainSoulExp(20, '미래 비전 시각화 업데이트');
+        }
+      }
+    }
+
+    function changeRoomTheme(themeKey) {
+      playAppleSound('tap');
+      SOUL_AVATAR_STATE.roomTheme = themeKey;
+      const themeNames = {
+        terrace: '🏛️ 그리스 아크로폴리스 테라스',
+        library: '📚 앤틱 지혜의 서재',
+        observatory: '🌌 코스믹 북극성 천문대'
+      };
+      showAppleToast(`성소 공간이 [${themeNames[themeKey] || themeKey}] 테마로 전환되었습니다.`);
+      saveSoulAvatar();
     }
   </script>
 </body>
