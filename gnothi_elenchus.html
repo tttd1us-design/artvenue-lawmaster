@@ -609,6 +609,22 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* TYPING INDICATOR ANIMATION */
+    .typing-dots span {
+      display: inline-block;
+      animation: typingBounce 1.4s ease-in-out infinite;
+    }
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingBounce {
+      0%, 80%, 100% { opacity: 0.3; transform: translateY(0); }
+      40% { opacity: 1; transform: translateY(-4px); }
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
     .message-row.socrates { align-self: flex-start; }
     .message-row.user { align-self: flex-end; flex-direction: row-reverse; }
 
@@ -2636,14 +2652,33 @@
       document.getElementById('barPraxis').style.background = praxis > 70 ? 'var(--apple-green)' : 'var(--apple-orange)';
     }
 
-    function sendUserMessage() {
+    async function sendUserMessage() {
       const input = document.getElementById('chatInput');
       const text = input.value.trim();
       if (!text) return;
       input.value = '';
       addMessage('user', text);
 
-      setTimeout(() => {
+      // Show typing indicator
+      const typingId = 'typing-' + Date.now();
+      const chatBody = document.getElementById('chatBody');
+      const typingEl = document.createElement('div');
+      typingEl.id = typingId;
+      typingEl.className = 'chat-bubble socrates';
+      typingEl.innerHTML = '<div class="typing-dots"><span>●</span><span>●</span><span>●</span></div>';
+      typingEl.style.cssText = 'opacity: 0.7; font-size: 1.2rem; letter-spacing: 4px; color: var(--apple-blue);';
+      chatBody.appendChild(typingEl);
+      chatBody.scrollTop = chatBody.scrollHeight;
+
+      // Attempt AI-enhanced response
+      const persona = PERSONA_CONFIGS[currentPersonaKey]?.badge || '소크라테스';
+      const turnNames = ['','1단계: 고정관념 해체','2단계: 타인의 시선 분리','3단계: 호불호 기준 확립','4단계: 인생 방향 선언','5단계: 리포트 완성'];
+
+      setTimeout(async () => {
+        // Remove typing indicator
+        const te = document.getElementById(typingId);
+        if (te) te.remove();
+
         if (conversationTurn === 1) {
           userDirectionSession.thesis = text;
           conversationTurn = 2;
@@ -2651,11 +2686,17 @@
           setActiveStage(2);
           updateQuickChips(2);
           updateBiomarkers(60, 68, 55, 68, 70);
-          addMessage('socrates', `
+
+          const aiResponse = await getAICoachingResponse(
+            `사용자의 고민: "${text}". 이 고민에서 타인의 기대와 본인의 진짜 욕구를 분리하는 질문을 해주세요. 2단계: 타인의 시선 분리 단계입니다.`,
+            turnNames[2], persona
+          );
+          addMessage('socrates', aiResponse || `
             [2단계: 타인의 시선 분리]<br>
             적어주신 솔직한 고민(<em>"${text}"</em>)을 깊이 공감하며 읽었습니다.<br>
             만약 주변 사람들의 평가나 사회적 시선이 전혀 존재하지 않는다고 가정해도, <strong>본인은 여전히 이 방향을 스스로 선택하고 걸어가실 건가요?</strong> 솔직한 생각을 들려주세요.
           `);
+
         } else if (conversationTurn === 2) {
           userDirectionSession.motive = text;
           conversationTurn = 3;
@@ -2663,12 +2704,18 @@
           setActiveStage(3);
           updateQuickChips(3);
           updateBiomarkers(72, 58, 68, 52, 75);
-          addMessage('socrates', `
+
+          const aiResponse = await getAICoachingResponse(
+            `사용자의 동기: "${text}". 이전 고민: "${userDirectionSession.thesis}". 스트레스 요인과 에너지 원천을 발견하는 질문을 해주세요. 3단계: 호불호 기준 확립입니다.`,
+            turnNames[3], persona
+          );
+          addMessage('socrates', aiResponse || `
             [3단계: 호불호 기준 확립]<br>
             솔직하고 깊이 있는 성찰 감사합니다. 남들의 기준이 아닌 나만의 명확한 판단 기준을 세우기 위해 다음 두 가지 질문을 드립니다.<br>
             <strong>1) 아무리 높은 보상을 주더라도 결코 견디기 힘든 환경이나 일의 형태는 무엇인가요? (나의 스트레스 요인)</strong><br>
             <strong>2) 반대로 시간 가는 줄 모르고 자연스럽게 몰입하게 되는 순간이나 활동은 무엇인가요? (나의 에너지 원천)</strong>
           `);
+
         } else if (conversationTurn === 3) {
           userDirectionSession.likesAndHates = text;
           conversationTurn = 4;
@@ -2676,8 +2723,8 @@
           setActiveStage(4);
           updateQuickChips(4);
           updateBiomarkers(84, 35, 85, 38, 82);
-          // Trigger Killer 1: Mindset Shift with dynamic conflict
           triggerAporiaShatterDynamic(userDirectionSession.thesis, userDirectionSession.likesAndHates);
+
         } else {
           userDirectionSession.manifesto = text;
           conversationTurn = 5;
@@ -2687,7 +2734,27 @@
           if (container) container.innerHTML = '';
           updateBiomarkers(95, 12, 96, 22, 92);
           updateReportData();
-          addMessage('socrates', `
+
+          // Generate AI-enhanced final report summary
+          const aiSummary = await getAICoachingResponse(
+            `사용자 세션 요약:
+- 고민(고정관념): "${userDirectionSession.thesis}"
+- 내적 동기: "${userDirectionSession.motive}"  
+- 호불호: "${userDirectionSession.likesAndHates}"
+- 인생 방향 선언: "${userDirectionSession.manifesto}"
+이 사용자의 5단계 코칭 여정을 축하하며, 인지심리학·행동경제학 근거로 90일 실행 계획 핵심 3가지를 제안해주세요.`,
+            turnNames[5], persona
+          );
+
+          const finalReportContent = aiSummary ? `
+            [5단계 완료: 나만의 방향성 리포트 발급]<br>
+            ${aiSummary}<br>
+            <div style="background: var(--apple-blue-soft); border: 1px solid rgba(0, 113, 227, 0.2); border-radius: var(--apple-radius-md); padding: 14px; margin: 12px 0; line-height: 1.7;">
+              🧭 <strong>${PERSONA_CONFIGS[currentPersonaKey].badge} AI 맞춤형 분석 완료</strong><br>
+              • <strong>극복한 고정관념</strong>: ${userDirectionSession.thesis}<br>
+              • <strong>나만의 인생 북극성</strong>: <strong>"${userDirectionSession.manifesto}"</strong>
+            </div>
+          ` : `
             [5단계 완료: 나만의 방향성 리포트 발급]<br>
             축하드립니다! 타인의 시선에서 벗어나 본인만의 뚜렷한 인생 북극성을 완성하셨습니다.<br>
             <div style="background: var(--apple-blue-soft); border: 1px solid rgba(0, 113, 227, 0.2); border-radius: var(--apple-radius-md); padding: 14px; margin: 12px 0; line-height: 1.7;">
@@ -2696,6 +2763,10 @@
               • <strong>나만의 인생 북극성</strong>: <strong>"${userDirectionSession.manifesto}"</strong><br>
               • <strong>핵심 실천 원칙</strong>: 타인의 시선에 휘둘리지 않고 90일 구체적 실행 프로젝트 착수
             </div>
+          `;
+
+          addMessage('socrates', `
+            ${finalReportContent}
             <div style="margin-top: 14px; text-align: center;">
               <button class="apple-pill-btn primary" onclick="openFullReportModal()" style="font-size: 0.92rem; padding: 11px 24px; box-shadow: 0 4px 14px rgba(0,113,227,0.3); display: inline-flex; align-items: center; gap: 8px;">
                 <i data-lucide="file-text" style="width: 16px; height: 16px;"></i> 🧭 나만의 방향성 진단 리포트 원문 확인하기
@@ -2703,7 +2774,7 @@
             </div>
           `);
         }
-      }, 600);
+      }, 800);
     }
 
     // =========================================================================
