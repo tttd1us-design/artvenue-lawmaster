@@ -1688,6 +1688,10 @@
         <i data-lucide="trending-up" style="width: 13px; height: 13px; color: var(--apple-green);"></i>
         주간 성장 트래커
       </button>
+      <button class="nav-tab-btn" id="tabBtn-reborn" onclick="switchTab('reborn')">
+        <i data-lucide="sunrise" style="width: 13px; height: 13px; color: var(--apple-orange);"></i>
+        🌅 인생 2막 은퇴 나침반
+      </button>
     </nav>
 
     <!-- HEADER ACTIONS -->
@@ -1741,6 +1745,10 @@
         <button class="persona-chip" id="chip-founder" onclick="setPersona('founder')">
           <i data-lucide="rocket" style="width: 15px; height: 15px;"></i>
           <span>창업가·프리랜서 <small>방향성 검증</small></span>
+        </button>
+        <button class="persona-chip" id="chip-senior" onclick="setPersona('senior')">
+          <i data-lucide="sunrise" style="width: 15px; height: 15px; color: var(--apple-orange);"></i>
+          <span>은퇴준비·신중년 <small>인생 2막·정체성 설계</small></span>
         </button>
       </div>
     </section>
@@ -2177,6 +2185,9 @@
         <button class="quick-chip" onclick="fillAndRunBoard('번아웃이 심한데 지금 당장 퇴사하는 게 맞을까요, 아니면 버텨야 할까요?')">
           🛑 번아웃 퇴사 vs 버티며 준비
         </button>
+        <button class="quick-chip" onclick="fillAndRunBoard('정년퇴직을 앞두고 명함이 사라지면 내가 누구인지 막막합니다. 인생 2막을 어떻게 시작해야 할까요?')">
+          🌅 은퇴 후 명함 상실 vs 인생 2막 설계
+        </button>
       </div>
 
       <!-- APPLE SEARCH CAPSULE INPUT -->
@@ -2306,6 +2317,177 @@
           <div class="tilt-glare"></div>
           <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 10px;">☀️ 시나리오 B: 나만의 방향성을 갖고 주도적으로 살아온 10년 뒤</h3>
           <p><strong>10년 뒤 나의 일상:</strong> 질문을 통해 나만의 기준을 세우고 작은 실천부터 차근차근 시작한 결과, 시간과 삶의 완전한 주도권을 확보했습니다. 타인의 눈치를 보지 않고, 내가 진정으로 잘하고 좋아하는 일로 세상에 당당하게 가치를 전하며 살아갑니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================================================
+         TAB: 🌅 인생 2막 은퇴 나침반 (RE-BORN COMPASS)
+         ========================================================================= -->
+    <div id="view-reborn" class="tab-view">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <div style="display: inline-flex; align-items: center; gap: 6px; background: var(--apple-orange-soft); border: 1px solid rgba(255, 149, 0, 0.25); color: #D97706; padding: 5px 14px; border-radius: var(--apple-radius-pill); font-size: 0.78rem; font-weight: 700; margin-bottom: 8px;">
+          <i data-lucide="sunrise" style="width: 14px; height: 14px;"></i>
+          액티브 시니어 & 신중년 인생 2막 솔루션
+        </div>
+        <h2 style="font-size: 1.85rem; font-weight: 700; color: var(--apple-text-primary); letter-spacing: -0.03em;">인생 2막 은퇴 나침반: 명함 없는 삶의 4대 기둥 설계</h2>
+        <p style="color: var(--apple-text-secondary); font-size: 0.95rem; margin-top: 6px; max-width: 680px; margin-left: auto; margin-right: auto;">
+          30년 조직의 명함과 직함을 내려놓았을 때 비로소 시작되는 온전한 나만의 삶.<br>평생 쌓은 지혜를 자산화하고, 출퇴근 없는 일상의 시간 주권을 확립하는 인생의 황금기 솔루션.
+        </p>
+      </div>
+
+      <!-- RE-BORN HERO BANNER -->
+      <div style="position: relative; max-width: 1100px; margin: 0 auto 28px; border-radius: var(--apple-radius-2xl); overflow: hidden; box-shadow: var(--apple-shadow-md); border: 1px solid var(--apple-border); height: 210px; background: #FFF;">
+        <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #1E293B 0%, #0F172A 50%, #334155 100%);"></div>
+        <div style="position: absolute; inset: 0; background: radial-gradient(circle at 80% 30%, rgba(255, 149, 0, 0.35) 0%, transparent 65%);"></div>
+        <div style="position: absolute; inset: 0; display: flex; justify-content: space-between; align-items: center; padding: 28px 38px; color: #FFF; z-index: 2;">
+          <div style="max-width: 620px;">
+            <span style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #FCD34D;">RE-BORN SOVEREIGNTY</span>
+            <h3 style="font-family: var(--font-display); font-size: 1.45rem; font-weight: 800; line-height: 1.35; margin-top: 4px; text-shadow: 0 2px 8px rgba(0,0,0,0.3);">
+              "명함은 회사의 것이지만, 지혜와 시간은 온전히 나의 것입니다."
+            </h3>
+            <p style="font-size: 0.88rem; color: rgba(255,255,255,0.85); margin-top: 6px; line-height: 1.6;">
+              은퇴는 끝이 아닌 나만의 고유한 정체성으로 세상과 새롭게 교감하는 진정한 자유의 시작입니다.
+            </p>
+          </div>
+          <button class="apple-pill-btn primary" onclick="setPersona('senior'); switchTab('chamber');" style="background: linear-gradient(135deg, #FF9500, #F59E0B); border: none; padding: 12px 22px; font-size: 0.88rem; box-shadow: 0 4px 16px rgba(245, 158, 11, 0.4); display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="message-square" style="width: 15px; height: 15px;"></i>
+            은퇴준비 1:1 심층 질문 시작
+          </button>
+        </div>
+      </div>
+
+      <!-- 4 GOLDEN PILLARS (3D TILT CARDS) -->
+      <div style="max-width: 1100px; margin: 0 auto 36px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--apple-text-primary);">인생 2막을 지탱하는 4대 황금 기둥</h3>
+          <span style="font-size: 0.78rem; color: var(--apple-blue); font-weight: 600;">시니어 자율성 아키텍처</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px;">
+          <!-- PILLAR 1 -->
+          <div class="bento-card tilt-card" data-tilt="true" style="padding: 24px;">
+            <div class="tilt-glare"></div>
+            <div>
+              <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(0, 113, 227, 0.1); color: var(--apple-blue); display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+                <i data-lucide="award" style="width: 20px; height: 20px;"></i>
+              </div>
+              <div style="font-size: 0.72rem; font-weight: 700; color: var(--apple-blue); text-transform: uppercase;">PILLAR 01</div>
+              <h4 style="font-size: 1.1rem; font-weight: 700; margin: 4px 0 8px; color: var(--apple-text-primary);">지혜의 자산화 (Wisdom Capital)</h4>
+              <p style="font-size: 0.86rem; color: var(--apple-text-secondary); line-height: 1.65;">
+                30년간 치열하게 쌓은 현장 노하우와 문제 해결 역량은 대체 불가능한 고유 자산입니다. 후배 세대를 위한 자문, 칼럼, 멘토링, 전문 강의를 통해 지속적인 자존감과 부가가치를 만듭니다.
+              </p>
+            </div>
+            <div style="margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--apple-border); font-size: 0.76rem; color: var(--apple-blue); font-weight: 600; display: flex; align-items: center; gap: 4px;">
+              <span>실천 핵심: 나만의 전문 분야 칼럼 1편 작성해보기</span>
+            </div>
+          </div>
+
+          <!-- PILLAR 2 -->
+          <div class="bento-card tilt-card" data-tilt="true" style="padding: 24px;">
+            <div class="tilt-glare"></div>
+            <div>
+              <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(52, 199, 89, 0.1); color: var(--apple-green); display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+                <i data-lucide="clock" style="width: 20px; height: 20px;"></i>
+              </div>
+              <div style="font-size: 0.72rem; font-weight: 700; color: var(--apple-green); text-transform: uppercase;">PILLAR 02</div>
+              <h4 style="font-size: 1.1rem; font-weight: 700; margin: 4px 0 8px; color: var(--apple-text-primary);">하루 3블록 시간 주권 (Time Sovereignty)</h4>
+              <p style="font-size: 0.86rem; color: var(--apple-text-secondary); line-height: 1.65;">
+                출퇴근 알람이 사라졌을 때 찾아오는 공허함과 시간 부자의 역설을 예방합니다. [오전: 2시간 배움·글쓰기] [오후: 3시간 산책·사회적 교류] [저녁: 가족·내면 쉼]의 3블록 황금 루틴을 확립합니다.
+              </p>
+            </div>
+            <div style="margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--apple-border); font-size: 0.76rem; color: var(--apple-green); font-weight: 600; display: flex; align-items: center; gap: 4px;">
+              <span>실천 핵심: 매일 오전 9시 나만의 서재/카페로 출근하기</span>
+            </div>
+          </div>
+
+          <!-- PILLAR 3 -->
+          <div class="bento-card tilt-card" data-tilt="true" style="padding: 24px;">
+            <div class="tilt-glare"></div>
+            <div>
+              <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(175, 82, 222, 0.1); color: var(--apple-purple); display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+                <i data-lucide="users-2" style="width: 20px; height: 20px;"></i>
+              </div>
+              <div style="font-size: 0.72rem; font-weight: 700; color: var(--apple-purple); text-transform: uppercase;">PILLAR 03</div>
+              <h4 style="font-size: 1.1rem; font-weight: 700; margin: 4px 0 8px; color: var(--apple-text-primary);">수평적 세대 공존 (Generative Circle)</h4>
+              <p style="font-size: 0.86rem; color: var(--apple-text-secondary); line-height: 1.65;">
+                조직 내 수직적 위계나 과거의 직함에 갇히지 않습니다. 청년 스타트업 창업가들과 친구처럼 교류하며 지혜를 나누고, 나이와 무관하게 배움을 주고받는 건강한 지적 커뮤니티를 구축합니다.
+              </p>
+            </div>
+            <div style="margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--apple-border); font-size: 0.76rem; color: var(--apple-purple); font-weight: 600; display: flex; align-items: center; gap: 4px;">
+              <span>실천 핵심: 청년 멘티 1명에게 커피챗으로 경험 나누기</span>
+            </div>
+          </div>
+
+          <!-- PILLAR 4 -->
+          <div class="bento-card tilt-card" data-tilt="true" style="padding: 24px;">
+            <div class="tilt-glare"></div>
+            <div>
+              <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(255, 149, 0, 0.1); color: var(--apple-orange); display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+                <i data-lucide="palette" style="width: 20px; height: 20px;"></i>
+              </div>
+              <div style="font-size: 0.72rem; font-weight: 700; color: var(--apple-orange); text-transform: uppercase;">PILLAR 04</div>
+              <h4 style="font-size: 1.1rem; font-weight: 700; margin: 4px 0 8px; color: var(--apple-text-primary);">영혼의 순수 몰입 (Soulful Mastery)</h4>
+              <p style="font-size: 0.86rem; color: var(--apple-text-secondary); line-height: 1.65;">
+                생계를 위해 30년간 미뤄두었던 나만의 진정한 취향과 호기심을 부활시킵니다. 목공, 악기, 원예, 고전문학, 역사 탐방 등 평가받지 않는 순수한 몰입 속에서 뇌의 젊음과 내면의 평온을 회복합니다.
+              </p>
+            </div>
+            <div style="margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--apple-border); font-size: 0.76rem; color: var(--apple-orange); font-weight: 600; display: flex; align-items: center; gap: 4px;">
+              <span>실천 핵심: 평생 해보고 싶었던 배움 1가지 수강 등록하기</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE RETIREMENT READINESS CHECKUP -->
+      <div style="max-width: 1100px; margin: 0 auto; background: #FFFFFF; border: 1px solid var(--apple-border); border-radius: var(--apple-radius-2xl); padding: 32px 36px; box-shadow: var(--apple-shadow-sm);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <div>
+            <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--apple-text-primary);">🎯 나의 은퇴 멘탈 & 시간 주권 준비도 진단</h3>
+            <p style="font-size: 0.86rem; color: var(--apple-text-secondary); margin-top: 4px;">3가지 문항을 체크하고, 은퇴 후 가장 먼저 보강해야 할 내면의 축을 확인해보세요.</p>
+          </div>
+          <span style="font-size: 0.76rem; padding: 4px 12px; background: var(--apple-blue-soft); color: var(--apple-blue); border-radius: var(--apple-radius-pill); font-weight: 700;">1분 자가진단</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+          <div style="background: var(--apple-surface-secondary); padding: 18px; border-radius: var(--apple-radius-md); border: 1px solid var(--apple-border);">
+            <div style="font-size: 0.78rem; font-weight: 700; color: var(--apple-blue); margin-bottom: 6px;">문항 1: 정체성 독립도</div>
+            <div style="font-size: 0.86rem; font-weight: 600; color: var(--apple-text-primary); margin-bottom: 10px;">"직함 없이도 내 이름 석 자로 나를 소개할 수 있는가?"</div>
+            <select id="rebornCheck1" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #D1D5DB; font-size: 0.82rem; background: #FFF;">
+              <option value="3">매우 그렇다 (확실한 고유 정체성 있음)</option>
+              <option value="2" selected>보통이다 (직함이 없으면 조금 어색함)</option>
+              <option value="1">전혀 아니다 (명함 없이는 설명하기 막막함)</option>
+            </select>
+          </div>
+
+          <div style="background: var(--apple-surface-secondary); padding: 18px; border-radius: var(--apple-radius-md); border: 1px solid var(--apple-border);">
+            <div style="font-size: 0.78rem; font-weight: 700; color: var(--apple-green); margin-bottom: 6px;">문항 2: 시간 주권도</div>
+            <div style="font-size: 0.86rem; font-weight: 600; color: var(--apple-text-primary); margin-bottom: 10px;">"하루 8시간의 자유 시간을 몰입할 루틴이 준비되었는가?"</div>
+            <select id="rebornCheck2" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #D1D5DB; font-size: 0.82rem; background: #FFF;">
+              <option value="3">매우 그렇다 (이미 일간 루틴 실천 중)</option>
+              <option value="2" selected>보통이다 (계획은 있으나 실천은 미흡)</option>
+              <option value="1">전혀 아니다 (무엇을 해야 할지 불안함)</option>
+            </select>
+          </div>
+
+          <div style="background: var(--apple-surface-secondary); padding: 18px; border-radius: var(--apple-radius-md); border: 1px solid var(--apple-border);">
+            <div style="font-size: 0.78rem; font-weight: 700; color: var(--apple-orange); margin-bottom: 6px;">문항 3: 지혜 공유 준비도</div>
+            <div style="font-size: 0.86rem; font-weight: 600; color: var(--apple-text-primary); margin-bottom: 10px;">"내 평생 경험과 노하우를 사회에 나눌 준비가 되었는가?"</div>
+            <select id="rebornCheck3" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #D1D5DB; font-size: 0.82rem; background: #FFF;">
+              <option value="3">매우 그렇다 (정리된 노하우와 콘텐츠 있음)</option>
+              <option value="2" selected>보통이다 (경험은 많으나 정리가 필요함)</option>
+              <option value="1">전혀 아니다 (내 경험이 쓸모 있을지 의문)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="text-align: center;">
+          <button class="apple-pill-btn primary" onclick="evaluateRebornReadiness()" style="padding: 12px 28px; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(0, 113, 227, 0.25);">
+            <i data-lucide="calculator" style="width: 16px; height: 16px;"></i> 은퇴 준비도 분석 결과 및 90일 로드맵 확인
+          </button>
+        </div>
+
+        <div id="rebornResultBox" style="display: none; margin-top: 24px; padding: 20px; background: var(--apple-blue-soft); border: 1px solid rgba(0, 113, 227, 0.2); border-radius: var(--apple-radius-md); line-height: 1.7; font-size: 0.9rem;">
         </div>
       </div>
     </div>
@@ -2808,6 +2990,17 @@
         title: '창업가·프리랜서 방향성 검증: "시장 생존성과 지속 가능한 동력 확인"',
         chips: ['이 아이템이 진짜 고객이 돈을 낼 만큼 절박한 문제인지 고민돼요.', '당장 1년 동안 수익이 적더라도 몰입할 수 있을지 스스로를 점검하고 싶어요.'],
         firstQuestion: `[1단계: 현재 고민 진단]<br>안녕하세요. <strong>지금 준비하시거나 운영 중인 비즈니스가 해결하려는 '고객의 가장 절박한 불편과 결핍'은 구체적으로 무엇인가요?</strong>`
+      },
+      senior: {
+        id: 'senior',
+        badge: '은퇴준비·신중년 (인생 2막·정체성 설계)',
+        title: '은퇴 준비 & 인생 2막: "명함이 사라진 후, 나는 어떤 가치로 살아갈 것인가?"',
+        chips: [
+          '30년 넘게 일해온 직장을 곧 떠나는데, 명함이 사라지면 내가 누구인지 막막해요.',
+          '연금과 자산은 준비되었지만, 매일 아침 갈 곳과 몰입할 일이 없다는 공허함이 두려워요.',
+          '수익만을 좇기보다, 평생 쌓은 경험과 전문성으로 후배를 돕거나 사회에 기여하고 싶어요.'
+        ],
+        firstQuestion: `[1단계: 현재 고민 진단]<br>안녕하세요. 수십 년간 쉼 없이 달려온 조직과 명함의 울타리를 벗어나, 오롯이 나 자신으로 서는 귀한 전환점 앞에 서 계십니다.<br><strong>명함과 직함을 모두 떼어냈을 때, '인간 OOO'으로서 남은 30~40년의 시간 동안 가장 진정성 있게 몰입하고 사회에 전하고 싶은 지혜나 가치는 무엇인가요?</strong> 솔직한 소회를 편하게 적어주세요.`
       }
     };
 
@@ -2835,6 +3028,26 @@
         2: ['투자자나 남들의 시선보다 고객의 진짜 문제를 푸는 데 집중하고 싶어요.', '겉보기에 화려한 지표보다 지속 가능한 이익과 생존이 우선이에요.', '팀원들과 함께 세상을 변화시키는 프로덕트를 만들고 싶어요.'],
         3: ['스트레스: 비전 없는 단순 용역과 생계형 프로젝트 / 에너지: 고객의 핵심 불편을 혁신적으로 해결할 때', '스트레스: 신뢰 없는 파트너와의 갈등 / 에너지: 제품 론칭 후 첫 유료 고객의 감사를 받을 때'],
         4: ['거품 낀 외형 성장이 아닌, 고객 1명의 문제를 완벽히 해결하는 생존 모델을 만든다.', '남들의 성공 공식을 흉내 내지 않고, 우리의 원칙과 차별화된 가치로 독점한다.']
+      },
+      senior: {
+        1: [
+          '30년 넘게 일해온 직장을 곧 떠나는데, 명함이 사라지면 내가 누구인지 막막해요.',
+          '연금과 자산은 준비되었지만, 매일 아침 갈 곳과 몰입할 일이 없다는 공허함이 두려워요.',
+          '수익만을 좇기보다, 평생 쌓은 경험과 전문성으로 후배를 돕거나 사회에 기여하고 싶어요.'
+        ],
+        2: [
+          '조직의 계급장이 아닌 내 온전한 인격과 지혜로 사람들과 소통하고 싶어요.',
+          '사회적 지위가 낮아지거나 잊혀진 존재가 될까 봐 두려운 마음이 솔직히 있습니다.',
+          '남들의 체면과 자존심을 내려놓고, 진짜 내가 원하던 삶의 방식을 찾고 싶어요.'
+        ],
+        3: [
+          '스트레스: 꼰대 소리 듣는 것과 의미 없는 형식적 모임 / 에너지: 평생 축적한 현장 노하우를 누군가에게 진심으로 전수할 때',
+          '스트레스: 할 일 없이 TV만 보며 하루를 보내는 무료함 / 에너지: 자연과 함께하거나 오랜 취미에 깊이 몰입하며 내면의 평화를 누릴 때'
+        ],
+        4: [
+          '명함의 무게를 내려놓고, 평생 축적한 지혜로 청년 세대를 돕는 라이프 멘토가 된다.',
+          '남들의 시선에서 벗어나, 하루 3블록 시간 주권을 회복하고 건강과 순수한 배움에 몰입한다.'
+        ]
       }
     };
 
@@ -3408,6 +3621,62 @@
 
         <div style="background: var(--apple-green-soft); border: 1px solid rgba(52,199,89,0.2); border-radius: var(--apple-radius-md); padding: 12px; font-size: 0.84rem; color: #065F46; line-height: 1.6;">
           <strong>🌿 오늘 밤 마인드 케어 가이드:</strong> 따뜻한 물을 한 잔 마시고 스마트폰을 잠시 내려놓은 뒤 푹 쉬어보세요. 뇌와 감정이 편안해진 내일 아침 10시에 바라보면, 지금의 문제가 훨씬 차분하고 명확하게 보일 것입니다.
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    /* =========================================================================
+       RE-BORN COMPASS: 은퇴 멘탈 & 시간 주권 준비도 진단
+       ========================================================================= */
+    function evaluateRebornReadiness() {
+      const q1 = parseInt(document.getElementById('rebornCheck1').value, 10) || 2;
+      const q2 = parseInt(document.getElementById('rebornCheck2').value, 10) || 2;
+      const q3 = parseInt(document.getElementById('rebornCheck3').value, 10) || 2;
+      const total = q1 + q2 + q3;
+
+      const box = document.getElementById('rebornResultBox');
+      box.style.display = 'block';
+
+      let gradeTitle = '';
+      let gradeDesc = '';
+      let pillarFocus = '';
+      let badgeColor = '';
+
+      if (total >= 8) {
+        gradeTitle = '✨ 황금빛 자율 준비형 (Master Sovereign)';
+        gradeDesc = '명함에서 벗어난 고유한 정체성과 시간 주권이 대단히 훌륭하게 준비되어 있습니다. 더 이상 직함의 무게에 얽매이지 않고, 축적된 지혜를 세상에 전달할 준비가 되셨습니다.';
+        pillarFocus = '🌟 [기둥 1: 지혜의 자산화]와 [기둥 3: 수평적 멘토링]에 집중하여, 나만의 전문 칼럼이나 후배 세대 스타트업 자문 프로젝트에 즉시 착수하세요.';
+        badgeColor = 'var(--apple-green)';
+      } else if (total >= 5) {
+        gradeTitle = '🌿 전환 모색형 (Transitional Explorer)';
+        gradeDesc = '인생 2막에 대한 열망과 준비 의지는 충분하지만, 출퇴근이 사라진 일상의 루틴과 명함 없는 자기소개에 약간의 막막함이 남아있습니다.';
+        pillarFocus = '⏳ [기둥 2: 하루 3블록 시간 주권]을 먼저 세워 매일 오전 9시 나만의 몰입 루틴을 확보하고, 5단계 산파술 대화를 통해 내면의 북극성을 명확히 세우는 것을 추천합니다.';
+        badgeColor = 'var(--apple-blue)';
+      } else {
+        gradeTitle = '💡 긴급 정체성 케어형 (Identity Care)';
+        gradeDesc = '평생 조직에 헌신해온 만큼, 명함이 사라진다는 사실에 대한 공허함과 시간 관리의 불안이 상대적으로 높게 나타났습니다. 이는 지극히 자연스러운 심리적 전환 과정입니다.';
+        pillarFocus = '🧘 [기둥 4: 영혼의 순수 몰입]과 [고정관념 해체]부터 시작하세요. 30년간 억눌렀던 나만의 순수한 취향을 부활시키고 1:1 대화 코칭을 통해 자존감을 회복하세요.';
+        badgeColor = 'var(--apple-orange)';
+      }
+
+      box.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,113,227,0.2); padding-bottom: 12px; margin-bottom: 14px;">
+          <div>
+            <span style="font-size: 0.76rem; font-weight: 700; color: ${badgeColor}; text-transform: uppercase;">진단 결과 종합: ${total}점 / 9점 만점</span>
+            <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--apple-text-primary); margin-top: 2px;">${gradeTitle}</h4>
+          </div>
+          <button class="apple-pill-btn primary" onclick="setPersona('senior'); switchTab('chamber');" style="font-size: 0.8rem; padding: 7px 16px; display: inline-flex; align-items: center; gap: 6px;">
+            1:1 은퇴 코칭 시작 <i data-lucide="arrow-right" style="width: 12px; height: 12px;"></i>
+          </button>
+        </div>
+        <p style="color: var(--apple-text-primary); font-size: 0.88rem; margin-bottom: 12px; line-height: 1.65;">${gradeDesc}</p>
+        <div style="background: #FFFFFF; border: 1px solid var(--apple-border); border-radius: var(--apple-radius-sm); padding: 12px 16px; margin-bottom: 14px;">
+          <strong style="color: var(--apple-blue); font-size: 0.84rem;">🧭 인생 2막 90일 우선 집중 과제:</strong>
+          <div style="font-size: 0.84rem; color: var(--apple-text-primary); margin-top: 4px; line-height: 1.6;">${pillarFocus}</div>
+        </div>
+        <div style="font-size: 0.78rem; color: var(--apple-text-secondary); text-align: center;">
+          💡 <strong>Tip:</strong> 상단 '1:1 대화 코칭' 탭에서 [은퇴준비·신중년] 페르소나를 선택하시면, 소크라테스 산파술 질문을 통해 나만의 3대 축을 즉시 도출하실 수 있습니다.
         </div>
       `;
       lucide.createIcons();
