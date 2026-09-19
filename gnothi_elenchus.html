@@ -1694,6 +1694,110 @@
       from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    /* =========================================================================
+       CONSULTANT LINKAGE SYSTEM & CLINICAL DOSSIER STYLES
+       ========================================================================= */
+    .consultant-modal-card {
+      background: #FFFFFF;
+      color: var(--apple-text-primary);
+      border-radius: var(--apple-radius-2xl);
+      max-width: 980px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 34px 34px 30px;
+      box-shadow: 0 35px 80px -20px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.06);
+      animation: modalScale 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .dossier-preview-card {
+      background: linear-gradient(135deg, #F0FDF4 0%, #F8FAFC 100%);
+      border: 2px solid #10B981;
+      border-radius: var(--apple-radius-xl);
+      padding: 22px 24px;
+      margin-bottom: 24px;
+      position: relative;
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.08);
+    }
+    .counselor-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin: 16px 0 24px;
+    }
+    @media (max-width: 768px) {
+      .counselor-grid { grid-template-columns: 1fr; }
+    }
+    .counselor-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--apple-border);
+      border-radius: var(--apple-radius-lg);
+      padding: 16px 18px;
+      display: flex;
+      gap: 14px;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .counselor-card:hover {
+      border-color: #6EE7B7;
+      transform: translateY(-2px);
+      box-shadow: var(--apple-shadow-md);
+    }
+    .counselor-card.active {
+      border-color: #10B981;
+      background: #F0FDF4;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2), 0 8px 20px rgba(16, 185, 129, 0.12);
+    }
+    .counselor-avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      flex-shrink: 0;
+      background: #E2E8F0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .counselor-badge {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: var(--apple-radius-pill);
+      font-weight: 700;
+      display: inline-block;
+    }
+    .consult-chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0;
+    }
+    .consult-chip {
+      padding: 9px 16px;
+      border-radius: var(--apple-radius-pill);
+      border: 1px solid var(--apple-border);
+      background: var(--apple-surface-secondary);
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--apple-text-primary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .consult-chip:hover {
+      background: #E2E8F0;
+      border-color: #CBD5E1;
+    }
+    .consult-chip.active {
+      background: var(--apple-blue);
+      color: #FFFFFF;
+      border-color: var(--apple-blue);
+      box-shadow: 0 4px 12px rgba(0, 113, 227, 0.25);
+    }
   </style>
 </head>
 <body>
@@ -1754,6 +1858,10 @@
       <button class="apple-pill-btn subtle" id="membershipBadgeBtn" onclick="openSubscriptionModal()">
         <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--apple-blue); margin-right: 4px;"></span>
         <span id="membershipStatusText">월 9,900원 멤버십</span>
+      </button>
+      <button class="apple-pill-btn subtle" onclick="openConsultantMatchModal()" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(52, 199, 89, 0.1); color: #059669; border: 1px solid rgba(52, 199, 89, 0.25); font-weight: 700;">
+        <i data-lucide="stethoscope" style="width: 13px; height: 13px;"></i>
+        <span>전문가 상담 연계</span>
       </button>
       <button class="apple-pill-btn subtle" id="userAuthBtn" onclick="handleUserAuthClick()" style="display: inline-flex; align-items: center; gap: 6px;">
         <i data-lucide="user" style="width: 13px; height: 13px;"></i>
@@ -2544,6 +2652,27 @@
 
         <div id="rebornResultBox" style="display: none; margin-top: 24px; padding: 20px; background: var(--apple-blue-soft); border: 1px solid rgba(0, 113, 227, 0.2); border-radius: var(--apple-radius-md); line-height: 1.7; font-size: 0.9rem;">
         </div>
+
+        <!-- RETIREMENT EXPERT COUNSELING LINKAGE CARD -->
+        <div style="margin-top: 24px; background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%); border: 2px solid #F59E0B; border-radius: var(--apple-radius-lg); padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.12);">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <div style="width: 48px; height: 48px; background: #F59E0B; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.4rem; flex-shrink: 0;">
+              🌅
+            </div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="font-weight: 800; color: #92400E; font-size: 1rem;">🌅 은퇴설계 수석위원(김도현 박사) 1:1 사전 진단서 연계 상담</div>
+                <span style="font-size: 0.72rem; background: #FEF3C7; color: #B45309; padding: 2px 8px; border-radius: 999px; font-weight: 700; border: 1px solid rgba(217, 119, 6, 0.3);">CFP 공인재무설계사 · 시니어 라이프 전략연구소장</span>
+              </div>
+              <div style="font-size: 0.82rem; color: #78350F; margin-top: 3px; line-height: 1.5;">
+                AI 은퇴 나침반 진단 결과를 수석위원에게 사전 전달하여, 불필요한 서두 없이 <strong>퇴직 후 90일 지혜의 자산화 & 시간 주권 실행 로드맵</strong>을 즉시 도출합니다.
+              </div>
+            </div>
+          </div>
+          <button class="apple-pill-btn" onclick="openConsultantMatchModal('kim')" style="background: #D97706; color: white; font-weight: 800; padding: 12px 20px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3); border: none; cursor: pointer;">
+            김도현 수석위원 상담 연계하기
+          </button>
+        </div>
       </div>
     </div>
 
@@ -2717,19 +2846,347 @@
         </div>
       </div>
 
-      <!-- KILLER 5: STAKEHOLDER BRIEFING SHEET -->
-      <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 14px; display: flex; align-items: center; justify-content: space-between;">
-        <div>
-          <div style="font-weight: 800; color: #1E40AF; font-size: 0.9rem;">📜 부모님·가족 설득을 위한 '나의 진로/이직 로드맵 요약서'</div>
-          <div style="font-size: 0.76rem; color: #3B82F6;">학부모, 가족, 배우자에게 내 결정을 설득력 있게 설명할 수 있는 요약 문서입니다.</div>
+      <!-- EXPERT COUNSELING LINKAGE BANNER IN REPORT -->
+      <div style="background: linear-gradient(135deg, #ECFDF5, #F0FDF4); border: 2px solid #10B981; border-radius: 14px; padding: 18px 20px; margin-top: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.12);">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <div style="width: 48px; height: 48px; background: #10B981; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);">
+            <i data-lucide="stethoscope" style="width: 24px; height: 24px;"></i>
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="font-weight: 800; color: #065F46; font-size: 1.02rem;">🩺 AI 진단 결과 연계 1:1 공인 전문가 심층 상담</div>
+              <span style="font-size: 0.72rem; background: #D1FAE5; color: #047857; padding: 2px 8px; border-radius: 999px; font-weight: 700;">상담 효율 300% 극대화</span>
+            </div>
+            <div style="font-size: 0.8rem; color: #047857; margin-top: 3px; line-height: 1.5;">
+              방금 도출된 3대 인생 축과 5대 멘탈 바이오마커를 담당 전문 코치에게 사전 전달하여, 첫 30분의 형식적 질문 없이 즉시 본질적인 1:1 실행 코칭을 시작합니다.
+            </div>
+          </div>
         </div>
-        <button class="pill-btn" style="background: #2563EB; color: white;" onclick="alert('진로/이직 로드맵 요약서 PDF가 생성되었습니다!')">
-          요약 리포트 출력
+        <button class="apple-pill-btn" onclick="openConsultantMatchModal()" style="background: #10B981; color: white; font-weight: 800; padding: 12px 20px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); border: none; cursor: pointer;">
+          전문가에게 사전 전달하고 상담 예약
         </button>
       </div>
 
       <div style="display: flex; justify-content: center; gap: 12px; margin-top: 24px;">
         <button class="send-btn" onclick="window.print()"><i data-lucide="printer" style="width: 16px; height: 16px;"></i> 인생 방향성 진단 리포트 인쇄 / PDF 저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL: 진단 결과 연계 1:1 전문가 상담 매칭 (PRE-COUNSELING DOSSIER)
+       ========================================================================= -->
+  <div class="modal-overlay" id="consultantMatchModal">
+    <div class="consultant-modal-card">
+      <!-- HEADER -->
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1.5px solid var(--apple-border); padding-bottom: 18px; margin-bottom: 22px;">
+        <div>
+          <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.74rem; font-weight: 800; color: #059669; background: #ECFDF5; padding: 3px 10px; border-radius: var(--apple-radius-pill); margin-bottom: 6px; border: 1px solid rgba(16, 185, 129, 0.3);">
+            <i data-lucide="zap" style="width: 12px; height: 12px;"></i> AI 대화 데이터 100% 사전 전달 연계
+          </div>
+          <h2 style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; color: var(--apple-text-primary); margin: 0; display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="stethoscope" style="width: 22px; height: 22px; color: #10B981;"></i>
+            나만의 진단 결과 연계 1:1 전문가 심층 상담
+          </h2>
+          <p style="font-size: 0.84rem; color: var(--apple-text-secondary); margin-top: 4px; line-height: 1.5;">
+            소크라테스 산파술 대화로 정리된 나의 3대 축과 바이오마커를 전문가에게 사전 전달하여, <strong>첫 30분의 형식적 상황 설명 없이 즉시 핵심 실행 솔루션</strong>으로 돌입합니다.
+          </p>
+        </div>
+        <button class="close-btn" onclick="closeConsultantMatchModal()">&times;</button>
+      </div>
+
+      <!-- SECTION 1: PRE-COUNSELING CLINICAL DOSSIER PREVIEW -->
+      <div class="dossier-preview-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px dashed rgba(16, 185, 129, 0.35); padding-bottom: 10px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="clipboard-check" style="width: 18px; height: 18px; color: #059669;"></i>
+            <strong style="font-size: 0.95rem; color: #065F46;">전문가 사전 전달 임상 브리핑 시트 (Intake Dossier)</strong>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px; font-size: 0.76rem;">
+            <span style="background: #FFFFFF; border: 1px solid #10B981; color: #065F46; padding: 2px 8px; border-radius: 6px; font-family: var(--font-mono); font-weight: 700;" id="counselDossierId">GN-DOS-2026-0919</span>
+            <span style="background: #D1FAE5; color: #047857; padding: 2px 8px; border-radius: 6px; font-weight: 700;" id="counselDossierStage">5단계 완료 동기화</span>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; font-size: 0.8rem;">
+          <div style="background: #FFFFFF; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.2);">
+            <div style="color: #64748B; font-size: 0.72rem; font-weight: 700;">내담자 프로필</div>
+            <div style="font-weight: 800; color: #0F172A; margin-top: 2px;" id="counselDossierPersona">중고생 (진로·전공 고민)</div>
+          </div>
+          <div style="background: #FFFFFF; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.2);">
+            <div style="color: #64748B; font-size: 0.72rem; font-weight: 700;">주도적 결정력</div>
+            <div style="font-weight: 800; color: #059669; margin-top: 2px;" id="counselValAutonomy">95점 (극상)</div>
+          </div>
+          <div style="background: #FFFFFF; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.2);">
+            <div style="color: #64748B; font-size: 0.72rem; font-weight: 700;">내면 갈등 지수</div>
+            <div style="font-weight: 800; color: #2563EB; margin-top: 2px;" id="counselValAporia">12점 (안정)</div>
+          </div>
+          <div style="background: #FFFFFF; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.2);">
+            <div style="color: #64748B; font-size: 0.72rem; font-weight: 700;">실행 탄력성</div>
+            <div style="font-weight: 800; color: #059669; margin-top: 2px;" id="counselValPraxis">92점 (우수)</div>
+          </div>
+        </div>
+
+        <!-- 3 AXES PREVIEW -->
+        <div style="background: #FFFFFF; border-radius: 10px; padding: 12px 16px; border: 1px solid rgba(16, 185, 129, 0.25); margin-bottom: 10px;">
+          <div style="font-size: 0.74rem; font-weight: 800; color: #059669; margin-bottom: 6px;">대화 추출 핵심 3대 축 & 인생 방향성</div>
+          <div style="font-size: 0.82rem; line-height: 1.6; color: #1E293B;">
+            • <strong>타인의 기대/고정관념 (Thesis)</strong>: <span id="counselDossierThesis" style="color: #E11D48;">남들이 부러워하는 안정과 스펙에 갇혀 진정한 주도권 상실</span><br>
+            • <strong>진정한 내적 동기 (Motive)</strong>: <span id="counselDossierMotive" style="color: #2563EB;">내 손으로 세상에 유의미한 가치를 직접 구현하고 인정받기</span><br>
+            • <strong>호불호 판단 기준 (Likes/Hates)</strong>: <span id="counselDossierLikesHates" style="color: #475569;">타인의 평가 눈치보기 회피 vs 자율적 몰입 환경 추구</span><br>
+            • <strong>90일 인생 북극성 (Manifesto)</strong>: <strong id="counselDossierManifesto" style="color: #065F46;">"타인의 채점표를 버리고 내 고유한 프로젝트로 온전한 주권자로 전진한다"</strong>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: #047857;">
+          <i data-lucide="shield-check" style="width: 14px; height: 14px;"></i>
+          <span>위 브리핑 시트는 상담 시작 전 배정된 전문 코치에게만 암호화 전송되어 맞춤형 솔루션 수립에 활용됩니다.</span>
+        </div>
+      </div>
+
+      <!-- SECTION 2: COUNSELOR SELECTION -->
+      <div style="margin-bottom: 22px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--apple-text-primary); display: flex; align-items: center; gap: 6px;">
+            <i data-lucide="users" style="width: 16px; height: 16px; color: var(--apple-blue);"></i>
+            내담자 맞춤 공인 전문가 라인업 (선택)
+          </h3>
+          <span style="font-size: 0.74rem; color: var(--apple-text-secondary);">모든 전문가는 공인 1급 자격 및 1,000회 이상 상담 보유</span>
+        </div>
+
+        <div class="counselor-grid">
+          <!-- COUNSELOR 1: LEE (청소년/학생) -->
+          <div class="counselor-card active" id="card-counselor-lee" onclick="selectCounselor('lee')">
+            <div class="counselor-avatar" style="background: #EFF6FF; color: #2563EB;">🎓</div>
+            <div style="flex: 1;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                  <strong style="font-size: 0.95rem; color: #0F172A;">이서연 수석 코치</strong>
+                  <span class="counselor-badge" style="background: #DBEAFE; color: #1E40AF; margin-left: 6px;">진로·학습 수석</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 2px; font-size: 0.78rem; font-weight: 700; color: #F59E0B;">
+                  ★ 4.99 <span style="color: #94A3B8; font-weight: normal;">(1,450건)</span>
+                </div>
+              </div>
+              <div style="font-size: 0.78rem; color: #475569; margin-top: 4px; line-height: 1.4;">
+                서울대 교육상담 석사 · KPC 공인코치<br>
+                청소년·대학생 진로 탐색 및 주도적 공부 몰입 설계
+              </div>
+              <div style="margin-top: 6px; font-size: 0.72rem; color: #059669; font-weight: 700;">
+                ✓ 현재 페르소나 맞춤 추천 코치
+              </div>
+            </div>
+            <input type="radio" name="counselorSelect" value="lee" checked style="margin-top: 4px; accent-color: #10B981;">
+          </div>
+
+          <!-- COUNSELOR 2: PARK (커리어/이직) -->
+          <div class="counselor-card" id="card-counselor-park" onclick="selectCounselor('park')">
+            <div class="counselor-avatar" style="background: #F0FDF4; color: #059669;">💼</div>
+            <div style="flex: 1;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                  <strong style="font-size: 0.95rem; color: #0F172A;">박진우 디렉터</strong>
+                  <span class="counselor-badge" style="background: #DCFCE7; color: #166534; margin-left: 6px;">커리어·이직 헤드헌터</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 2px; font-size: 0.78rem; font-weight: 700; color: #F59E0B;">
+                  ★ 4.98 <span style="color: #94A3B8; font-weight: normal;">(1,200건)</span>
+                </div>
+              </div>
+              <div style="font-size: 0.78rem; color: #475569; margin-top: 4px; line-height: 1.4;">
+                글로벌 전략컨설팅 상무 출신 · 12년차 시니어 코치<br>
+                직무 적합성 분석, 연봉 협상 및 고유 경쟁력 포지셔닝
+              </div>
+              <div style="margin-top: 6px; font-size: 0.72rem; color: #2563EB; font-weight: 700;">
+                ✓ 직장인 이직·창업 페르소나 최적화
+              </div>
+            </div>
+            <input type="radio" name="counselorSelect" value="park" style="margin-top: 4px; accent-color: #10B981;">
+          </div>
+
+          <!-- COUNSELOR 3: KIM (신중년/은퇴) -->
+          <div class="counselor-card" id="card-counselor-kim" onclick="selectCounselor('kim')">
+            <div class="counselor-avatar" style="background: #FFFBEB; color: #D97706;">🌅</div>
+            <div style="flex: 1;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                  <strong style="font-size: 0.95rem; color: #0F172A;">김도현 박사</strong>
+                  <span class="counselor-badge" style="background: #FEF3C7; color: #92400E; margin-left: 6px;">인생 2막 은퇴 수석</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 2px; font-size: 0.78rem; font-weight: 700; color: #F59E0B;">
+                  ★ 4.97 <span style="color: #94A3B8; font-weight: normal;">(980건)</span>
+                </div>
+              </div>
+              <div style="font-size: 0.78rem; color: #475569; margin-top: 4px; line-height: 1.4;">
+                CFP 공인재무설계사 · 시니어 라이프 전략연구소장<br>
+                은퇴 후 시간 주권 설계, 지식 콘텐츠 사업화 자문
+              </div>
+              <div style="margin-top: 6px; font-size: 0.72rem; color: #D97706; font-weight: 700;">
+                ✓ 신중년 은퇴 준비자 전담 매칭
+              </div>
+            </div>
+            <input type="radio" name="counselorSelect" value="kim" style="margin-top: 4px; accent-color: #10B981;">
+          </div>
+
+          <!-- COUNSELOR 4: CHOI (번아웃/심리치유) -->
+          <div class="counselor-card" id="card-counselor-choi" onclick="selectCounselor('choi')">
+            <div class="counselor-avatar" style="background: #FAF5FF; color: #9333EA;">🌿</div>
+            <div style="flex: 1;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                  <strong style="font-size: 0.95rem; color: #0F172A;">최유나 소장</strong>
+                  <span class="counselor-badge" style="background: #F3E8FF; color: #6B21A8; margin-left: 6px;">번아웃·내면치유 1급</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 2px; font-size: 0.78rem; font-weight: 700; color: #F59E0B;">
+                  ★ 4.99 <span style="color: #94A3B8; font-weight: normal;">(1,800건)</span>
+                </div>
+              </div>
+              <div style="font-size: 0.78rem; color: #475569; margin-top: 4px; line-height: 1.4;">
+                한국상담심리학회 1급 임상심리상담사<br>
+                만성 번아웃 극복, 가족 갈등 해소 및 심리적 회복탄력성
+              </div>
+              <div style="margin-top: 6px; font-size: 0.72rem; color: #9333EA; font-weight: 700;">
+                ✓ 마음 피로도 완화 및 번아웃 전담
+              </div>
+            </div>
+            <input type="radio" name="counselorSelect" value="choi" style="margin-top: 4px; accent-color: #10B981;">
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 3: METHOD & SCHEDULE SELECTION -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 22px;">
+        <!-- METHOD -->
+        <div>
+          <label style="font-size: 0.85rem; font-weight: 700; color: var(--apple-text-primary); display: block; margin-bottom: 6px;">
+            상담 진행 방식
+          </label>
+          <div class="consult-chip-group">
+            <div class="consult-chip active" id="chipMethodZoom" onclick="selectConsultMethod('zoom')">
+              <i data-lucide="video" style="width: 14px; height: 14px;"></i> Zoom 화상 (50분)
+            </div>
+            <div class="consult-chip" id="chipMethodPhone" onclick="selectConsultMethod('phone')">
+              <i data-lucide="phone" style="width: 14px; height: 14px;"></i> 전화 코칭 (50분)
+            </div>
+            <div class="consult-chip" id="chipMethodMeet" onclick="selectConsultMethod('meet')">
+              <i data-lucide="building" style="width: 14px; height: 14px;"></i> 서초 센터 대면 (60분)
+            </div>
+          </div>
+        </div>
+
+        <!-- SCHEDULE -->
+        <div>
+          <label style="font-size: 0.85rem; font-weight: 700; color: var(--apple-text-primary); display: block; margin-bottom: 6px;">
+            희망 상담 일시
+          </label>
+          <div class="consult-chip-group">
+            <div class="consult-chip active" id="chipSlot1" onclick="selectConsultSlot('slot1', '내일(일) 14:00 - 14:50')">
+              내일(일) 14:00
+            </div>
+            <div class="consult-chip" id="chipSlot2" onclick="selectConsultSlot('slot2', '내일(일) 19:30 - 20:20')">
+              내일(일) 19:30
+            </div>
+            <div class="consult-chip" id="chipSlot3" onclick="selectConsultSlot('slot3', '화요일 20:00 - 20:50')">
+              화요일 20:00
+            </div>
+            <div class="consult-chip" id="chipSlot4" onclick="selectConsultSlot('slot4', '다음 주 토요일 10:30 - 11:20')">
+              주말 오전 10:30
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADDITIONAL NOTE -->
+      <div style="margin-bottom: 20px;">
+        <label style="font-size: 0.82rem; font-weight: 700; color: var(--apple-text-primary); display: block; margin-bottom: 6px;">
+          전문가에게 사전 전달할 추가 메모 / 특별 요청 사항 (선택)
+        </label>
+        <textarea id="counselExtraNote" class="auth-input" style="height: 64px; padding: 10px 14px; resize: none; font-family: var(--font-sans);" placeholder="예: '3대 축 중 90일 실행 과제를 현업 일정과 어떻게 조율할지 집중 상담받고 싶습니다.'"></textarea>
+      </div>
+
+      <!-- SECTION 4: CONSENT & BOOKING CTA -->
+      <div style="background: var(--apple-surface-secondary); border-radius: var(--apple-radius-lg); padding: 18px 20px; border: 1px solid var(--apple-border); display: flex; justify-content: space-between; align-items: center; gap: 16px;">
+        <div style="flex: 1;">
+          <label style="display: flex; align-items: flex-start; gap: 8px; cursor: pointer;">
+            <input type="checkbox" id="consultConsentCheck" checked style="accent-color: #10B981; margin-top: 3px;">
+            <span style="font-size: 0.82rem; color: var(--apple-text-primary); line-height: 1.5;">
+              <strong>[필수] GNŌTHI 5단계 대화 분석 데이터 및 바이오마커 리포트</strong>를 담당 전문가에게 안전하게 암호화 사전 전송하여 1:1 맞춤 진료 및 솔루션 수립에 활용하는 것에 동의합니다.
+            </span>
+          </label>
+          <div style="font-size: 0.74rem; color: var(--apple-text-tertiary); margin-top: 4px; padding-left: 22px;">
+            개인정보보호법 준수 · 상담 종료 후 30일 내 대화 데이터 안전 파기
+          </div>
+        </div>
+        <div style="text-align: right; flex-shrink: 0;">
+          <div style="font-size: 0.76rem; color: var(--apple-text-secondary); text-decoration: line-through;">정가 120,000원</div>
+          <div style="font-size: 1.35rem; font-weight: 800; color: #059669;">
+            49,000원 <span style="font-size: 0.78rem; font-weight: normal; color: #10B981;">(멤버십 59% 특가)</span>
+          </div>
+          <button class="apple-pill-btn" onclick="submitConsultantBooking()" style="margin-top: 6px; background: #10B981; color: white; font-weight: 800; padding: 11px 22px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35); border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="calendar-check" style="width: 15px; height: 15px;"></i>
+            사전 진단서 전달 & 상담 확정하기
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL: 상담 예약 및 진단서 전달 완료 영수증 (RECEIPT / CONFIRMATION)
+       ========================================================================= -->
+  <div class="modal-overlay" id="consultantSuccessModal">
+    <div class="receipt-modal-card" style="max-width: 560px;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div style="width: 64px; height: 64px; background: #ECFDF5; border: 2px solid #10B981; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: #059669; font-size: 1.8rem; margin-bottom: 12px; box-shadow: 0 6px 18px rgba(16, 185, 129, 0.2);">
+          ✓
+        </div>
+        <h3 style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 0;">전문가 사전 브리핑 전달 완료</h3>
+        <p style="font-size: 0.85rem; color: #059669; margin-top: 4px; font-weight: 600;">
+          담당 코치가 내담자의 5단계 대화 분석서를 완전히 숙지하고 상담에 임합니다.
+        </p>
+      </div>
+
+      <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--apple-radius-lg); padding: 16px 20px; margin-bottom: 18px;">
+        <table class="receipt-table" style="margin: 0;">
+          <tr>
+            <td style="color: #64748B;">상담 접수 번호</td>
+            <td id="receiptCounselCode" style="font-family: var(--font-mono); color: #2563EB;">GN-CNS-2026-8819</td>
+          </tr>
+          <tr>
+            <td style="color: #64748B;">배정 전문 코치</td>
+            <td id="receiptCounselorName" style="color: #0F172A;">이서연 수석 코치 (서울대 교육상담 석사)</td>
+          </tr>
+          <tr>
+            <td style="color: #64748B;">확정 상담 일시</td>
+            <td id="receiptCounselTime" style="color: #0F172A;">내일(일) 14:00 - 14:50 (50분)</td>
+          </tr>
+          <tr>
+            <td style="color: #64748B;">상담 진행 방식</td>
+            <td id="receiptCounselMethod" style="color: #0F172A;">💻 Zoom 1:1 고화질 화상 코칭</td>
+          </tr>
+          <tr>
+            <td style="color: #64748B;">사전 전달된 데이터</td>
+            <td style="color: #059669; font-weight: 700;">✓ 3대 축 + 5대 바이오마커 완비</td>
+          </tr>
+          <tr>
+            <td style="color: #64748B;">결제 완료 금액</td>
+            <td style="color: #0F172A; font-weight: 800;">49,000원 (멤버십 특가)</td>
+          </tr>
+        </table>
+      </div>
+
+      <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: var(--apple-radius-md); padding: 12px 14px; font-size: 0.8rem; color: #1E40AF; line-height: 1.5; margin-bottom: 20px;">
+        💡 <strong>상담 준비 안내:</strong><br>
+        • 상담 시작 30분 전 등록하신 휴대폰/이메일로 <strong>전용 Zoom 화상 링크</strong>가 발송됩니다.<br>
+        • 담당 코치가 이미 귀하의 대화 결과를 검토했으므로, 편안한 마음으로 접속하시면 곧바로 심층 대화가 시작됩니다.
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button class="apple-pill-btn" onclick="closeModal('consultantSuccessModal')" style="flex: 1; padding: 12px; font-weight: 700; background: var(--apple-surface-secondary); border: 1px solid var(--apple-border); color: var(--apple-text-primary);">
+          확인 완료
+        </button>
+        <button class="apple-pill-btn primary" onclick="alert('캘린더 일정(.ics)이 등록되었습니다.')" style="flex: 1; padding: 12px; font-weight: 700;">
+          구글/애플 캘린더 등록
+        </button>
       </div>
     </div>
   </div>
@@ -3527,9 +3984,12 @@
 
           addMessage('socrates', `
             ${finalReportContent}
-            <div style="margin-top: 14px; text-align: center;">
+            <div style="margin-top: 14px; display: flex; flex-direction: column; gap: 8px; align-items: center;">
               <button class="apple-pill-btn primary" onclick="openFullReportModal()" style="font-size: 0.92rem; padding: 11px 24px; box-shadow: 0 4px 14px rgba(0,113,227,0.3); display: inline-flex; align-items: center; gap: 8px;">
                 <i data-lucide="file-text" style="width: 16px; height: 16px;"></i> 🧭 나만의 방향성 진단 리포트 원문 확인하기
+              </button>
+              <button class="apple-pill-btn" onclick="openConsultantMatchModal()" style="font-size: 0.88rem; padding: 10px 22px; background: rgba(52, 199, 89, 0.12); color: #059669; border: 1.5px solid rgba(52, 199, 89, 0.35); font-weight: 700; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(52, 199, 89, 0.15);">
+                <i data-lucide="stethoscope" style="width: 15px; height: 15px;"></i> 🩺 이 대화 결과로 공인 전문 코치 1:1 심층 상담 연계하기
               </button>
             </div>
           `);
@@ -4196,6 +4656,174 @@
     function closeModal(id) {
       const el = document.getElementById(id);
       if (el) el.classList.remove('active');
+    }
+
+    // =========================================================================
+    // EXPERT COUNSELING LINKAGE & CLINICAL DOSSIER SYSTEM
+    // =========================================================================
+    let selectedCounselorId = 'lee';
+    let selectedCounselMethod = '💻 Zoom 1:1 고화질 화상 코칭 (50분)';
+    let selectedCounselSlot = '내일(일) 14:00 - 14:50 (50분)';
+
+    const COUNSELOR_INFO = {
+      lee: {
+        name: '이서연 수석 코치 (서울대 교육상담 석사 · KPC)',
+        title: '진로·학습 수석 코치',
+        badge: '진로·학습 수석'
+      },
+      park: {
+        name: '박진우 디렉터 (전 전략컨설팅 상무 · 12년차)',
+        title: '커리어 전환·이직 헤드헌터/코치',
+        badge: '커리어·이직 헤드헌터'
+      },
+      kim: {
+        name: '김도현 박사 (CFP 공인재무설계사 · 은퇴연구소장)',
+        title: '인생 2막 은퇴설계 수석위원',
+        badge: '인생 2막 은퇴 수석'
+      },
+      choi: {
+        name: '최유나 소장 (한국상담심리학회 1급 임상상담사)',
+        title: '번아웃·내면치유 수석상담사',
+        badge: '번아웃·내면치유 1급'
+      }
+    };
+
+    function openConsultantMatchModal(preferredCounselorId) {
+      // 1. Sync Current Session Data to Dossier
+      const personaObj = PERSONA_CONFIGS[currentPersonaKey] || { badge: '청년·직장인' };
+      const dossierPersonaEl = document.getElementById('counselDossierPersona');
+      if (dossierPersonaEl) dossierPersonaEl.innerText = personaObj.badge;
+
+      const dossierStageEl = document.getElementById('counselDossierStage');
+      if (dossierStageEl) {
+        dossierStageEl.innerText = `${conversationTurn}단계 데이터 연동 완료`;
+      }
+
+      // 2. Sync 3 Axes & Statements
+      const thesisEl = document.getElementById('counselDossierThesis');
+      const motiveEl = document.getElementById('counselDossierMotive');
+      const likesEl = document.getElementById('counselDossierLikesHates');
+      const manifestoEl = document.getElementById('counselDossierManifesto');
+
+      if (thesisEl) {
+        thesisEl.innerText = userDirectionSession.thesis || '타인의 기대와 남들이 부러워하는 안정·스펙에 갇힌 심리적 압박';
+      }
+      if (motiveEl) {
+        motiveEl.innerText = userDirectionSession.motive || '세상에 내 고유한 가치와 흔적을 남기고 인정받고자 하는 순수 내적 갈망';
+      }
+      if (likesEl) {
+        likesEl.innerText = userDirectionSession.likesAndHates || '수동적인 평가 눈치보기 회피 vs 자율성과 창의성이 보장되는 몰입 추구';
+      }
+      if (manifestoEl) {
+        manifestoEl.innerText = userDirectionSession.manifesto ? `"${userDirectionSession.manifesto}"` : '"타인의 채점표를 완전히 지우고 내 고유한 3대 축에 따라 온전한 주권자로 전진한다"';
+      }
+
+      // 3. Sync Biomarkers
+      const autoVal = document.getElementById('valAutonomy')?.innerText || '95점';
+      const aporiaVal = document.getElementById('valAporia')?.innerText || '12점';
+      const praxisVal = document.getElementById('valPraxis')?.innerText || '92점';
+
+      const dAuto = document.getElementById('counselValAutonomy');
+      const dAporia = document.getElementById('counselValAporia');
+      const dPraxis = document.getElementById('counselValPraxis');
+      if (dAuto) dAuto.innerText = autoVal;
+      if (dAporia) dAporia.innerText = aporiaVal;
+      if (dPraxis) dPraxis.innerText = praxisVal;
+
+      // 4. Auto-select Counselor based on Persona or Param
+      let targetId = preferredCounselorId;
+      if (!targetId) {
+        if (currentPersonaKey === 'senior') targetId = 'kim';
+        else if (currentPersonaKey === 'burnout') targetId = 'choi';
+        else if (currentPersonaKey === 'career' || currentPersonaKey === 'entrepreneur') targetId = 'park';
+        else targetId = 'lee';
+      }
+      selectCounselor(targetId);
+
+      // 5. Open Modal
+      document.getElementById('consultantMatchModal').classList.add('active');
+      lucide.createIcons();
+    }
+
+    function closeConsultantMatchModal() {
+      closeModal('consultantMatchModal');
+    }
+
+    function selectCounselor(counselorId) {
+      selectedCounselorId = counselorId;
+      ['lee', 'park', 'kim', 'choi'].forEach(id => {
+        const card = document.getElementById(`card-counselor-${id}`);
+        if (card) {
+          if (id === counselorId) {
+            card.classList.add('active');
+            const radio = card.querySelector('input[type="radio"]');
+            if (radio) radio.checked = true;
+          } else {
+            card.classList.remove('active');
+            const radio = card.querySelector('input[type="radio"]');
+            if (radio) radio.checked = false;
+          }
+        }
+      });
+    }
+
+    function selectConsultMethod(methodType) {
+      document.querySelectorAll('#chipMethodZoom, #chipMethodPhone, #chipMethodMeet').forEach(el => el.classList.remove('active'));
+      if (methodType === 'zoom') {
+        document.getElementById('chipMethodZoom')?.classList.add('active');
+        selectedCounselMethod = '💻 Zoom 1:1 고화질 화상 코칭 (50분)';
+      } else if (methodType === 'phone') {
+        document.getElementById('chipMethodPhone')?.classList.add('active');
+        selectedCounselMethod = '📞 1:1 전화 심층 코칭 (50분)';
+      } else if (methodType === 'meet') {
+        document.getElementById('chipMethodMeet')?.classList.add('active');
+        selectedCounselMethod = '🏛️ 서초 프라이빗 라운지 대면 코칭 (60분)';
+      }
+    }
+
+    function selectConsultSlot(slotId, slotTimeStr) {
+      document.querySelectorAll('#chipSlot1, #chipSlot2, #chipSlot3, #chipSlot4').forEach(el => el.classList.remove('active'));
+      document.getElementById(slotId)?.classList.add('active');
+      selectedCounselSlot = slotTimeStr;
+    }
+
+    function submitConsultantBooking() {
+      const consentCheck = document.getElementById('consultConsentCheck');
+      if (consentCheck && !consentCheck.checked) {
+        alert('전문가에게 사전 진단 데이터를 전달하는 것에 동의해주세요.');
+        return;
+      }
+
+      // Generate Receipt Data
+      const counselor = COUNSELOR_INFO[selectedCounselorId] || COUNSELOR_INFO['lee'];
+      const randomCode = 'GN-CNS-' + new Date().getFullYear() + '-' + Math.floor(1000 + Math.random() * 9000);
+      
+      const rCodeEl = document.getElementById('receiptCounselCode');
+      const rNameEl = document.getElementById('receiptCounselorName');
+      const rTimeEl = document.getElementById('receiptCounselTime');
+      const rMethodEl = document.getElementById('receiptCounselMethod');
+
+      if (rCodeEl) rCodeEl.innerText = randomCode;
+      if (rNameEl) rNameEl.innerText = counselor.name;
+      if (rTimeEl) rTimeEl.innerText = selectedCounselSlot;
+      if (rMethodEl) rMethodEl.innerText = selectedCounselMethod;
+
+      // Save Booking to LocalStorage
+      const bookingRecord = {
+        code: randomCode,
+        counselor: counselor.name,
+        time: selectedCounselSlot,
+        method: selectedCounselMethod,
+        persona: PERSONA_CONFIGS[currentPersonaKey]?.badge,
+        stage: `${conversationTurn}단계 완료`,
+        createdAt: new Date().toISOString()
+      };
+      localStorage.setItem('gnothi_latest_counseling_booking', JSON.stringify(bookingRecord));
+
+      // Close match modal and open success modal
+      closeModal('consultantMatchModal');
+      document.getElementById('consultantSuccessModal').classList.add('active');
+      lucide.createIcons();
     }
   </script>
 </body>

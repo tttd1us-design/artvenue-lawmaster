@@ -149,6 +149,8 @@ const GEMINI_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models
 | `receiptModal` | 전자 결제 영수증 | `showReceipt()` |
 | `reportModal` | 방향성 진단 리포트 원문 | `openFullReportModal()` |
 | `shatterOverlay` | 고정관념 깨뜨리기 이펙트 | `triggerAporiaShatterDynamic()` |
+| `consultantMatchModal` | AI 대화 결과 연계 1:1 전문가 상담 매칭 및 임상 브리핑 시트 | `openConsultantMatchModal()` |
+| `consultantSuccessModal` | 전문가 사전 전달 접수 및 예약 완료 영수증 | `submitConsultantBooking()` |
 
 ## 8. 비즈니스 모델
 
@@ -206,3 +208,31 @@ const GEMINI_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models
 2. 내부에 `.auth-modal-card` 또는 `.report-modal-card` 사용
 3. 닫기: `<button class="close-btn" onclick="closeModal('{모달ID}')">`
 4. 열기: JS 함수에서 `document.getElementById('{모달ID}').classList.add('active')`
+
+## 13. 대화 결과 연계 1:1 전문가 상담 시스템 (Pre-Counseling Clinical Dossier System)
+
+### 1) 시스템 개요 및 해결하는 페인포인트
+- **전통적 상담의 한계**: 내담자가 상담사를 만났을 때 첫 20~30분을 상황 설명, 배경 문진, 형식적 라포 형성에 소모하여 실질적인 문제 해결 시간이 부족함.
+- **GNŌTHI 해결책**: AI 소크라테스 산파술 5단계 대화 코칭을 통해 도출된 핵심 성과(타인의 기대 Thesis, 내적 동기 Motive, 호불호 Likes/Hates, 90일 인생 북극성 Manifesto, 5대 생체·심리 바이오마커)를 **'전문가 사전 전달 임상 브리핑 시트(Pre-Counseling Clinical Dossier)'**로 자동 가공하여 담당 공인 코치에게 암호화 사전 전달.
+- **도출 효과**: 첫 30분의 지루한 문진을 원천 생략하고, 상담 시작 1분 만에 "초개인화 심층 실행 솔루션"으로 즉시 돌입하여 **상담 효율 300% 극대화**.
+
+### 2) 페르소나별 공인 전문가 4대 라인업 (`COUNSELOR_INFO`)
+1. 🎓 **이서연 수석 코치**: 서울대 교육상담 석사, KPC 공인코치 (청소년·대학생 진로학습 전문, 만족도 4.99)
+2. 💼 **박진우 디렉터**: 글로벌 전략컨설팅 상무 출신, 12년차 시니어 코치 (2030·40 직장인 이직·커리어 전환 헤드헌터, 만족도 4.98)
+3. 🌅 **김도현 박사**: CFP 공인재무설계사, 시니어 라이프 전략연구소장 (5060 신중년 은퇴설계 및 시간 주권 수석위원, 만족도 4.97)
+4. 🌿 **최유나 소장**: 한국상담심리학회 1급 임상상담사, 마음치유센터장 (번아웃 증후군 & 내면갈등 완화 전문, 만족도 4.99)
+
+### 3) 4중 진입 동선 (Multi-Entry Triggers)
+1. **상단 글로벌 내비게이션**: 헤더 `[🩺 전문가 상담 연계]` 캡슐 버튼
+2. **5단계 대화 완료 시점**: 챗봇 축하 메시지 내 `[🩺 이 대화 결과로 공인 전문 코치 1:1 심층 상담 연계하기]` 버튼
+3. **진단 리포트 모달 (`reportModal`)**: 상단 하이라이트 배너 `[🩺 AI 진단 결과 연계 1:1 공인 전문가 심층 상담]`
+4. **인생 2막 은퇴 나침반 탭 (`view-reborn`)**: `[🌅 은퇴설계 수석위원(김도현 박사) 1:1 사전 진단서 연계 상담]` 전용 카드
+
+### 4) 핵심 함수
+| 함수 | 설명 |
+|------|------|
+| `openConsultantMatchModal(preferredId)` | 세션 내 3대 축과 바이오마커를 브리핑 시트에 동적 주입 후 전문가 매칭 모달 오픈 |
+| `selectCounselor(counselorId)` | 4대 전문가 카드 선택 및 라디오 전환 |
+| `selectConsultMethod(methodType)` | Zoom 화상 / 전화 코칭 / 서초 대면 방식 선택 |
+| `selectConsultSlot(slotId, timeStr)` | 희망 상담 일정 슬롯 선택 |
+| `submitConsultantBooking()` | 필수 동의 검증 → 접수번호(`GN-CNS-2026-XXXX`) 생성 → 영수증 모달 출력 및 로컬 저장 |
