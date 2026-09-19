@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GNŌTHI (그노티) | 맞춤형 소크라테스 인생 나침반 & 상업용 진단 플랫폼</title>
-  <meta name="description" content="중고등학생 진로, 대학생 인생방향, 직장인 이직/성장, 창업가 사업설계 맞춤형 소크라테스 엘렌코스 대화 및 종합 인생 진단 리포트">
+  <title>GNŌTHI (그노티) | 소크라테스 인생 종합 건강검진 & 라이프 나침반</title>
+  <meta name="description" content="소크라테스 엘렌코스 대화 및 5대 인지 바이오마커 기반 인생 종합 정밀 건강검진 플랫폼">
+
+  <!-- PWA MANIFEST -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2563EB">
 
   <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -80,7 +84,7 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(18px);
       border-bottom: 1px solid var(--border-subtle);
       padding: 10px 24px;
@@ -217,9 +221,9 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      padding: 7px 15px;
+      padding: 7px 14px;
       border-radius: 20px;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -273,11 +277,11 @@
     }
 
     /* =========================================================================
-       VIEW 1: ELENCHUS SESSION CHAMBER (BRIGHT & FRESH)
+       VIEW 1: ELENCHUS SESSION CHAMBER
        ========================================================================= */
     .session-grid {
       display: grid;
-      grid-template-columns: 290px 1fr 340px;
+      grid-template-columns: 290px 1fr 350px;
       gap: 18px;
       height: calc(100vh - 140px);
       min-height: 680px;
@@ -672,76 +676,46 @@
       box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
     }
 
-    /* RIGHT PANEL: LIVE LIFE COMPASS & DISLIKES/LIKES EXTRACTOR */
-    .compass-card {
+    /* RIGHT PANEL: 5 COGNITIVE BIOMARKERS TABLE */
+    .biomarkers-card {
       background: #F8FAFC;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
-    .compass-label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .tag-cloud-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .tag-pill {
-      font-size: 0.72rem;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-weight: 600;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .tag-pill.like {
-      background: #ECFDF5;
-      border: 1px solid #A7F3D0;
-      color: #047857;
-    }
-
-    .tag-pill.hate {
-      background: #FFF1F2;
-      border: 1px solid #FECDD3;
-      color: #BE123C;
-    }
-
-    .tag-pill.pillar {
-      background: #EFF6FF;
-      border: 1px solid #BFDBFE;
-      color: #1D4ED8;
-    }
-
-    .meter-container {
+    .bio-item {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
     }
 
-    .meter-bar {
-      height: 8px;
+    .bio-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .bio-name { color: #1E293B; }
+    .bio-val { font-family: var(--font-mono); }
+    .bio-val.normal { color: #059669; }
+    .bio-val.warning { color: #D97706; }
+    .bio-val.danger { color: #E11D48; }
+
+    .bio-bar-bg {
+      height: 6px;
       background: #E2E8F0;
-      border-radius: 4px;
+      border-radius: 3px;
       overflow: hidden;
     }
 
-    .meter-fill {
+    .bio-bar-fill {
       height: 100%;
-      background: linear-gradient(90deg, #38BDF8, #818CF8, #4F46E5);
-      width: 25%;
+      border-radius: 3px;
       transition: width 0.5s ease;
     }
 
@@ -769,7 +743,7 @@
     }
 
     /* =========================================================================
-       VIEW 2: MONETIZATION & COMMERCIAL REVENUE ENGINE (BRIGHT SAAS)
+       VIEW 2: MONETIZATION & COMMERCIAL REVENUE ENGINE
        ========================================================================= */
     .monetize-grid {
       display: grid;
@@ -849,12 +823,12 @@
     }
 
     /* =========================================================================
-       MODAL: FULL LIFE COMPASS & ACTION BLUEPRINT REPORT
+       MODAL: COMPREHENSIVE LIFE HEALTH CHECKUP REPORT (HOSPITAL STYLE)
        ========================================================================= */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(15, 23, 42, 0.65);
       backdrop-filter: blur(10px);
       z-index: 100;
       display: none;
@@ -868,100 +842,92 @@
     .report-modal-card {
       background: #FFFFFF;
       color: #1E293B;
-      border-radius: 18px;
-      max-width: 900px;
+      border-radius: 16px;
+      max-width: 950px;
       width: 100%;
-      max-height: 90vh;
+      max-height: 92vh;
       overflow-y: auto;
-      padding: 40px 50px;
-      font-family: var(--font-serif);
-      line-height: 1.8;
+      padding: 36px 44px;
+      font-family: var(--font-sans);
       box-shadow: var(--shadow-glass);
+      border: 1px solid #CBD5E1;
+    }
+
+    .checkup-top-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 24px;
+      font-size: 0.82rem;
+    }
+
+    .checkup-top-table th, .checkup-top-table td {
       border: 1px solid #E2E8F0;
+      padding: 8px 12px;
     }
 
-    .close-btn {
-      background: transparent;
-      border: none;
-      color: #64748B;
-      cursor: pointer;
-      font-size: 1.5rem;
-      transition: color 0.2s;
-    }
-
-    .close-btn:hover { color: #0F172A; }
-
-    .report-header-seal {
-      text-align: center;
-      padding-bottom: 24px;
-      border-bottom: 2px solid #F1F5F9;
-      margin-bottom: 28px;
-    }
-
-    .report-header-seal h2 {
-      font-family: var(--font-display);
-      font-size: 1.9rem;
-      color: #0F172A;
-      letter-spacing: 1px;
-      margin-bottom: 6px;
-    }
-
-    .report-section { margin-bottom: 32px; }
-
-    .report-section h3 {
-      font-family: var(--font-display);
-      font-size: 1.2rem;
-      color: #0F172A;
-      border-bottom: 2px solid #2563EB;
-      padding-bottom: 6px;
-      margin-bottom: 12px;
-      letter-spacing: 0.5px;
-    }
-
-    .like-hate-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin: 16px 0;
-    }
-
-    .like-box {
-      background: #ECFDF5;
-      border: 1px solid #A7F3D0;
-      border-radius: 12px;
-      padding: 16px;
-    }
-
-    .hate-box {
-      background: #FFF1F2;
-      border: 1px solid #FECDD3;
-      border-radius: 12px;
-      padding: 16px;
-    }
-
-    .report-action-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin: 14px 0;
-    }
-
-    .report-action-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
+    .checkup-top-table th {
       background: #F8FAFC;
-      border: 1px solid #E2E8F0;
-      padding: 12px 16px;
-      border-radius: 10px;
-      font-size: 0.92rem;
-      border-left: 4px solid #2563EB;
+      color: #475569;
+      font-weight: 700;
+      width: 18%;
     }
 
-    /* RESPONSIVE */
-    @media (max-width: 1100px) {
-      .session-grid { grid-template-columns: 1fr; height: auto; }
-      .monetize-grid { grid-template-columns: 1fr; }
+    .checkup-biomarker-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 24px;
+      font-size: 0.84rem;
+    }
+
+    .checkup-biomarker-table th, .checkup-biomarker-table td {
+      border: 1px solid #E2E8F0;
+      padding: 10px 12px;
+      text-align: left;
+    }
+
+    .checkup-biomarker-table th {
+      background: #F1F5F9;
+      color: #1E293B;
+      font-weight: 700;
+    }
+
+    .badge-status {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .badge-status.normal { background: #D1FAE5; color: #047857; }
+    .badge-status.warning { background: #FEF3C7; color: #B45309; }
+    .badge-status.danger { background: #FFE4E6; color: #E11D48; }
+
+    .rx-box {
+      background: #F8FAFC;
+      border: 2px dashed #CBD5E1;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 16px 0;
+      position: relative;
+    }
+
+    .rx-seal {
+      position: absolute;
+      right: 20px;
+      bottom: 15px;
+      width: 60px;
+      height: 60px;
+      border: 2px solid #E11D48;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #E11D48;
+      font-weight: 800;
+      font-size: 0.85rem;
+      transform: rotate(-12deg);
+      opacity: 0.85;
     }
   </style>
 </head>
@@ -975,7 +941,7 @@
       </div>
       <div class="brand-text">
         <h1>GNŌTHI</h1>
-        <div class="motto">ΓΝΩΘΙ ΣΕΑΥΤΟН · LIFE COMPASS & ACTION OS</div>
+        <div class="motto">LIFE HEALTH CHECKUP & COMPASS OS</div>
       </div>
     </div>
 
@@ -1003,23 +969,38 @@
     <nav class="nav-tabs">
       <button class="nav-tab-btn active" id="tabBtn-chamber" onclick="switchTab('chamber')">
         <i data-lucide="message-square" style="width: 14px; height: 14px;"></i>
-        문답 챔버
+        검진 문답 챔버
       </button>
       <button class="nav-tab-btn" id="tabBtn-report" onclick="openFullReportModal()">
-        <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
-        종합 진단서
+        <i data-lucide="clipboard-check" style="width: 14px; height: 14px;"></i>
+        종합건강검진표
       </button>
       <button class="nav-tab-btn" id="tabBtn-monetize" onclick="switchTab('monetize')">
         <i data-lucide="coins" style="width: 14px; height: 14px;"></i>
-        월 1,000만 수익모델
+        수익 모델
       </button>
     </nav>
 
-    <!-- ACTIONS -->
+    <!-- ACTIONS: INSTALL & SAVE -->
     <div class="header-actions">
+      <button class="pill-btn" onclick="saveDataToFile()" title="검진 데이터 JSON 백업 저장">
+        <i data-lucide="download" style="width: 13px; height: 13px;"></i>
+        저장/백업
+      </button>
+      <button class="pill-btn" onclick="document.getElementById('fileImporter').click()" title="저장된 검진 데이터 불러오기">
+        <i data-lucide="upload" style="width: 13px; height: 13px;"></i>
+        불러오기
+      </button>
+      <input type="file" id="fileImporter" style="display: none;" accept=".json" onchange="importDataFromFile(event)">
+      
+      <button class="pill-btn" onclick="installAppPrompt()" id="installPwaBtn" style="color: #2563EB; border-color: #BFDBFE;">
+        <i data-lucide="smartphone" style="width: 13px; height: 13px;"></i>
+        앱 설치
+      </button>
+
       <button class="pill-btn gold-solid" onclick="openFullReportModal()">
-        <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
-        인생 나침반 리포트 발행
+        <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
+        종합 진단서 발행
       </button>
     </div>
   </header>
@@ -1028,7 +1009,7 @@
   <main class="app-main">
 
     <!-- =====================================================================
-         TAB 1: ELENCHUS SESSION CHAMBER (BRIGHT SAAS)
+         TAB 1: ELENCHUS SESSION CHAMBER
          ===================================================================== -->
     <div id="view-chamber" class="tab-view active">
       <div class="session-grid">
@@ -1081,9 +1062,9 @@
             </div>
           </div>
 
-          <!-- 6 QUESTION STRATEGIES -->
+          <!-- 6 STRATEGIES -->
           <div class="panel-title" style="margin-top: 4px;">
-            <h3><i data-lucide="git-branch" style="width: 14px; height: 14px; color: #2563EB;"></i> 6대 반문 매트릭스</h3>
+            <h3><i data-lucide="git-branch" style="width: 14px; height: 14px; color: #2563EB;"></i> 6대 임상 반문 매트릭스</h3>
           </div>
           <div class="strategy-matrix">
             <div class="strategy-card active" id="strat-def">
@@ -1113,18 +1094,18 @@
           </div>
         </aside>
 
-        <!-- CENTER: INTERACTIVE CHAT CHAMBER -->
+        <!-- CENTER: CHAT CHAMBER -->
         <section class="chat-chamber">
           <div class="chamber-header">
             <div class="socrates-info">
               <div class="socrates-avatar">Σ</div>
               <div class="socrates-details">
                 <h4 id="chamberPersonaTitle">중고등학생 진로 챔버: "부모님의 꿈인가, 나의 꿈인가?"</h4>
-                <p id="socratesQuote">"검토되지 않은 삶은 살 가치가 없다네." — 소크라테스</p>
+                <p id="socratesQuote">"검토되지 않은 삶은 살 가치가 없다네." — 소크라테스 검진센터</p>
               </div>
             </div>
             <div>
-              <button class="pill-btn" onclick="restartSession()" title="세션 초기화">
+              <button class="pill-btn" onclick="restartSession()" title="검진 초기화">
                 <i data-lucide="rotate-ccw" style="width: 13px; height: 13px;"></i>
                 다시 시작
               </button>
@@ -1133,7 +1114,7 @@
 
           <!-- MESSAGES -->
           <div class="chat-messages" id="chatMessages">
-            <!-- Dynamic messages -->
+            <!-- Injected by JS -->
           </div>
 
           <!-- QUICK SUGGESTIONS -->
@@ -1141,10 +1122,10 @@
             <!-- Injected by Persona -->
           </div>
 
-          <!-- INPUT -->
+          <!-- INPUT AREA -->
           <div class="chat-input-area">
             <div class="input-wrapper">
-              <textarea class="chat-textarea" id="chatInput" placeholder="소크라테스의 질문에 솔직한 생각을 적어보세요 (Shift+Enter 줄바꿈)" rows="1" onkeydown="handleInputKey(event)"></textarea>
+              <textarea class="chat-textarea" id="chatInput" placeholder="소크라테스의 진단 질문에 솔직한 생각을 적어보세요 (Shift+Enter 줄바꿈)" rows="1" onkeydown="handleInputKey(event)"></textarea>
               <button class="voice-btn" onclick="alert('음성 인식 마이크가 활성화되었습니다. 말씀하세요.')" title="음성 인식(STT)">
                 <i data-lucide="mic" style="width: 18px; height: 18px;"></i>
               </button>
@@ -1156,155 +1137,150 @@
           </div>
         </section>
 
-        <!-- RIGHT: LIVE LIFE COMPASS & DISLIKES/LIKES EXTRACTOR -->
+        <!-- RIGHT: 5 COGNITIVE BIOMARKERS MONITOR -->
         <aside class="panel-box">
           <div class="panel-title">
-            <h3><i data-lucide="compass" style="width: 15px; height: 15px; color: #2563EB;"></i> 인생 나침반 레이더</h3>
+            <h3><i data-lucide="activity" style="width: 15px; height: 15px; color: #2563EB;"></i> 5대 인지 바이오마커</h3>
             <span style="font-size: 0.72rem; color: #2563EB; font-weight: 700;" id="turnCountDisplay">Turn 1/5</span>
           </div>
 
-          <!-- APORIA METER -->
-          <div class="compass-card">
-            <div class="compass-label" style="color: #7C3AED;">
-              <i data-lucide="zap" style="width: 13px; height: 13px;"></i>
-              모순(Aporia) 감지 지수
-            </div>
-            <div class="meter-container">
-              <div class="meter-bar">
-                <div class="meter-fill" id="aporiaMeterFill" style="width: 25%;"></div>
+          <div class="biomarkers-card">
+            
+            <div class="bio-item">
+              <div class="bio-header">
+                <span class="bio-name">① 자기결정성 지수 (Autonomy)</span>
+                <span class="bio-val warning" id="valAutonomy">48점 (주의)</span>
+              </div>
+              <div class="bio-bar-bg">
+                <div class="bio-bar-fill" id="barAutonomy" style="width: 48%; background: #D97706;"></div>
               </div>
             </div>
+
+            <div class="bio-item">
+              <div class="bio-header">
+                <span class="bio-name">② 인지적 모순 지수 (Aporia)</span>
+                <span class="bio-val danger" id="valAporia">76점 (과다)</span>
+              </div>
+              <div class="bio-bar-bg">
+                <div class="bio-bar-fill" id="barAporia" style="width: 76%; background: #E11D48;"></div>
+              </div>
+            </div>
+
+            <div class="bio-item">
+              <div class="bio-header">
+                <span class="bio-name">③ 호불호 명확도 (Clarity)</span>
+                <span class="bio-val warning" id="valClarity">42점 (미흡)</span>
+              </div>
+              <div class="bio-bar-bg">
+                <div class="bio-bar-fill" id="barClarity" style="width: 42%; background: #D97706;"></div>
+              </div>
+            </div>
+
+            <div class="bio-item">
+              <div class="bio-header">
+                <span class="bio-name">④ 인지적 번아웃도 (Drain)</span>
+                <span class="bio-val danger" id="valDrain">82점 (위험)</span>
+              </div>
+              <div class="bio-bar-bg">
+                <div class="bio-bar-fill" id="barDrain" style="width: 82%; background: #E11D48;"></div>
+              </div>
+            </div>
+
+            <div class="bio-item">
+              <div class="bio-header">
+                <span class="bio-name">⑤ 실행 복원력 (Praxis)</span>
+                <span class="bio-val normal" id="valPraxis">65점 (양호)</span>
+              </div>
+              <div class="bio-bar-bg">
+                <div class="bio-bar-fill" id="barPraxis" style="width: 65%; background: #059669;"></div>
+              </div>
+            </div>
+
           </div>
 
-          <!-- LIKES (ENERGIZERS) -->
-          <div class="compass-card">
-            <div class="compass-label" style="color: #059669;">
-              <i data-lucide="heart" style="width: 13px; height: 13px;"></i>
-              내가 진짜 좋아하는 것 (Energizers)
-            </div>
-            <div class="tag-cloud-row" id="likesTagCloud">
-              <span class="tag-pill like">#창작과몰입</span>
-              <span class="tag-pill like">#자율적인탐구</span>
-              <span class="tag-pill like">#직접만들어보기</span>
-            </div>
+          <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 12px; font-size: 0.76rem; color: #1E40AF; line-height: 1.45;">
+            🩺 <strong>임상 판정 요약</strong>: 타인의 시선에 맞추느라 인지적 번아웃 및 모순 지수가 경고 수준입니다. 소크라테스 반문을 통해 자기결정성을 복원해야 합니다.
           </div>
 
-          <!-- HATES (DRAINERS) -->
-          <div class="compass-card">
-            <div class="compass-label" style="color: #E11D48;">
-              <i data-lucide="slash" style="width: 13px; height: 13px;"></i>
-              내가 끔찍이 싫어하는 것 (Drainers)
-            </div>
-            <div class="tag-cloud-row" id="hatesTagCloud">
-              <span class="tag-pill hate">#이유없는단순암기</span>
-              <span class="tag-pill hate">#남과의비교·등수</span>
-              <span class="tag-pill hate">#수동적인통제</span>
-            </div>
-          </div>
-
-          <!-- 3 CORE PILLARS -->
-          <div class="compass-card">
-            <div class="compass-label" style="color: #2563EB;">
-              <i data-lucide="anchor" style="width: 13px; height: 13px;"></i>
-              인생의 3대 핵심 축 (Core Pillars)
-            </div>
-            <div class="tag-cloud-row" id="pillarsTagCloud">
-              <span class="tag-pill pillar">1. 자기결정권</span>
-              <span class="tag-pill pillar">2. 고유한무기구축</span>
-              <span class="tag-pill pillar">3. 진실한몰입</span>
-            </div>
-          </div>
-
-          <!-- ACTION BUTTON -->
           <button class="action-report-btn" onclick="openFullReportModal()">
-            <i data-lucide="award" style="width: 17px; height: 17px;"></i>
-            나의 종합 진단서 발행하기
+            <i data-lucide="clipboard-check" style="width: 17px; height: 17px;"></i>
+            종합 건강검진표 확인
           </button>
         </aside>
 
       </div>
     </div>
 
-    <!-- =====================================================================
-         TAB 2: MONETIZATION & COMMERCIAL REVENUE ENGINE (BRIGHT SAAS)
-         ===================================================================== -->
+    <!-- =========================================================================
+         TAB 2: MONETIZATION TAB
+         ======================================================================== -->
     <div id="view-monetize" class="tab-view">
       <div style="text-align: center; margin-bottom: 24px;">
         <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: #0F172A; letter-spacing: 1.5px;">
           COMMERCIAL REVENUE ENGINE
         </h2>
         <p style="color: #64748B; font-size: 0.95rem; margin-top: 6px;">
-          검증된 소크라테스 인생 나침반으로 <strong>월 1,000만원 이상의 안정적 고수익</strong>을 창출하는 비즈니스 모델
+          검증된 소크라테스 인생 건강검진 모델로 <strong>월 1,000만원 이상의 고수익</strong>을 창출하는 비즈니스 구조
         </p>
       </div>
 
       <div class="monetize-grid">
-        
-        <!-- PRICING TIERS -->
         <div style="display: flex; flex-direction: column; gap: 16px;">
           
           <div class="pricing-card">
-            <div style="font-size: 0.82rem; font-weight: 700; color: #64748B; text-transform: uppercase;">01. Free Experience</div>
-            <div class="price-num">0원 <span>/ 1회 체험</span></div>
+            <div style="font-size: 0.82rem; font-weight: 700; color: #64748B; text-transform: uppercase;">01. Free Checkup</div>
+            <div class="price-num">0원 <span>/ 1회 기본검진</span></div>
             <p style="font-size: 0.85rem; color: #64748B;">
-              • 페르소나별 1세션 무료 체험<br>
-              • 표면적 모순(Aporia) 감지 맛보기<br>
-              • 정밀 진단서 요약본 미리보기 (유료 전환율 유도)
+              • 5대 바이오마커 측정 맛보기<br>
+              • 모순(Aporia) 1회 무료 감지<br>
+              • 검진표 요약본 열람
             </p>
           </div>
 
           <div class="pricing-card featured">
             <div class="pricing-badge">BEST SELLER (월 150명 목표)</div>
-            <div style="font-size: 0.82rem; font-weight: 700; color: #2563EB; text-transform: uppercase;">02. Life Compass Full Pass (종합 진단서)</div>
-            <div class="price-num">39,000원 <span>/ 평생 소장</span></div>
+            <div style="font-size: 0.82rem; font-weight: 700; color: #2563EB; text-transform: uppercase;">02. Full Life Health Checkup Pass</div>
+            <div class="price-num">39,000원 <span>/ 정밀 검진표 영구 소장</span></div>
             <p style="font-size: 0.88rem; color: #1E293B;">
-              • <strong>10페이지 분량의 인생 방향성 & 실행 설계 정밀 진단서</strong> 발행<br>
-              • 내가 좋아하는 것 / 싫어하는 것 / 인생의 3대 축 전수 매트릭스<br>
-              • 90일 마이크로 실행 액션 플랜 제공<br>
-              • 인쇄/PDF 고해상도 제본 다운로드
+              • <strong>대학병원 종합검진 수준의 인생 정밀 진단서</strong> 발행<br>
+              • 5대 바이오마커 전수 임상 판정<br>
+              • 호불호 매트릭스 & 90일 행동 처방전(Rx)<br>
+              • PDF 고해상도 인쇄 및 데이터 로컬 영구 보관
             </p>
             <button class="send-btn" style="width: 100%; justify-content: center; margin-top: 6px;" onclick="alert('진단서 결제 프로세스가 시작됩니다.')">
-              리포트 패스 신청하기
+              정밀 검진표 신청하기
             </button>
           </div>
 
           <div class="pricing-card">
-            <div style="font-size: 0.82rem; font-weight: 700; color: #0284C7; text-transform: uppercase;">03. B2B 기관 라이선스 (학교·대학·스타트업)</div>
+            <div style="font-size: 0.82rem; font-weight: 700; color: #0284C7; text-transform: uppercase;">03. B2B 기관 단체 라이선스</div>
             <div class="price-num">1,000,000원 <span>/ 월 (기관당)</span></div>
             <p style="font-size: 0.85rem; color: #64748B;">
-              • 중고교 진로 캠프 및 대학 취업지원센터 100명 단체 패스<br>
-              • 스타트업 액셀러레이터 창업자 멘탈리티 및 사명 검증 패키지<br>
-              • 관리자 대시보드 및 코호트 집계 분석 리포트
+              • 중고교 진로센터 및 대학교 100명 단체 패스<br>
+              • 스타트업 액셀러레이터 창업자 멘탈리티 검진
             </p>
           </div>
 
         </div>
 
-        <!-- REVENUE CALCULATOR -->
         <div class="calc-box">
           <h3 style="font-family: var(--font-display); color: #0F172A; font-size: 1.15rem;">
             📊 월 1,000만원 달성 유닛 이코노믹스 시뮬레이터
           </h3>
-          <p style="font-size: 0.82rem; color: #64748B;">
-            학생, 대학생, 직장인, 창업자 4개 타겟 고객층으로부터 도출되는 현실적인 월 매출 모델링
-          </p>
-
           <div class="calc-row">
             <div>
-              <div style="font-weight: 700; color: #0F172A;">B2C 정밀 진단 리포트 (3.9만원)</div>
+              <div style="font-weight: 700; color: #0F172A;">B2C 정밀 건강검진표 (3.9만원)</div>
               <div style="font-size: 0.74rem; color: #64748B;">월 150명 결제 (일 5명 전환)</div>
             </div>
             <div style="font-weight: 700; color: #2563EB;">5,850,000원</div>
           </div>
-
           <div class="calc-row">
             <div>
-              <div style="font-weight: 700; color: #0F172A;">B2C 월간 철학 구독 멤버십 (1.9만원)</div>
-              <div style="font-size: 0.74rem; color: #64748B;">월 200명 구독 (주간 소크라테스 리뷰)</div>
+              <div style="font-weight: 700; color: #0F172A;">B2C 월간 정기검진 구독 (1.9만원)</div>
+              <div style="font-size: 0.74rem; color: #64748B;">월 200명 구독 (월 1회 재검진)</div>
             </div>
             <div style="font-weight: 700; color: #2563EB;">3,800,000원</div>
           </div>
-
           <div class="calc-row">
             <div>
               <div style="font-weight: 700; color: #0F172A;">B2B 학교/스타트업 단체 라이선스</div>
@@ -1312,111 +1288,135 @@
             </div>
             <div style="font-weight: 700; color: #2563EB;">2,000,000원</div>
           </div>
-
           <div class="calc-total">
             <span>예상 월 총 매출</span>
             <span style="font-size: 1.6rem; color: #2563EB;">11,650,000원 / 월</span>
           </div>
-
-          <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 14px; font-size: 0.82rem; color: #1E40AF; line-height: 1.55;">
-            💡 <strong>성공 로드맵</strong>: "AI가 내 인생의 진짜 모순을 짚어주고 방향을 찾아줌" 숏폼 바이럴을 통해 월 4,000명의 방문자를 유입시키고, 5% 유료 전환율 달성 시 첫 6개월 이내에 월 1,000만원 순수익 궤도에 진입합니다.
-          </div>
         </div>
-
       </div>
     </div>
 
   </main>
 
   <!-- =========================================================================
-       MODAL: FULL LIFE COMPASS & ACTION BLUEPRINT REPORT (BRIGHT & CRISP)
+       MODAL: COMPREHENSIVE LIFE HEALTH CHECKUP REPORT (HOSPITAL STYLE)
        ========================================================================= -->
   <div class="modal-overlay" id="reportModal">
     <div class="report-modal-card">
       
-      <div style="display: flex; justify-content: flex-end; margin-bottom: -15px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0F172A; padding-bottom: 12px; margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 36px; height: 36px; background: #2563EB; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 1.2rem;">Σ</div>
+          <div>
+            <h2 style="font-size: 1.35rem; font-weight: 800; color: #0F172A; margin: 0; line-height: 1.2;">소크라테스 인생 종합 건강검진 결과표</h2>
+            <div style="font-size: 0.74rem; color: #64748B; font-family: var(--font-mono);">GNŌTHI COMPREHENSIVE COGNITIVE & LIFE HEALTH ASSESSMENT</div>
+          </div>
+        </div>
         <button class="close-btn" onclick="closeModal('reportModal')">&times;</button>
       </div>
 
-      <div class="report-header-seal">
-        <div style="font-family: var(--font-mono); font-size: 0.78rem; color: #2563EB; letter-spacing: 2px; font-weight: 600;">GNŌTHI PHILOSOPHICAL ASSESSMENT REPORT #2026-901</div>
-        <h2 id="reportPersonaHeading">중고등학생 인생 방향성 & 진로 정밀 진단서</h2>
-        <div style="font-size: 0.95rem; color: #64748B;">소크라테스 엘렌코스 문답 기반 · 호불호 및 90일 행동 설계서</div>
+      <!-- PATIENT INFO TABLE -->
+      <table class="checkup-top-table">
+        <tr>
+          <th>수검 번호</th>
+          <td style="font-family: var(--font-mono); font-weight: 700;">GN-2026-0919-8780</td>
+          <th>검진 일자</th>
+          <td id="reportDateCell">2026.09.19</td>
+        </tr>
+        <tr>
+          <th>수검 페르소나</th>
+          <td id="reportPersonaCell" style="font-weight: 700; color: #2563EB;">중고등학생 (진로·전공)</td>
+          <th>종합 판정 등급</th>
+          <td><span class="badge-status warning">C 등급 (인지적 질식 주의)</span></td>
+        </tr>
+      </table>
+
+      <!-- BIOMARKERS TABLE -->
+      <h3 style="font-size: 1.05rem; color: #0F172A; margin-top: 18px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+        <i data-lucide="activity" style="width: 16px; height: 16px; color: #2563EB;"></i>
+        1. 5대 인지 바이오마커 정밀 검사 결과
+      </h3>
+
+      <table class="checkup-biomarker-table">
+        <thead>
+          <tr>
+            <th>검사 항목 (Biomarker)</th>
+            <th>측정 수치</th>
+            <th>정상 참고치</th>
+            <th>판정</th>
+            <th>임상적 해석</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>자기결정성 지수 (Autonomy)</strong></td>
+            <td style="font-weight: 700; color: #D97706;">48점</td>
+            <td>75 ~ 100점</td>
+            <td><span class="badge-status warning">경계 (주의)</span></td>
+            <td>부모/사회의 기대에 과도하게 종속된 상태</td>
+          </tr>
+          <tr>
+            <td><strong>인지적 모순 지수 (Aporia)</strong></td>
+            <td style="font-weight: 700; color: #E11D48;">76점</td>
+            <td>0 ~ 30점</td>
+            <td><span class="badge-status danger">위험 (과다)</span></td>
+            <td>겉으로 믿는 명제와 실제 행복 조건의 불일치</td>
+          </tr>
+          <tr>
+            <td><strong>호불호 명확도 (Clarity)</strong></td>
+            <td style="font-weight: 700; color: #D97706;">42점</td>
+            <td>70 ~ 100점</td>
+            <td><span class="badge-status warning">경계 (미흡)</span></td>
+            <td>싫어하는 환경을 억지로 참아내느라 에너지 소진</td>
+          </tr>
+          <tr>
+            <td><strong>인지적 번아웃도 (Drain)</strong></td>
+            <td style="font-weight: 700; color: #E11D48;">82점</td>
+            <td>0 ~ 35점</td>
+            <td><span class="badge-status danger">위험 (고갈)</span></td>
+            <td>가면(페르소나) 연기로 인한 심각한 전두엽 피로</td>
+          </tr>
+          <tr>
+            <td><strong>실행 복원력 (Praxis)</strong></td>
+            <td style="font-weight: 700; color: #059669;">65점</td>
+            <td>60 ~ 100점</td>
+            <td><span class="badge-status normal">정상 (양호)</span></td>
+            <td>방향만 잡히면 즉시 행동에 옮길 잠재력 보유</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- DIAGNOSTIC FINDINGS -->
+      <h3 style="font-size: 1.05rem; color: #0F172A; margin-top: 24px; margin-bottom: 8px;">
+        2. 주요 임상 소견 및 의증 (Diagnostic Pathology)
+      </h3>
+      <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 14px 18px; font-size: 0.88rem; line-height: 1.65;">
+        <p>• <strong>[상병코드 F42.1] 만성 타인 인정 중독증 (Chronic Approval Addiction)</strong>: 성적이나 간판, 주변의 칭찬으로 자신의 존재 가치를 증명하려 하여, 스스로 좋아하는 분야에 몰입할 때 불필요한 죄책감을 느낌.</p>
+        <p style="margin-top: 6px;">• <strong>[상병코드 G93.3] 영혼의 지방간증 (Soul Fatty Infiltration)</strong>: 안전하지만 가슴 뛰지 않는 타인의 경로에 오랫동안 안주하여, 독립적인 가치관 근육이 다소 약화된 상태.</p>
       </div>
 
-      <!-- SECTION 1: SOCRATIC DIAGNOSIS SUMMARY -->
-      <div class="report-section">
-        <h3>01. 소크라테스의 총평 (Socratic Diagnosis)</h3>
-        <p id="reportDiagnosisP">
-          당신은 오랫동안 부모와 학교, 세상이 규정한 '점수와 간판'이라는 거울을 통해 스스로를 채점해왔습니다. 그러나 엘렌코스 대화를 통해 드러난 당신의 영혼은 정해진 정답을 암기하는 것에 극심한 피로를 느끼고 있으며, 스스로 가설을 세우고 무언가를 직접 만들어낼 때 비로소 진정한 생명력을 얻는 <strong>'자율적 창조자형'</strong> 인격입니다.
-        </p>
-      </div>
-
-      <!-- SECTION 2: LIKES & HATES MATRIX -->
-      <div class="report-section">
-        <h3>02. 나의 에너지 매트릭스 : 좋아하는 것 vs 싫어하는 것</h3>
-        <p style="font-size: 0.9rem; color: #475569;">인생의 방향을 잡기 위해서는 내가 무엇에 흥분하고 무엇에 질식하는지 명확히 선을 그어야 합니다.</p>
-        
-        <div class="like-hate-grid">
-          <div class="like-box">
-            <h4 style="color: #065F46; font-size: 0.95rem; margin-bottom: 8px; font-weight: 700;">💚 내가 진짜 좋아하는 것 (Energizers)</h4>
-            <ul id="reportLikesList" style="padding-left: 20px; font-size: 0.9rem; line-height: 1.7; color: #047857;">
-              <li>시간 가는 줄 모르고 빠져드는 창작 및 설계 작업</li>
-              <li>왜 그런지 근본 원리를 파헤치는 자유로운 탐구</li>
-              <li>내 생각과 결과물을 세상에 직접 보여주고 피드백받기</li>
-              <li>형식적인 규칙 없이 진솔하게 생각을 나누는 동료와의 대화</li>
-            </ul>
-          </div>
-
-          <div class="hate-box">
-            <h4 style="color: #9F1239; font-size: 0.95rem; margin-bottom: 8px; font-weight: 700;">🛑 내가 끔찍이 싫어하는 것 (Drainers)</h4>
-            <ul id="reportHatesList" style="padding-left: 20px; font-size: 0.9rem; line-height: 1.7; color: #BE123C;">
-              <li>이유도 모른 채 남들이 하니까 억지로 해야 하는 단순 암기</li>
-              <li>등수와 서열로 내 인간적 가치가 재단당하는 환경</li>
-              <li>사소한 일까지 통제받고 눈치 봐야 하는 관료적 분위기</li>
-              <li>남들의 비위를 맞추기 위해 내 진짜 생각을 숨기는 위선</li>
-            </ul>
-          </div>
+      <!-- RX PRESCRIPTION -->
+      <h3 style="font-size: 1.05rem; color: #0F172A; margin-top: 24px; margin-bottom: 8px;">
+        3. 소크라테스 처방전 (Rx Clinical Prescriptions for Action)
+      </h3>
+      <div class="rx-box">
+        <div style="font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; color: #2563EB; margin-bottom: 8px;">℞ PRESCRIPTION #GN-8780</div>
+        <div style="font-size: 0.9rem; line-height: 1.7; color: #1E293B;">
+          <strong>1. [타인 인정 디톡스 처방]</strong>: 1일 1회, 타인의 성과나 SNS를 의도적으로 보지 않는 2시간 인지 격리 시간을 가질 것.<br>
+          <strong>2. [호불호 펜싱 처방]</strong>: 내가 진짜 좋아하는 활동 1가지(#창작과탐구)에 매일 최소 45분간 몰입할 것.<br>
+          <strong>3. [90일 마이크로 프로젝트 주사]</strong>: 남의 채점표가 아닌 오직 나만의 이름으로 완성되는 결과물 1개를 90일 이내에 세상에 내놓을 것.
         </div>
+        <div class="rx-seal">판정완료<br>소크라테스</div>
       </div>
 
-      <!-- SECTION 3: 3 CORE LIFE PILLARS -->
-      <div class="report-section">
-        <h3>03. 인생의 3대 핵심 축 (3 Core Pillars)</h3>
-        <p style="font-size: 0.9rem; color: #475569;">앞으로 전공, 진로, 직업, 사업을 선택할 때 절대 타협해서는 안 될 당신만의 북극성입니다.</p>
-        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-left: 4px solid #2563EB; padding: 16px; border-radius: 8px; margin-top: 10px;">
-          <div style="font-weight: 700; color: #0F172A; margin-bottom: 4px;">Pillar 1. 자기결정권의 수호</div>
-          <div style="font-size: 0.9rem; color: #334155; margin-bottom: 12px;">아무리 높은 보수나 평판을 주더라도, 내 시간과 생각의 주권을 침해하는 길은 거절한다.</div>
-          
-          <div style="font-weight: 700; color: #0F172A; margin-bottom: 4px;">Pillar 2. 대체 불가능한 고유 무기 구축</div>
-          <div style="font-size: 0.9rem; color: #334155; margin-bottom: 12px;">남들과 똑같은 자격증 시험에 매달리지 않고, 나의 호기심과 기술이 결합된 독자적 프로젝트를 만든다.</div>
-
-          <div style="font-weight: 700; color: #0F172A; margin-bottom: 4px;">Pillar 3. 진실한 피드백 루프</div>
-          <div style="font-size: 0.9rem; color: #334155;">시험 점수라는 가짜 거울 대신, 실제 세상과 고객, 사람들에게 도움이 되는 유의미한 충격을 남긴다.</div>
-        </div>
-      </div>
-
-      <!-- SECTION 4: 90-DAY ACTION BLUEPRINT -->
-      <div class="report-section">
-        <h3>04. 90일 실행 액션 플랜 (Praxis Blueprint)</h3>
-        <p style="font-size: 0.9rem; color: #475569;">깨달음은 행동으로 이어지지 않으면 또 다른 환상에 불과합니다. 오늘부터 시작할 3단계 과제입니다.</p>
-        <div class="report-action-list">
-          <div class="report-action-item">
-            <strong>Step 1 (Day 1~14)</strong>: 부모님 및 멘토와 '솔직한 대화' 갖기 — 내가 진짜 흥미를 느끼는 분야와 이유를 차분히 정리하여 선언하기
-          </div>
-          <div class="report-action-item">
-            <strong>Step 2 (Day 15~45)</strong>: 마이크로 프로젝트 1개 완성 — 글, 소프트웨어, 디자인, 사업 기획 등 작더라도 온전히 내 이름으로 끝맺음 짓기
-          </div>
-          <div class="report-action-item">
-            <strong>Step 3 (Day 46~90)</strong>: 싫어하는 환경에서 1개씩 손 떼기 — 내 에너지를 갉아먹는 불필요한 비교와 소음과의 접속을 의도적으로 차단하기
-          </div>
-        </div>
-      </div>
-
-      <div style="text-align: center; border-top: 1px solid #F1F5F9; padding-top: 24px; margin-top: 30px;">
-        <button class="send-btn" style="display: inline-flex; margin: 0 auto;" onclick="window.print()">
+      <div style="display: flex; justify-content: center; gap: 12px; margin-top: 24px;">
+        <button class="pill-btn" onclick="saveDataToFile()">
+          <i data-lucide="download" style="width: 14px; height: 14px;"></i>
+          검진 결과 JSON 저장
+        </button>
+        <button class="send-btn" onclick="window.print()">
           <i data-lucide="printer" style="width: 16px; height: 16px;"></i>
-          PDF 저장 및 출판급 인쇄하기
+          공식 검진 결과표 인쇄 / PDF 다운로드
         </button>
       </div>
 
@@ -1425,91 +1425,159 @@
 
   <script>
     // =========================================================================
-    // PERSONA DATA ARCHITECTURE
+    // PWA SERVICE WORKER REGISTRATION
+    // =========================================================================
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('PWA Service Worker registered:', reg.scope))
+          .catch(err => console.log('Service Worker registration failed:', err));
+      });
+    }
+
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const installBtn = document.getElementById('installPwaBtn');
+      if (installBtn) installBtn.style.display = 'inline-flex';
+    });
+
+    function installAppPrompt() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choice) => {
+          if (choice.outcome === 'accepted') {
+            alert('GNŌTHI 앱이 바탕화면에 성공적으로 설치되었습니다!');
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        alert('이 브라우저는 이미 설치되었거나 바로가기 실행 모드입니다.\n바탕화면의 "GNOTHI - 소크라테스 인생검진" 바로가기를 이용해 주세요.');
+      }
+    }
+
+    // =========================================================================
+    // EXPORT & IMPORT LOCAL STORAGE DATA
+    // =========================================================================
+    function saveDataToFile() {
+      const data = {
+        app: "GNŌTHI",
+        version: "2.0",
+        date: new Date().toISOString(),
+        persona: currentPersonaKey,
+        turn: conversationTurn,
+        biomarkers: {
+          autonomy: document.getElementById('valAutonomy').innerText,
+          aporia: document.getElementById('valAporia').innerText,
+          clarity: document.getElementById('valClarity').innerText,
+          drain: document.getElementById('valDrain').innerText,
+          praxis: document.getElementById('valPraxis').innerText
+        }
+      };
+
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `GNOTHI_Life_Checkup_${currentPersonaKey}_${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      alert('검진 데이터가 JSON 파일로 안전하게 저장되었습니다.');
+    }
+
+    function importDataFromFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (data.persona) {
+            setPersona(data.persona);
+            alert(`[${data.persona}] 검진 데이터가 성공적으로 복원되었습니다.`);
+          }
+        } catch (err) {
+          alert('올바른 GNŌTHI 검진 데이터 JSON 파일이 아닙니다.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // =========================================================================
+    // PERSONA & DIAGNOSTIC CONTEXTS
     // =========================================================================
     const PERSONA_CONFIGS = {
       student: {
         id: 'student',
         badge: '중고등학생 진로',
         icon: 'graduation-cap',
-        title: '중고등학생 진로 챔버: "부모님의 꿈인가, 나의 꿈인가?"',
+        title: '중고등학생 진로 검진: "부모님의 꿈인가, 나의 꿈인가?"',
         chips: [
           '부모님은 의대나 대기업을 원하시지만, 제 진짜 마음은 다른 곳에 있어요.',
           '성적과 시험 점수 때문에 내가 진짜 뭘 잘하는지 생각해볼 틈이 없었어요.',
           '친구들과 비교당할 때마다 자존감이 무너지고 미래가 불안해요.',
           '만약 대학 간판이 전부가 아니라면, 저는 창작이나 탐구를 해보고 싶어요.'
         ],
-        firstQuestion: `반갑네, 젊은 탐구자여. 네 앞에는 세상이 그어놓은 '입시와 성적'이라는 거대한 벽이 서 있겠지.<br><br>
-          하지만 묻겠네. 네가 가고 싶다는 그 학과와 진로는 <strong>네 가슴이 뛰어서인가, 아니면 부모님과 선생님의 실망을 피하기 위해서인가?</strong><br><br>
-          자네의 가장 솔직한 심정을 들려주게나.`,
-        likes: ['#자유로운창작', '#호기심탐구', '#손으로직접만들기', '#진솔한친구대화'],
-        hates: ['#단순반복암기', '#등수서열비교', '#억압적통제', '#부모님의대리만족'],
-        pillars: ['1. 내 적성의 주권 확보', '2. 점수 너머의 실력', '3. 나만의 프로젝트']
+        firstQuestion: `[검진 문항 GN-BIO-01 자율성 측정]<br>반갑네, 젊은 탐구자여. 네 앞에는 세상이 그어놓은 '입시와 성적'이라는 거대한 벽이 서 있겠지.<br><br>
+          하지만 묻겠네. 네가 가고 싶다는 그 학과와 진로는 <strong>네 가슴이 뛰어서인가, 아니면 부모님과 선생님의 실망을 피하기 위해서인가?</strong>`,
+        autonomy: 48, aporia: 76, clarity: 42, drain: 82, praxis: 65
       },
       undergrad: {
         id: 'undergrad',
         badge: '대학생·취준생 인생방향',
         icon: 'landmark',
-        title: '대학생·취준생 챔버: "정답 사회를 벗어나 어디로 갈 것인가?"',
+        title: '대학생·취준생 검진: "정답 사회를 벗어나 어디로 갈 것인가?"',
         chips: [
           '남들 다 따는 토익, 자격증 스펙을 쌓고 있지만 가슴이 텅 빈 것 같아요.',
           '대기업에 가고 싶은 이유가 진짜 그 일을 원해서인지 두려움 때문인지 헷갈려요.',
           '내가 좋아하는 일이 밥벌이가 될 수 있을지 너무나 막막해요.',
           '남들의 속도가 아니라 나만의 호흡으로 인생을 설계하고 싶어요.'
         ],
-        firstQuestion: `반갑네. 캠퍼스와 취업 시장의 안개 속에서 길을 찾는 방황자여.<br><br>
+        firstQuestion: `[검진 문항 GN-BIO-01 내적 동기 측정]<br>반갑네. 캠퍼스와 취업 시장의 안개 속에서 길을 찾는 방황자여.<br><br>
           모두가 똑같은 자격증과 자소서를 쓰며 줄을 서고 있군. 그렇다면 자네에게 묻겠네.<br><br>
           <strong>만약 모든 사람에게 기본소득이 주어지고 남들의 시선이 사라진다면, 자네는 20대의 남은 날들을 무엇으로 채우겠는가?</strong>`,
-        likes: ['#시간주권', '#지적대화와연대', '#깊은몰입', '#독자적전문성'],
-        hates: ['#스펙나열경쟁', '#정답강요사회', '#영혼없는자소서', '#공허한술자리'],
-        pillars: ['1. 대체불가능한 무기화', '2. 실패를 통한 학습', '3. 진정한 삶의 가치']
+        autonomy: 55, aporia: 82, clarity: 50, drain: 75, praxis: 60
       },
       worker: {
         id: 'worker',
         badge: '직장인 성장·이직·2막',
         icon: 'briefcase',
-        title: '직장인 챔버: "월급의 안락함인가, 영혼의 질식인가?"',
+        title: '직장인 실존 검진: "월급의 안락함인가, 영혼의 질식인가?"',
         chips: [
           '따박따박 나오는 월급에 안주하다가 10년 뒤 도태될까 봐 두려워요.',
           '회사에서는 부품처럼 일하고, 진짜 내 삶은 퇴근 후에만 존재해요.',
           '이직을 하고 싶지만 어디로 가야 할지, 내가 진짜 원하는 환경이 뭔지 모르겠어요.',
           '내 사업이나 사이드 프로젝트를 시작해 인생의 주권을 되찾고 싶어요.'
         ],
-        firstQuestion: `반갑네, 빌딩 숲에서 고군분투하는 벗이여.<br><br>
+        firstQuestion: `[검진 문항 GN-BIO-01 주권 회복 측정]<br>반갑네, 빌딩 숲에서 고군분투하는 벗이여.<br><br>
           매달 통장에 찍히는 월급은 달콤하지만, 그 대가로 자네의 가장 빛나는 젊음과 시간을 지불하고 있지 않은가?<br><br>
           <strong>지금 다니는 회사의 직함과 명함을 떼어냈을 때, 자네라는 인간은 시장에서 얼마의 가치와 생명력을 지니고 있는가?</strong>`,
-        likes: ['#자율적인의사결정', '#기여에비례한보상', '#전문성축적', '#시간적자유'],
-        hates: ['#사내정치와눈치', '#비효율적보고문화', '#물경력반복', '#영혼없는야근'],
-        pillars: ['1. 개인 브랜딩 및 자산화', '2. 시간 주권의 회복', '3. 린한 비즈니스 실험']
+        autonomy: 42, aporia: 85, clarity: 45, drain: 88, praxis: 58
       },
       founder: {
         id: 'founder',
         badge: '예비/창업가 사업베팅',
         icon: 'rocket',
-        title: '창업가 챔버: "돈을 벌고 싶은가, 세상의 문제를 풀고 싶은가?"',
+        title: '창업가 사명 검진: "돈을 벌고 싶은가, 세상의 문제를 풀고 싶은가?"',
         chips: [
           '창업을 하고 싶지만 가족과 주변의 반대, 실패에 대한 공포가 커요.',
           '내가 만들려는 제품이 고객의 절박한 고통인지, 나 혼자만의 환상인지 두려워요.',
           '직장을 그만두고 올인해야 할지, 사이드로 검증해야 할지 고민입니다.',
           '통장 잔고가 바닥나도 이 문제를 해결하기 위해 3년을 버틸 각오가 있어요.'
         ],
-        firstQuestion: `반갑네, 거친 파도 속으로 배를 띄우려는 모험가여.<br><br>
+        firstQuestion: `[검진 문항 GN-BIO-01 사명감 검증]<br>반갑네, 거친 파도 속으로 배를 띄우려는 모험가여.<br><br>
           창업은 낭만이 아니라 뼈를 깎는 실존적 결단이라네.<br><br>
           <strong>자네는 그저 ‘내 사업체’를 가진 대표가 되고 싶은 것인가, 아니면 고객의 피눈물 나는 고통을 해결하지 않고는 견딜 수 없는 사명감이 있는가?</strong>`,
-        likes: ['#0에서1을만드는창조', '#고객의열광적반응', '#속도감있는실행', '#무한한성장잠재력'],
-        hates: ['#수동적월급쟁이마인드', '#탁상공론과지연', '#가짜수요', '#리스크회피주의'],
-        pillars: ['1. 고객 고통의 본질 집착', '2. 빠른 검증과 실패 포용', '3. 흔들리지 않는 현금흐름']
+        autonomy: 78, aporia: 62, clarity: 70, drain: 68, praxis: 85
       }
     };
 
     let currentPersonaKey = 'student';
     let currentStage = 1;
     let conversationTurn = 1;
-    let aporiaScore = 25;
 
-    // =========================================================================
-    // INIT & PERSONA SWITCHING
-    // =========================================================================
     window.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
       setPersona('student');
@@ -1519,22 +1587,18 @@
       currentPersonaKey = personaKey;
       const config = PERSONA_CONFIGS[personaKey];
 
-      // Update Header Chips
       document.querySelectorAll('.persona-chip').forEach(c => c.classList.remove('active'));
       const activeChip = document.getElementById(`chip-${personaKey}`);
       if (activeChip) activeChip.classList.add('active');
 
-      // Update Titles
       document.getElementById('currentPersonaBadge').innerHTML = `
         <i data-lucide="${config.icon}" style="width: 11px; height: 11px;"></i>
         ${config.badge}
       `;
       document.getElementById('chamberPersonaTitle').innerText = config.title;
 
-      // Update Tag Clouds
-      document.getElementById('likesTagCloud').innerHTML = config.likes.map(l => `<span class="tag-pill like">${l}</span>`).join('');
-      document.getElementById('hatesTagCloud').innerHTML = config.hates.map(h => `<span class="tag-pill hate">${h}</span>`).join('');
-      document.getElementById('pillarsTagCloud').innerHTML = config.pillars.map(p => `<span class="tag-pill pillar">${p}</span>`).join('');
+      // Update Biomarkers
+      updateBiomarkersUI(config.autonomy, config.aporia, config.clarity, config.drain, config.praxis);
 
       // Update Quick Chips
       document.getElementById('quickChipsBar').innerHTML = config.chips.map(c => `
@@ -1545,12 +1609,27 @@
       lucide.createIcons();
     }
 
+    function updateBiomarkersUI(autonomy, aporia, clarity, drain, praxis) {
+      document.getElementById('valAutonomy').innerText = `${autonomy}점 (${autonomy >= 75 ? '정상' : '주의'})`;
+      document.getElementById('barAutonomy').style.width = `${autonomy}%`;
+
+      document.getElementById('valAporia').innerText = `${aporia}점 (${aporia <= 30 ? '정상' : '과다'})`;
+      document.getElementById('barAporia').style.width = `${aporia}%`;
+
+      document.getElementById('valClarity').innerText = `${clarity}점 (${clarity >= 70 ? '정상' : '미흡'})`;
+      document.getElementById('barClarity').style.width = `${clarity}%`;
+
+      document.getElementById('valDrain').innerText = `${drain}점 (${drain <= 35 ? '정상' : '위험'})`;
+      document.getElementById('barDrain').style.width = `${drain}%`;
+
+      document.getElementById('valPraxis').innerText = `${praxis}점 (${praxis >= 60 ? '양호' : '미흡'})`;
+      document.getElementById('barPraxis').style.width = `${praxis}%`;
+    }
+
     function restartSession() {
       conversationTurn = 1;
       currentStage = 1;
-      aporiaScore = 25;
       updateStageUI(1);
-      document.getElementById('aporiaMeterFill').style.width = '25%';
       document.getElementById('turnCountDisplay').innerText = 'Turn 1/5';
 
       const container = document.getElementById('chatMessages');
@@ -1574,9 +1653,6 @@
       lucide.createIcons();
     }
 
-    // =========================================================================
-    // CHAT & SOCRATIC RESPONSES
-    // =========================================================================
     function addMessage(sender, htmlText) {
       const container = document.getElementById('chatMessages');
       const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -1625,43 +1701,38 @@
     function processPersonaResponse(userText, turn) {
       if (turn === 2) {
         currentStage = 2;
-        aporiaScore = 45;
-        addMessage('socrates', `자네의 솔직한 고백을 들으니 참으로 깊은 고민이 묻어나는군.<br><br>
+        addMessage('socrates', `[검진 문항 GN-BIO-02 전제 검증]<br>솔직한 진술 고맙네.<br><br>
           그렇다면 묻겠네. 자네가 방금 말한 <em>"${userText.slice(0, 24)}..."</em>라는 생각은,<br>
           <strong>온전히 자네 자신의 내면에서 피어난 확신인가, 아니면 세상과 주변의 기대가 자네의 영혼에 덧씌운 두려움의 각본인가?</strong>`);
       } else if (turn === 3) {
         currentStage = 3;
-        aporiaScore = 75;
-        
-        // Aporia Banner
         const banner = document.createElement('div');
         banner.className = 'aporia-banner';
         banner.innerHTML = `
           <i data-lucide="zap" style="width: 16px; height: 16px;"></i>
-          <span><strong>[Aporia 감지]</strong> 당신이 믿고 있던 안전한 전제와 진짜 자아 사이의 모순이 포착되었습니다!</span>
+          <span><strong>[Aporia 감지: 76점]</strong> 당신이 믿고 있던 안전한 전제와 진짜 자아 사이의 모순이 포착되었습니다!</span>
         `;
         document.getElementById('chatMessages').appendChild(banner);
         lucide.createIcons();
 
-        addMessage('socrates', `바로 그 지점에서 모순(Aporia)이 고개를 드는군!<br><br>
+        addMessage('socrates', `[검진 문항 GN-BIO-03 모순 대면]<br>바로 그 지점에서 모순(Aporia)이 고개를 드는군!<br><br>
           자네는 안정을 원한다고 말하면서도, 정작 남들의 기준대로 살 때 숨이 턱 끝까지 막힌다고 토로하고 있지 않은가?<br><br>
           <strong>진짜 실패란 무엇인가? 남들이 정한 시험에서 떨어지는 것인가, 아니면 남의 인생을 대리 연기하다가 늙어버리는 것인가?</strong>`);
       } else if (turn === 4) {
         currentStage = 4;
-        aporiaScore = 90;
-        addMessage('socrates', `아! 그 혼란과 흔들림(Perplexity)이야말로 진짜 자기를 만나기 위한 거룩한 산통(産痛)이라네.<br><br>
+        addMessage('socrates', `[검진 문항 GN-BIO-04 가치관 해체]<br>아! 그 혼란과 흔들림(Perplexity)이야말로 진짜 자기를 만나기 위한 거룩한 산통(産痛)이라네.<br><br>
           이제 껍질은 깨어졌네. 남들의 채점표를 완전히 지워버린다면—<br>
           <strong>자네가 평생을 바쳐 기꺼이 실패하더라도 후회하지 않을 단 하나의 길은 무엇인가?</strong>`);
       } else {
         currentStage = 5;
-        aporiaScore = 100;
-        addMessage('socrates', `훌륭하네! 비로소 자네 자신의 단단한 언어로 인생의 반석을 세웠군.<br><br>
+        // Improve biomarkers on completion
+        updateBiomarkersUI(82, 24, 88, 30, 92);
+        addMessage('socrates', `[검진 완료: 자율성 복원 성공]<br>훌륭하네! 비로소 자네 자신의 단단한 언어로 인생의 반석을 세웠군.<br><br>
           오늘 우리는 자네가 진짜 <em>'좋아하는 것'</em>과 <em>'견딜 수 없이 싫어하는 것'</em>을 명확히 가려내었네.<br><br>
-          자, 이제 상단의 <strong>[나의 종합 진단서 발행하기]</strong> 버튼을 눌러, 자네만의 90일 행동 설계서를 확인해보게나!`);
+          자, 이제 상단의 <strong>[종합 진단서 발행]</strong> 버튼을 눌러, 공식 건강검진 결과표를 확인해보게나!`);
       }
 
       updateStageUI(currentStage);
-      document.getElementById('aporiaMeterFill').style.width = `${aporiaScore}%`;
     }
 
     function updateStageUI(stageNum) {
@@ -1674,28 +1745,10 @@
       }
     }
 
-    // =========================================================================
-    // REPORT MODAL
-    // =========================================================================
     function openFullReportModal() {
       const config = PERSONA_CONFIGS[currentPersonaKey];
-      document.getElementById('reportPersonaHeading').innerText = `${config.badge} 인생 방향성 & 실행 설계 정밀 진단서`;
-      
-      let diagText = "";
-      if (currentPersonaKey === 'student') {
-        diagText = "당신은 부모님과 학교의 기대에 순응하려 애써왔지만, 정해진 시험 점수로 자신의 존엄이 재단당하는 것에 깊은 반발을 품고 있습니다. 당신은 스스로 호기심을 갖고 문제를 해결할 때 가장 강력한 몰입을 발휘하는 '자기주도 탐구형' 영혼입니다.";
-      } else if (currentPersonaKey === 'undergrad') {
-        diagText = "남들이 다 쌓는 스펙과 자격증의 줄서기에 회의를 느끼고 있으며, 안정이라는 핑계로 영혼을 팔고 싶지 않은 강한 독립적 자아를 지니고 있습니다. 당신의 성공 방정식은 남들과 경쟁하는 것이 아니라, 당신만의 유일무이한 프로젝트를 창조하는 데 있습니다.";
-      } else if (currentPersonaKey === 'worker') {
-        diagText = "매달 나오는 월급에 안도하면서도, 조직의 소모품으로 늙어가는 것에 대한 실존적 공포를 정직하게 대면했습니다. 당신은 이제 회사라는 온실을 넘어, 당신의 고유한 전문성을 바탕으로 인생의 주권을 회복해야 할 중대한 분기점에 서 있습니다.";
-      } else {
-        diagText = "단순한 돈벌이가 아닌, 고객과 세상의 실질적 결핍을 해결하려는 야망을 확인했습니다. 당신에게 가장 큰 적은 실패가 아니라, 가짜 수요에 취해 시장의 냉정한 피드백을 회피하는 안일함입니다. 이제 린한 실행으로 증명할 때입니다.";
-      }
-      document.getElementById('reportDiagnosisP').innerText = diagText;
-
-      document.getElementById('reportLikesList').innerHTML = config.likes.map(l => `<li>${l.replace('#', '')}의 환경 및 활동</li>`).join('');
-      document.getElementById('reportHatesList').innerHTML = config.hates.map(h => `<li>${h.replace('#', '')}의 조건 및 압박</li>`).join('');
-
+      document.getElementById('reportPersonaCell').innerText = config.badge;
+      document.getElementById('reportDateCell').innerText = new Date().toISOString().slice(0, 10).replace(/-/g, '.');
       document.getElementById('reportModal').classList.add('active');
     }
 

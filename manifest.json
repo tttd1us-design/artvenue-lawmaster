@@ -1,0 +1,17 @@
+{
+  "name": "GNŌTHI (그노티) - 소크라테스 인생 건강검진 & 라이프 나침반",
+  "short_name": "GNŌTHI",
+  "description": "소크라테스 엘렌코스 대화 및 5대 인지 바이오마커 기반 인생 종합 정밀 검진 플랫폼",
+  "start_url": "./gnothi_elenchus.html",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#2563EB",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232563EB'/><text x='50%' y='55%' dominant-baseline='central' text-anchor='middle' font-size='48' fill='white' font-family='serif'>Σ</text></svg>",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
