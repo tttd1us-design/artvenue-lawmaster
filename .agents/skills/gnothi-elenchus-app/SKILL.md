@@ -264,3 +264,36 @@ const GEMINI_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models
 ### 5) 바이럴 소셜 공유 & 클립보드 링크 복사
 - **기능**: 진단 리포트 링크 원클릭 복사(`copyReportShareLink`) 및 카카오톡 인생 선언문 공유(`shareViaKakao`).
 - **피드백**: 세련된 Apple 스타일 하단 플로팅 토스트(`apple-toast`)로 즉각적인 피드백 제공.
+
+## 15. 경쟁사 대비 초프리미엄 미니멀리즘 리디자인 시스템 (Ultra-Sleek & Minimalist Precision)
+
+### 1) 디자인 개요 & Anti-Slop 원칙
+- **벤치마킹 타겟**: Apple, Linear, Toss, Mindcafe, Headspace, Calm 수준의 간결함과 품격.
+- **Anti-Slop 원칙**:
+  - 알록달록한 원색 테두리(2px Red/Green/Blue) 및 박스 중첩 지옥(Nested Card Hell) 전면 퇴출.
+  - 60-30-10 컬러 밸런스: Pure White (`#FFFFFF`, 60%), Canvas Warm Gray (`#FBFBFD`/`#F5F5F7`, 30%), Precision Blue/Emerald Accent (`#0071E3`/`#10B981`, 10%).
+  - 1px 초미세 서브틀 보더(`rgba(0, 0, 0, 0.06)`)와 다층 블러 섀도우(`0 20px 48px -12px rgba(0,0,0,0.08)`).
+
+### 2) 핵심 UI 리팩토링 컴포넌트
+1. **글로벌 네비게이션 헤더 (`.top-header`, `.apple-nav-tabs`, `.header-actions`)**:
+   - 높이 56px, 반투명 블러 `backdrop-filter: saturate(180%) blur(24px)`.
+   - 7개 네비게이션 탭의 세그먼트 알약 컨트롤 정돈 및 활성 탭 화이트 필 + 초미세 그림자.
+   - 우측 5개 액션 버튼의 톤온톤 미니멀 스타일 통일 (사운드 토글, 멤버십 캡슐, 전문가 상담 연계, 로그인, 딥블루 메인 CTA).
+2. **히어로 섹션 & 페르소나 셀렉터 (`.apple-hero-section`, `.apple-persona-selector`)**:
+   - 3D 앰비언트 오로라 배경과 어우러지는 글래스모피즘 아이브로우 뱃지.
+   - `clamp(2.3rem, 4.2vw, 3.5rem)` 디스플레이 타이포그래피와 애플 사파이어 그라디언트 텍스트.
+   - 플로팅 세그먼트 알약 페르소나 칩 (`.persona-chip`).
+3. **1:1 산파술 코칭 스튜디오 윈도우 (`.apple-studio-window`)**:
+   - 24px 라운드, 윈도우 섀도우, 3색 맥OS 헤더 도트.
+   - 소크라테스 버블: 서적 본문 느낌의 고품격 세리프(`MaruBuri`/`Gowun Batang`) + 소프트 그레이 서피스.
+   - 사용자 버블: 애플 블루(`background: #0071E3`) + 부드러운 섀도우.
+   - 3D 자이로스코프 나침반 및 5대 멘탈 바이오마커 패널의 정갈한 1px 보더 정돈.
+4. **결과 리포트 모달 (`#reportModal`)**:
+   - 2px 원색 외곽선 제거 ➔ 맑은 블루 틴트 서피스(`rgba(0, 113, 227, 0.03)`) + 1px 서브틀 보더.
+   - 3대 인생 축(회피, 추구, 90일 실천) 카드의 파스텔 틴트 뱃지와 정돈된 타이포그래피.
+   - 5대 지표 분석 테이블 및 전문가 상담 배너의 정교한 미니멀리즘.
+5. **전문가 1:1 상담 매칭 모달 (`#consultantMatchModal`)**:
+   - 임상 브리핑 시트(Intake Dossier)의 고급 클리닉 차트 스타일링.
+   - 전문가 선택 카드: 호버 시 부드러운 3px 리프트와 선택 시 사파이어 블루 링 인디케이터.
+6. **3초 본능 스와이프 & 벤토 그리드 (`.swipe-card`, `.bento-card`, `.director-card`)**:
+   - 입체적인 24px 다층 그림자와 햅틱 반응 버튼 디자인.

@@ -220,12 +220,12 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      height: 52px;
-      background: rgba(255, 255, 255, 0.82);
-      backdrop-filter: saturate(180%) blur(20px);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
-      border-bottom: 1px solid var(--apple-border);
-      padding: 0 28px;
+      height: 56px;
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: saturate(180%) blur(24px);
+      -webkit-backdrop-filter: saturate(180%) blur(24px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 0 32px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -250,25 +250,25 @@
       align-items: center;
       justify-content: center;
       color: #FFFFFF;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-      transition: transform 0.2s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .brand-area:hover .brand-icon-wrap { transform: scale(1.04); }
+    .brand-area:hover .brand-icon-wrap { transform: scale(1.05); }
 
     .brand-text h1 {
       font-family: var(--font-display);
       font-size: 1.08rem;
       font-weight: 800;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.03em;
       color: var(--apple-text-primary);
       line-height: 1.1;
     }
 
     .brand-text .motto {
       font-family: var(--font-sans);
-      font-size: 0.63rem;
+      font-size: 0.62rem;
       color: var(--apple-text-secondary);
-      letter-spacing: 0.07em;
+      letter-spacing: 0.08em;
       font-weight: 600;
       text-transform: uppercase;
       margin-top: 2px;
@@ -279,75 +279,81 @@
       display: flex;
       align-items: center;
       gap: 2px;
-      background: rgba(0, 0, 0, 0.04);
+      background: rgba(0, 0, 0, 0.035);
       padding: 3px;
       border-radius: var(--apple-radius-pill);
-      border: 1px solid rgba(0, 0, 0, 0.03);
+      border: 1px solid rgba(0, 0, 0, 0.02);
     }
 
     .nav-tab-btn {
       display: flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 14px;
+      padding: 6px 13px;
       border-radius: var(--apple-radius-pill);
-      font-size: 0.8rem;
+      font-size: 0.79rem;
       font-weight: 500;
-      color: var(--apple-text-secondary);
+      color: #6E6E73;
       background: transparent;
       border: none;
       cursor: pointer;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       white-space: nowrap;
+      letter-spacing: -0.01em;
     }
 
     .nav-tab-btn:hover {
       color: var(--apple-text-primary);
+      background: rgba(255, 255, 255, 0.45);
     }
 
     .nav-tab-btn.active {
       color: var(--apple-text-primary);
       background: #FFFFFF;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 0 0 0.5px rgba(0, 0, 0, 0.04);
       font-weight: 600;
     }
 
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .apple-pill-btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 7px 15px;
+      gap: 5px;
+      padding: 6px 12px;
       border-radius: var(--apple-radius-pill);
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       text-decoration: none;
+      letter-spacing: -0.01em;
+      border: 1px solid transparent;
     }
 
     .apple-pill-btn.subtle {
-      background: var(--apple-blue-soft);
-      border: 1px solid rgba(0, 113, 227, 0.2);
-      color: var(--apple-blue);
+      background: #FFFFFF;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      color: #1D1D1F;
     }
     .apple-pill-btn.subtle:hover {
-      background: #E1EFFF;
+      background: #F5F5F7;
+      border-color: rgba(0, 0, 0, 0.12);
+      transform: translateY(-1px);
     }
 
     .apple-pill-btn.primary {
-      background: var(--apple-blue);
-      border: 1px solid var(--apple-blue);
+      background: #0071E3;
+      border: 1px solid #0071E3;
       color: #FFFFFF;
       box-shadow: 0 2px 8px rgba(0, 113, 227, 0.25);
     }
     .apple-pill-btn.primary:hover {
-      background: var(--apple-blue-hover);
+      background: #0077ED;
       box-shadow: 0 4px 12px rgba(0, 113, 227, 0.35);
       transform: translateY(-1px);
     }
@@ -357,7 +363,7 @@
        ========================================================================= */
     .apple-hero-section {
       text-align: center;
-      padding: 44px 20px 36px;
+      padding: 46px 20px 34px;
       max-width: 960px;
       margin: 0 auto;
     }
@@ -368,13 +374,15 @@
       gap: 7px;
       padding: 5px 14px;
       border-radius: var(--apple-radius-pill);
-      background: #FFFFFF;
-      border: 1px solid var(--apple-border);
-      font-size: 0.78rem;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 113, 227, 0.16);
+      font-size: 0.77rem;
       font-weight: 600;
       color: var(--apple-blue);
       margin-bottom: 18px;
-      box-shadow: var(--apple-shadow-sm);
+      box-shadow: 0 2px 8px rgba(0, 113, 227, 0.06);
     }
 
     .badge-dot {
@@ -391,29 +399,29 @@
 
     .apple-hero-title {
       font-family: var(--font-display);
-      font-size: clamp(2.4rem, 4.2vw, 3.6rem);
+      font-size: clamp(2.3rem, 4.2vw, 3.5rem);
       font-weight: 800;
       letter-spacing: -0.04em;
       line-height: 1.18;
       color: var(--apple-text-primary);
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       word-break: keep-all;
       text-wrap: balance;
     }
 
     .apple-gradient-text {
-      background: linear-gradient(135deg, #0071E3 0%, #1D1D1F 80%);
+      background: linear-gradient(135deg, #0071E3 0%, #2563EB 45%, #1D1D1F 90%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .apple-hero-subtitle {
       font-family: var(--font-sans);
-      font-size: 1.14rem;
-      color: #515154;
-      max-width: 720px;
-      margin: 0 auto 30px;
-      line-height: 1.74;
+      font-size: 1.05rem;
+      color: #6E6E73;
+      max-width: 680px;
+      margin: 0 auto 28px;
+      line-height: 1.68;
       font-weight: 400;
       letter-spacing: -0.015em;
       word-break: keep-all;
@@ -423,11 +431,11 @@
     /* APPLE PERSONA SELECTOR (SEGMENTED HARDWARE/PROFILE PICKER) */
     .apple-persona-selector {
       display: inline-flex;
-      background: #E8E8ED;
-      padding: 4px;
+      background: rgba(0, 0, 0, 0.035);
+      padding: 3px;
       border-radius: var(--apple-radius-pill);
-      gap: 4px;
-      border: 1px solid rgba(0, 0, 0, 0.04);
+      gap: 3px;
+      border: 1px solid rgba(0, 0, 0, 0.03);
       max-width: 100%;
       overflow-x: auto;
     }
@@ -436,13 +444,13 @@
       font-family: var(--font-sans);
       display: flex;
       align-items: center;
-      gap: 7px;
-      padding: 8px 18px;
+      gap: 6px;
+      padding: 7px 16px;
       border-radius: var(--apple-radius-pill);
-      font-size: 0.84rem;
+      font-size: 0.81rem;
       font-weight: 500;
       letter-spacing: -0.01em;
-      color: var(--apple-text-secondary);
+      color: #6E6E73;
       background: transparent;
       border: none;
       cursor: pointer;
@@ -451,20 +459,21 @@
     }
 
     .persona-chip small {
-      font-size: 0.72rem;
-      opacity: 0.75;
+      font-size: 0.7rem;
+      opacity: 0.8;
       font-weight: 400;
       letter-spacing: -0.01em;
     }
 
     .persona-chip:hover {
       color: var(--apple-text-primary);
+      background: rgba(255, 255, 255, 0.45);
     }
 
     .persona-chip.active {
       background: #FFFFFF;
       color: var(--apple-text-primary);
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 0 0 0.5px rgba(0, 0, 0, 0.04);
       font-weight: 600;
     }
 
@@ -497,17 +506,17 @@
        ========================================================================= */
     .apple-studio-window {
       background: var(--apple-surface);
-      border-radius: var(--apple-radius-xl);
-      border: 1px solid var(--apple-border);
-      box-shadow: var(--apple-shadow-window);
+      border-radius: 24px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.03);
       overflow: hidden;
       margin-bottom: 48px;
     }
 
     .studio-window-header {
-      height: 48px;
-      background: var(--apple-surface-secondary);
-      border-bottom: 1px solid var(--apple-border);
+      height: 46px;
+      background: #FBFBFD;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
       padding: 0 20px;
       display: flex;
       align-items: center;
@@ -532,14 +541,15 @@
     .studio-title-pill {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 0.82rem;
+      gap: 7px;
+      font-size: 0.8rem;
       font-weight: 600;
       color: var(--apple-text-primary);
-      background: rgba(255, 255, 255, 0.8);
+      background: #FFFFFF;
       padding: 4px 14px;
       border-radius: var(--apple-radius-pill);
-      border: 1px solid var(--apple-border);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
     }
 
     .apple-pill-subtle {
@@ -549,16 +559,17 @@
       padding: 5px 12px;
       border-radius: var(--apple-radius-pill);
       background: #FFFFFF;
-      border: 1px solid var(--apple-border);
+      border: 1px solid rgba(0, 0, 0, 0.08);
       font-size: 0.74rem;
       font-weight: 500;
       color: var(--apple-text-secondary);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .apple-pill-subtle:hover {
       color: var(--apple-text-primary);
-      border-color: var(--apple-border-strong);
+      border-color: rgba(0, 0, 0, 0.15);
+      background: #F5F5F7;
     }
 
     /* SESSION GRID (3-COLUMN STUDIO LAYOUT) */
@@ -571,7 +582,7 @@
     /* LEFT SIDEBAR: 5 STAGES STEPPER */
     .stepper-panel {
       background: #FAFAFC;
-      border-right: 1px solid var(--apple-border);
+      border-right: 1px solid rgba(0, 0, 0, 0.06);
       padding: 22px 18px;
       display: flex;
       flex-direction: column;
@@ -580,7 +591,7 @@
     }
 
     .panel-header-title {
-      font-size: 0.8rem;
+      font-size: 0.79rem;
       font-weight: 700;
       letter-spacing: 0.04em;
       color: var(--apple-text-secondary);
@@ -610,8 +621,8 @@
 
     .stage-item.current {
       background: #FFFFFF;
-      border-color: var(--apple-border);
-      box-shadow: var(--apple-shadow-sm);
+      border-color: rgba(0, 113, 227, 0.2);
+      box-shadow: 0 2px 8px rgba(0, 113, 227, 0.05);
     }
 
     .stage-item.completed {
@@ -621,7 +632,7 @@
     .stage-item.completed .stage-num {
       background: var(--apple-green);
       color: #FFFFFF;
-      box-shadow: 0 2px 6px rgba(52, 199, 89, 0.35);
+      box-shadow: 0 2px 6px rgba(52, 199, 89, 0.3);
     }
 
     .stage-num {
@@ -727,10 +738,12 @@
     .message-row.socrates .msg-avatar {
       background: #1D1D1F;
       color: #FFFFFF;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
     }
     .message-row.user .msg-avatar {
       background: var(--apple-blue);
       color: #FFFFFF;
+      box-shadow: 0 2px 6px rgba(0, 113, 227, 0.3);
     }
 
     .msg-bubble {
@@ -745,11 +758,11 @@
       color: #1D1D1F;
       border-top-left-radius: 4px;
       font-family: var(--font-serif);
-      font-size: 1.02rem;
-      line-height: 1.78;
+      font-size: 1.01rem;
+      line-height: 1.76;
       letter-spacing: -0.015em;
-      border: 1px solid rgba(0, 0, 0, 0.05);
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
     }
 
     .message-row.socrates .msg-bubble strong {
@@ -772,9 +785,9 @@
       background: var(--apple-blue);
       color: #FFFFFF;
       border-top-right-radius: 4px;
-      box-shadow: 0 4px 14px rgba(0, 113, 227, 0.2);
+      box-shadow: 0 3px 12px rgba(0, 113, 227, 0.22);
       font-family: var(--font-sans);
-      font-size: 0.94rem;
+      font-size: 0.93rem;
       font-weight: 500;
       line-height: 1.62;
       letter-spacing: -0.015em;
@@ -782,8 +795,8 @@
 
     .quick-chips-bar {
       padding: 10px 22px;
-      background: var(--apple-surface-secondary);
-      border-top: 1px solid var(--apple-border);
+      background: #FAFAFC;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
       display: flex;
       align-items: center;
       gap: 8px;
@@ -792,16 +805,16 @@
 
     .quick-chip {
       font-family: var(--font-sans);
-      font-size: 0.78rem;
+      font-size: 0.77rem;
       font-weight: 500;
       color: var(--apple-text-primary);
       background: #FFFFFF;
-      border: 1px solid var(--apple-border);
+      border: 1px solid rgba(0, 0, 0, 0.08);
       border-radius: var(--apple-radius-pill);
       padding: 7px 15px;
       white-space: nowrap;
       cursor: pointer;
-      box-shadow: var(--apple-shadow-sm);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       letter-spacing: -0.01em;
       word-break: keep-all;
@@ -809,13 +822,14 @@
     .quick-chip:hover {
       border-color: var(--apple-blue);
       color: var(--apple-blue);
+      background: #F0F6FF;
       transform: translateY(-1px);
     }
 
     .chat-input-area {
       padding: 14px 22px;
       background: #FFFFFF;
-      border-top: 1px solid var(--apple-border);
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
       display: flex;
       align-items: center;
       gap: 10px;
@@ -825,16 +839,16 @@
       flex: 1;
       display: flex;
       align-items: center;
-      background: var(--apple-surface-secondary);
+      background: #F5F5F7;
       border-radius: var(--apple-radius-pill);
       padding: 4px 16px;
-      border: 1px solid transparent;
+      border: 1px solid rgba(0, 0, 0, 0.04);
       transition: all 0.2s ease;
     }
     .chat-input-capsule:focus-within {
       background: #FFFFFF;
       border-color: var(--apple-blue);
-      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.12);
     }
 
     .chat-textarea {
@@ -864,6 +878,7 @@
       cursor: pointer;
       transition: all 0.2s ease;
       flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0, 113, 227, 0.25);
     }
     .send-btn:hover {
       background: var(--apple-blue-hover);
@@ -873,7 +888,7 @@
     /* RIGHT COLUMN: APPLE HEALTH VITALS DIRECTION METRICS */
     .metrics-panel {
       background: #FAFAFC;
-      border-left: 1px solid var(--apple-border);
+      border-left: 1px solid rgba(0, 0, 0, 0.06);
       padding: 22px 18px;
       display: flex;
       flex-direction: column;
@@ -890,10 +905,10 @@
 
     .bio-item {
       background: #FFFFFF;
-      border: 1px solid var(--apple-border);
+      border: 1px solid rgba(0, 0, 0, 0.05);
       border-radius: var(--apple-radius-md);
       padding: 10px 12px;
-      box-shadow: var(--apple-shadow-sm);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
       display: flex;
       flex-direction: column;
       gap: 6px;
@@ -923,10 +938,10 @@
     /* 3D INTERACTIVE GYROSCOPE COMPASS COMPONENT */
     .compass-3d-card {
       background: #FFFFFF;
-      border: 1px solid var(--apple-border);
+      border: 1px solid rgba(0, 0, 0, 0.06);
       border-radius: var(--apple-radius-lg);
       padding: 14px 12px;
-      box-shadow: var(--apple-shadow-sm);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
       margin-bottom: 12px;
       position: relative;
       overflow: hidden;
@@ -1176,23 +1191,23 @@
 
     .bento-card {
       background: var(--apple-surface);
-      border: 1px solid var(--apple-border);
-      border-radius: var(--apple-radius-xl);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 20px;
       padding: 28px;
-      box-shadow: var(--apple-shadow-sm);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
       overflow: hidden;
     }
 
     .bento-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--apple-shadow-md);
-      border-color: var(--apple-border-strong);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 113, 227, 0.15);
+      border-color: rgba(0, 113, 227, 0.2);
     }
 
     .bento-card.card-large {
@@ -1202,7 +1217,7 @@
       align-items: center;
       gap: 24px;
       background: linear-gradient(135deg, #FFFFFF 0%, #F5F7FF 100%);
-      border-color: rgba(0, 113, 227, 0.15);
+      border-color: rgba(0, 113, 227, 0.12);
     }
 
     .bento-icon {
@@ -1232,7 +1247,7 @@
 
     .bento-card h3 {
       font-family: var(--font-display);
-      font-size: 1.28rem;
+      font-size: 1.25rem;
       font-weight: 700;
       color: var(--apple-text-primary);
       margin-bottom: 10px;
@@ -1243,9 +1258,9 @@
 
     .bento-card p {
       font-family: var(--font-sans);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: var(--apple-text-secondary);
-      line-height: 1.7;
+      line-height: 1.68;
       letter-spacing: -0.012em;
       margin-bottom: 22px;
       word-break: keep-all;
@@ -1257,7 +1272,7 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       font-weight: 600;
       color: var(--apple-blue);
       letter-spacing: -0.01em;
@@ -1270,10 +1285,10 @@
        ========================================================================= */
     .apple-tab-card {
       background: #FFFFFF;
-      border: 1px solid var(--apple-border);
-      border-radius: var(--apple-radius-xl);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 20px;
       padding: 32px;
-      box-shadow: var(--apple-shadow-sm);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
     }
 
     /* MENTORS BOARD */
@@ -1286,18 +1301,19 @@
 
     .director-card {
       background: #FFFFFF;
-      border: 1px solid var(--apple-border);
-      border-radius: var(--apple-radius-lg);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 18px;
       padding: 22px 20px;
       display: flex;
       flex-direction: column;
       gap: 12px;
-      box-shadow: var(--apple-shadow-sm);
-      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .director-card:hover {
-      box-shadow: var(--apple-shadow-md);
-      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.07);
+      transform: translateY(-3px);
+      border-color: rgba(0, 113, 227, 0.18);
     }
 
     .director-avatar {
@@ -1344,10 +1360,10 @@
 
     .swipe-card {
       background: #FFFFFF;
-      border: 1px solid var(--apple-border);
-      border-radius: var(--apple-radius-xl);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 24px;
       padding: 44px 32px;
-      box-shadow: var(--apple-shadow-md);
+      box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.03);
       min-height: 240px;
       display: flex;
       flex-direction: column;
@@ -1376,13 +1392,32 @@
       width: 64px;
       height: 64px;
       border-radius: 50%;
-      border: 1px solid var(--apple-border);
+      border: 1px solid rgba(0, 0, 0, 0.06);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: var(--apple-shadow-sm);
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      background: #FFFFFF;
+    }
+    .swipe-btn:hover {
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+    .swipe-btn.hate {
+      color: #EF4444;
+      border-color: rgba(239, 68, 68, 0.2);
+    }
+    .swipe-btn.hate:hover {
+      background: #FEF2F2;
+    }
+    .swipe-btn.like {
+      color: #10B981;
+      border-color: rgba(16, 185, 129, 0.2);
+    }
+    .swipe-btn.like:hover {
+      background: #ECFDF5;
     }
     .swipe-btn.hate { background: #FFF2F2; color: var(--apple-rose); border-color: rgba(255, 59, 48, 0.2); }
     .swipe-btn.like { background: #EDFCF2; color: var(--apple-green); border-color: rgba(52, 199, 89, 0.2); }
@@ -1701,23 +1736,23 @@
     .consultant-modal-card {
       background: #FFFFFF;
       color: var(--apple-text-primary);
-      border-radius: var(--apple-radius-2xl);
-      max-width: 980px;
+      border-radius: 28px;
+      max-width: 960px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
-      padding: 34px 34px 30px;
-      box-shadow: 0 35px 80px -20px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.06);
+      padding: 36px 40px 32px;
+      box-shadow: 0 35px 80px -20px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.05);
       animation: modalScale 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .dossier-preview-card {
-      background: linear-gradient(135deg, #F0FDF4 0%, #F8FAFC 100%);
-      border: 2px solid #10B981;
-      border-radius: var(--apple-radius-xl);
+      background: rgba(16, 185, 129, 0.03);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 20px;
       padding: 22px 24px;
       margin-bottom: 24px;
       position: relative;
-      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.08);
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.04);
     }
     .counselor-grid {
       display: grid;
@@ -1730,8 +1765,8 @@
     }
     .counselor-card {
       background: #FFFFFF;
-      border: 1.5px solid var(--apple-border);
-      border-radius: var(--apple-radius-lg);
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      border-radius: 16px;
       padding: 16px 18px;
       display: flex;
       gap: 14px;
@@ -1740,14 +1775,14 @@
       position: relative;
     }
     .counselor-card:hover {
-      border-color: #6EE7B7;
+      border-color: rgba(0, 113, 227, 0.3);
       transform: translateY(-2px);
-      box-shadow: var(--apple-shadow-md);
+      box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.06);
     }
     .counselor-card.active {
-      border-color: #10B981;
-      background: #F0FDF4;
-      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2), 0 8px 20px rgba(16, 185, 129, 0.12);
+      border-color: #0071E3;
+      background: #FFFFFF;
+      box-shadow: 0 0 0 1.5px #0071E3, 0 8px 24px -4px rgba(0, 113, 227, 0.12);
     }
     .counselor-avatar {
       width: 54px;
@@ -2931,44 +2966,44 @@
   <div class="modal-overlay" id="reportModal">
     <div class="report-modal-card" style="max-width: 960px;">
       <!-- REPORT HEADER -->
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0F172A; padding-bottom: 14px; margin-bottom: 20px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0, 0, 0, 0.08); padding-bottom: 16px; margin-bottom: 20px;">
         <div style="display: flex; align-items: center; gap: 12px;">
-          <div style="width: 44px; height: 44px; background: #2563EB; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.4rem;">Σ</div>
+          <div style="width: 42px; height: 42px; background: #0071E3; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.3rem; box-shadow: 0 2px 8px rgba(0, 113, 227, 0.25);">Σ</div>
           <div>
-            <h2 style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 0; line-height: 1.2;">나만의 인생 방향성 진단 리포트</h2>
-            <div style="font-size: 0.74rem; color: #64748B; font-family: var(--font-mono);">GNŌTHI PERSONAL LIFE COMPASS & DIRECTION REPORT</div>
+            <h2 style="font-size: 1.35rem; font-weight: 800; color: #1D1D1F; margin: 0; line-height: 1.2;">나만의 인생 방향성 진단 리포트</h2>
+            <div style="font-size: 0.72rem; color: #86868B; font-family: var(--font-mono); letter-spacing: 0.02em;">GNŌTHI PERSONAL LIFE COMPASS & DIRECTION REPORT</div>
           </div>
         </div>
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <button class="pill-btn" onclick="window.print()" style="background: #F1F5F9; border: 1px solid #CBD5E1;">
-            <i data-lucide="printer" style="width: 14px; height: 14px;"></i> 인쇄
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button class="apple-pill-subtle" onclick="window.print()" style="font-size: 0.76rem;">
+            <i data-lucide="printer" style="width: 13px; height: 13px;"></i> 인쇄
           </button>
           <button class="close-btn" onclick="closeModal('reportModal')">&times;</button>
         </div>
       </div>
 
       <!-- PATIENT / PERSONA META -->
-      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px; font-size: 0.82rem; margin-bottom: 20px;">
-        <div><span style="color: #64748B;">리포트 번호:</span> <strong style="color: #0F172A;" id="reportSerialId">GN-2026-0919-88</strong></div>
-        <div><span style="color: #64748B;">진단 대상:</span> <strong style="color: #2563EB;" id="reportPersonaCell">중고생 (진로·전공 고민)</strong></div>
-        <div><span style="color: #64748B;">진단 완성도:</span> <strong style="color: #059669;" id="reportDepthLevel">5단계 완료 (Level 5)</strong></div>
-        <div><span style="color: #64748B;">방향성 상태:</span> <strong style="color: #2563EB;" id="reportOverallGrade">나만의 주도성 확립</strong></div>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; background: #F5F5F7; border: 1px solid rgba(0, 0, 0, 0.05); border-radius: 14px; padding: 14px 18px; font-size: 0.82rem; margin-bottom: 20px;">
+        <div><span style="color: #86868B;">리포트 번호:</span> <strong style="color: #1D1D1F;" id="reportSerialId">GN-2026-0919-88</strong></div>
+        <div><span style="color: #86868B;">진단 대상:</span> <strong style="color: #0071E3;" id="reportPersonaCell">중고생 (진로·전공 고민)</strong></div>
+        <div><span style="color: #86868B;">진단 완성도:</span> <strong style="color: #059669;" id="reportDepthLevel">5단계 완료 (Level 5)</strong></div>
+        <div><span style="color: #86868B;">방향성 상태:</span> <strong style="color: #0071E3;" id="reportOverallGrade">나만의 주도성 확립</strong></div>
       </div>
 
       <!-- CORE HIGHLIGHT: 3 LIFE AXES & DIRECTION MANIFESTO -->
-      <div style="background: linear-gradient(135deg, #EFF6FF, #F8FAFC); border: 2px solid #2563EB; border-radius: 14px; padding: 22px; margin-bottom: 22px; position: relative; overflow: hidden;">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-          <h3 style="font-size: 1.12rem; font-weight: 800; color: #1E40AF; display: flex; align-items: center; gap: 8px;">
-            <i data-lucide="compass" style="width: 20px; height: 20px; color: #2563EB;"></i>
+      <div style="background: rgba(0, 113, 227, 0.03); border: 1px solid rgba(0, 113, 227, 0.16); border-radius: 20px; padding: 22px; margin-bottom: 22px; position: relative; overflow: hidden;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+          <h3 style="font-size: 1.1rem; font-weight: 800; color: #1D1D1F; display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="compass" style="width: 20px; height: 20px; color: #0071E3;"></i>
             질문을 통해 도출된 나만의 3대 인생 축 (Life Compass)
           </h3>
-          <span style="font-size: 0.74rem; background: #DBEAFE; color: #1D4ED8; padding: 3px 10px; border-radius: 20px; font-weight: 700;">대화 코칭 분석 완료</span>
+          <span style="font-size: 0.72rem; background: #F0F6FF; color: #0071E3; border: 1px solid rgba(0, 113, 227, 0.2); padding: 3px 10px; border-radius: 20px; font-weight: 700;">대화 코칭 분석 완료</span>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px;">
           <!-- AXIS 1 -->
-          <div style="background: #FFF; border: 1px solid #FECDD3; border-radius: 12px; padding: 16px;">
-            <div style="font-size: 0.74rem; font-weight: 800; color: #E11D48; display: flex; align-items: center; gap: 4px; margin-bottom: 8px;">
+          <div style="background: #FFFFFF; border: 1px solid rgba(239, 68, 68, 0.18); border-radius: 14px; padding: 16px; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.03);">
+            <div style="font-size: 0.73rem; font-weight: 800; color: #DC2626; display: flex; align-items: center; gap: 4px; margin-bottom: 8px;">
               <i data-lucide="shield-x" style="width: 14px; height: 14px;"></i> 제1축: 내가 힘들어하는 환경 (회피 기준)
             </div>
             <div style="font-family: var(--font-serif); font-size: 0.94rem; color: #1D1D1F; font-weight: 600; line-height: 1.7; word-break: keep-all;" id="reportAxisHate">
@@ -2977,8 +3012,8 @@
           </div>
 
           <!-- AXIS 2 -->
-          <div style="background: #FFF; border: 1px solid #A7F3D0; border-radius: 12px; padding: 16px;">
-            <div style="font-size: 0.74rem; font-weight: 800; color: #059669; display: flex; align-items: center; gap: 4px; margin-bottom: 8px;">
+          <div style="background: #FFFFFF; border: 1px solid rgba(16, 185, 129, 0.22); border-radius: 14px; padding: 16px; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.03);">
+            <div style="font-size: 0.73rem; font-weight: 800; color: #059669; display: flex; align-items: center; gap: 4px; margin-bottom: 8px;">
               <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i> 제2축: 내가 즐겁게 몰입하는 환경 (추구 기준)
             </div>
             <div style="font-family: var(--font-serif); font-size: 0.94rem; color: #1D1D1F; font-weight: 600; line-height: 1.7; word-break: keep-all;" id="reportAxisLove">
@@ -2987,8 +3022,8 @@
           </div>
 
           <!-- AXIS 3 -->
-          <div style="background: #FFF; border: 1px solid #BFDBFE; border-radius: 12px; padding: 16px;">
-            <div style="font-size: 0.74rem; font-weight: 800; color: #2563EB; display: flex; align-items: center; gap: 4px; margin-bottom: 8px;">
+          <div style="background: #FFFFFF; border: 1px solid rgba(0, 113, 227, 0.18); border-radius: 14px; padding: 16px; box-shadow: 0 2px 8px rgba(0, 113, 227, 0.03);">
+            <div style="font-size: 0.73rem; font-weight: 800; color: #0071E3; display: flex; align-items: center; gap: 4px; margin-bottom: 8px;">
               <i data-lucide="rocket" style="width: 14px; height: 14px;"></i> 제3축: 90일 구체적 실천 과제
             </div>
             <div style="font-family: var(--font-serif); font-size: 0.94rem; color: #1D1D1F; font-weight: 600; line-height: 1.7; word-break: keep-all;" id="reportAxisAction">
@@ -2998,14 +3033,14 @@
         </div>
 
         <!-- MANIFESTO DECLARATION -->
-        <div style="background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 12px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="background: #FFFFFF; border: 1px solid rgba(0, 0, 0, 0.06); border-radius: 14px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);">
           <div>
-            <div style="font-size: 0.74rem; color: #64748B; font-weight: 700; margin-bottom: 4px;">📜 나의 인생 방향성 선언문</div>
-            <div style="font-size: 1.05rem; font-weight: 700; color: #0F172A; font-family: var(--font-serif); line-height: 1.72; letter-spacing: -0.015em; word-break: keep-all;" id="reportManifestoText">
+            <div style="font-size: 0.72rem; color: #86868B; font-weight: 700; margin-bottom: 4px;">📜 나의 인생 방향성 선언문</div>
+            <div style="font-size: 1.05rem; font-weight: 700; color: #1D1D1F; font-family: var(--font-serif); line-height: 1.72; letter-spacing: -0.015em; word-break: keep-all;" id="reportManifestoText">
               "나는 타인의 기대에 휘둘리던 가짜 욕망을 버리고, 오직 나의 3대 축에 따라 내 삶의 온전한 주권자로 전진한다."
             </div>
           </div>
-          <div style="width: 48px; height: 48px; border: 2px solid #2563EB; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #2563EB; font-weight: 900; font-size: 0.75rem; transform: rotate(-10deg); flex-shrink: 0; box-shadow: 0 2px 6px rgba(37, 99, 235, 0.15);">
+          <div style="width: 48px; height: 48px; border: 1.5px solid #0071E3; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0071E3; font-weight: 800; font-size: 0.75rem; transform: rotate(-10deg); flex-shrink: 0; box-shadow: 0 2px 8px rgba(0, 113, 227, 0.12);">
             그노티<br>인증
           </div>
         </div>
@@ -3013,49 +3048,49 @@
 
       <!-- 5 BIOMARKERS ASSESSMENT -->
       <div style="margin-bottom: 20px;">
-        <h3 style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
-          <i data-lucide="activity" style="width: 16px; height: 16px; color: #2563EB;"></i>
+        <h3 style="font-size: 1.05rem; font-weight: 800; color: #1D1D1F; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+          <i data-lucide="activity" style="width: 16px; height: 16px; color: #0071E3;"></i>
           5가지 핵심 멘탈 & 방향성 지표 측정 결과
         </h3>
         <table style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">
           <thead>
-            <tr style="background: #F1F5F9; border-bottom: 1px solid #CBD5E1;">
-              <th style="padding: 8px 12px;">지표 항목</th>
-              <th style="padding: 8px 12px;">측정 점수</th>
-              <th style="padding: 8px 12px;">상태</th>
-              <th style="padding: 8px 12px;">분석 소견</th>
+            <tr style="background: #F5F5F7; border-bottom: 1px solid rgba(0, 0, 0, 0.06);">
+              <th style="padding: 10px 14px; font-weight: 700; color: #6E6E73;">지표 항목</th>
+              <th style="padding: 10px 14px; font-weight: 700; color: #6E6E73;">측정 점수</th>
+              <th style="padding: 10px 14px; font-weight: 700; color: #6E6E73;">상태</th>
+              <th style="padding: 10px 14px; font-weight: 700; color: #6E6E73;">분석 소견</th>
             </tr>
           </thead>
           <tbody>
-            <tr style="border-bottom: 1px solid #E2E8F0;">
-              <td style="padding: 8px 12px; font-weight: 700;">① 주도적 결정력</td>
-              <td style="padding: 8px 12px; color: #059669; font-weight: 800;" id="cellAutonomy">92점</td>
-              <td style="padding: 8px 12px;"><span style="background: #D1FAE5; color: #065F46; padding: 2px 8px; border-radius: 4px; font-weight: 700;">우수</span></td>
-              <td style="padding: 8px 12px; color: #64748B;">외부 시선보다 내면의 진실을 우선하는 주도권 확립</td>
+            <tr style="border-bottom: 1px solid rgba(0, 0, 0, 0.04);">
+              <td style="padding: 10px 14px; font-weight: 700;">① 주도적 결정력</td>
+              <td style="padding: 10px 14px; color: #059669; font-weight: 800;" id="cellAutonomy">92점</td>
+              <td style="padding: 10px 14px;"><span style="background: #D1FAE5; color: #065F46; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">우수</span></td>
+              <td style="padding: 10px 14px; color: #6E6E73;">외부 시선보다 내면의 진실을 우선하는 주도권 확립</td>
             </tr>
-            <tr style="border-bottom: 1px solid #E2E8F0;">
-              <td style="padding: 8px 12px; font-weight: 700;">② 내면 갈등 완화도</td>
-              <td style="padding: 8px 12px; color: #2563EB; font-weight: 800;" id="cellAporia">14점</td>
-              <td style="padding: 8px 12px;"><span style="background: #DBEAFE; color: #1E40AF; padding: 2px 8px; border-radius: 4px; font-weight: 700;">안정</span></td>
-              <td style="padding: 8px 12px; color: #64748B;">고정관념이 해소되어 생각의 모순과 혼란이 정리됨</td>
+            <tr style="border-bottom: 1px solid rgba(0, 0, 0, 0.04);">
+              <td style="padding: 10px 14px; font-weight: 700;">② 내면 갈등 완화도</td>
+              <td style="padding: 10px 14px; color: #0071E3; font-weight: 800;" id="cellAporia">14점</td>
+              <td style="padding: 10px 14px;"><span style="background: #F0F6FF; color: #0071E3; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">안정</span></td>
+              <td style="padding: 10px 14px; color: #6E6E73;">고정관념이 해소되어 생각의 모순과 혼란이 정리됨</td>
             </tr>
-            <tr style="border-bottom: 1px solid #E2E8F0;">
-              <td style="padding: 8px 12px; font-weight: 700;">③ 선호·기준 명확도</td>
-              <td style="padding: 8px 12px; color: #059669; font-weight: 800;" id="cellClarity">95점</td>
-              <td style="padding: 8px 12px;"><span style="background: #D1FAE5; color: #065F46; padding: 2px 8px; border-radius: 4px; font-weight: 700;">명확</span></td>
-              <td style="padding: 8px 12px; color: #64748B;">내가 좋아하는 것과 피해야 할 기준이 뚜렷함</td>
+            <tr style="border-bottom: 1px solid rgba(0, 0, 0, 0.04);">
+              <td style="padding: 10px 14px; font-weight: 700;">③ 선호·기준 명확도</td>
+              <td style="padding: 10px 14px; color: #059669; font-weight: 800;" id="cellClarity">95점</td>
+              <td style="padding: 10px 14px;"><span style="background: #D1FAE5; color: #065F46; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">명확</span></td>
+              <td style="padding: 10px 14px; color: #6E6E73;">내가 좋아하는 것과 피해야 할 기준이 뚜렷함</td>
             </tr>
-            <tr style="border-bottom: 1px solid #E2E8F0;">
-              <td style="padding: 8px 12px; font-weight: 700;">④ 마음 피로·스트레스</td>
-              <td style="padding: 8px 12px; color: #059669; font-weight: 800;" id="cellDrain">24점</td>
-              <td style="padding: 8px 12px;"><span style="background: #D1FAE5; color: #065F46; padding: 2px 8px; border-radius: 4px; font-weight: 700;">안정</span></td>
-              <td style="padding: 8px 12px; color: #64748B;">불필요한 비교와 과도한 심리적 압박이 완화됨</td>
+            <tr style="border-bottom: 1px solid rgba(0, 0, 0, 0.04);">
+              <td style="padding: 10px 14px; font-weight: 700;">④ 마음 피로·스트레스</td>
+              <td style="padding: 10px 14px; color: #059669; font-weight: 800;" id="cellDrain">24점</td>
+              <td style="padding: 10px 14px;"><span style="background: #D1FAE5; color: #065F46; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">안정</span></td>
+              <td style="padding: 10px 14px; color: #6E6E73;">불필요한 비교와 과도한 심리적 압박이 완화됨</td>
             </tr>
             <tr>
-              <td style="padding: 8px 12px; font-weight: 700;">⑤ 실행 탄력성</td>
-              <td style="padding: 8px 12px; color: #059669; font-weight: 800;" id="cellPraxis">88점</td>
-              <td style="padding: 8px 12px;"><span style="background: #D1FAE5; color: #065F46; padding: 2px 8px; border-radius: 4px; font-weight: 700;">우수</span></td>
-              <td style="padding: 8px 12px; color: #64748B;">구체적인 실행 과제를 추진할 수 있는 활력과 추진력</td>
+              <td style="padding: 10px 14px; font-weight: 700;">⑤ 실행 탄력성</td>
+              <td style="padding: 10px 14px; color: #059669; font-weight: 800;" id="cellPraxis">88점</td>
+              <td style="padding: 10px 14px;"><span style="background: #D1FAE5; color: #065F46; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">우수</span></td>
+              <td style="padding: 10px 14px; color: #6E6E73;">구체적인 실행 과제를 추진할 수 있는 활력과 추진력</td>
             </tr>
           </tbody>
         </table>
@@ -3063,8 +3098,8 @@
 
       <!-- RX PRESCRIPTION -->
       <div style="margin-bottom: 20px;">
-        <h3 style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin-bottom: 8px;">소크라테스 멘토의 맞춤 액션 가이드</h3>
-        <div style="background: #FFF; border: 2px dashed #CBD5E1; border-radius: 10px; padding: 14px 18px; font-size: 0.88rem; line-height: 1.7; color: #334155;">
+        <h3 style="font-size: 1.05rem; font-weight: 800; color: #1D1D1F; margin-bottom: 8px;">소크라테스 멘토의 맞춤 액션 가이드</h3>
+        <div style="background: #F5F5F7; border: 1px solid rgba(0, 0, 0, 0.05); border-radius: 14px; padding: 16px 20px; font-size: 0.88rem; line-height: 1.7; color: #48484A;">
           • [가이드 1] 14일간 타인의 SNS 성과나 자랑 피드를 멀리하고 나에게 집중하는 시간을 가질 것.<br>
           • [가이드 2] 내가 정립한 제2축(즐겁게 몰입하는 환경)에 매일 45분간 방해 없이 집중해볼 것.<br>
           • [가이드 3] 남들의 시선에서 벗어나 내 이름으로 완성되는 작은 프로젝트를 90일 안에 1개 완성해볼 것.
@@ -3072,35 +3107,35 @@
       </div>
 
       <!-- EXPERT COUNSELING LINKAGE BANNER IN REPORT -->
-      <div style="background: linear-gradient(135deg, #ECFDF5, #F0FDF4); border: 2px solid #10B981; border-radius: 14px; padding: 18px 20px; margin-top: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.12);">
+      <div style="background: rgba(16, 185, 129, 0.04); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 18px; padding: 18px 22px; margin-top: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; box-shadow: 0 4px 16px rgba(16, 185, 129, 0.05);">
         <div style="display: flex; align-items: center; gap: 14px;">
-          <div style="width: 48px; height: 48px; background: #10B981; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);">
-            <i data-lucide="stethoscope" style="width: 24px; height: 24px;"></i>
+          <div style="width: 44px; height: 44px; background: #10B981; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);">
+            <i data-lucide="stethoscope" style="width: 22px; height: 22px;"></i>
           </div>
           <div>
             <div style="display: flex; align-items: center; gap: 8px;">
-              <div style="font-weight: 800; color: #065F46; font-size: 1.02rem;">🩺 AI 진단 결과 연계 1:1 공인 전문가 심층 상담</div>
-              <span style="font-size: 0.72rem; background: #D1FAE5; color: #047857; padding: 2px 8px; border-radius: 999px; font-weight: 700;">상담 효율 300% 극대화</span>
+              <div style="font-weight: 800; color: #065F46; font-size: 1rem;">🩺 AI 진단 결과 연계 1:1 공인 전문가 심층 상담</div>
+              <span style="font-size: 0.7rem; background: #D1FAE5; color: #047857; padding: 2px 8px; border-radius: 999px; font-weight: 700;">상담 효율 300% 극대화</span>
             </div>
             <div style="font-size: 0.8rem; color: #047857; margin-top: 3px; line-height: 1.5;">
               방금 도출된 3대 인생 축과 5대 멘탈 바이오마커를 담당 전문 코치에게 사전 전달하여, 첫 30분의 형식적 질문 없이 즉시 본질적인 1:1 실행 코칭을 시작합니다.
             </div>
           </div>
         </div>
-        <button class="apple-pill-btn" onclick="openConsultantMatchModal()" style="background: #10B981; color: white; font-weight: 800; padding: 12px 20px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); border: none; cursor: pointer;">
+        <button class="apple-pill-btn" onclick="openConsultantMatchModal()" style="background: #10B981; color: white; font-weight: 700; padding: 10px 18px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25); border: none; cursor: pointer;">
           전문가에게 사전 전달하고 상담 예약
         </button>
       </div>
 
       <div style="display: flex; justify-content: center; gap: 10px; margin-top: 24px; flex-wrap: wrap;">
-        <button class="apple-pill-btn secondary" onclick="copyReportShareLink()" style="padding: 12px 20px; font-weight: 700; background: var(--apple-surface-secondary); border: 1px solid var(--apple-border); color: var(--apple-text-primary); display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
-          <i data-lucide="link" style="width: 15px; height: 15px;"></i> 진단 리포트 링크 복사
+        <button class="apple-pill-btn secondary" onclick="copyReportShareLink()" style="padding: 10px 18px; font-weight: 600; background: #F5F5F7; border: 1px solid rgba(0,0,0,0.08); color: var(--apple-text-primary); display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+          <i data-lucide="link" style="width: 14px; height: 14px;"></i> 진단 리포트 링크 복사
         </button>
-        <button class="apple-pill-btn" onclick="shareViaKakao()" style="padding: 12px 20px; font-weight: 700; background: #FEE500; color: #191919; border: 1px solid rgba(0,0,0,0.06); display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
-          <i data-lucide="message-circle" style="width: 15px; height: 15px;"></i> 카카오톡으로 내 방향성 선언 공유
+        <button class="apple-pill-btn" onclick="shareViaKakao()" style="padding: 10px 18px; font-weight: 700; background: #FEE500; color: #191919; border: 1px solid rgba(0,0,0,0.06); display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+          <i data-lucide="message-circle" style="width: 14px; height: 14px;"></i> 카카오톡으로 내 방향성 선언 공유
         </button>
-        <button class="send-btn" onclick="window.print()" style="margin: 0; display: inline-flex; align-items: center; gap: 8px;">
-          <i data-lucide="printer" style="width: 16px; height: 16px;"></i> 리포트 인쇄 / PDF 저장
+        <button class="apple-pill-btn primary" onclick="window.print()" style="padding: 10px 18px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+          <i data-lucide="printer" style="width: 14px; height: 14px;"></i> 리포트 인쇄 / PDF 저장
         </button>
       </div>
     </div>
@@ -3112,16 +3147,16 @@
   <div class="modal-overlay" id="consultantMatchModal">
     <div class="consultant-modal-card">
       <!-- HEADER -->
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1.5px solid var(--apple-border); padding-bottom: 18px; margin-bottom: 22px;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid rgba(0, 0, 0, 0.08); padding-bottom: 18px; margin-bottom: 22px;">
         <div>
-          <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.74rem; font-weight: 800; color: #059669; background: #ECFDF5; padding: 3px 10px; border-radius: var(--apple-radius-pill); margin-bottom: 6px; border: 1px solid rgba(16, 185, 129, 0.3);">
+          <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.73rem; font-weight: 700; color: #059669; background: #ECFDF5; padding: 3px 10px; border-radius: var(--apple-radius-pill); margin-bottom: 8px; border: 1px solid rgba(16, 185, 129, 0.25);">
             <i data-lucide="zap" style="width: 12px; height: 12px;"></i> AI 대화 데이터 100% 사전 전달 연계
           </div>
-          <h2 style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; color: var(--apple-text-primary); margin: 0; display: flex; align-items: center; gap: 8px;">
+          <h2 style="font-family: var(--font-display); font-size: 1.35rem; font-weight: 800; color: #1D1D1F; margin: 0; display: flex; align-items: center; gap: 8px;">
             <i data-lucide="stethoscope" style="width: 22px; height: 22px; color: #10B981;"></i>
             나만의 진단 결과 연계 1:1 전문가 심층 상담
           </h2>
-          <p style="font-size: 0.84rem; color: var(--apple-text-secondary); margin-top: 4px; line-height: 1.5;">
+          <p style="font-size: 0.84rem; color: #6E6E73; margin-top: 4px; line-height: 1.55;">
             소크라테스 산파술 대화로 정리된 나의 3대 축과 바이오마커를 전문가에게 사전 전달하여, <strong>첫 30분의 형식적 상황 설명 없이 즉시 핵심 실행 솔루션</strong>으로 돌입합니다.
           </p>
         </div>
@@ -3130,48 +3165,48 @@
 
       <!-- SECTION 1: PRE-COUNSELING CLINICAL DOSSIER PREVIEW -->
       <div class="dossier-preview-card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px dashed rgba(16, 185, 129, 0.35); padding-bottom: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px dashed rgba(16, 185, 129, 0.25); padding-bottom: 10px;">
           <div style="display: flex; align-items: center; gap: 8px;">
             <i data-lucide="clipboard-check" style="width: 18px; height: 18px; color: #059669;"></i>
-            <strong style="font-size: 0.95rem; color: #065F46;">전문가 사전 전달 임상 브리핑 시트 (Intake Dossier)</strong>
+            <strong style="font-size: 0.92rem; color: #065F46;">전문가 사전 전달 임상 브리핑 시트 (Intake Dossier)</strong>
           </div>
-          <div style="display: flex; align-items: center; gap: 10px; font-size: 0.76rem;">
-            <span style="background: #FFFFFF; border: 1px solid #10B981; color: #065F46; padding: 2px 8px; border-radius: 6px; font-family: var(--font-mono); font-weight: 700;" id="counselDossierId">GN-DOS-2026-0919</span>
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 0.74rem;">
+            <span style="background: #FFFFFF; border: 1px solid rgba(16, 185, 129, 0.3); color: #065F46; padding: 2px 8px; border-radius: 6px; font-family: var(--font-mono); font-weight: 700;" id="counselDossierId">GN-DOS-2026-0919</span>
             <span style="background: #D1FAE5; color: #047857; padding: 2px 8px; border-radius: 6px; font-weight: 700;" id="counselDossierStage">5단계 완료 동기화</span>
           </div>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; font-size: 0.8rem;">
-          <div style="background: #FFFFFF; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.2);">
-            <div style="color: #64748B; font-size: 0.72rem; font-weight: 700;">내담자 프로필</div>
-            <div style="font-weight: 800; color: #0F172A; margin-top: 2px;" id="counselDossierPersona">중고생 (진로·전공 고민)</div>
+          <div style="background: #FFFFFF; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.15); box-shadow: 0 1px 3px rgba(16, 185, 129, 0.04);">
+            <div style="color: #6E6E73; font-size: 0.72rem; font-weight: 700;">내담자 프로필</div>
+            <div style="font-weight: 800; color: #1D1D1F; margin-top: 2px;" id="counselDossierPersona">중고생 (진로·전공 고민)</div>
           </div>
-          <div style="background: #FFFFFF; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.2);">
-            <div style="color: #64748B; font-size: 0.72rem; font-weight: 700;">주도적 결정력</div>
+          <div style="background: #FFFFFF; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.15); box-shadow: 0 1px 3px rgba(16, 185, 129, 0.04);">
+            <div style="color: #6E6E73; font-size: 0.72rem; font-weight: 700;">주도적 결정력</div>
             <div style="font-weight: 800; color: #059669; margin-top: 2px;" id="counselValAutonomy">95점 (극상)</div>
           </div>
-          <div style="background: #FFFFFF; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.2);">
-            <div style="color: #64748B; font-size: 0.72rem; font-weight: 700;">내면 갈등 지수</div>
-            <div style="font-weight: 800; color: #2563EB; margin-top: 2px;" id="counselValAporia">12점 (안정)</div>
+          <div style="background: #FFFFFF; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.15); box-shadow: 0 1px 3px rgba(16, 185, 129, 0.04);">
+            <div style="color: #6E6E73; font-size: 0.72rem; font-weight: 700;">내면 갈등 지수</div>
+            <div style="font-weight: 800; color: #0071E3; margin-top: 2px;" id="counselValAporia">12점 (안정)</div>
           </div>
-          <div style="background: #FFFFFF; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.2);">
-            <div style="color: #64748B; font-size: 0.72rem; font-weight: 700;">실행 탄력성</div>
+          <div style="background: #FFFFFF; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.15); box-shadow: 0 1px 3px rgba(16, 185, 129, 0.04);">
+            <div style="color: #6E6E73; font-size: 0.72rem; font-weight: 700;">실행 탄력성</div>
             <div style="font-weight: 800; color: #059669; margin-top: 2px;" id="counselValPraxis">92점 (우수)</div>
           </div>
         </div>
 
         <!-- 3 AXES PREVIEW -->
-        <div style="background: #FFFFFF; border-radius: 10px; padding: 12px 16px; border: 1px solid rgba(16, 185, 129, 0.25); margin-bottom: 10px;">
-          <div style="font-size: 0.74rem; font-weight: 800; color: #059669; margin-bottom: 6px;">대화 추출 핵심 3대 축 & 인생 방향성</div>
-          <div style="font-size: 0.82rem; line-height: 1.6; color: #1E293B;">
-            • <strong>타인의 기대/고정관념 (Thesis)</strong>: <span id="counselDossierThesis" style="color: #E11D48;">남들이 부러워하는 안정과 스펙에 갇혀 진정한 주도권 상실</span><br>
-            • <strong>진정한 내적 동기 (Motive)</strong>: <span id="counselDossierMotive" style="color: #2563EB;">내 손으로 세상에 유의미한 가치를 직접 구현하고 인정받기</span><br>
+        <div style="background: #FFFFFF; border-radius: 12px; padding: 14px 18px; border: 1px solid rgba(16, 185, 129, 0.18); margin-bottom: 12px; box-shadow: 0 1px 3px rgba(16, 185, 129, 0.04);">
+          <div style="font-size: 0.73rem; font-weight: 800; color: #059669; margin-bottom: 6px;">대화 추출 핵심 3대 축 & 인생 방향성</div>
+          <div style="font-size: 0.82rem; line-height: 1.6; color: #1D1D1F;">
+            • <strong>타인의 기대/고정관념 (Thesis)</strong>: <span id="counselDossierThesis" style="color: #DC2626;">남들이 부러워하는 안정과 스펙에 갇혀 진정한 주도권 상실</span><br>
+            • <strong>진정한 내적 동기 (Motive)</strong>: <span id="counselDossierMotive" style="color: #0071E3;">내 손으로 세상에 유의미한 가치를 직접 구현하고 인정받기</span><br>
             • <strong>호불호 판단 기준 (Likes/Hates)</strong>: <span id="counselDossierLikesHates" style="color: #475569;">타인의 평가 눈치보기 회피 vs 자율적 몰입 환경 추구</span><br>
             • <strong>90일 인생 북극성 (Manifesto)</strong>: <strong id="counselDossierManifesto" style="color: #065F46;">"타인의 채점표를 버리고 내 고유한 프로젝트로 온전한 주권자로 전진한다"</strong>
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: #047857;">
+        <div style="display: flex; align-items: center; gap: 6px; font-size: 0.74rem; color: #047857;">
           <i data-lucide="shield-check" style="width: 14px; height: 14px;"></i>
           <span>위 브리핑 시트는 상담 시작 전 배정된 전문 코치에게만 암호화 전송되어 맞춤형 솔루션 수립에 활용됩니다.</span>
         </div>
