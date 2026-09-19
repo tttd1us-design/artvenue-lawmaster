@@ -93,6 +93,101 @@
       --font-mono: 'SF Mono', 'Fira Code', Menlo, monospace;
     }
 
+    /* =========================================================================
+       DYNAMIC PERSONA THEME SYSTEM (소비자 분류별 맞춤 취향 & 감성 디자인)
+       ========================================================================= */
+    body {
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* 1. STUDENT (중고생: 프레시 민트 & 영 아쿠아 - 산뜻하고 맑은 호감형) */
+    body.persona-theme-student {
+      --apple-blue: #059669;
+      --apple-blue-hover: #10B981;
+      --apple-blue-soft: #ECFDF5;
+    }
+    body.persona-theme-student .ambient-orb.orb-blue {
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.4) 0%, rgba(16, 185, 129, 0) 70%);
+    }
+
+    /* 2. UNDERGRAD (대학생/취준생: 테크 네오 미니멀 & 일렉트릭 인디고 - 힙하고 스마트함) */
+    body.persona-theme-undergrad {
+      --apple-blue: #4F46E5;
+      --apple-blue-hover: #6366F1;
+      --apple-blue-soft: #EEF2FF;
+    }
+    body.persona-theme-undergrad .ambient-orb.orb-blue {
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.42) 0%, rgba(99, 102, 241, 0) 70%);
+    }
+
+    /* 3. WORKER (직장인: 슬레이트 네이비 & 프로페셔널 차콜 - 군더더기 없는 신뢰감) */
+    body.persona-theme-worker {
+      --apple-blue: #0071E3;
+      --apple-blue-hover: #0077ED;
+      --apple-blue-soft: #F0F6FF;
+    }
+    body.persona-theme-worker .ambient-orb.orb-blue {
+      background: radial-gradient(circle, rgba(0, 113, 227, 0.45) 0%, rgba(0, 113, 227, 0) 70%);
+    }
+
+    /* 4. FOUNDER (창업가/프리랜서: 옵시디언 럭셔리 & 앰버 골드 - 대담하고 날렵한 카리스마) */
+    body.persona-theme-founder {
+      --apple-blue: #D97706;
+      --apple-blue-hover: #F59E0B;
+      --apple-blue-soft: #FFFBEB;
+    }
+    body.persona-theme-founder .ambient-orb.orb-blue {
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.42) 0%, rgba(245, 158, 11, 0) 70%);
+    }
+
+    /* 5. SENIOR (은퇴준비/신중년: 웜 알라바스터 서재 & 포레스트 그린 - 눈 편한 여유와 품격) */
+    body.persona-theme-senior {
+      --apple-bg: #FBF9F5;
+      --apple-surface: #FFFFFF;
+      --apple-surface-secondary: #F5EFEB;
+      --apple-text-primary: #1C1917;
+      --apple-blue: #047857;
+      --apple-blue-hover: #059669;
+      --apple-blue-soft: #ECFDF5;
+      font-size: 16.5px;
+    }
+    body.persona-theme-senior .ambient-orb.orb-blue {
+      background: radial-gradient(circle, rgba(5, 150, 105, 0.38) 0%, rgba(5, 150, 105, 0) 70%);
+    }
+    body.persona-theme-senior .ambient-orb.orb-emerald {
+      background: radial-gradient(circle, rgba(217, 119, 6, 0.28) 0%, rgba(217, 119, 6, 0) 70%);
+    }
+    body.persona-theme-senior .chat-bubble {
+      font-size: 0.98rem;
+      line-height: 1.8;
+    }
+
+    /* PERSONA MOOD BAR IN HERO */
+    .persona-mood-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 14px;
+      padding: 8px 18px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--apple-border);
+      border-radius: var(--apple-radius-pill);
+      box-shadow: var(--apple-shadow-sm);
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--apple-text-primary);
+      transition: all 0.3s ease;
+      animation: fadeIn 0.4s ease;
+    }
+    .persona-mood-bar i {
+      color: var(--apple-blue);
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -2442,6 +2537,12 @@
           <span>은퇴준비·신중년 <small>인생 2막·정체성 설계</small></span>
         </button>
       </div>
+
+      <!-- REAL-TIME PERSONA AESTHETIC MOOD BAR -->
+      <div class="persona-mood-bar" id="personaMoodBar">
+        <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
+        <span id="personaMoodText">🌱 틴 진로 탐험가 모드: 부모님·성적 눈치에서 벗어나 내 진짜 관심사에 솔직해지는 맑은 시간</span>
+      </div>
     </section>
 
     <!-- =====================================================================
@@ -4731,9 +4832,50 @@
       const chip = document.getElementById(`chip-${key}`);
       if (chip) chip.classList.add('active');
 
+      // 1. Dynamic Aesthetic Theme Switch
+      document.body.className = `persona-theme-${key}`;
+
+      // 2. Persona Specific Aesthetic Mood Texts & Subtitle
+      const personaMoods = {
+        student: {
+          icon: 'graduation-cap',
+          text: '🌱 틴 진로 탐험가 모드: 부모님·성적 눈치에서 벗어나 내 진짜 관심사에 솔직해지는 맑은 시간',
+          toast: '🎒 [중고생 모드] 산뜻한 프레시 민트 테마가 적용되었습니다.'
+        },
+        undergrad: {
+          icon: 'landmark',
+          text: '🚀 테크 커리어 빌더 모드: 무의미한 스펙 쌓기를 멈추고 내 고유한 직무 무기를 벼리는 스튜디오',
+          toast: '💡 [대학생·취준생 모드] 스마트한 일렉트릭 인디고 테마가 적용되었습니다.'
+        },
+        worker: {
+          icon: 'briefcase',
+          text: '💼 프로페셔널 전략가 모드: 회사 명함을 떼고도 시장에서 통하는 독보적 자율성을 확립하는 전략실',
+          toast: '👔 [직장인 모드] 차분하고 품격 있는 슬레이트 네이비 테마가 적용되었습니다.'
+        },
+        founder: {
+          icon: 'rocket',
+          text: '⚡ 시장 개척자 & 파운더 모드: 불확실성을 돌파하고 고객의 절박한 결핍을 해결하는 비즈니스 작전실',
+          toast: '👑 [창업가·프리랜서 모드] 대담한 옵시디언 골드 테마가 적용되었습니다.'
+        },
+        senior: {
+          icon: 'sunrise',
+          text: '📚 인생 2막 지혜의 서재 모드: 30년 헌신의 전문성을 명함 없는 삶의 찬란한 자산으로 엮는 품격 있는 서재',
+          toast: '🌅 [은퇴준비·신중년 모드] 눈이 편안한 포레스트 알라바스터 서재 테마가 적용되었습니다.'
+        }
+      };
+
+      const curMood = personaMoods[key] || personaMoods.student;
+      const moodTextEl = document.getElementById('personaMoodText');
+      if (moodTextEl) {
+        moodTextEl.innerText = curMood.text;
+      }
+
       const config = PERSONA_CONFIGS[key];
       document.getElementById('currentPersonaBadge').innerText = config.badge;
       document.getElementById('chamberPersonaTitle').innerText = config.title;
+
+      showAppleToast(curMood.toast);
+      playAppleSound('tap');
 
       restartSession();
       lucide.createIcons();
