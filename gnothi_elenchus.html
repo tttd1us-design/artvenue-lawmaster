@@ -1367,15 +1367,15 @@
               <div class="stage-item" id="stageNode-3">
                 <div class="stage-num">3</div>
                 <div class="stage-info">
-                  <div class="title">3단계: 생각의 틀 깨기</div>
-                  <div class="desc">나를 가두던 고정관념 전환하기</div>
+                  <div class="title">3단계: 호불호 기준 확립</div>
+                  <div class="desc">내가 힘들어하는 것과 좋아하는 것 규명</div>
                 </div>
               </div>
               <div class="stage-item" id="stageNode-4">
                 <div class="stage-num">4</div>
                 <div class="stage-info">
-                  <div class="title">4단계: 호불호 기준 확립</div>
-                  <div class="desc">내가 힘들어하는 것과 좋아하는 것 규명</div>
+                  <div class="title">4단계: 생각의 틀 깨기</div>
+                  <div class="desc">나를 가두던 고정관념 전환하기</div>
                 </div>
               </div>
               <div class="stage-item" id="stageNode-5">
@@ -1540,6 +1540,17 @@
             <span style="width: 24px; height: 24px; border-radius: 50%; background: #E11D48; color: #FFF; font-size: 0.76rem; font-weight: 800; display: inline-flex; align-items: center; justify-content: center;">1</span>
             현재 가장 힘들거나 충동적으로 벗어나고 싶은 상황은 무엇인가요?
           </h3>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 2px;">
+            <button class="quick-chip" style="font-size: 0.74rem; padding: 4px 10px;" onclick="fillSosDilemma('상사의 부당한 질책과 폭언 때문에 당장 내일 사직서를 던지고 싶어요.')">
+              ⚡ 상사 폭언·충동 퇴사
+            </button>
+            <button class="quick-chip" style="font-size: 0.74rem; padding: 4px 10px;" onclick="fillSosDilemma('준비하던 시험/면접에 최종 탈락해서 인생이 다 끝장난 것 같아요.')">
+              🌧️ 시험·면접 최종 탈락
+            </button>
+            <button class="quick-chip" style="font-size: 0.74rem; padding: 4px 10px;" onclick="fillSosDilemma('잘나가는 동기들과 비교되어 내 인생만 뒤처진 것 같아 숨이 막혀요.')">
+              😰 타인과의 비교·열등감
+            </button>
+          </div>
           <textarea id="sosDilemmaInput" class="chat-textarea" placeholder="예: '상사의 부당한 질책 때문에 당장 내일 사직서를 내고 싶어요.', '시험 결과가 안 나와서 다 포기하고 싶어요.'" style="min-height: 85px; padding: 12px;"></textarea>
 
           <h3 style="font-size: 1.05rem; color: #0F172A; display: flex; align-items: center; gap: 8px; margin-top: 6px;">
@@ -1692,6 +1703,22 @@
         </div>
       </div>
 
+      <!-- ONE-CLICK QUICK DILEMMA CHIPS -->
+      <div style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 8px; max-width: 820px; margin: 0 auto 16px;">
+        <span style="font-size: 0.78rem; color: var(--apple-text-secondary); font-weight: 600; display: flex; align-items: center; gap: 5px;">
+          <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--apple-blue);"></i> 추천 고민 바로 물어보기:
+        </span>
+        <button class="quick-chip" onclick="fillAndRunBoard('안정적인 직장을 유지해야 할까요, 아니면 꿈꿔온 새로운 일에 도전해야 할까요?')">
+          💼 직장 안정 vs 새로운 도전
+        </button>
+        <button class="quick-chip" onclick="fillAndRunBoard('월급쟁이 생활을 벗어나 내 사업과 창업을 시작해도 될까요?')">
+          🚀 월급쟁이 vs 창업·프리랜서
+        </button>
+        <button class="quick-chip" onclick="fillAndRunBoard('번아웃이 심한데 지금 당장 퇴사하는 게 맞을까요, 아니면 버텨야 할까요?')">
+          🛑 번아웃 퇴사 vs 버티며 준비
+        </button>
+      </div>
+
       <!-- APPLE SEARCH CAPSULE INPUT -->
       <div style="background: #FFFFFF; border: 1px solid var(--apple-border); border-radius: var(--apple-radius-pill); padding: 6px 10px 6px 20px; display: flex; align-items: center; gap: 10px; max-width: 720px; margin: 0 auto 32px; box-shadow: var(--apple-shadow-sm);">
         <input type="text" id="boardDilemmaInput" placeholder="고민 중인 내용을 적어보세요 (예: '안정적인 직장을 그만두고 새로운 일에 도전해야 할까요?')" style="height: 38px; border: none; background: transparent; font-size: 0.9rem; flex: 1; outline: none; font-family: inherit;">
@@ -1759,6 +1786,10 @@
       <div style="text-align: center; margin-bottom: 10px;">
         <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: #0F172A;">3초 본능 스와이프: 진짜 좋아하는 것 vs 힘든 것</h2>
         <p style="color: #64748B; font-size: 0.95rem;">머리로 계산하지 말고, 3초 안에 끌리는 대로 선택해보세요. (왼쪽: 정말 힘들고 싫은 것 / 오른쪽: 생각만 해도 즐거운 것)</p>
+        <div style="display: inline-flex; align-items: center; gap: 7px; background: rgba(0, 113, 227, 0.08); border: 1px solid rgba(0, 113, 227, 0.18); border-radius: var(--apple-radius-pill); padding: 5px 14px; font-size: 0.78rem; color: var(--apple-blue); font-weight: 600; margin-top: 10px;">
+          <i data-lucide="keyboard" style="width: 14px; height: 14px;"></i>
+          키보드 방향키 [← 정말 싫음] [→ 정말 좋음]로도 초고속 선택 가능
+        </div>
       </div>
 
       <div class="swipe-container">
@@ -2110,6 +2141,33 @@
       }
     };
 
+    const TURN_CHIPS = {
+      student: {
+        1: ['부모님은 안정적인 길을 원하시지만, 제 진짜 마음은 달라요.', '성적이나 주변 시선 때문에 내가 무엇을 좋아하는지 잘 모르겠어요.'],
+        2: ['남들의 기대와 상관없이 내 길을 걷고 싶어요.', '실패해서 남들에게 무시당할까봐 두려운 마음이 커요.', '내 선택에 책임을 지며 끝까지 시도해보고 싶어요.'],
+        3: ['스트레스: 무의미한 단순 암기와 줄세우기 시험 / 에너지: 호기심 있는 분야를 밤새워 탐구하고 만들 때', '스트레스: 남의 눈치 보며 앉아있기 / 에너지: 내 아이디어가 실제로 결과물로 반영될 때'],
+        4: ['남들의 채점표를 내려놓고, 내 열정이 이끄는 창작의 길로 주도적으로 전진한다.', '실패에 대한 두려움을 호기심으로 바꾸어, 나만의 포트폴리오를 증명하겠다.']
+      },
+      undergrad: {
+        1: ['남들 따라 스펙은 쌓고 있지만 미래에 대한 확신이 없어요.', '좋아하는 일과 현실적인 밥벌이 사이에서 고민돼요.'],
+        2: ['합격 타이틀보다 내가 매일 즐겁게 몰입할 수 있는지가 더 중요해요.', '동기들과 비교당하는 압박감이 가장 힘들어요.', '내가 주도적으로 성장할 수 있는 실무 환경을 원해요.'],
+        3: ['스트레스: 권위적이고 수직적인 분위기 / 에너지: 자율성이 보장된 환경에서 문제 해결할 때', '스트레스: 단순 서류 작업 반복 / 에너지: 사람들과 소통하며 긍정적 임팩트를 만들 때'],
+        4: ['간판 중심의 취업이 아닌, 내 강점과 직무 역량으로 회사를 선택한다.', '비교와 자책을 멈추고, 90일간 실전 프로젝트로 압도적 역량을 증명한다.']
+      },
+      worker: {
+        1: ['현재 커리어에서 5년 뒤의 내 모습이 그려지지 않아요.', '회사라는 타이틀을 떼고도 온전히 살아남을 수 있을지 불안해요.'],
+        2: ['남들이 부러워하는 직함보다 내 손으로 만드는 실질적 성과가 더 중요해요.', '이 연차에 새로운 시도를 했다가 실패할까 망설여져요.', '조직의 부품이 아닌 나 자신의 역량으로 시장에서 승부하고 싶어요.'],
+        3: ['스트레스: 사내 정치와 무의미한 보고서 작성 / 에너지: 데이터 기반으로 제품을 개선하고 성장시킬 때', '스트레스: 전문성 없이 시간만 때우는 업무 / 에너지: 나의 독보적 전문성으로 문제를 해결할 때'],
+        4: ['조직의 명함에 안주하지 않고, 내 이름 석 자로 통하는 독립적 전문가가 된다.', '안정이라는 이름의 타성을 깨고, 90일간 사이드 프로젝트로 가능성을 입증한다.']
+      },
+      founder: {
+        1: ['이 아이템이 진짜 고객이 돈을 낼 만큼 절박한 문제인지 고민돼요.', '당장 1년 동안 수익이 적더라도 몰입할 수 있을지 스스로를 점검하고 싶어요.'],
+        2: ['투자자나 남들의 시선보다 고객의 진짜 문제를 푸는 데 집중하고 싶어요.', '겉보기에 화려한 지표보다 지속 가능한 이익과 생존이 우선이에요.', '팀원들과 함께 세상을 변화시키는 프로덕트를 만들고 싶어요.'],
+        3: ['스트레스: 비전 없는 단순 용역과 생계형 프로젝트 / 에너지: 고객의 핵심 불편을 혁신적으로 해결할 때', '스트레스: 신뢰 없는 파트너와의 갈등 / 에너지: 제품 론칭 후 첫 유료 고객의 감사를 받을 때'],
+        4: ['거품 낀 외형 성장이 아닌, 고객 1명의 문제를 완벽히 해결하는 생존 모델을 만든다.', '남들의 성공 공식을 흉내 내지 않고, 우리의 원칙과 차별화된 가치로 독점한다.']
+      }
+    };
+
     let currentPersonaKey = 'student';
     let conversationTurn = 1;
     let userDirectionSession = {
@@ -2123,6 +2181,7 @@
       lucide.createIcons();
       setPersona('student');
       checkMembershipStatus();
+      initKeyboardNavigation();
     });
 
     function setPersona(key) {
@@ -2134,9 +2193,6 @@
       const config = PERSONA_CONFIGS[key];
       document.getElementById('currentPersonaBadge').innerText = config.badge;
       document.getElementById('chamberPersonaTitle').innerText = config.title;
-      document.getElementById('quickChipsBar').innerHTML = config.chips.map(c => `
-        <span class="quick-chip" onclick="fillInput('${c}')">"${c}"</span>
-      `).join('');
 
       restartSession();
       lucide.createIcons();
@@ -2153,9 +2209,42 @@
       lucide.createIcons();
     }
 
+    function setActiveStage(stageNum) {
+      for (let i = 1; i <= 5; i++) {
+        const node = document.getElementById(`stageNode-${i}`);
+        if (!node) continue;
+        if (i < stageNum) {
+          node.classList.remove('current');
+          node.classList.add('completed');
+        } else if (i === stageNum) {
+          node.classList.add('current');
+          node.classList.remove('completed');
+        } else {
+          node.classList.remove('current', 'completed');
+        }
+      }
+    }
+
+    function updateQuickChips(turn) {
+      const p = TURN_CHIPS[currentPersonaKey] || TURN_CHIPS['student'];
+      const chips = p[turn] || [];
+      const container = document.getElementById('quickChipsBar');
+      if (!container) return;
+      if (chips.length > 0) {
+        container.innerHTML = chips.map(c => `
+          <span class="quick-chip" onclick="fillInput('${c.replace(/'/g, "\\'")}')">"${c}"</span>
+        `).join('');
+      } else {
+        container.innerHTML = '';
+      }
+      lucide.createIcons();
+    }
+
     function restartSession() {
       conversationTurn = 1;
-      document.getElementById('turnCountDisplay').innerText = 'Turn 1/5';
+      document.getElementById('turnCountDisplay').innerText = '1 / 5 단계';
+      setActiveStage(1);
+      updateQuickChips(1);
       updateBiomarkers(48, 76, 42, 82, 65);
       const container = document.getElementById('chatMessages');
       container.innerHTML = '';
@@ -2183,30 +2272,31 @@
     }
 
     function fillInput(txt) {
-      document.getElementById('chatInput').value = txt;
-      document.getElementById('chatInput').focus();
+      const input = document.getElementById('chatInput');
+      input.value = txt;
+      input.focus();
     }
 
     function updateBiomarkers(autonomy, aporia, clarity, drain, praxis) {
       document.getElementById('valAutonomy').innerText = `${autonomy}점 (${autonomy > 70 ? '우수' : '주의'})`;
       document.getElementById('barAutonomy').style.width = `${autonomy}%`;
-      document.getElementById('barAutonomy').style.background = autonomy > 70 ? '#059669' : '#D97706';
+      document.getElementById('barAutonomy').style.background = autonomy > 70 ? 'var(--apple-green)' : 'var(--apple-orange)';
 
       document.getElementById('valAporia').innerText = `${aporia}점 (${aporia < 30 ? '해소' : '과다'})`;
       document.getElementById('barAporia').style.width = `${aporia}%`;
-      document.getElementById('barAporia').style.background = aporia < 30 ? '#2563EB' : '#E11D48';
+      document.getElementById('barAporia').style.background = aporia < 30 ? 'var(--apple-blue)' : 'var(--apple-rose)';
 
       document.getElementById('valClarity').innerText = `${clarity}점 (${clarity > 70 ? '명확' : '미흡'})`;
       document.getElementById('barClarity').style.width = `${clarity}%`;
-      document.getElementById('barClarity').style.background = clarity > 70 ? '#059669' : '#D97706';
+      document.getElementById('barClarity').style.background = clarity > 70 ? 'var(--apple-green)' : 'var(--apple-orange)';
 
       document.getElementById('valDrain').innerText = `${drain}점 (${drain < 40 ? '안정' : '위험'})`;
       document.getElementById('barDrain').style.width = `${drain}%`;
-      document.getElementById('barDrain').style.background = drain < 40 ? '#059669' : '#E11D48';
+      document.getElementById('barDrain').style.background = drain < 40 ? 'var(--apple-green)' : 'var(--apple-rose)';
 
       document.getElementById('valPraxis').innerText = `${praxis}점 (${praxis > 70 ? '극상' : '보통'})`;
       document.getElementById('barPraxis').style.width = `${praxis}%`;
-      document.getElementById('barPraxis').style.background = praxis > 70 ? '#059669' : '#D97706';
+      document.getElementById('barPraxis').style.background = praxis > 70 ? 'var(--apple-green)' : 'var(--apple-orange)';
     }
 
     function sendUserMessage() {
@@ -2220,7 +2310,9 @@
         if (conversationTurn === 1) {
           userDirectionSession.thesis = text;
           conversationTurn = 2;
-          document.getElementById('turnCountDisplay').innerText = `Turn 2/5`;
+          document.getElementById('turnCountDisplay').innerText = `2 / 5 단계`;
+          setActiveStage(2);
+          updateQuickChips(2);
           updateBiomarkers(60, 68, 55, 68, 70);
           addMessage('socrates', `
             [2단계: 타인의 시선 분리]<br>
@@ -2230,7 +2322,9 @@
         } else if (conversationTurn === 2) {
           userDirectionSession.motive = text;
           conversationTurn = 3;
-          document.getElementById('turnCountDisplay').innerText = `Turn 3/5`;
+          document.getElementById('turnCountDisplay').innerText = `3 / 5 단계`;
+          setActiveStage(3);
+          updateQuickChips(3);
           updateBiomarkers(72, 58, 68, 52, 75);
           addMessage('socrates', `
             [3단계: 호불호 기준 확립]<br>
@@ -2241,29 +2335,38 @@
         } else if (conversationTurn === 3) {
           userDirectionSession.likesAndHates = text;
           conversationTurn = 4;
-          document.getElementById('turnCountDisplay').innerText = `Turn 4/5`;
+          document.getElementById('turnCountDisplay').innerText = `4 / 5 단계`;
+          setActiveStage(4);
+          updateQuickChips(4);
           updateBiomarkers(84, 35, 85, 38, 82);
           // Trigger Killer 1: Mindset Shift with dynamic conflict
           triggerAporiaShatterDynamic(userDirectionSession.thesis, userDirectionSession.likesAndHates);
         } else {
           userDirectionSession.manifesto = text;
           conversationTurn = 5;
-          document.getElementById('turnCountDisplay').innerText = `Turn 5/5 (완결)`;
+          document.getElementById('turnCountDisplay').innerText = `5 / 5 단계 (완료)`;
+          setActiveStage(5);
+          const container = document.getElementById('quickChipsBar');
+          if (container) container.innerHTML = '';
           updateBiomarkers(95, 12, 96, 22, 92);
           updateReportData();
           addMessage('socrates', `
             [5단계 완료: 나만의 방향성 리포트 발급]<br>
             축하드립니다! 타인의 시선에서 벗어나 본인만의 뚜렷한 인생 북극성을 완성하셨습니다.<br>
-            <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 14px; margin: 10px 0; line-height: 1.7;">
+            <div style="background: var(--apple-blue-soft); border: 1px solid rgba(0, 113, 227, 0.2); border-radius: var(--apple-radius-md); padding: 14px; margin: 12px 0; line-height: 1.7;">
               🧭 <strong>${PERSONA_CONFIGS[currentPersonaKey].badge} 맞춤형 요약:</strong><br>
               • <strong>극복한 고정관념</strong>: ${userDirectionSession.thesis}<br>
               • <strong>나만의 인생 북극성</strong>: <strong>"${userDirectionSession.manifesto}"</strong><br>
               • <strong>핵심 실천 원칙</strong>: 타인의 시선에 휘둘리지 않고 90일 구체적 실행 프로젝트 착수
             </div>
-            지금 상단의 <strong>[결과 리포트 확인]</strong> 버튼을 눌러 본인의 이름이 기재된 <strong>'인생 방향성 진단 리포트'</strong>를 확인해 보세요!
+            <div style="margin-top: 14px; text-align: center;">
+              <button class="apple-pill-btn primary" onclick="openFullReportModal()" style="font-size: 0.92rem; padding: 11px 24px; box-shadow: 0 4px 14px rgba(0,113,227,0.3); display: inline-flex; align-items: center; gap: 8px;">
+                <i data-lucide="file-text" style="width: 16px; height: 16px;"></i> 🧭 나만의 방향성 진단 리포트 원문 확인하기
+              </button>
+            </div>
           `);
         }
-      }, 700);
+      }, 600);
     }
 
     // =========================================================================
@@ -2297,10 +2400,11 @@
 
     function closeShatterOverlay() {
       document.getElementById('shatterOverlay').classList.remove('active');
+      updateQuickChips(4);
       addMessage('socrates', `
         [생각의 틀 깨기 완료]<br>
         고정관념에서 벗어나 내면의 명확한 기준점을 확인하셨습니다.<br>
-        이제 평생의 나침반이 되어줄 <strong>'나만의 3대 인생 축(1. 피해야 할 환경 / 2. 몰입할 수 있는 환경 / 3. 90일 실행 과제)'</strong>을 바탕으로, 앞으로 살아갈 방향성을 한 문장으로 선언해 보세요!
+        이제 평생의 나침반이 되어줄 <strong>'나만의 3대 인생 축(1. 피해야 할 환경 / 2. 몰입할 수 있는 환경 / 3. 90일 실행 과제)'</strong>을 바탕으로, 앞으로 살아갈 방향성을 한 문장으로 선언해 보세요! 아래 추천 문장을 클릭하셔도 좋습니다.
       `);
     }
 
@@ -2313,8 +2417,13 @@
     }
 
     // =========================================================================
-    // KILLER 2: BOARD OF DIRECTORS DEBATE
+    // KILLER 2: BOARD OF DIRECTORS DEBATE (1-CLICK PRESETS & DEBATE)
     // =========================================================================
+    function fillAndRunBoard(dilemma) {
+      document.getElementById('boardDilemmaInput').value = dilemma;
+      runBoardDebate();
+    }
+
     function runBoardDebate() {
       const input = document.getElementById('boardDilemmaInput').value.trim();
       if (!input) { alert('고민을 한 문장으로 적어주세요.'); return; }
@@ -2328,10 +2437,11 @@
       const verdictText = document.getElementById('boardVerdictText');
       verdictText.innerHTML = `<strong>종합 조언:</strong> 소크라테스는 내면의 본질적 동기를, 잡스는 대담한 도전을, 달리오와 아우렐리우스는 현실적인 리스크 관리와 태도를 권고합니다. 무모한 즉흥적 결정 대신, <strong>'나만의 중심을 지키며 90일간 작은 실행을 통해 검증해 나가는 전략'</strong>을 추천합니다.`;
       verdict.style.display = 'block';
+      verdict.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
     // =========================================================================
-    // KILLER 3: TINDER FOR LIFE SWIPE
+    // KILLER 3: TINDER FOR LIFE SWIPE (KEYBOARD + RESTART + REFLECTION)
     // =========================================================================
     const SWIPE_ITEMS = [
       { text: "이유도 모른 채 남들이 하니까 억지로 해야 하는 단순 반복 업무", cat: "일과 환경 #01" },
@@ -2344,6 +2454,7 @@
     let currentSwipeIdx = 0;
 
     function handleSwipe(direction) {
+      if (currentSwipeIdx >= SWIPE_ITEMS.length) return;
       const card = document.getElementById('swipeCard');
       card.classList.add(direction === 'like' ? 'like-anim' : 'hate-anim');
 
@@ -2355,14 +2466,62 @@
           document.getElementById('swipeCardCategory').innerText = SWIPE_ITEMS[currentSwipeIdx].cat;
           document.getElementById('swipeProgressText').innerText = `${currentSwipeIdx + 1} / ${SWIPE_ITEMS.length} 문항 완료`;
         } else {
-          document.getElementById('swipeCardText').innerHTML = "🎉 본능적 선호도 측정 완료!<br><span style='font-size: 0.95rem; color: #059669;'>당신은 '주도적 몰입과 창작'에 큰 만족을 느끼며, '경직된 통제와 수동적 환경'에서 큰 스트레스를 받습니다.</span>";
+          document.getElementById('swipeCardCategory').innerText = "측정 완료";
+          document.getElementById('swipeCardText').innerHTML = `
+            🎉 <strong>본능적 선호도 측정 완료!</strong><br>
+            <span style="font-size: 0.92rem; color: var(--apple-green); display: block; margin-top: 8px; line-height: 1.6;">
+              당신은 <strong>'주도적 몰입과 창작'</strong>에 큰 활력을 느끼며, <strong>'경직된 통제와 수동적 환경'</strong>에서 강한 에너지고갈을 겪습니다.
+            </span>
+            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 18px; flex-wrap: wrap;">
+              <button class="apple-pill-btn secondary" onclick="restartSwipe()" style="padding: 6px 14px; font-size: 0.8rem;">
+                <i data-lucide="rotate-ccw" style="width: 13px; height: 13px;"></i> 다시 측정하기
+              </button>
+              <button class="apple-pill-btn primary" onclick="applySwipeToCoaching()" style="padding: 6px 14px; font-size: 0.8rem;">
+                <i data-lucide="message-square" style="width: 13px; height: 13px;"></i> 1:1 대화 코칭에 반영하기
+              </button>
+            </div>
+          `;
+          document.getElementById('swipeProgressText').innerText = "모든 문항 완료 (6/6)";
+          lucide.createIcons();
         }
-      }, 300);
+      }, 280);
+    }
+
+    function restartSwipe() {
+      currentSwipeIdx = 0;
+      document.getElementById('swipeCardCategory').innerText = SWIPE_ITEMS[0].cat;
+      document.getElementById('swipeCardText').innerText = SWIPE_ITEMS[0].text;
+      document.getElementById('swipeProgressText').innerText = `1 / ${SWIPE_ITEMS.length} 문항 완료`;
+    }
+
+    function applySwipeToCoaching() {
+      switchTab('chamber');
+      fillInput('3초 본능 스와이프 결과: 주도적 몰입과 창작을 선호하며, 경직된 통제와 수동적 환경에 강한 스트레스를 느낍니다.');
+    }
+
+    function initKeyboardNavigation() {
+      window.addEventListener('keydown', (e) => {
+        const swipeView = document.getElementById('view-swipe');
+        if (swipeView && swipeView.classList.contains('active')) {
+          if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            handleSwipe('hate');
+          } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            handleSwipe('like');
+          }
+        }
+      });
     }
 
     // =========================================================================
-    // 24/7 SOS DECISION EMERGENCY ROOM PROTOCOL
+    // 24/7 SOS DECISION EMERGENCY ROOM PROTOCOL (1-CLICK CRISIS CHIPS)
     // =========================================================================
+    function fillSosDilemma(txt) {
+      document.getElementById('sosDilemmaInput').value = txt;
+      runSosProtocol();
+    }
+
     function runSosProtocol() {
       const dilemma = document.getElementById('sosDilemmaInput').value.trim();
       if (!dilemma) {
@@ -2376,25 +2535,29 @@
 
       const resultBox = document.getElementById('sosResultBox');
       resultBox.innerHTML = `
-        <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 14px; margin-bottom: 12px;">
-          <div style="font-weight: 800; color: #1E40AF; margin-bottom: 4px;">🧠 마인드 진단 결과</div>
-          <div style="font-size: 0.84rem; color: #2563EB;">
+        <div style="background: var(--apple-blue-soft); border: 1px solid rgba(0,113,227,0.2); border-radius: var(--apple-radius-md); padding: 14px; margin-bottom: 12px;">
+          <div style="font-weight: 700; color: var(--apple-blue); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+            <i data-lucide="brain" style="width: 15px; height: 15px;"></i> 마인드 진단 결과
+          </div>
+          <div style="font-size: 0.84rem; color: var(--apple-text-primary); line-height: 1.6;">
             ${isCatastrophe ? '• [과도한 불안] 일시적인 어려움을 인생 전체의 실패로 과장하고 있을 수 있습니다.<br>' : ''}
             ${isBlackWhite ? '• [극단적 사고] 극단적인 포기나 퇴사 외에 다른 현실적인 대안(조율, 휴식 등)을 놓치고 있을 수 있습니다.<br>' : ''}
             ${isMindReading ? '• [타인의 시선 넘겨짚기] 다른 사람의 생각을 미리 짐작하며 불필요한 자책감을 키우고 있습니다.' : ''}
           </div>
         </div>
 
-        <div style="background: #FFF; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px; margin-bottom: 12px;">
-          <div style="font-weight: 800; color: #0F172A; margin-bottom: 6px;">🚫 내일 오전 10시까지 잠시 미뤄두어야 할 충동적 행동 3가지</div>
-          <ol style="padding-left: 18px; font-size: 0.86rem; color: #B91C1C; line-height: 1.7;">
+        <div style="background: #FFF; border: 1px solid var(--apple-border); border-radius: var(--apple-radius-md); padding: 14px; margin-bottom: 12px;">
+          <div style="font-weight: 700; color: var(--apple-text-primary); margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <i data-lucide="clock" style="width: 15px; height: 15px; color: var(--apple-rose);"></i> 내일 오전 10시까지 잠시 미뤄두어야 할 충동적 행동 3가지
+          </div>
+          <ol style="padding-left: 18px; font-size: 0.84rem; color: var(--apple-rose); line-height: 1.7;">
             <li><strong>중대한 결정(퇴사, 관계 단절, 계획 취소) 야간 통보 금지</strong> (수면 부족 상태의 야간 결정은 후회할 확률이 매우 높습니다)</li>
             <li><strong>감정에 휩싸인 장문의 충동적인 메시지 전송 자제</strong> (대화와 관계의 주도권을 잃기 쉽습니다)</li>
             <li><strong>불안을 달래기 위한 충동 소비나 폭음 피하기</strong> (신체적 피로로 내일의 판단력이 더 흐려집니다)</li>
           </ol>
         </div>
 
-        <div style="background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 10px; padding: 12px; font-size: 0.86rem; color: #065F46;">
+        <div style="background: var(--apple-green-soft); border: 1px solid rgba(52,199,89,0.2); border-radius: var(--apple-radius-md); padding: 12px; font-size: 0.84rem; color: #065F46; line-height: 1.6;">
           <strong>🌿 오늘 밤 마인드 케어 가이드:</strong> 따뜻한 물을 한 잔 마시고 스마트폰을 잠시 내려놓은 뒤 푹 쉬어보세요. 뇌와 감정이 편안해진 내일 아침 10시에 바라보면, 지금의 문제가 훨씬 차분하고 명확하게 보일 것입니다.
         </div>
       `;
@@ -2421,9 +2584,9 @@
       const badgeBtn = document.getElementById('membershipBadgeBtn');
       if (isVip && statusText && badgeBtn) {
         statusText.innerText = '👑 VIP 정기 구독 중';
-        badgeBtn.style.background = '#ECFDF5';
-        badgeBtn.style.borderColor = '#A7F3D0';
-        badgeBtn.style.color = '#059669';
+        badgeBtn.style.background = 'var(--apple-green-soft)';
+        badgeBtn.style.borderColor = 'rgba(52,199,89,0.3)';
+        badgeBtn.style.color = 'var(--apple-green)';
       }
     }
 
