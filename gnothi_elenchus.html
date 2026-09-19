@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GNŌTHI (그노티) | 초격차 소크라테스 인생 건강검진 & 내면의 4인 이사회</title>
-  <meta name="description" content="소크라테스 엘렌코스 대화, 5대 인지 바이오마커, 내면의 4인 이사회, 3초 호불호 스와이프 및 10년 평행우주 미래 자아 시뮬레이터">
+  <title>GNŌTHI (그노티) | 나만의 인생 방향성 진단 & 1:1 라이프 멘토링</title>
+  <meta name="description" content="나만의 인생 방향성을 찾는 5단계 대화 코칭, 5대 핵심 지표 진단, 멘토 4인의 관점, 3초 본능 스와이프 및 10년 후 미래 시나리오">
 
   <!-- PWA MANIFEST -->
   <link rel="manifest" href="manifest.json">
@@ -696,11 +696,11 @@
   <header class="top-header">
     <div class="brand-area" onclick="switchTab('chamber')">
       <div class="brand-icon-wrap">
-        <i data-lucide="scale" style="width: 20px; height: 20px;"></i>
+        <i data-lucide="compass" style="width: 20px; height: 20px;"></i>
       </div>
       <div class="brand-text">
         <h1>GNŌTHI</h1>
-        <div class="motto">ULTRA-INNOVATION LIFE COMPASS</div>
+        <div class="motto">LIFE DIRECTION COMPASS</div>
       </div>
     </div>
 
@@ -708,19 +708,19 @@
     <div class="persona-bar">
       <div class="persona-chip active" id="chip-student" onclick="setPersona('student')">
         <i data-lucide="graduation-cap" style="width: 14px; height: 14px;"></i>
-        중고생 (진로·전공)
+        중고생 (진로·전공 고민)
       </div>
       <div class="persona-chip" id="chip-undergrad" onclick="setPersona('undergrad')">
         <i data-lucide="landmark" style="width: 14px; height: 14px;"></i>
-        대학생 (인생방향)
+        대학생 (진로·취업 탐색)
       </div>
       <div class="persona-chip" id="chip-worker" onclick="setPersona('worker')">
         <i data-lucide="briefcase" style="width: 14px; height: 14px;"></i>
-        직장인 (이직·성장)
+        직장인 (이직·커리어 설계)
       </div>
       <div class="persona-chip" id="chip-founder" onclick="setPersona('founder')">
         <i data-lucide="rocket" style="width: 14px; height: 14px;"></i>
-        창업가 (사업베팅)
+        창업가·프리랜서 (방향성 검증)
       </div>
     </div>
 
@@ -728,31 +728,31 @@
     <nav class="nav-tabs">
       <button class="nav-tab-btn active" id="tabBtn-chamber" onclick="switchTab('chamber')">
         <i data-lucide="message-square" style="width: 14px; height: 14px;"></i>
-        문답 챔버
+        1:1 대화 코칭
       </button>
       <button class="nav-tab-btn" id="tabBtn-sos" onclick="switchTab('sos')">
         <i data-lucide="shield-alert" style="width: 14px; height: 14px; color: #E11D48;"></i>
-        🚨 긴급 SOS
+        🚨 3분 감정 쿨다운
       </button>
       <button class="nav-tab-btn" id="tabBtn-tracker" onclick="switchTab('tracker')">
         <i data-lucide="trending-up" style="width: 14px; height: 14px; color: #059669;"></i>
-        📈 주간 트래커
+        📈 주간 성장 트래커
       </button>
       <button class="nav-tab-btn" id="tabBtn-board" onclick="switchTab('board')">
         <i data-lucide="users" style="width: 14px; height: 14px;"></i>
-        4인 이사회
+        멘토 4인의 조언
       </button>
       <button class="nav-tab-btn" id="tabBtn-swipe" onclick="switchTab('swipe')">
         <i data-lucide="zap" style="width: 14px; height: 14px;"></i>
-        3초 스와이프
+        3초 본능 스와이프
       </button>
       <button class="nav-tab-btn" id="tabBtn-parallel" onclick="switchTab('parallel')">
         <i data-lucide="git-branch" style="width: 14px; height: 14px;"></i>
-        10년 평행우주
+        10년 후 미래 시나리오
       </button>
       <button class="nav-tab-btn" id="tabBtn-report" onclick="openFullReportModal()">
         <i data-lucide="clipboard-check" style="width: 14px; height: 14px;"></i>
-        종합건강검진표
+        나의 방향성 리포트
       </button>
     </nav>
 
@@ -764,7 +764,7 @@
       </button>
       <button class="pill-btn gold-solid" onclick="openFullReportModal()">
         <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
-        종합 검진서
+        결과 리포트 확인
       </button>
     </div>
   </header>
@@ -781,44 +781,44 @@
         <!-- LEFT: 5 STAGES -->
         <aside class="panel-box">
           <div class="panel-title">
-            <h3><i data-lucide="cpu" style="width: 15px; height: 15px; color: #2563EB;"></i> 엘렌코스 5단계</h3>
-            <span class="domain-badge" id="currentPersonaBadge">중고등학생 진로</span>
+            <h3><i data-lucide="compass" style="width: 15px; height: 15px; color: #2563EB;"></i> 방향성 정립 5단계</h3>
+            <span class="domain-badge" id="currentPersonaBadge">진로·전공 고민</span>
           </div>
 
           <div class="stages-timeline">
             <div class="stage-item current" id="stageNode-1">
               <div class="stage-num">1</div>
               <div class="stage-info">
-                <div class="title">명제 제시 (Thesis)</div>
-                <div class="desc">현재 믿고 있는 신념과 가치관 진술</div>
+                <div class="title">1단계: 현재 고민 진단</div>
+                <div class="desc">지금 나를 짓누르는 고민 솔직하게 털어놓기</div>
               </div>
             </div>
             <div class="stage-item" id="stageNode-2">
               <div class="stage-num">2</div>
               <div class="stage-info">
-                <div class="title">전제 탐색 (Premise)</div>
-                <div class="desc">부모/사회의 기대인지 내 흥미인지 분리</div>
+                <div class="title">2단계: 타인 시선 분리</div>
+                <div class="desc">남들의 기대와 진짜 내 욕망 구분하기</div>
               </div>
             </div>
             <div class="stage-item" id="stageNode-3">
               <div class="stage-num">3</div>
               <div class="stage-info">
-                <div class="title">모순 격파 (Aporia)</div>
-                <div class="desc">가짜 전제 격파 및 시각적 섀터 연출</div>
+                <div class="title">3단계: 생각의 틀 깨기</div>
+                <div class="desc">나를 가두던 고정관념 전환하기</div>
               </div>
             </div>
             <div class="stage-item" id="stageNode-4">
               <div class="stage-num">4</div>
               <div class="stage-info">
-                <div class="title">자각과 해체 (Perplexity)</div>
-                <div class="desc">남들의 채점표를 완전히 지우기</div>
+                <div class="title">4단계: 호불호 기준 확립</div>
+                <div class="desc">내가 힘들어하는 것과 좋아하는 것 규명</div>
               </div>
             </div>
             <div class="stage-item" id="stageNode-5">
               <div class="stage-num">5</div>
               <div class="stage-info">
-                <div class="title">인생 축 정립 (Reconstruction)</div>
-                <div class="desc">절대 양보 못할 3대 축 확립</div>
+                <div class="title">5단계: 나만의 3대 축 완성</div>
+                <div class="desc">앞으로 나아갈 확실한 방향성 확립</div>
               </div>
             </div>
           </div>
@@ -828,13 +828,13 @@
         <section class="chat-chamber">
           <div class="chamber-header">
             <div style="display: flex; align-items: center; gap: 10px;">
-              <div class="msg-avatar" style="background: #1E293B; color: #FFF; width: 34px; height: 34px;">Σ</div>
+              <div class="msg-avatar" style="background: #1E293B; color: #FFF; width: 34px; height: 34px;">멘토</div>
               <div>
-                <h4 id="chamberPersonaTitle" style="font-size: 0.9rem; font-weight: 700; color: #0F172A;">중고등학생 진로 검진: "부모님의 꿈인가, 나의 꿈인가?"</h4>
-                <p style="font-size: 0.7rem; color: #2563EB;">소크라테스 인지검진센터 1:1 엘렌코스</p>
+                <h4 id="chamberPersonaTitle" style="font-size: 0.9rem; font-weight: 700; color: #0F172A;">나만의 방향성을 찾는 1:1 심층 질문 세션</h4>
+                <p style="font-size: 0.7rem; color: #2563EB;">소크라테스 라이프 코칭 멘토링</p>
               </div>
             </div>
-            <button class="pill-btn" onclick="restartSession()"><i data-lucide="rotate-ccw" style="width: 12px; height: 12px;"></i> 리셋</button>
+            <button class="pill-btn" onclick="restartSession()"><i data-lucide="rotate-ccw" style="width: 12px; height: 12px;"></i> 다시 시작</button>
           </div>
 
           <div class="chat-messages" id="chatMessages"></div>
@@ -842,44 +842,44 @@
           <div class="quick-chips-bar" id="quickChipsBar"></div>
 
           <div class="chat-input-area">
-            <textarea class="chat-textarea" id="chatInput" placeholder="소크라테스의 질문에 답해보세요 (Shift+Enter 줄바꿈)" rows="1" onkeydown="handleInputKey(event)"></textarea>
-            <button class="send-btn" onclick="sendUserMessage()">응답하기</button>
+            <textarea class="chat-textarea" id="chatInput" placeholder="솔직한 생각을 편안하게 적어보세요 (Shift+Enter 줄바꿈)" rows="1" onkeydown="handleInputKey(event)"></textarea>
+            <button class="send-btn" onclick="sendUserMessage()">보내기</button>
           </div>
         </section>
 
         <!-- RIGHT: 5 BIOMARKERS -->
         <aside class="panel-box">
           <div class="panel-title">
-            <h3><i data-lucide="activity" style="width: 15px; height: 15px; color: #2563EB;"></i> 5대 인지 바이오마커</h3>
-            <span style="font-size: 0.72rem; color: #2563EB; font-weight: 700;" id="turnCountDisplay">Turn 1/5</span>
+            <h3><i data-lucide="activity" style="width: 15px; height: 15px; color: #2563EB;"></i> 5대 핵심 방향성 지표</h3>
+            <span style="font-size: 0.72rem; color: #2563EB; font-weight: 700;" id="turnCountDisplay">1 / 5 단계</span>
           </div>
 
           <div class="biomarkers-card">
             <div class="bio-item">
-              <div class="bio-header"><span>① 자기결정성 지수 (Autonomy)</span><span id="valAutonomy" style="color: #D97706;">48점 (주의)</span></div>
+              <div class="bio-header"><span>① 주도적 결정력</span><span id="valAutonomy" style="color: #D97706;">48점 (주의)</span></div>
               <div class="bio-bar-bg"><div class="bio-bar-fill" id="barAutonomy" style="width: 48%; background: #D97706;"></div></div>
             </div>
             <div class="bio-item">
-              <div class="bio-header"><span>② 인지적 모순 지수 (Aporia)</span><span id="valAporia" style="color: #E11D48;">76점 (과다)</span></div>
+              <div class="bio-header"><span>② 내면 갈등 완화도</span><span id="valAporia" style="color: #E11D48;">76점 (혼란)</span></div>
               <div class="bio-bar-bg"><div class="bio-bar-fill" id="barAporia" style="width: 76%; background: #E11D48;"></div></div>
             </div>
             <div class="bio-item">
-              <div class="bio-header"><span>③ 호불호 명확도 (Clarity)</span><span id="valClarity" style="color: #D97706;">42점 (미흡)</span></div>
+              <div class="bio-header"><span>③ 선호·기준 명확도</span><span id="valClarity" style="color: #D97706;">42점 (미흡)</span></div>
               <div class="bio-bar-bg"><div class="bio-bar-fill" id="barClarity" style="width: 42%; background: #D97706;"></div></div>
             </div>
             <div class="bio-item">
-              <div class="bio-header"><span>④ 인지적 번아웃도 (Drain)</span><span id="valDrain" style="color: #E11D48;">82점 (위험)</span></div>
+              <div class="bio-header"><span>④ 마음 피로·스트레스</span><span id="valDrain" style="color: #E11D48;">82점 (과부하)</span></div>
               <div class="bio-bar-bg"><div class="bio-bar-fill" id="barDrain" style="width: 82%; background: #E11D48;"></div></div>
             </div>
             <div class="bio-item">
-              <div class="bio-header"><span>⑤ 실행 복원력 (Praxis)</span><span id="valPraxis" style="color: #059669;">65점 (양호)</span></div>
+              <div class="bio-header"><span>⑤ 실행 탄력성</span><span id="valPraxis" style="color: #059669;">65점 (양호)</span></div>
               <div class="bio-bar-bg"><div class="bio-bar-fill" id="barPraxis" style="width: 65%; background: #059669;"></div></div>
             </div>
           </div>
 
           <button class="action-report-btn" onclick="openFullReportModal()">
             <i data-lucide="clipboard-check" style="width: 17px; height: 17px;"></i>
-            종합 건강검진표 확인
+            나의 방향성 리포트 확인
           </button>
         </aside>
 
@@ -887,96 +887,96 @@
     </div>
 
     <!-- =========================================================================
-         TAB: 🚨 24시간 긴급 의사결정 SOS 응급실 (Decision Emergency Room)
+         TAB: 🚨 3분 감정 쿨다운 & 마인드 팩트체크
          ========================================================================= -->
     <div id="view-sos" class="tab-view">
       <div style="text-align: center; margin-bottom: 24px;">
         <div style="display: inline-flex; align-items: center; gap: 6px; background: #FFE4E6; border: 1px solid #FECDD3; color: #E11D48; padding: 4px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; margin-bottom: 8px;">
           <i data-lucide="shield-alert" style="width: 14px; height: 14px;"></i>
-          24/7 긴급 멘탈 응급실 & 의사결정 블랙박스
+          충동적 후회를 막는 마인드 쿨다운
         </div>
-        <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: #0F172A;">충동적 파국을 막는 3분 긴급 팩트체크 프로토콜</h2>
-        <p style="color: #64748B; font-size: 0.95rem;">밤 11시 충동적 퇴사, 분노의 폭언, 전공 포기 충동이 들 때 뇌의 편도체를 식히고 실수를 원천 방어합니다.</p>
+        <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: #0F172A;">감정이 격해질 때 후회 없는 결정을 돕는 3분 쿨다운</h2>
+        <p style="color: #64748B; font-size: 0.95rem;">상사와의 갈등, 번아웃으로 홧김에 퇴사하거나 모든 것을 포기하고 싶을 때, 감정을 차분히 가라앉히고 실수를 예방합니다.</p>
       </div>
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1050px; margin: 0 auto;">
-        <!-- STEP 1 & 2: 진정 및 인지왜곡 판독 -->
+        <!-- STEP 1 & 2: 진정 및 생각의 함정 판독 -->
         <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 24px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 16px;">
           <h3 style="font-size: 1.05rem; color: #0F172A; display: flex; align-items: center; gap: 8px;">
             <span style="width: 24px; height: 24px; border-radius: 50%; background: #E11D48; color: #FFF; font-size: 0.76rem; font-weight: 800; display: inline-flex; align-items: center; justify-content: center;">1</span>
-            현재 당신을 집어삼킨 충동적 상황은 무엇인가요?
+            현재 가장 힘들거나 충동적으로 벗어나고 싶은 상황은 무엇인가요?
           </h3>
-          <textarea id="sosDilemmaInput" class="chat-textarea" placeholder="예: '상사의 모욕적인 피드백을 듣고 당장 내일 사직서를 집어던지고 싶습니다.', '공부가 너무 안 돼서 자퇴하고 싶어요.'" style="min-height: 85px; padding: 12px;"></textarea>
+          <textarea id="sosDilemmaInput" class="chat-textarea" placeholder="예: '상사의 부당한 질책 때문에 당장 내일 사직서를 내고 싶어요.', '시험 결과가 안 나와서 다 포기하고 싶어요.'" style="min-height: 85px; padding: 12px;"></textarea>
 
           <h3 style="font-size: 1.05rem; color: #0F172A; display: flex; align-items: center; gap: 8px; margin-top: 6px;">
             <span style="width: 24px; height: 24px; border-radius: 50%; background: #2563EB; color: #FFF; font-size: 0.76rem; font-weight: 800; display: inline-flex; align-items: center; justify-content: center;">2</span>
-            지금 뇌에서 작동 중인 3대 인지 왜곡 선택
+            지금 나를 괴롭히는 생각의 함정 선택
           </h3>
           <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px;">
               <input type="checkbox" id="distortionCatastrophe" checked>
-              <span><strong>파국화(Catastrophizing)</strong>: "지금 그만두면/실패하면 내 인생은 끝장이다"</span>
+              <span><strong>과도한 불안</strong>: "지금 포기하거나 실패하면 내 인생은 끝장이다"</span>
             </label>
             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px;">
               <input type="checkbox" id="distortionBlackWhite" checked>
-              <span><strong>흑백논리(All-or-Nothing)</strong>: "이걸 참거나, 아니면 전부 엎어버리는 수밖에 없다"</span>
+              <span><strong>극단적 생각</strong>: "이걸 무조건 참거나, 전부 엎어버리는 것 외엔 답이 없다"</span>
             </label>
             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px;">
               <input type="checkbox" id="distortionMindReading">
-              <span><strong>독심술(Mind Reading)</strong>: "모두가 속으로 날 비웃고 무능하다고 생각할 것이다"</span>
+              <span><strong>타인의 시선 넘겨짚기</strong>: "남들이 속으로 날 무능하다고 비웃을 것이다"</span>
             </label>
           </div>
 
           <button class="send-btn" onclick="runSosProtocol()" style="background: linear-gradient(135deg, #E11D48, #BE123C); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);">
-            <i data-lucide="zap" style="width: 16px; height: 16px;"></i> 3분 긴급 팩트체크 및 해독 처방전 발행
+            <i data-lucide="zap" style="width: 16px; height: 16px;"></i> 3분 마인드 쿨다운 솔루션 확인하기
           </button>
         </div>
 
-        <!-- STEP 3: 소크라테스 긴급 해독 처방전 결과 -->
+        <!-- STEP 3: 소크라테스 멘토 쿨다운 가이드 결과 -->
         <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 24px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between;">
           <div>
             <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #F1F5F9; padding-bottom: 10px; margin-bottom: 14px;">
               <div style="font-weight: 800; font-size: 1.05rem; color: #0F172A; display: flex; align-items: center; gap: 8px;">
                 <span style="width: 24px; height: 24px; border-radius: 50%; background: #059669; color: #FFF; font-size: 0.76rem; font-weight: 800; display: inline-flex; align-items: center; justify-content: center;">3</span>
-                소크라테스 응급실 팩트체크 소견
+                소크라테스 멘토의 쿨다운 가이드
               </div>
-              <span style="font-size: 0.74rem; background: #EFF6FF; color: #2563EB; padding: 3px 8px; border-radius: 6px; font-weight: 700;">골든타임 보호</span>
+              <span style="font-size: 0.74rem; background: #EFF6FF; color: #2563EB; padding: 3px 8px; border-radius: 6px; font-weight: 700;">골든타임 케어</span>
             </div>
 
             <div id="sosResultBox" style="font-size: 0.9rem; line-height: 1.7; color: #334155;">
               <div style="text-align: center; color: #94A3B8; padding: 40px 10px;">
                 <i data-lucide="heart-pulse" style="width: 36px; height: 36px; color: #CBD5E1; margin-bottom: 8px;"></i>
-                <p>왼쪽에서 상황을 입력하고 해독 처방전을 발행하면<br><strong>"내일 아침 10시까지 절대 하지 말아야 할 3가지"</strong>가 생성됩니다.</p>
+                <p>왼쪽에서 상황을 입력하고 솔루션을 확인하시면<br><strong>"내일 아침 10시까지 절대 하지 말아야 할 3가지"</strong>가 안내됩니다.</p>
               </div>
             </div>
           </div>
 
           <div style="background: #FFF1F2; border: 1px solid #FECDD3; border-radius: 10px; padding: 12px; font-size: 0.82rem; color: #9F1239; margin-top: 14px;">
-            ⚠️ <strong>충동 방어 원칙:</strong> 분노와 모멸감이 최고조일 때 내린 결정의 94%는 72시간 이내에 막대한 기회비용과 후회로 돌아옵니다. 지금 행동하지 않고 기록하는 것만으로 수천만 원을 절약합니다.
+            💡 <strong>감정 안정 원칙:</strong> 감정이 격해졌을 때 내린 결정은 대부분 후회로 이어집니다. 지금 당장 반응하지 않고 템포를 늦추는 것만으로도 수많은 기회비용을 아낄 수 있습니다.
           </div>
         </div>
       </div>
     </div>
 
     <!-- =========================================================================
-         TAB: 📈 주간 인지 바이오마커 트래커 (Weekly Biomarker Tracker)
+         TAB: 📈 주간 마음 & 방향성 성장 리포트
          ========================================================================= -->
     <div id="view-tracker" class="tab-view">
       <div style="text-align: center; margin-bottom: 24px;">
         <div style="display: inline-flex; align-items: center; gap: 6px; background: #ECFDF5; border: 1px solid #A7F3D0; color: #059669; padding: 4px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; margin-bottom: 8px;">
           <i data-lucide="trending-up" style="width: 14px; height: 14px;"></i>
-          정기 구독자 전용 라이프 궤도 관리
+          정기 구독자 전용 성장 관리
         </div>
-        <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: #0F172A;">주간 인지 바이오마커 시계열 추이 & 궤도 수정</h2>
-        <p style="color: #64748B; font-size: 0.95rem;">병원에서 혈압과 간 수치를 정기 추적하듯, 당신의 멘탈과 주권 회복도를 시계열로 정밀 모니터링합니다.</p>
+        <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: #0F172A;">주간 마음 상태 & 방향성 점검 리포트</h2>
+        <p style="color: #64748B; font-size: 0.95rem;">나의 마음 상태와 주도권을 주기적으로 점검하며 삶의 균형을 유지합니다.</p>
       </div>
 
       <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; max-width: 1100px; margin: 0 auto;">
         <!-- WEEKLY CHART SIMULATION -->
         <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 24px; box-shadow: var(--shadow-sm);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
-            <h3 style="font-size: 1.05rem; font-weight: 800; color: #0F172A;">최근 7일간 5대 지표 변화 추세</h3>
-            <span style="font-size: 0.76rem; color: #2563EB; font-weight: 700;">2026.09 3주차 정기 검진 데이터</span>
+            <h3 style="font-size: 1.05rem; font-weight: 800; color: #0F172A;">최근 7일간 마음 상태 변화 추세</h3>
+            <span style="font-size: 0.76rem; color: #2563EB; font-weight: 700;">이번 주 점검 데이터</span>
           </div>
 
           <!-- MOCK BARS CHART -->
@@ -995,7 +995,7 @@
             </div>
             <div style="text-align: center; width: 12%;">
               <div style="height: 95px; background: #F87171; border-radius: 6px 6px 0 0; margin-bottom: 6px;"></div>
-              <div style="font-size: 0.72rem; color: #E11D48; font-weight: 700;">목 (위기)</div>
+              <div style="font-size: 0.72rem; color: #E11D48; font-weight: 700;">목 (스트레스)</div>
             </div>
             <div style="text-align: center; width: 12%;">
               <div style="height: 140px; background: #60A5FA; border-radius: 6px 6px 0 0; margin-bottom: 6px;"></div>
@@ -1007,14 +1007,14 @@
             </div>
             <div style="text-align: center; width: 12%;">
               <div style="height: 180px; background: #2563EB; border-radius: 6px 6px 0 0; margin-bottom: 6px;"></div>
-              <div style="font-size: 0.72rem; color: #2563EB; font-weight: 800;">일 (최고)</div>
+              <div style="font-size: 0.72rem; color: #2563EB; font-weight: 800;">일 (양호)</div>
             </div>
           </div>
 
           <div style="display: flex; justify-content: space-around; font-size: 0.8rem; color: #475569;">
-            <span>🔵 <strong>자기결정성</strong>: 72% (+14%)</span>
-            <span>🔴 <strong>번아웃도</strong>: 38% (-24%)</span>
-            <span>🟢 <strong>실행 복원력</strong>: 85% (+20%)</span>
+            <span>🔵 <strong>주도적 결정력</strong>: 72% (+14%)</span>
+            <span>🔴 <strong>스트레스 지수</strong>: 38% (-24%)</span>
+            <span>🟢 <strong>실행 탄력성</strong>: 85% (+20%)</span>
           </div>
         </div>
 
@@ -1023,34 +1023,34 @@
           <div>
             <h3 style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
               <i data-lucide="check-circle-2" style="width: 18px; height: 18px; color: #059669;"></i>
-              이번 주 궤도 수정 핵심 처방
+              이번 주 핵심 실천 가이드
             </h3>
             <ul style="padding-left: 18px; font-size: 0.88rem; line-height: 1.8; color: #334155;">
-              <li><strong>목요일의 에너지 급락 원인</strong>: 타인의 무리한 요구를 거절하지 못하고 과다 수용함.</li>
-              <li><strong>다음 주 실천 과제</strong>: 내 일정표에 '자기 통제 블록 2시간'을 사전에 확보하고 무조건 사수할 것.</li>
-              <li><strong>목표 달성 예상</strong>: 90일 후 직무 자율성 85점 이상 도달 확실시.</li>
+              <li><strong>에너지가 소진되었던 이유</strong>: 타인의 무리한 부탁이나 요구를 거절하지 못하고 과도하게 수용했습니다.</li>
+              <li><strong>다음 주 실천 과제</strong>: 나의 일정표에 '나만을 위한 집중 시간 2시간'을 미리 예약하고 꼭 지켜보세요.</li>
+              <li><strong>기대 효과</strong>: 내면의 안정과 업무 만족도가 크게 향상됩니다.</li>
             </ul>
           </div>
 
-          <button class="pill-btn gold-solid" style="width: 100%; justify-content: center; margin-top: 14px;" onclick="alert('주간 인생 궤도 수정 심층 리포트 PDF가 다운로드되었습니다.')">
-            <i data-lucide="download" style="width: 14px; height: 14px;"></i> 주간 분석 리포트 PDF 저장
+          <button class="pill-btn gold-solid" style="width: 100%; justify-content: center; margin-top: 14px;" onclick="alert('주간 방향성 점검 리포트가 다운로드되었습니다.')">
+            <i data-lucide="download" style="width: 14px; height: 14px;"></i> 주간 리포트 PDF 저장
           </button>
         </div>
       </div>
     </div>
 
     <!-- =========================================================================
-         KILLER 2: INNER BOARD OF DIRECTORS TAB (내면의 4인 이사회 청문회)
+         TAB: 멘토 4인의 관점 (소크라테스·잡스·달리오·아우렐리우스)
          ========================================================================= -->
     <div id="view-board" class="tab-view">
       <div style="text-align: center; margin-bottom: 20px;">
-        <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: #0F172A;">내면의 4대 거장 이사회 청문회 (Inner Board of Directors)</h2>
-        <p style="color: #64748B; font-size: 0.95rem;">인생의 중대 결단(진로/이직/창업)을 4대 거장의 관점에서 검증받고 최적의 결론을 도출합니다.</p>
+        <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: #0F172A;">멘토 4인의 관점 (소크라테스·잡스·달리오·아우렐리우스)</h2>
+        <p style="color: #64748B; font-size: 0.95rem;">진로·이직·사업 등 중요한 결정을 앞두고 있을 때, 시대의 멘토 4인의 깊이 있는 조언을 들어보세요.</p>
       </div>
 
       <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px; display: flex; gap: 10px; max-width: 800px; margin: 0 auto 24px;">
-        <input type="text" id="boardDilemmaInput" class="chat-textarea" placeholder="당신의 현재 고민을 적으세요 (예: '안정적인 직장을 그만두고 AI 교육 창업에 올인해야 할까요?')" style="height: 48px; padding: 12px 16px;">
-        <button class="send-btn" onclick="runBoardDebate()">청문회 시작</button>
+        <input type="text" id="boardDilemmaInput" class="chat-textarea" placeholder="고민 중인 내용을 적어보세요 (예: '안정적인 직장을 그만두고 새로운 일에 도전해야 할까요?')" style="height: 48px; padding: 12px 16px;">
+        <button class="send-btn" onclick="runBoardDebate()">멘토 조언 구하기</button>
       </div>
 
       <div class="board-grid">
@@ -1058,10 +1058,10 @@
           <div class="director-avatar" style="background: #EFF6FF; color: #2563EB;">Σ</div>
           <div>
             <div class="director-name">소크라테스</div>
-            <div class="director-role">본질론 & 산파술</div>
+            <div class="director-role">본질 탐구 & 질문</div>
           </div>
           <div class="director-quote" id="quoteSocrates">
-            "자네가 그 길을 택하려는 이유가 진짜 내면의 호기심인가, 아니면 세상의 인정을 갈구하는 거짓 에고인가?"
+            "이 길을 선택하려는 진짜 이유가 무엇인가요? 남들의 시선이 아닌, 온전한 내면의 기쁨 때문인가요?"
           </div>
         </div>
 
@@ -1069,10 +1069,10 @@
           <div class="director-avatar" style="background: #F8FAFC; color: #0F172A; border: 1px solid #CBD5E1;"></div>
           <div>
             <div class="director-name">스티브 잡스</div>
-            <div class="director-role">미친 열정과 단순화</div>
+            <div class="director-role">직관과 열정</div>
           </div>
           <div class="director-quote" id="quoteJobs">
-            "가슴이 뛰지 않는다면 당신은 죽은 채로 사는 거요. 남들의 교리에 얽매여 당신 내면의 직관을 낭비하지 마시오!"
+            "남들의 기준에 맞춰 살기에는 인생이 너무 짧습니다. 당신의 직관과 가슴이 가리키는 곳으로 담대하게 한 걸음 내딛으세요."
           </div>
         </div>
 
@@ -1080,10 +1080,10 @@
           <div class="director-avatar" style="background: #ECFDF5; color: #059669;">📈</div>
           <div>
             <div class="director-name">레이 달리오</div>
-            <div class="director-role">극단적 현실주의</div>
+            <div class="director-role">현실주의 & 리스크 관리</div>
           </div>
           <div class="director-quote" id="quoteDalio">
-            "낭만은 접어두게. 자네의 생존 활주로(현금흐름)가 18개월 이상 확보되었는가? 리스크를 데이터로 측정했는가?"
+            "열정도 중요하지만 현실적 리스크를 냉정하게 계산해야 합니다. 최소 18개월간 생존할 수 있는 기반이 준비되어 있나요?"
           </div>
         </div>
 
@@ -1091,40 +1091,40 @@
           <div class="director-avatar" style="background: #F5F3FF; color: #7C3AED;">🏛️</div>
           <div>
             <div class="director-name">마르쿠스 아우렐리우스</div>
-            <div class="director-role">스토아적 평온</div>
+            <div class="director-role">마음의 평온 & 통제</div>
           </div>
           <div class="director-quote" id="quoteAurelius">
-            "타인의 칭찬이나 비난은 자네가 통제할 수 없다네. 오늘 하루 자네의 영혼이 떳떳하게 행동했는가만 묻게나."
+            "타인의 인정이나 비난은 내가 어찌할 수 없습니다. 오늘 내가 내린 결정이 나의 양심과 본질에 부합하는지에만 집중하세요."
           </div>
         </div>
       </div>
 
       <div id="boardVerdictBox" style="background: linear-gradient(135deg, #EFF6FF, #F1F5F9); border: 2px solid #2563EB; border-radius: 14px; padding: 20px; max-width: 800px; margin: 0 auto; display: none;">
-        <h3 style="font-size: 1.1rem; color: #0F172A; margin-bottom: 8px;">📜 내면의 이사회 최종 합의 권고안</h3>
+        <h3 style="font-size: 1.1rem; color: #0F172A; margin-bottom: 8px;">📜 멘토 4인의 종합 조언</h3>
         <p id="boardVerdictText" style="font-size: 0.95rem; color: #1E293B; line-height: 1.7; font-family: var(--font-serif);"></p>
       </div>
     </div>
 
     <!-- =========================================================================
-         KILLER 3: TINDER FOR LIFE (LIKE/HATE 3-SEC SWIPE)
+         TAB: 3초 본능 스와이프: 진짜 좋아하는 것 vs 힘든 것
          ========================================================================= -->
     <div id="view-swipe" class="tab-view">
       <div style="text-align: center; margin-bottom: 10px;">
-        <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: #0F172A;">무의식 호불호 3초 스와이프 (Tinder for Life)</h2>
-        <p style="color: #64748B; font-size: 0.95rem;">전두엽 검열을 끄고, 3초 안에 본능대로 좌(🛑 끔찍이 싫음) / 우(💚 너무 좋음)를 선택하세요.</p>
+        <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: #0F172A;">3초 본능 스와이프: 진짜 좋아하는 것 vs 힘든 것</h2>
+        <p style="color: #64748B; font-size: 0.95rem;">머리로 계산하지 말고, 3초 안에 끌리는 대로 선택해보세요. (왼쪽: 정말 힘들고 싫은 것 / 오른쪽: 생각만 해도 즐거운 것)</p>
       </div>
 
       <div class="swipe-container">
         <div class="swipe-card" id="swipeCard">
-          <div style="font-size: 0.8rem; color: #2563EB; font-weight: 700; text-transform: uppercase;" id="swipeCardCategory">자극 #01</div>
+          <div style="font-size: 0.8rem; color: #2563EB; font-weight: 700; text-transform: uppercase;" id="swipeCardCategory">상황 질문 #01</div>
           <div style="font-size: 1.35rem; font-weight: 800; color: #0F172A; line-height: 1.4;" id="swipeCardText">
-            "이유도 모른 채 남들이 하니까 억지로 해야 하는 단순 암기나 서류 작업"
+            "이유도 모른 채 남들이 하니까 억지로 해야 하는 단순 서류 작업"
           </div>
         </div>
 
         <div class="swipe-actions">
-          <button class="swipe-btn hate" onclick="handleSwipe('hate')" title="절대 싫음"><i data-lucide="x" style="width: 28px; height: 28px;"></i></button>
-          <button class="swipe-btn like" onclick="handleSwipe('like')" title="너무 좋음"><i data-lucide="heart" style="width: 28px; height: 28px;"></i></button>
+          <button class="swipe-btn hate" onclick="handleSwipe('hate')" title="정말 힘들고 싫음"><i data-lucide="x" style="width: 28px; height: 28px;"></i></button>
+          <button class="swipe-btn like" onclick="handleSwipe('like')" title="생각만 해도 좋음"><i data-lucide="heart" style="width: 28px; height: 28px;"></i></button>
         </div>
 
         <div style="margin-top: 14px; font-size: 0.8rem; color: #64748B;" id="swipeProgressText">1 / 6 문항 완료</div>
@@ -1132,23 +1132,23 @@
     </div>
 
     <!-- =========================================================================
-         KILLER 4: 10-YEAR PARALLEL FUTURE SELF TAB
+         TAB: 10년 후 미래 시나리오
          ========================================================================= -->
     <div id="view-parallel" class="tab-view">
       <div style="text-align: center; margin-bottom: 16px;">
-        <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: #0F172A;">10년 평행우주 미래 자아 시뮬레이터</h2>
-        <p style="color: #64748B; font-size: 0.95rem;">오늘 어떤 결단을 내리는가에 따라 당신이 맞이할 10년 뒤의 두 가지 갈림길</p>
+        <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: #0F172A;">10년 후 미래 시나리오: 타인의 기대 vs 나만의 길</h2>
+        <p style="color: #64748B; font-size: 0.95rem;">오늘 내가 어떤 선택을 내리는가에 따라 마주하게 될 10년 뒤의 두 가지 삶</p>
       </div>
 
       <div class="parallel-grid">
         <div class="parallel-card regret">
-          <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 10px;">🌑 갈림길 A: 타인 순응형 10년 뒤 (The Default Path)</h3>
-          <p><strong>2036년 당신의 하루:</strong> 남들의 시선과 안전한 정답만 좇아 살아온 결과, 남부럽지 않은 명함은 얻었지만 매일 아침 출근길마다 가슴속 깊은 공허와 후회가 밀려옵니다. "그때 왜 내 진짜 목소리를 외면했을까? 내 인생은 온통 남의 기대를 연기하느라 지나가버렸다."</p>
+          <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 10px;">🌑 시나리오 A: 남들의 기준에 맞추어 살아온 10년 뒤</h3>
+          <p><strong>10년 뒤 나의 일상:</strong> 남들의 시선과 안전한 정답만 좇아 살아온 결과, 겉으로는 무난해 보이지만 매일 아침 출근길마다 마음 깊은 곳에서 허전함이 밀려옵니다. "그때 왜 내가 진짜 원하던 일에 용기 내보지 않았을까? 내 삶은 온통 남의 기대에 맞추느라 흘러가버렸다."</p>
         </div>
 
         <div class="parallel-card sovereign">
-          <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 10px;">☀️ 갈림길 B: 주권 회복형 10년 뒤 (The Sovereign Path)</h3>
-          <p><strong>2036년 당신의 하루:</strong> 오늘 소크라테스 문답을 통해 내 인생의 3대 축을 세우고 작은 프로젝트부터 실행한 결과, 당신은 시간의 완전한 주권을 확보했습니다. 통제받지 않는 환경에서 대체 불가능한 고유한 무기로 세상에 실질적 충격을 남기며 살아갑니다.</p>
+          <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 10px;">☀️ 시나리오 B: 나만의 방향성을 갖고 주도적으로 살아온 10년 뒤</h3>
+          <p><strong>10년 뒤 나의 일상:</strong> 질문을 통해 나만의 기준을 세우고 작은 실천부터 차근차근 시작한 결과, 시간과 삶의 완전한 주도권을 확보했습니다. 타인의 눈치를 보지 않고, 내가 진정으로 잘하고 좋아하는 일로 세상에 당당하게 가치를 전하며 살아갑니다.</p>
         </div>
       </div>
     </div>
@@ -1156,23 +1156,23 @@
   </main>
 
   <!-- =========================================================================
-       KILLER 1: APORIA SHATTER MODAL OVERLAY
+       MODAL: 마인드셋 전환 (생각의 틀 깨기)
        ========================================================================= -->
   <div class="shatter-overlay" id="shatterOverlay">
     <div class="shatter-container">
       <div class="shatter-card" id="shatterCard">
-        <div style="font-size: 0.8rem; font-weight: 800; color: #E11D48; letter-spacing: 1px; margin-bottom: 8px;">💥 APORIA SHATTER: 가짜 신념의 격파</div>
+        <div style="font-size: 0.8rem; font-weight: 800; color: #E11D48; letter-spacing: 1px; margin-bottom: 8px;">💡 마인드셋 전환: 생각의 틀 깨기</div>
         <div style="font-size: 1.15rem; font-weight: 800; color: #0F172A; line-height: 1.5;" id="shatterConflictText">
-          [표면적 믿음: "돈과 사회적 간판이 최고다"]<br>⚡ 정면충돌 ⚡<br>[실제 경험: "돈 없던 시절 가장 순수하게 몰입했다"]
+          [타인의 기대: "남들이 부러워하는 안정과 스펙"]<br>⚡ 생각의 충돌 ⚡<br>[내면의 갈망: "내 손으로 가치를 만들고 싶다"]
         </div>
       </div>
 
       <div class="truth-revealed-box" id="truthRevealedBox" style="display: none;">
-        <div style="font-size: 0.78rem; font-weight: 800; color: #2563EB; letter-spacing: 1px;">자각된 실존의 진실</div>
+        <div style="font-size: 0.78rem; font-weight: 800; color: #2563EB; letter-spacing: 1px;">새롭게 발견한 나의 기준</div>
         <div style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin-top: 4px;" id="shatterTruthText">
-          "내가 진짜 갈망한 것은 돈 자체가 아니라, 누구에게도 종속되지 않는 시간 주권이었다!"
+          "남들의 채점표를 쥐고 달리는 한 1등을 해도 내 삶이 아닙니다. 내가 진정으로 원하는 가치를 향해 나아가세요!"
         </div>
-        <button class="send-btn" style="margin: 16px auto 0;" onclick="closeShatterOverlay()">통찰 수용하고 계속하기</button>
+        <button class="send-btn" style="margin: 16px auto 0;" onclick="closeShatterOverlay()">새로운 관점으로 계속하기</button>
       </div>
     </div>
   </div>
@@ -1187,8 +1187,8 @@
         <div style="display: flex; align-items: center; gap: 12px;">
           <div style="width: 44px; height: 44px; background: #2563EB; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.4rem;">Σ</div>
           <div>
-            <h2 style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 0; line-height: 1.2;">소크라테스 인생 종합 건강검진 & 라이프 나침반 결과표</h2>
-            <div style="font-size: 0.74rem; color: #64748B; font-family: var(--font-mono);">GNŌTHI COMPREHENSIVE COGNITIVE ASSESSMENT & LIFE DIRECTION COMPASS</div>
+            <h2 style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 0; line-height: 1.2;">나만의 인생 방향성 진단 리포트</h2>
+            <div style="font-size: 0.74rem; color: #64748B; font-family: var(--font-mono);">GNŌTHI PERSONAL LIFE COMPASS & DIRECTION REPORT</div>
           </div>
         </div>
         <div style="display: flex; align-items: center; gap: 10px;">
@@ -1201,10 +1201,10 @@
 
       <!-- PATIENT / PERSONA META -->
       <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px; font-size: 0.82rem; margin-bottom: 20px;">
-        <div><span style="color: #64748B;">수검 번호:</span> <strong style="color: #0F172A;" id="reportSerialId">GN-2026-0919-88</strong></div>
-        <div><span style="color: #64748B;">검진 페르소나:</span> <strong style="color: #2563EB;" id="reportPersonaCell">중고생 (진로·전공)</strong></div>
-        <div><span style="color: #64748B;">문답 심층도:</span> <strong style="color: #059669;" id="reportDepthLevel">5단계 완결 (Level 5)</strong></div>
-        <div><span style="color: #64748B;">종합 판정:</span> <strong style="color: #2563EB;" id="reportOverallGrade">A 등급 (자기 주권 회복)</strong></div>
+        <div><span style="color: #64748B;">리포트 번호:</span> <strong style="color: #0F172A;" id="reportSerialId">GN-2026-0919-88</strong></div>
+        <div><span style="color: #64748B;">진단 대상:</span> <strong style="color: #2563EB;" id="reportPersonaCell">중고생 (진로·전공 고민)</strong></div>
+        <div><span style="color: #64748B;">진단 완성도:</span> <strong style="color: #059669;" id="reportDepthLevel">5단계 완료 (Level 5)</strong></div>
+        <div><span style="color: #64748B;">방향성 상태:</span> <strong style="color: #2563EB;" id="reportOverallGrade">나만의 주도성 확립</strong></div>
       </div>
 
       <!-- CORE HIGHLIGHT: 3 LIFE AXES & DIRECTION MANIFESTO -->
@@ -1212,16 +1212,16 @@
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
           <h3 style="font-size: 1.12rem; font-weight: 800; color: #1E40AF; display: flex; align-items: center; gap: 8px;">
             <i data-lucide="compass" style="width: 20px; height: 20px; color: #2563EB;"></i>
-            질문 문답을 통해 확립된 수검자의 '3대 인생 축 (Life Compass)'
+            질문을 통해 도출된 나만의 3대 인생 축 (Life Compass)
           </h3>
-          <span style="font-size: 0.74rem; background: #DBEAFE; color: #1D4ED8; padding: 3px 10px; border-radius: 20px; font-weight: 700;">소크라테스 산파술 검증필</span>
+          <span style="font-size: 0.74rem; background: #DBEAFE; color: #1D4ED8; padding: 3px 10px; border-radius: 20px; font-weight: 700;">대화 코칭 분석 완료</span>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px;">
           <!-- AXIS 1 -->
           <div style="background: #FFF; border: 1px solid #FECDD3; border-radius: 10px; padding: 14px;">
             <div style="font-size: 0.74rem; font-weight: 800; color: #E11D48; display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
-              <i data-lucide="shield-x" style="width: 14px; height: 14px;"></i> 제1축: 절대 회피 축 (알레르기)
+              <i data-lucide="shield-x" style="width: 14px; height: 14px;"></i> 제1축: 내가 힘들어하는 환경 (회피 기준)
             </div>
             <div style="font-size: 0.86rem; color: #334155; font-weight: 600; line-height: 1.5;" id="reportAxisHate">
               "타인의 평가와 눈치를 보느라 억지로 견뎌야 하는 수동적 서류 작업 및 감정 노동"
@@ -1231,7 +1231,7 @@
           <!-- AXIS 2 -->
           <div style="background: #FFF; border: 1px solid #A7F3D0; border-radius: 10px; padding: 14px;">
             <div style="font-size: 0.74rem; font-weight: 800; color: #059669; display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
-              <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i> 제2축: 절대 몰입 축 (북극성)
+              <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i> 제2축: 내가 즐겁게 몰입하는 환경 (추구 기준)
             </div>
             <div style="font-size: 0.86rem; color: #334155; font-weight: 600; line-height: 1.5;" id="reportAxisLove">
               "내 고유한 창의력과 무기로 세상의 구체적인 문제를 해결하고 피드백받는 자율적 몰입"
@@ -1241,7 +1241,7 @@
           <!-- AXIS 3 -->
           <div style="background: #FFF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 14px;">
             <div style="font-size: 0.74rem; font-weight: 800; color: #2563EB; display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
-              <i data-lucide="rocket" style="width: 14px; height: 14px;"></i> 제3축: 90일 행동 실천 축
+              <i data-lucide="rocket" style="width: 14px; height: 14px;"></i> 제3축: 90일 구체적 실천 과제
             </div>
             <div style="font-size: 0.86rem; color: #334155; font-weight: 600; line-height: 1.5;" id="reportAxisAction">
               "남들의 채점표를 완전히 지우고 내 이름으로 완성되는 마이크로 프로젝트 1개를 90일 내 출시하기"
@@ -1252,13 +1252,13 @@
         <!-- MANIFESTO DECLARATION -->
         <div style="background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 10px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between;">
           <div>
-            <div style="font-size: 0.74rem; color: #64748B; font-weight: 700;">📜 공식 인생 방향성 선언문 (Manifesto)</div>
+            <div style="font-size: 0.74rem; color: #64748B; font-weight: 700;">📜 나의 인생 방향성 선언문</div>
             <div style="font-size: 0.95rem; font-weight: 800; color: #0F172A; font-family: var(--font-serif); margin-top: 2px;" id="reportManifestoText">
               "나는 타인의 기대에 휘둘리던 가짜 욕망을 버리고, 오직 나의 3대 축에 따라 내 삶의 온전한 주권자로 전진한다."
             </div>
           </div>
-          <div style="width: 48px; height: 48px; border: 2px solid #E11D48; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #E11D48; font-weight: 900; font-size: 0.75rem; transform: rotate(-10deg); flex-shrink: 0; box-shadow: 0 2px 6px rgba(225, 29, 72, 0.15);">
-            소크라테스<br>인증필
+          <div style="width: 48px; height: 48px; border: 2px solid #2563EB; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #2563EB; font-weight: 900; font-size: 0.75rem; transform: rotate(-10deg); flex-shrink: 0; box-shadow: 0 2px 6px rgba(37, 99, 235, 0.15);">
+            그노티<br>인증
           </div>
         </div>
       </div>
@@ -1267,47 +1267,47 @@
       <div style="margin-bottom: 20px;">
         <h3 style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
           <i data-lucide="activity" style="width: 16px; height: 16px; color: #2563EB;"></i>
-          5대 인지 바이오마커 측정치 (Cognitive Biomarkers)
+          5가지 핵심 멘탈 & 방향성 지표 측정 결과
         </h3>
         <table style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">
           <thead>
             <tr style="background: #F1F5F9; border-bottom: 1px solid #CBD5E1;">
               <th style="padding: 8px 12px;">지표 항목</th>
               <th style="padding: 8px 12px;">측정 점수</th>
-              <th style="padding: 8px 12px;">판정 상태</th>
-              <th style="padding: 8px 12px;">임상 소견</th>
+              <th style="padding: 8px 12px;">상태</th>
+              <th style="padding: 8px 12px;">분석 소견</th>
             </tr>
           </thead>
           <tbody>
             <tr style="border-bottom: 1px solid #E2E8F0;">
-              <td style="padding: 8px 12px; font-weight: 700;">① 자기결정성 (Autonomy)</td>
+              <td style="padding: 8px 12px; font-weight: 700;">① 주도적 결정력</td>
               <td style="padding: 8px 12px; color: #059669; font-weight: 800;" id="cellAutonomy">92점</td>
-              <td style="padding: 8px 12px;"><span style="background: #D1FAE5; color: #065F46; padding: 2px 8px; border-radius: 4px; font-weight: 700;">최상</span></td>
-              <td style="padding: 8px 12px; color: #64748B;">외부 시선보다 내면의 진실을 우선하는 상태 확립</td>
+              <td style="padding: 8px 12px;"><span style="background: #D1FAE5; color: #065F46; padding: 2px 8px; border-radius: 4px; font-weight: 700;">우수</span></td>
+              <td style="padding: 8px 12px; color: #64748B;">외부 시선보다 내면의 진실을 우선하는 주도권 확립</td>
             </tr>
             <tr style="border-bottom: 1px solid #E2E8F0;">
-              <td style="padding: 8px 12px; font-weight: 700;">② 인지적 모순 (Aporia)</td>
+              <td style="padding: 8px 12px; font-weight: 700;">② 내면 갈등 완화도</td>
               <td style="padding: 8px 12px; color: #2563EB; font-weight: 800;" id="cellAporia">14점</td>
-              <td style="padding: 8px 12px;"><span style="background: #DBEAFE; color: #1E40AF; padding: 2px 8px; border-radius: 4px; font-weight: 700;">정상</span></td>
-              <td style="padding: 8px 12px; color: #64748B;">가짜 전제(Aporia)가 해체되어 인지 갈등 소멸</td>
+              <td style="padding: 8px 12px;"><span style="background: #DBEAFE; color: #1E40AF; padding: 2px 8px; border-radius: 4px; font-weight: 700;">안정</span></td>
+              <td style="padding: 8px 12px; color: #64748B;">고정관념이 해소되어 생각의 모순과 혼란이 정리됨</td>
             </tr>
             <tr style="border-bottom: 1px solid #E2E8F0;">
-              <td style="padding: 8px 12px; font-weight: 700;">③ 호불호 명확도 (Clarity)</td>
+              <td style="padding: 8px 12px; font-weight: 700;">③ 선호·기준 명확도</td>
               <td style="padding: 8px 12px; color: #059669; font-weight: 800;" id="cellClarity">95점</td>
-              <td style="padding: 8px 12px;"><span style="background: #D1FAE5; color: #065F46; padding: 2px 8px; border-radius: 4px; font-weight: 700;">완벽</span></td>
-              <td style="padding: 8px 12px; color: #64748B;">내가 싫어하는 것과 좋아하는 것의 경계가 선명함</td>
+              <td style="padding: 8px 12px;"><span style="background: #D1FAE5; color: #065F46; padding: 2px 8px; border-radius: 4px; font-weight: 700;">명확</span></td>
+              <td style="padding: 8px 12px; color: #64748B;">내가 좋아하는 것과 피해야 할 기준이 뚜렷함</td>
             </tr>
             <tr style="border-bottom: 1px solid #E2E8F0;">
-              <td style="padding: 8px 12px; font-weight: 700;">④ 인지적 번아웃도 (Drain)</td>
+              <td style="padding: 8px 12px; font-weight: 700;">④ 마음 피로·스트레스</td>
               <td style="padding: 8px 12px; color: #059669; font-weight: 800;" id="cellDrain">24점</td>
               <td style="padding: 8px 12px;"><span style="background: #D1FAE5; color: #065F46; padding: 2px 8px; border-radius: 4px; font-weight: 700;">안정</span></td>
-              <td style="padding: 8px 12px; color: #64748B;">불필요한 비교와 질식 에너지가 제거됨</td>
+              <td style="padding: 8px 12px; color: #64748B;">불필요한 비교와 과도한 심리적 압박이 완화됨</td>
             </tr>
             <tr>
-              <td style="padding: 8px 12px; font-weight: 700;">⑤ 실행 복원력 (Praxis)</td>
+              <td style="padding: 8px 12px; font-weight: 700;">⑤ 실행 탄력성</td>
               <td style="padding: 8px 12px; color: #059669; font-weight: 800;" id="cellPraxis">88점</td>
               <td style="padding: 8px 12px;"><span style="background: #D1FAE5; color: #065F46; padding: 2px 8px; border-radius: 4px; font-weight: 700;">우수</span></td>
-              <td style="padding: 8px 12px; color: #64748B;">90일 마이크로 프로젝트 즉시 착수 가능한 회복 탄력성</td>
+              <td style="padding: 8px 12px; color: #64748B;">구체적인 실행 과제를 추진할 수 있는 활력과 추진력</td>
             </tr>
           </tbody>
         </table>
@@ -1315,27 +1315,27 @@
 
       <!-- RX PRESCRIPTION -->
       <div style="margin-bottom: 20px;">
-        <h3 style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin-bottom: 8px;">2. 소크라테스 임상 처방전 (Rx)</h3>
+        <h3 style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin-bottom: 8px;">소크라테스 멘토의 맞춤 액션 가이드</h3>
         <div style="background: #FFF; border: 2px dashed #CBD5E1; border-radius: 10px; padding: 14px 18px; font-size: 0.88rem; line-height: 1.7; color: #334155;">
-          • [처방 1] 14일간 타인의 SNS 성과 피드를 보지 않는 인지 격리 시간을 가질 것.<br>
-          • [처방 2] 내가 정립한 제2축(절대 몰입 환경)에 매일 45분간 타협 없이 몰입할 것.<br>
-          • [처방 3] 남의 채점표가 아닌 내 이름으로 완성되는 마이크로 프로젝트를 90일 안에 1개 출시할 것.
+          • [가이드 1] 14일간 타인의 SNS 성과나 자랑 피드를 멀리하고 나에게 집중하는 시간을 가질 것.<br>
+          • [가이드 2] 내가 정립한 제2축(즐겁게 몰입하는 환경)에 매일 45분간 방해 없이 집중해볼 것.<br>
+          • [가이드 3] 남들의 시선에서 벗어나 내 이름으로 완성되는 작은 프로젝트를 90일 안에 1개 완성해볼 것.
         </div>
       </div>
 
       <!-- KILLER 5: STAKEHOLDER BRIEFING SHEET -->
       <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 14px; display: flex; align-items: center; justify-content: space-between;">
         <div>
-          <div style="font-weight: 800; color: #1E40AF; font-size: 0.9rem;">📜 공식 이해관계자 설득용 브리핑 시트 원클릭 변환</div>
-          <div style="font-size: 0.76rem; color: #3B82F6;">학부모, 배우자/가족, 투자자에게 내 결단을 합리적으로 설득할 수 있는 공식 문서입니다.</div>
+          <div style="font-weight: 800; color: #1E40AF; font-size: 0.9rem;">📜 부모님·가족 설득을 위한 '나의 진로/이직 로드맵 요약서'</div>
+          <div style="font-size: 0.76rem; color: #3B82F6;">학부모, 가족, 배우자에게 내 결정을 설득력 있게 설명할 수 있는 요약 문서입니다.</div>
         </div>
-        <button class="pill-btn" style="background: #2563EB; color: white;" onclick="alert('공식 브리핑 시트 PDF가 생성되었습니다!')">
-          설득용 브리핑 시트 출력
+        <button class="pill-btn" style="background: #2563EB; color: white;" onclick="alert('진로/이직 로드맵 요약서 PDF가 생성되었습니다!')">
+          요약 리포트 출력
         </button>
       </div>
 
       <div style="display: flex; justify-content: center; gap: 12px; margin-top: 24px;">
-        <button class="send-btn" onclick="window.print()"><i data-lucide="printer" style="width: 16px; height: 16px;"></i> 공식 검진 결과표 인쇄 / PDF 다운로드</button>
+        <button class="send-btn" onclick="window.print()"><i data-lucide="printer" style="width: 16px; height: 16px;"></i> 인생 방향성 진단 리포트 인쇄 / PDF 저장</button>
       </div>
     </div>
   </div>
@@ -1347,42 +1347,42 @@
     <div class="report-modal-card" style="max-width: 680px; padding: 32px 36px; border: 2px solid #2563EB;">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
         <div>
-          <span style="background: #EFF6FF; border: 1px solid #BFDBFE; color: #1D4ED8; font-size: 0.76rem; font-weight: 800; padding: 4px 10px; border-radius: 20px;">GNŌTHI VIP LIFE PASS</span>
+          <span style="background: #EFF6FF; border: 1px solid #BFDBFE; color: #1D4ED8; font-size: 0.76rem; font-weight: 800; padding: 4px 10px; border-radius: 20px;">GNŌTHI VIP MEMBER</span>
           <h2 style="font-size: 1.45rem; font-weight: 800; color: #0F172A; margin-top: 8px; line-height: 1.3;">
             한 달 커피 2잔 값(9,900원)으로<br>
-            <span style="color: #2563EB;">인생의 수천만 원 기회비용</span>을 방어하세요.
+            <span style="color: #2563EB;">인생의 수천만 원 기회비용</span>을 아끼세요.
           </h2>
         </div>
         <button class="close-btn" onclick="closeModal('subscriptionModal')">&times;</button>
       </div>
 
       <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 20px;">
-        잘못된 전공 등록금(수천만원), 홧김의 충동 퇴사와 경력 단절(수개월 무수입), 섣부른 감정적 창업(수천~수억원 손실)...  
-        소크라테스 인생 검진 OS는 당신이 인생의 중대한 갈림길에서 <strong>치명적인 오판을 내리지 않도록 24시간 나침반</strong>이 되어드립니다.
+        잘못된 전공이나 충동적인 퇴사, 준비 없는 섣부른 도전으로 날릴 수 있는 수많은 시간과 비용...  
+        그노티는 인생의 중요한 갈림길에서 <strong>후회 없는 선택을 내릴 수 있도록 돕는 24시간 든든한 멘토</strong>가 되어드립니다.
       </p>
 
       <!-- 5 CORE MEMBERSHIP BENEFITS -->
       <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 18px; margin-bottom: 20px;">
         <h4 style="font-size: 0.92rem; font-weight: 800; color: #1E293B; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
           <i data-lucide="crown" style="width: 16px; height: 16px; color: #D97706;"></i>
-          월 9,900원 멤버십 정기 구독자 5대 독점 혜택
+          월 9,900원 멤버십 정기 구독자 5대 혜택
         </h4>
         <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.84rem; color: #334155;">
           <div style="display: flex; align-items: flex-start; gap: 8px;">
             <i data-lucide="check" style="width: 16px; height: 16px; color: #059669; flex-shrink: 0; margin-top: 2px;"></i>
-            <span><strong>24시간 긴급 의사결정 SOS 무제한</strong> (밤 11시 충동적 퇴사/포기 충동 3분 해독)</span>
+            <span><strong>24시간 3분 감정 쿨다운 솔루션 무제한</strong> (홧김의 퇴사나 포기 충동 예방)</span>
           </div>
           <div style="display: flex; align-items: flex-start; gap: 8px;">
             <i data-lucide="check" style="width: 16px; height: 16px; color: #059669; flex-shrink: 0; margin-top: 2px;"></i>
-            <span><strong>내면의 4대 거장 이사회 무제한 소집</strong> (소크라테스·잡스·달리오·아우렐리우스)</span>
+            <span><strong>멘토 4인의 조언 무제한 이용</strong> (소크라테스·잡스·달리오·아우렐리우스)</span>
           </div>
           <div style="display: flex; align-items: flex-start; gap: 8px;">
             <i data-lucide="check" style="width: 16px; height: 16px; color: #059669; flex-shrink: 0; margin-top: 2px;"></i>
-            <span><strong>주간 인지 바이오마커 시계열 트래커 & 궤도 수정 리포트</strong> 매주 월요일 발급</span>
+            <span><strong>주간 마음 상태 점검 & 성장 리포트</strong> 매주 제공</span>
           </div>
           <div style="display: flex; align-items: flex-start; gap: 8px;">
             <i data-lucide="check" style="width: 16px; height: 16px; color: #059669; flex-shrink: 0; margin-top: 2px;"></i>
-            <span><strong>학부모/가족/투자자 설득용 브리핑 시트</strong> 무제한 고해상도 인쇄 및 PDF 저장</span>
+            <span><strong>부모님·가족 설득용 진로/이직 로드맵 리포트</strong> 무제한 PDF 저장</span>
           </div>
           <div style="display: flex; align-items: flex-start; gap: 8px;">
             <i data-lucide="shield-check" style="width: 16px; height: 16px; color: #2563EB; flex-shrink: 0; margin-top: 2px;"></i>
@@ -1422,41 +1422,41 @@
     const PERSONA_CONFIGS = {
       student: {
         id: 'student',
-        badge: '중고생 (진로·전공)',
-        title: '중고등학생 진로 검진: "부모님의 꿈인가, 나의 꿈인가?"',
-        chips: ['부모님은 의대를 원하시지만 제 진짜 마음은 달라요.', '성적 때문에 내가 뭘 잘하는지 모르겠어요.'],
-        firstQuestion: `[문항 GN-BIO-01 자율성 측정]<br>반갑네. 자네가 가고 싶다는 그 학과와 진로는 <strong>네 가슴이 뛰어서인가, 아니면 부모님의 기대를 맞추기 위해서인가?</strong>`
+        badge: '중고생 (진로·전공 고민)',
+        title: '중고등학생 진로 코칭: "부모님의 기대와 내 진짜 관심사 사이의 갈등"',
+        chips: ['부모님은 안정적인 길을 원하시지만, 제 진짜 마음은 달라요.', '성적이나 주변 시선 때문에 내가 무엇을 좋아하는지 잘 모르겠어요.'],
+        firstQuestion: `[1단계: 현재 고민 진단]<br>안녕하세요. 목표로 하시는 학과나 진로에 대해 솔직하게 여쭙고 싶습니다. <strong>이 선택은 본인이 진심으로 가슴 뛰고 흥미를 느끼는 길인가요, 아니면 부모님과 주변의 기대를 맞추기 위한 선택인가요?</strong>`
       },
       undergrad: {
         id: 'undergrad',
-        badge: '대학생 (인생방향)',
-        title: '대학생 인생방향 검진: "정답 사회를 벗어나 어디로 갈 것인가?"',
-        chips: ['스펙은 쌓고 있지만 가슴이 텅 비었어요.', '좋아하는 일이 밥벌이가 될지 막막해요.'],
-        firstQuestion: `[문항 GN-BIO-01 내적 동기 측정]<br>반갑네. <strong>남들의 시선이 완전히 사라진다면, 자네는 20대의 남은 날들을 무엇으로 채우겠는가?</strong>`
+        badge: '대학생 (진로·취업 탐색)',
+        title: '대학생 진로 설계: "남들이 정한 스펙 경쟁에서 벗어나 나만의 길 찾기"',
+        chips: ['남들 따라 스펙은 쌓고 있지만 미래에 대한 확신이 없어요.', '좋아하는 일과 현실적인 밥벌이 사이에서 고민돼요.'],
+        firstQuestion: `[1단계: 현재 고민 진단]<br>안녕하세요. <strong>만약 취업 스펙이나 남들의 시선이라는 압박이 전혀 없다면, 앞으로 20대와 30대의 시간을 가장 쏟고 싶은 일은 무엇인가요?</strong> 솔직한 생각을 편하게 적어주세요.`
       },
       worker: {
         id: 'worker',
-        badge: '직장인 (이직·성장)',
-        title: '직장인 실존 검진: "월급의 안락함인가, 영혼의 질식인가?"',
-        chips: ['10년 뒤 도태될까 봐 두려워요.', '회사 밖에서 내 진짜 몸값을 찾고 싶어요.'],
-        firstQuestion: `[문항 GN-BIO-01 주권 회복 측정]<br><strong>지금 회사의 명함을 떼어냈을 때, 자네라는 인간은 시장에서 얼마의 가치와 생명력을 지니고 있는가?</strong>`
+        badge: '직장인 (이직·커리어 설계)',
+        title: '직장인 커리어 진단: "안정적인 월급과 내면의 성장 갈증 사이의 균형"',
+        chips: ['현재 커리어에서 5년 뒤의 내 모습이 그려지지 않아요.', '회사라는 타이틀을 떼고도 온전히 살아남을 수 있을지 불안해요.'],
+        firstQuestion: `[1단계: 현재 고민 진단]<br>안녕하세요. <strong>지금 명함과 회사 타이틀을 뗐을 때, 본인이 시장에서 가장 자신 있게 내세울 수 있는 강점과 역량은 무엇이라고 생각하시나요?</strong>`
       },
       founder: {
         id: 'founder',
-        badge: '창업가 (사업베팅)',
-        title: '창업가 사명 검진: "돈을 벌고 싶은가, 문제를 풀고 싶은가?"',
-        chips: ['고객의 절박한 고통인지 환상인지 두려워요.', '통장 잔고가 바닥나도 3년을 버틸 각오가 있어요.'],
-        firstQuestion: `[문항 GN-BIO-01 사명감 검증]<br><strong>자네는 그저 대표가 되고 싶은 것인가, 아니면 고객의 피눈물 나는 고통을 해결하고 싶은가?</strong>`
+        badge: '창업가·프리랜서 (방향성 검증)',
+        title: '창업가·프리랜서 방향성 검증: "시장 생존성과 지속 가능한 동력 확인"',
+        chips: ['이 아이템이 진짜 고객이 돈을 낼 만큼 절박한 문제인지 고민돼요.', '당장 1년 동안 수익이 적더라도 몰입할 수 있을지 스스로를 점검하고 싶어요.'],
+        firstQuestion: `[1단계: 현재 고민 진단]<br>안녕하세요. <strong>지금 준비하시거나 운영 중인 비즈니스가 해결하려는 '고객의 가장 절박한 불편과 결핍'은 구체적으로 무엇인가요?</strong>`
       }
     };
 
     let currentPersonaKey = 'student';
     let conversationTurn = 1;
     let userDirectionSession = {
-      thesis: '부모님이 원하는 의대와 내가 진짜 원하는 창작 사이의 갈등',
-      motive: '남들의 인정보다 내 손으로 무언가를 만들어낼 때의 순수한 전율',
-      likesAndHates: '단순 서류작업과 눈치 보기는 혐오하며, 나만의 창의적 몰입을 갈망함',
-      manifesto: '남들의 채점표를 찢고, 내 고유한 콘텐츠와 프로덕트로 세상과 직접 승부한다.'
+      thesis: '부모님이 원하는 안정적인 진로와 내가 진짜 원하는 창작 사이의 갈등',
+      motive: '남들의 인정보다 내 손으로 직접 가치 있는 결과물을 만들어낼 때의 순수한 몰입',
+      likesAndHates: '단순 서류작업과 눈치 보기는 스트레스이며, 나만의 창의적 몰입과 성취를 갈망함',
+      manifesto: '남들의 채점표를 내려놓고, 나만의 고유한 강점과 프로덕트로 세상과 직접 승부한다.'
     };
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -1563,9 +1563,9 @@
           document.getElementById('turnCountDisplay').innerText = `Turn 2/5`;
           updateBiomarkers(60, 68, 55, 68, 70);
           addMessage('socrates', `
-            [문항 GN-BIO-02 타자의 욕망 분리]<br>
-            자네의 고백: <em>"${text}"</em>... 진지하게 묻겠네.<br>
-            만약 세상 모든 사람들의 기억이 지워져서 자네가 어떤 간판을 달든 <strong>아무도 칭찬하거나 부러워하지 않는다면</strong>, 그래도 그 길을 걷겠는가? 아니면 남들의 인정과 박수가 고파서 매달리는 허상인가?
+            [2단계: 타인의 시선 분리]<br>
+            적어주신 솔직한 고민(<em>"${text}"</em>)을 깊이 공감하며 읽었습니다.<br>
+            만약 주변 사람들의 평가나 사회적 시선이 전혀 존재하지 않는다고 가정해도, <strong>본인은 여전히 이 방향을 스스로 선택하고 걸어가실 건가요?</strong> 솔직한 생각을 들려주세요.
           `);
         } else if (conversationTurn === 2) {
           userDirectionSession.motive = text;
@@ -1573,18 +1573,17 @@
           document.getElementById('turnCountDisplay').innerText = `Turn 3/5`;
           updateBiomarkers(72, 58, 68, 52, 75);
           addMessage('socrates', `
-            [문항 GN-BIO-03 절대 혐오와 환희의 분리]<br>
-            정직한 성찰이네. 머리의 계산은 거짓말을 하지만, 몸의 본능은 결코 거짓말을 하지 않네.<br>
-            자네 인생의 나침반을 세우기 위해 다음 두 가지를 말해보게나.<br>
-            <strong>1) 평생 100억을 준대도 견딜 수 없는 '절대 혐오 환경(내 알레르기)'은 무엇인가?</strong><br>
-            <strong>2) 반대로 돈을 내고서라도 밤을 새우며 몰입할 수 있는 '절대 환희의 순간'은 언제인가?</strong>
+            [3단계: 호불호 기준 확립]<br>
+            솔직하고 깊이 있는 성찰 감사합니다. 남들의 기준이 아닌 나만의 명확한 판단 기준을 세우기 위해 다음 두 가지 질문을 드립니다.<br>
+            <strong>1) 아무리 높은 보상을 주더라도 결코 견디기 힘든 환경이나 일의 형태는 무엇인가요? (나의 스트레스 요인)</strong><br>
+            <strong>2) 반대로 시간 가는 줄 모르고 자연스럽게 몰입하게 되는 순간이나 활동은 무엇인가요? (나의 에너지 원천)</strong>
           `);
         } else if (conversationTurn === 3) {
           userDirectionSession.likesAndHates = text;
           conversationTurn = 4;
           document.getElementById('turnCountDisplay').innerText = `Turn 4/5`;
           updateBiomarkers(84, 35, 85, 38, 82);
-          // Trigger Killer 1: Aporia Shatter with dynamic conflict
+          // Trigger Killer 1: Mindset Shift with dynamic conflict
           triggerAporiaShatterDynamic(userDirectionSession.thesis, userDirectionSession.likesAndHates);
         } else {
           userDirectionSession.manifesto = text;
@@ -1593,22 +1592,22 @@
           updateBiomarkers(95, 12, 96, 22, 92);
           updateReportData();
           addMessage('socrates', `
-            [방향성 탐색 완결 & 공식 라이프 나침반 발급]<br>
-            경이롭군! 방금 자네는 남들이 쥐어준 가짜 지도를 찢어버리고, 자네만의 북극성을 새겼네.<br>
+            [5단계 완료: 나만의 방향성 리포트 발급]<br>
+            축하드립니다! 타인의 시선에서 벗어나 본인만의 뚜렷한 인생 북극성을 완성하셨습니다.<br>
             <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 14px; margin: 10px 0; line-height: 1.7;">
-              🧭 <strong>${PERSONA_CONFIGS[currentPersonaKey].badge} 맞춤형 나침반 요약:</strong><br>
-              • <strong>탈피한 전제</strong>: ${userDirectionSession.thesis}<br>
-              • <strong>도출된 나의 북극성</strong>: <strong>"${userDirectionSession.manifesto}"</strong><br>
-              • <strong>행동 행동 강령</strong>: 남의 시선을 차단하고 90일 마이크로 프로젝트 즉시 실행
+              🧭 <strong>${PERSONA_CONFIGS[currentPersonaKey].badge} 맞춤형 요약:</strong><br>
+              • <strong>극복한 고정관념</strong>: ${userDirectionSession.thesis}<br>
+              • <strong>나만의 인생 북극성</strong>: <strong>"${userDirectionSession.manifesto}"</strong><br>
+              • <strong>핵심 실천 원칙</strong>: 타인의 시선에 휘둘리지 않고 90일 구체적 실행 프로젝트 착수
             </div>
-            지금 상단의 <strong>[종합 검진서]</strong> 버튼을 눌러 자네 이름으로 날인된 <strong>'공식 인생 방향성 나침반 선언서'</strong>를 수령하게나!
+            지금 상단의 <strong>[결과 리포트 확인]</strong> 버튼을 눌러 본인의 이름이 기재된 <strong>'인생 방향성 진단 리포트'</strong>를 확인해 보세요!
           `);
         }
       }, 700);
     }
 
     // =========================================================================
-    // KILLER 1: APORIA SHATTER TRIGGER
+    // KILLER 1: MINDSET SHIFT TRIGGER
     // =========================================================================
     function triggerAporiaShatterDynamic(thesis, likesHates) {
       const overlay = document.getElementById('shatterOverlay');
@@ -1618,11 +1617,11 @@
       const truthText = document.getElementById('shatterTruthText');
 
       conflictText.innerHTML = `
-        [표면적 껍질: "${thesis.slice(0, 30)}..."]<br>
-        ⚡ 정면충돌 ⚡<br>
-        [내면의 진짜 본능: "${likesHates.slice(0, 35)}..."]
+        [주변의 기대 및 고정관념: "${thesis.slice(0, 30)}..."]<br>
+        ⚡ 생각의 충돌 ⚡<br>
+        [내면의 진짜 기준: "${likesHates.slice(0, 35)}..."]
       `;
-      truthText.innerText = `"남들의 채점표를 쥐고 달리는 한 1등을 해도 남의 인생이다! 내 본능이 가리키는 고유한 축으로 방향을 틀어라!"`;
+      truthText.innerText = `"남들의 채점표대로만 살아가면, 1등을 하더라도 결국 남의 인생을 대신 사는 것입니다. 내 본능과 가치관이 가리키는 나만의 기준으로 방향을 전환하세요."`;
 
       card.classList.remove('broken');
       truth.style.display = 'none';
@@ -1639,9 +1638,9 @@
     function closeShatterOverlay() {
       document.getElementById('shatterOverlay').classList.remove('active');
       addMessage('socrates', `
-        [Aporia 격파 완료]<br>
-        방금 가짜 전제가 깨졌네! 자네가 무엇을 혐오하고 무엇에 미치도록 반응하는지 확인했군.<br>
-        이제 자네가 평생 결코 타협하지 않고 지켜낼 <strong>'나만의 3대 인생 축(1. 절대 회피 / 2. 절대 몰입 / 3. 90일 첫걸음)'</strong>을 한 문장으로 선언해보게나!
+        [생각의 틀 깨기 완료]<br>
+        고정관념에서 벗어나 내면의 명확한 기준점을 확인하셨습니다.<br>
+        이제 평생의 나침반이 되어줄 <strong>'나만의 3대 인생 축(1. 피해야 할 환경 / 2. 몰입할 수 있는 환경 / 3. 90일 실행 과제)'</strong>을 바탕으로, 앞으로 살아갈 방향성을 한 문장으로 선언해 보세요!
       `);
     }
 
@@ -1660,14 +1659,14 @@
       const input = document.getElementById('boardDilemmaInput').value.trim();
       if (!input) { alert('고민을 한 문장으로 적어주세요.'); return; }
 
-      document.getElementById('quoteSocrates').innerHTML = `“${input}에 대해 묻겠네. 자네가 진정 두려워하는 건 실패인가, 아니면 타인의 비웃음인가?”`;
-      document.getElementById('quoteJobs').innerHTML = `“${input}? 뻔한 길로 가면 뻔한 후회만 남소. 당신의 직관을 믿고 미친 짓을 시작하시오!”`;
-      document.getElementById('quoteDalio').innerHTML = `“감정적 흥분은 금물이네. ${input}의 최악의 시나리오를 수치화하고 18개월 생존 계획을 세우게.”`;
-      document.getElementById('quoteAurelius').innerHTML = `“결과는 자네 몫이 아니라네. 오늘 하루 양심에 부끄러움 없이 행동할 수 있는지만 묻게나.”`;
+      document.getElementById('quoteSocrates').innerHTML = `“${input}에 대해 깊이 짚어보겠습니다. 본인이 진정으로 두려워하는 것은 실패 그 자체인가요, 아니면 주변의 평가와 시선인가요?”`;
+      document.getElementById('quoteJobs').innerHTML = `“${input}? 남들이 정해준 뻔한 길로 가면 뻔한 후회만 남습니다. 본인의 직관과 마음에 귀를 기울이고 남다른 도전을 시작해 보세요.”`;
+      document.getElementById('quoteDalio').innerHTML = `“감정적인 불안에 휘둘리지 마세요. ${input}에 대해 발생 가능한 최악의 시나리오를 구체화하고, 18개월간의 현실적인 대비책을 세우는 것이 우선입니다.”`;
+      document.getElementById('quoteAurelius').innerHTML = `“결과는 외부 환경에 달려 있지만, 과정에 최선을 다하는 것은 당신의 몫입니다. 오늘 하루 본인의 원칙에 부끄러움 없이 집중하세요.”`;
 
       const verdict = document.getElementById('boardVerdictBox');
       const verdictText = document.getElementById('boardVerdictText');
-      verdictText.innerHTML = `<strong>결론:</strong> 소크라테스는 본질적 동기를, 잡스는 열정을, 달리오와 아우렐리우스는 리스크 대비를 주문했습니다. 지금 당장 모든 걸 던지는 무모함 대신, <strong>'내 축을 지키며 90일간 마이크로 검증을 실행하는 린(Lean)한 결단'</strong>을 내릴 것을 만장일치로 권고합니다.`;
+      verdictText.innerHTML = `<strong>종합 조언:</strong> 소크라테스는 내면의 본질적 동기를, 잡스는 대담한 도전을, 달리오와 아우렐리우스는 현실적인 리스크 관리와 태도를 권고합니다. 무모한 즉흥적 결정 대신, <strong>'나만의 중심을 지키며 90일간 작은 실행을 통해 검증해 나가는 전략'</strong>을 추천합니다.`;
       verdict.style.display = 'block';
     }
 
@@ -1675,12 +1674,12 @@
     // KILLER 3: TINDER FOR LIFE SWIPE
     // =========================================================================
     const SWIPE_ITEMS = [
-      { text: "이유도 모른 채 남들이 하니까 억지로 해야 하는 단순 서류 작업", cat: "환경 자극 #01" },
-      { text: "카페에서 혼자 조용히 창작하고 문제를 해결하는 몰입의 시간", cat: "환경 자극 #02" },
-      { text: "사내 정치와 윗사람의 눈치를 살피며 회의하는 분위기", cat: "환경 자극 #03" },
-      { text: "내가 직접 만든 결과물로 실제 사람들에게 가치를 주고 피드백받기", cat: "환경 자극 #04" },
-      { text: "월 300만원의 안전한 온실 vs 월 1,000만원의 불확실한 야생", cat: "가치관 선택 #05" },
-      { text: "남들의 채점표를 완전히 지우고 내 호흡대로 살아가는 자유", cat: "인생 방향 #06" }
+      { text: "이유도 모른 채 남들이 하니까 억지로 해야 하는 단순 반복 업무", cat: "일과 환경 #01" },
+      { text: "조용한 공간에서 온전히 집중하여 나만의 결과물을 만들어내는 시간", cat: "일과 환경 #02" },
+      { text: "수직적이고 경직된 조직 문화와 눈치 보며 진행하는 회의", cat: "일과 환경 #03" },
+      { text: "내가 만든 성과물로 직접 사람들에게 도움을 주고 인정받는 경험", cat: "일과 환경 #04" },
+      { text: "안정적인 급여의 온실 vs 주도적 성취를 누리는 자율적 환경", cat: "가치관 선택 #05" },
+      { text: "타인의 시선이나 채점표에 얽매이지 않고 나만의 속도로 살아가는 삶", cat: "인생 방향 #06" }
     ];
     let currentSwipeIdx = 0;
 
@@ -1696,7 +1695,7 @@
           document.getElementById('swipeCardCategory').innerText = SWIPE_ITEMS[currentSwipeIdx].cat;
           document.getElementById('swipeProgressText').innerText = `${currentSwipeIdx + 1} / ${SWIPE_ITEMS.length} 문항 완료`;
         } else {
-          document.getElementById('swipeCardText').innerHTML = "🎉 무의식 호불호 측정 완료!<br><span style='font-size: 0.95rem; color: #059669;'>당신은 '자율적 창작'에 극도로 반응하고 '수동적 통제'에 알레르기가 있습니다.</span>";
+          document.getElementById('swipeCardText').innerHTML = "🎉 본능적 선호도 측정 완료!<br><span style='font-size: 0.95rem; color: #059669;'>당신은 '주도적 몰입과 창작'에 큰 만족을 느끼며, '경직된 통제와 수동적 환경'에서 큰 스트레스를 받습니다.</span>";
         }
       }, 300);
     }
@@ -1707,7 +1706,7 @@
     function runSosProtocol() {
       const dilemma = document.getElementById('sosDilemmaInput').value.trim();
       if (!dilemma) {
-        alert('현재 당신을 괴롭히는 충동적 고민을 한 문장 이상 입력해주세요.');
+        alert('현재 불안하거나 충동적인 고민을 한 문장 이상 입력해주세요.');
         return;
       }
 
@@ -1718,25 +1717,25 @@
       const resultBox = document.getElementById('sosResultBox');
       resultBox.innerHTML = `
         <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 14px; margin-bottom: 12px;">
-          <div style="font-weight: 800; color: #1E40AF; margin-bottom: 4px;">🧠 1단계: 편도체 인지 왜곡 진단 결과</div>
+          <div style="font-weight: 800; color: #1E40AF; margin-bottom: 4px;">🧠 마인드 진단 결과</div>
           <div style="font-size: 0.84rem; color: #2563EB;">
-            ${isCatastrophe ? '• [파국화 경보] 일시적 좌절을 인생 전체의 실패로 과대 포장하고 있습니다.<br>' : ''}
-            ${isBlackWhite ? '• [흑백논리 경보] 극단적 퇴사/포기 외에 제3의 대안(협상, 잠시 휴식)을 배제하고 있습니다.<br>' : ''}
-            ${isMindReading ? '• [독심술 경보] 타인의 머릿속을 넘겨짚으며 스스로 자책감을 키우고 있습니다.' : ''}
+            ${isCatastrophe ? '• [과도한 불안] 일시적인 어려움을 인생 전체의 실패로 과장하고 있을 수 있습니다.<br>' : ''}
+            ${isBlackWhite ? '• [극단적 사고] 극단적인 포기나 퇴사 외에 다른 현실적인 대안(조율, 휴식 등)을 놓치고 있을 수 있습니다.<br>' : ''}
+            ${isMindReading ? '• [타인의 시선 넘겨짚기] 다른 사람의 생각을 미리 짐작하며 불필요한 자책감을 키우고 있습니다.' : ''}
           </div>
         </div>
 
         <div style="background: #FFF; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px; margin-bottom: 12px;">
-          <div style="font-weight: 800; color: #0F172A; margin-bottom: 6px;">🚫 내일 오전 10시까지 절대 하지 말아야 할 행동 3가지 (Golden Rule)</div>
+          <div style="font-weight: 800; color: #0F172A; margin-bottom: 6px;">🚫 내일 오전 10시까지 잠시 미뤄두어야 할 충동적 행동 3가지</div>
           <ol style="padding-left: 18px; font-size: 0.86rem; color: #B91C1C; line-height: 1.7;">
-            <li><strong>사직서 제출 또는 결별/포기 통보 전면 금지</strong> (수면 부족 상태의 결정은 94% 후회)</li>
-            <li><strong>감정적인 장문의 홧김 카톡/메시지 발송 금지</strong> (말의 주도권을 상대에게 헌납함)</li>
-            <li><strong>보복성 충동 소비나 폭음 금지</strong> (인지 에너지를 고갈시켜 내일 판단을 더 흐림)</li>
+            <li><strong>중대한 결정(퇴사, 관계 단절, 계획 취소) 야간 통보 금지</strong> (수면 부족 상태의 야간 결정은 후회할 확률이 매우 높습니다)</li>
+            <li><strong>감정에 휩싸인 장문의 충동적인 메시지 전송 자제</strong> (대화와 관계의 주도권을 잃기 쉽습니다)</li>
+            <li><strong>불안을 달래기 위한 충동 소비나 폭음 피하기</strong> (신체적 피로로 내일의 판단력이 더 흐려집니다)</li>
           </ol>
         </div>
 
         <div style="background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 10px; padding: 12px; font-size: 0.86rem; color: #065F46;">
-          <strong>🌿 오늘 밤 유일한 행동 지침:</strong> 찬물 한 잔을 마시고 스마트폰을 방 밖에 둔 채 7시간 숙면을 취하세요. 뇌가 냉각된 내일 아침 10시, 이 문제는 지금보다 훨씬 다루기 쉬워집니다.
+          <strong>🌿 오늘 밤 마인드 케어 가이드:</strong> 따뜻한 물을 한 잔 마시고 스마트폰을 잠시 내려놓은 뒤 푹 쉬어보세요. 뇌와 감정이 편안해진 내일 아침 10시에 바라보면, 지금의 문제가 훨씬 차분하고 명확하게 보일 것입니다.
         </div>
       `;
       lucide.createIcons();
@@ -1753,7 +1752,7 @@
       localStorage.setItem('gnothi_vip_member', 'true');
       checkMembershipStatus();
       closeModal('subscriptionModal');
-      alert('🎉 축하합니다! GNŌTHI VIP 7일 무료체험이 시작되었습니다.\n이제 24시간 긴급 SOS와 4대 거장 이사회를 무제한으로 이용하실 수 있습니다.');
+      alert('🎉 환영합니다! GNŌTHI VIP 7일 무료체험이 활성화되었습니다.\n이제 24시간 마인드 쿨다운과 멘토 4인의 전문 조언을 무제한으로 이용하실 수 있습니다.');
     }
 
     function checkMembershipStatus() {
