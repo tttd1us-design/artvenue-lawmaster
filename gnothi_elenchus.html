@@ -3381,6 +3381,128 @@
     }
 
     /* =========================================================================
+       VOICE TYPING STT & SOUL MIND CALENDAR SYSTEM
+       ========================================================================= */
+    .mic-recording-pulse {
+      background: #FEE2E2 !important;
+      border-color: #EF4444 !important;
+      color: #DC2626 !important;
+      animation: micPulse 1.2s infinite ease-in-out;
+    }
+    @keyframes micPulse {
+      0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+
+    .soul-calendar-container {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    .calendar-nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .calendar-month-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--apple-text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .calendar-week-row {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-size: 0.72rem;
+      font-weight: 750;
+      color: #94A3B8;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    .calendar-week-row div:first-child { color: #EF4444; } /* 일요일 */
+    .calendar-week-row div:last-child { color: #3B82F6; } /* 토요일 */
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .calendar-day-cell {
+      min-height: 72px;
+      padding: 6px;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .calendar-day-cell:hover {
+      border-color: var(--apple-blue);
+      box-shadow: 0 4px 12px rgba(0, 113, 227, 0.12);
+      transform: translateY(-2px);
+    }
+    .calendar-day-cell.other-month {
+      opacity: 0.3;
+      background: #F8FAFC;
+    }
+    .calendar-day-cell.today {
+      border: 1.5px solid var(--apple-blue);
+      background: var(--apple-blue-soft);
+    }
+    .calendar-day-cell.selected {
+      border: 2px solid #F59E0B !important;
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25);
+    }
+    .calendar-day-num {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #334155;
+    }
+    .calendar-day-cell.today .calendar-day-num {
+      color: var(--apple-blue);
+      font-weight: 800;
+    }
+    .journal-entry-preview {
+      font-size: 0.68rem;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 4px;
+      padding: 2px 4px;
+      background: rgba(0, 0, 0, 0.03);
+      border-radius: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .journal-entry-preview.has-entry {
+      background: #FEF3C7;
+      color: #B45309;
+      font-weight: 700;
+    }
+    .calendar-detail-card {
+      margin-top: 16px;
+      padding: 16px 20px;
+      border-radius: 14px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    /* =========================================================================
        NEW: CRUCIAL DECISION COMPASS (DECISION MATRIX)
        ========================================================================= */
     .decision-compass-card {
@@ -3640,7 +3762,12 @@
       <div style="font-size: 0.72rem; color: #64748B;">
         오늘 하루 나를 흔들었던 순간을 짧게 남겨보세요:
       </div>
-      <input type="text" id="dockJournalInput" placeholder="오늘 마음에 남은 생각 한 줄..." style="width: 100%; padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(0, 0, 0, 0.08); font-size: 0.78rem;">
+      <div style="display: flex; gap: 4px; align-items: center;">
+        <input type="text" id="dockJournalInput" placeholder="오늘 마음에 남은 생각 한 줄..." style="flex: 1; padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(0, 0, 0, 0.08); font-size: 0.78rem;">
+        <button class="apple-pill-btn subtle" id="dockVoiceBtn" onclick="toggleVoiceTyping('dockJournalInput', this)" style="padding: 6px 8px; border-radius: 8px;" title="음성으로 말하기 (STT)">
+          <i data-lucide="mic" style="width: 13px; height: 13px; color: #EF4444;"></i>
+        </button>
+      </div>
       <button class="apple-pill-btn primary" onclick="saveDockJournal()" style="width: 100%; justify-content: center; font-size: 0.76rem; padding: 6px;">
         ✨ AI 멘토 기억 저장 (+30 EXP)
       </button>
@@ -5190,13 +5317,22 @@
             </div>
           </div>
 
+          <!-- JOURNAL INPUT BAR & VOICE TYPING STT -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 0.74rem; color: #64748B;">자유롭게 적거나 음성으로 말해보세요:</span>
+            <button class="apple-pill-btn subtle" id="voiceTypingBtnMain" onclick="toggleVoiceTyping('journalInput', this)" style="display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; font-size: 0.78rem; font-weight: 700; border-color: #FECACA;">
+              <i data-lucide="mic" style="width: 14px; height: 14px; color: #EF4444;"></i>
+              <span id="voiceTypingLabel">음성으로 쓰기 (STT)</span>
+            </button>
+          </div>
+
           <!-- JOURNAL TEXTAREA -->
-          <textarea class="journal-textarea" id="journalInput" placeholder="오늘 하루 나를 흔들었던 일, 남들에게 차마 하지 못했던 진짜 고민, 혹은 불현듯 떠오른 영감을 편안하게 적어보세요. (AI 멘토가 안전하게 보관하고 기억합니다)"></textarea>
+          <textarea class="journal-textarea" id="journalInput" placeholder="오늘 하루 나를 흔들었던 일, 남들에게 차마 하지 못했던 진짜 고민, 혹은 불현듯 떠오른 영감을 편안하게 적어보세요. (음성 마이크 버튼을 누르면 실시간으로 받아씁니다)"></textarea>
 
           <!-- JOURNAL ACTIONS -->
           <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; flex-wrap: wrap; gap: 10px;">
             <div style="font-size: 0.78rem; color: #64748B;">
-              🔒 본 일기는 암호화되어 사용자 본인과 전담 AI 멘토만이 기억 맥락으로 활용합니다.
+              🔒 본 일기는 브라우저에 영구 저장(LocalStorage)되어 안전하게 보관됩니다.
             </div>
             <div style="display: flex; gap: 8px;">
               <button class="apple-pill-btn subtle" onclick="loadSampleJournalPrompt()">
@@ -5204,7 +5340,7 @@
               </button>
               <button class="apple-pill-btn primary" onclick="analyzeAndSaveJournal()" style="font-size: 0.88rem; padding: 9px 20px;">
                 <i data-lucide="brain-circuit" style="width: 15px; height: 15px;"></i>
-                일기 분석 & 멘토 영구 기억에 저장 (+60 EXP)
+                일기 분석 & 영구 기억 저장 (+60 EXP)
               </button>
             </div>
           </div>
@@ -5223,6 +5359,64 @@
                 <i data-lucide="message-square-plus" style="width: 14px; height: 14px;"></i>
                 💬 이 일기 맥락으로 소크라테스 산파술 대화 즉시 시작하기
               </button>
+            </div>
+          </div>
+
+          <!-- =========================================================================
+               SOUL MIND CALENDAR (달력 연동 및 과거 일기 기록 타임라인)
+               ========================================================================= -->
+          <div class="soul-calendar-container" id="soulCalendarContainer">
+            <div class="calendar-nav-bar">
+              <div class="calendar-month-title">
+                <i data-lucide="calendar" style="width: 18px; height: 18px; color: var(--apple-blue);"></i>
+                <span id="calendarMonthLabel">2026년 9월</span>
+                <span style="font-size: 0.72rem; color: #64748B; font-weight: 500; margin-left: 6px;">
+                  (날짜를 클릭하면 그날의 일기와 멘토의 통찰을 볼 수 있습니다)
+                </span>
+              </div>
+              <div style="display: flex; gap: 6px;">
+                <button class="apple-pill-btn subtle" onclick="prevCalendarMonth()" style="padding: 5px 12px;">◀ 이전 달</button>
+                <button class="apple-pill-btn subtle" onclick="goTodayCalendar()" style="padding: 5px 12px; font-weight: 700;">오늘</button>
+                <button class="apple-pill-btn subtle" onclick="nextCalendarMonth()" style="padding: 5px 12px;">다음 달 ▶</button>
+              </div>
+            </div>
+
+            <!-- WEEKDAY HEADER ROW -->
+            <div class="calendar-week-row">
+              <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+            </div>
+
+            <!-- CALENDAR DAYS GRID -->
+            <div class="calendar-grid" id="calendarDaysGrid">
+              <!-- Dynamically rendered via renderSoulCalendar() -->
+            </div>
+
+            <!-- SELECTED DAY JOURNAL DETAIL PANEL -->
+            <div class="calendar-detail-card" id="calendarDetailCard">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                <div>
+                  <div style="font-weight: 800; font-size: 0.98rem; color: #1E293B;" id="calDetailDateTitle">
+                    📅 2026. 9. 20 (오늘)
+                  </div>
+                  <div style="font-size: 0.72rem; color: #64748B; margin-top: 2px;">
+                    이 날의 소울 마인드 일기 기록
+                  </div>
+                </div>
+                <span style="font-size: 0.76rem; background: #FEF3C7; color: #B45309; padding: 3px 10px; border-radius: 8px; font-weight: 750;" id="calDetailMoodBadge">
+                  ☀️ 맑고 확신
+                </span>
+              </div>
+              <div style="font-size: 0.9rem; color: #334155; line-height: 1.74; background: #FFFFFF; padding: 12px 14px; border-radius: 10px; border: 1px solid #E2E8F0; margin-bottom: 10px;" id="calDetailContent">
+                작성된 일기 내용이 없습니다.
+              </div>
+              <div style="font-size: 0.82rem; color: #0284C7; background: #F0F9FF; border: 1px solid #BAE6FD; padding: 10px 14px; border-radius: 10px;" id="calDetailInsight">
+                💡 <strong>멘토의 기억 통찰:</strong> 이 날 작성하신 일기에서 특별한 내면의 갈망이 기록되었습니다.
+              </div>
+              <div style="margin-top: 12px; display: flex; gap: 8px;">
+                <button class="apple-pill-btn primary" onclick="startCoachingFromCalendar()" style="font-size: 0.82rem; padding: 7px 16px;">
+                  💬 이 날의 사색으로 소크라테스 산파술 대화하기
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -9019,16 +9213,25 @@
       playAppleSound('success');
       gainSoulExp(30, '우측 독 소울 일기 기록');
 
+      const now = new Date();
+      const dateStrKo = `${now.getFullYear()}. ${now.getMonth() + 1}. ${now.getDate()}.`;
+      const dateStrIso = now.toISOString().slice(0, 10);
+
       const memoryEntry = {
-        date: new Date().toLocaleDateString('ko-KR'),
+        date: dateStrKo,
+        fullDate: dateStrIso,
+        timestamp: Date.now(),
         mood: currentJournalMood || '☀️ 맑음',
-        snippet: text.slice(0, 100),
+        snippet: text,
         extractedDesire: text.includes('인정') ? '타인 인정 탈피 및 고유 가치 창조' : '시간 주권 및 자율적 몰입'
       };
       LIFETIME_MEMORY_LAKE.push(memoryEntry);
+      saveToLocalStorage();
 
-      showAppleToast('📖 일기가 멘토의 영구 기억 창고에 성공적으로 저장되었습니다!');
+      showAppleToast('📖 일기가 달력 및 멘토의 영구 기억 창고에 성공적으로 저장되었습니다!');
       input.value = '';
+
+      renderSoulCalendar();
     }
 
     function renderAnimalSvg() {
@@ -9335,14 +9538,21 @@
       playAppleSound('success');
       gainSoulExp(60, '소울 일기 작성 & 심층 분석');
 
+      const now = new Date();
+      const dateStrKo = `${now.getFullYear()}. ${now.getMonth() + 1}. ${now.getDate()}.`;
+      const dateStrIso = now.toISOString().slice(0, 10);
+
       // AI Analysis Simulation
       const memoryEntry = {
-        date: new Date().toLocaleDateString('ko-KR'),
-        mood: currentJournalMood,
-        snippet: text.slice(0, 100),
+        date: dateStrKo,
+        fullDate: dateStrIso,
+        timestamp: Date.now(),
+        mood: currentJournalMood || '☀️ 맑고 확신',
+        snippet: text,
         extractedDesire: text.includes('인정') ? '타인 인정 탈피 및 고유 가치 창조' : '시간 주권 및 자율적 몰입'
       };
       LIFETIME_MEMORY_LAKE.push(memoryEntry);
+      saveToLocalStorage();
 
       const memoryBox = document.getElementById('memoryLakeBox');
       const memoryContent = document.getElementById('memoryLakeContent');
@@ -9354,8 +9564,276 @@
           멘토가 이를 영구 기억(Memory Lake)에 저장하였으며, 다음 1:1 대화 코칭 시 기억하고 맞춤 질문을 드릴 것입니다.
         `;
       }
-      showAppleToast('📖 일기가 저장되었으며, 멘토의 영구 기억 창고에 성공적으로 기록되었습니다!');
+      showAppleToast('📖 일기가 저장되었으며, 달력 및 영구 기억 창고에 성공적으로 기록되었습니다!');
       input.value = '';
+
+      renderSoulCalendar();
+    }
+
+    /* =========================================================================
+       NEW JS: PERMANENT STORAGE (LOCALSTORAGE), VOICE TYPING (STT) & SOUL CALENDAR
+       ========================================================================= */
+
+    // 1. LocalStorage Persistence Engine
+    function saveToLocalStorage() {
+      try {
+        localStorage.setItem('GNOTHI_LIFETIME_MEMORY_LAKE', JSON.stringify(LIFETIME_MEMORY_LAKE));
+        localStorage.setItem('GNOTHI_SOUL_AVATAR', JSON.stringify({
+          key: currentAnimalKey,
+          level: currentAnimalLevel,
+          exp: currentAnimalExp
+        }));
+      } catch (e) {
+        console.warn('LocalStorage save failed:', e);
+      }
+    }
+
+    function loadFromLocalStorage() {
+      try {
+        const savedLake = localStorage.getItem('GNOTHI_LIFETIME_MEMORY_LAKE');
+        if (savedLake) {
+          const parsed = JSON.parse(savedLake);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            LIFETIME_MEMORY_LAKE = parsed;
+          }
+        }
+        const savedAvatar = localStorage.getItem('GNOTHI_SOUL_AVATAR');
+        if (savedAvatar) {
+          const av = JSON.parse(savedAvatar);
+          if (av.key) currentAnimalKey = av.key;
+          if (av.level) currentAnimalLevel = av.level;
+          if (av.exp !== undefined) currentAnimalExp = av.exp;
+        }
+      } catch (e) {
+        console.warn('LocalStorage load failed:', e);
+      }
+    }
+
+    // 2. Voice Typing Engine (Web Speech API / STT)
+    let speechRecognitionInstance = null;
+    let isSpeechRecording = false;
+
+    function toggleVoiceTyping(targetId, btnEl) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        showAppleToast('⚠️ 사용 중인 브라우저에서 음성 인식(Web Speech API)을 지원하지 않습니다. Chrome/Edge/Safari를 권장합니다.');
+        return;
+      }
+
+      const targetInput = document.getElementById(targetId);
+      if (!targetInput) return;
+
+      if (isSpeechRecording) {
+        if (speechRecognitionInstance) {
+          speechRecognitionInstance.stop();
+        }
+        return;
+      }
+
+      try {
+        speechRecognitionInstance = new SpeechRecognition();
+        speechRecognitionInstance.lang = 'ko-KR';
+        speechRecognitionInstance.continuous = false;
+        speechRecognitionInstance.interimResults = false;
+
+        speechRecognitionInstance.onstart = () => {
+          isSpeechRecording = true;
+          if (btnEl) btnEl.classList.add('mic-recording-pulse');
+          playAppleSound('pop');
+          showAppleToast('🎙️ 음성 인식을 시작합니다. 편안하게 말씀하세요...');
+        };
+
+        speechRecognitionInstance.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          if (transcript) {
+            const currentVal = targetInput.value.trim();
+            targetInput.value = currentVal ? `${currentVal} ${transcript}` : transcript;
+            targetInput.focus();
+            playAppleSound('success');
+            showAppleToast(`✨ 음성 인식 완료: "${transcript.slice(0, 25)}..."`);
+          }
+        };
+
+        speechRecognitionInstance.onerror = (event) => {
+          console.warn('Speech Recognition error:', event.error);
+          showAppleToast('⚠️ 음성 인식 중 오류가 발생했거나 마이크 권한이 필요합니다.');
+        };
+
+        speechRecognitionInstance.onend = () => {
+          isSpeechRecording = false;
+          if (btnEl) btnEl.classList.remove('mic-recording-pulse');
+          speechRecognitionInstance = null;
+        };
+
+        speechRecognitionInstance.start();
+      } catch (err) {
+        console.error('Speech recognition start error:', err);
+        showAppleToast('마이크 연결을 확인해주세요.');
+        if (btnEl) btnEl.classList.remove('mic-recording-pulse');
+        isSpeechRecording = false;
+      }
+    }
+
+    // 3. Soul Calendar Engine
+    let currentCalYear = new Date().getFullYear();
+    let currentCalMonth = new Date().getMonth(); // 0-indexed
+    let selectedCalDateKey = null;
+
+    function renderSoulCalendar() {
+      const monthLabel = document.getElementById('calendarMonthLabel');
+      if (monthLabel) {
+        monthLabel.innerText = `${currentCalYear}년 ${currentCalMonth + 1}월`;
+      }
+
+      const grid = document.getElementById('calendarDaysGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      const firstDayIdx = new Date(currentCalYear, currentCalMonth, 1).getDay();
+      const totalDays = new Date(currentCalYear, currentCalMonth + 1, 0).getDate();
+      const prevMonthLastDay = new Date(currentCalYear, currentCalMonth, 0).getDate();
+
+      const today = new Date();
+      const todayYear = today.getFullYear();
+      const todayMonth = today.getMonth();
+      const todayDate = today.getDate();
+
+      // Leading days from previous month
+      for (let i = firstDayIdx - 1; i >= 0; i--) {
+        const d = prevMonthLastDay - i;
+        const cell = document.createElement('div');
+        cell.className = 'calendar-day-cell other-month';
+        cell.innerHTML = `<div class="calendar-day-num">${d}</div>`;
+        grid.appendChild(cell);
+      }
+
+      // Current month days
+      for (let day = 1; day <= totalDays; day++) {
+        const isToday = (currentCalYear === todayYear && currentCalMonth === todayMonth && day === todayDate);
+        const dateStrKo = `${currentCalYear}. ${currentCalMonth + 1}. ${day}.`;
+        const dateStrAlt = `${currentCalYear}-${String(currentCalMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+        // Find journal entry matching date
+        const entry = LIFETIME_MEMORY_LAKE.find(e => 
+          e.date === dateStrKo || e.date === dateStrAlt || (e.fullDate && e.fullDate.startsWith(dateStrAlt))
+        );
+
+        const cell = document.createElement('div');
+        cell.className = `calendar-day-cell ${isToday ? 'today' : ''} ${selectedCalDateKey === dateStrAlt ? 'selected' : ''}`;
+        cell.onclick = () => selectCalendarDate(currentCalYear, currentCalMonth, day, entry);
+
+        let previewHtml = '';
+        if (entry) {
+          const emoji = entry.mood ? entry.mood.split(' ')[0] : '☀️';
+          previewHtml = `
+            <div class="journal-entry-preview has-entry" title="${entry.snippet || ''}">
+              <span>${emoji}</span>
+              <span>${entry.extractedDesire ? entry.extractedDesire.slice(0, 6) : '일기'}</span>
+            </div>
+          `;
+        } else {
+          previewHtml = `<div class="journal-entry-preview" style="opacity: 0.4;"><span>+</span></div>`;
+        }
+
+        cell.innerHTML = `
+          <div class="calendar-day-num">${day}</div>
+          ${previewHtml}
+        `;
+        grid.appendChild(cell);
+      }
+      lucide.createIcons();
+    }
+
+    function prevCalendarMonth() {
+      currentCalMonth--;
+      if (currentCalMonth < 0) {
+        currentCalMonth = 11;
+        currentCalYear--;
+      }
+      playAppleSound('tap');
+      renderSoulCalendar();
+    }
+
+    function nextCalendarMonth() {
+      currentCalMonth++;
+      if (currentCalMonth > 11) {
+        currentCalMonth = 0;
+        currentCalYear++;
+      }
+      playAppleSound('tap');
+      renderSoulCalendar();
+    }
+
+    function goTodayCalendar() {
+      const now = new Date();
+      currentCalYear = now.getFullYear();
+      currentCalMonth = now.getMonth();
+      playAppleSound('pop');
+      renderSoulCalendar();
+    }
+
+    function selectCalendarDate(year, month, day, entry) {
+      selectedCalDateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      renderSoulCalendar();
+      playAppleSound('tap');
+
+      const detailCard = document.getElementById('calendarDetailCard');
+      const titleEl = document.getElementById('calDetailDateTitle');
+      const badgeEl = document.getElementById('calDetailMoodBadge');
+      const contentEl = document.getElementById('calDetailContent');
+      const insightEl = document.getElementById('calDetailInsight');
+
+      if (!detailCard) return;
+      detailCard.style.display = 'block';
+      detailCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      if (titleEl) titleEl.innerText = `📅 ${year}. ${month + 1}. ${day}`;
+
+      if (entry) {
+        if (badgeEl) badgeEl.innerText = entry.mood || '☀️ 맑음';
+        if (contentEl) contentEl.innerText = entry.snippet || entry.content || '작성된 일기가 있습니다.';
+        if (insightEl) {
+          insightEl.innerHTML = `💡 <strong>멘토의 기억 통찰:</strong> 이 날 작성하신 일기에서 <em>'${entry.extractedDesire || '자유로운 몰입'}'</em>에 관한 내면의 목소리가 영구 기억에 저장되어 있습니다.`;
+        }
+      } else {
+        if (badgeEl) badgeEl.innerText = '기록 없음';
+        if (contentEl) contentEl.innerText = '이 날짜에는 아직 작성된 소울 일기가 없습니다. 오늘 하루를 돌아보며 위 입력창에 생각을 적어보세요.';
+        if (insightEl) {
+          insightEl.innerHTML = '💡 <strong>안내:</strong> 매일 조금씩 일기를 쌓아가면 나만의 인생 방향성 나침반이 완성됩니다.';
+        }
+      }
+    }
+
+    function startCoachingFromCalendar() {
+      const detailContent = document.getElementById('calDetailContent')?.innerText || '';
+      const dateTitle = document.getElementById('calDetailDateTitle')?.innerText || '선택한 날';
+
+      switchTab('chamber');
+      playAppleSound('pop');
+
+      setTimeout(() => {
+        const chamberEl = document.querySelector('.apple-studio-window');
+        if (chamberEl) chamberEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        const chatContainer = document.getElementById('chatMessages') || document.getElementById('chatBody');
+        if (chatContainer) {
+          const socratesBubble = document.createElement('div');
+          socratesBubble.className = 'chat-bubble mentor';
+          socratesBubble.innerHTML = `
+            <div style="font-weight: 800; font-size: 0.8rem; color: #1E293B; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>🏛️ 소크라테스 (달력 기억 회상 멘토)</span>
+              <span style="font-size: 0.68rem; background: #FEF3C7; color: #B45309; padding: 2px 6px; border-radius: 4px;">${dateTitle} 연동</span>
+            </div>
+            <div>
+              ${dateTitle}에 그대가 마음에 품었던 고백, <strong>"${detailContent.slice(0, 70)}..."</strong>을(를) 다시 들여다보았네.<br><br>
+              시간이 흐른 지금, 그 생각은 그대에게 여전히 풀리지 않은 숙제인가, 아니면 새로운 깨달음의 디딤돌이 되었는가?
+            </div>
+          `;
+          chatContainer.appendChild(socratesBubble);
+          chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        showAppleToast('🏛️ 선택한 날짜의 일기 기억을 바탕으로 소크라테스 산파술 대화를 시작했습니다.');
+      }, 350);
     }
 
     function startCoachingWithDiaryMemory() {
@@ -9439,10 +9917,12 @@
       }
     }
 
-    // Auto-init animal SVG and persona scenario on DOM ready
+    // Auto-init on DOM ready: Storage, Animal SVG, Persona Scenario, and Soul Calendar
     setTimeout(() => {
+      loadFromLocalStorage();
       renderAnimalProfile();
       renderPersonaScenario(currentPersonaKey);
+      renderSoulCalendar();
     }, 200);
   </script>
 </body>

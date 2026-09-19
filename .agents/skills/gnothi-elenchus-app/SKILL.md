@@ -537,5 +537,20 @@ const GEMINI_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models
    - 상단 방해 요소가 사라져 소크라테스 산파술 대화창과 사고 분해 다이어그램이 시원하게 집중 배치됨.
    - 1280px 미만에서는 모바일/태블릿 반응형으로 자동 전환되어 뷰포트 호환성 완벽 보장.
 
+## 31. 일기 영구 저장 (LocalStorage), 음성 받아쓰기 (STT), 소울 마인드 달력 연동 시스템
+
+1. **LocalStorage 영구 영속화 (Permanent Storage Engine)**:
+   - 모든 일기 기록(`LIFETIME_MEMORY_LAKE`)과 수호 동물 성장 상태(`GNOTHI_SOUL_AVATAR`)를 브라우저 `localStorage`에 영구 보존.
+   - 페이지 새로고침이나 재방문 시 `loadFromLocalStorage()`로 과거 기록을 100% 자동 복원.
+2. **Web Speech API 한국어 음성 받아쓰기 (Voice-to-Text STT)**:
+   - 외부 라이브러리/서버 의존 없는 브라우저 네이티브 `webkitSpeechRecognition` 연동 (`lang: 'ko-KR'`).
+   - 메인 일기장(`journalInput`) 및 우측 독 퀵 패드(`dockJournalInput`) 양쪽에 마이크 버튼(🎙️) 탑재.
+   - 마이크 켜짐 시 붉은색 펄스 애니메이션(`mic-recording-pulse`)과 함께 실시간 음성 타이핑 자동 삽입.
+3. **소울 마인드 캘린더 (Interactive Soul Calendar)**:
+   - 7×6 월간 달력 뷰 탑재 (`prevCalendarMonth`, `nextCalendarMonth`, `goTodayCalendar`).
+   - 일기가 작성된 날짜 셀에 **기분 이모지(☀️ 등) 및 핵심 무의식 열망 키워드 태그** 실시간 렌더링.
+   - 날짜 셀 클릭 시 하단 **[날짜별 일기 열람 & 멘토 통찰 패널]**이 열리며, **`[💬 이 날의 사색으로 소크라테스 대화하기]`** 버튼을 통해 과거 일기를 바탕으로 한 심층 산파술 대화로 즉시 연결됨.
+
+
 
 
