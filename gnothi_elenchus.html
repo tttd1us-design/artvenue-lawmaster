@@ -4643,6 +4643,12 @@
             <div id="memoryLakeContent">
               "작성하신 일기에서 '타인의 인정에 대한 무의식적 갈증'과 '자율적인 창작에 대한 순수한 열망'이 포착되었습니다. 이 맥락을 다음 1:1 대화 코칭에 반영하겠습니다."
             </div>
+            <div style="margin-top: 10px; display: flex; gap: 8px;">
+              <button class="apple-pill-btn primary" onclick="startCoachingWithDiaryMemory()" style="font-size: 0.82rem; padding: 7px 16px;">
+                <i data-lucide="message-square-plus" style="width: 14px; height: 14px;"></i>
+                💬 이 일기 맥락으로 소크라테스 산파술 대화 즉시 시작하기
+              </button>
+            </div>
           </div>
         </div>
 
@@ -8527,6 +8533,55 @@
       }
       showAppleToast('📖 일기가 저장되었으며, 멘토의 영구 기억 창고에 성공적으로 기록되었습니다!');
       input.value = '';
+    }
+
+    function startCoachingWithDiaryMemory() {
+      if (!LIFETIME_MEMORY_LAKE || LIFETIME_MEMORY_LAKE.length === 0) {
+        showAppleToast('먼저 오늘의 소울 일기를 작성하고 분석해주세요.');
+        return;
+      }
+      const latest = LIFETIME_MEMORY_LAKE[LIFETIME_MEMORY_LAKE.length - 1];
+      switchNavTab('tabChamber');
+      playAppleSound('pop');
+
+      setTimeout(() => {
+        const chamberEl = document.getElementById('tabChamber') || document.querySelector('.elenchus-chamber');
+        if (chamberEl) chamberEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        const chatContainer = document.getElementById('chatMessages') || document.getElementById('chatBody');
+        if (chatContainer) {
+          const socratesMemoryBubble = document.createElement('div');
+          socratesMemoryBubble.className = 'chat-bubble mentor';
+          socratesMemoryBubble.innerHTML = `
+            <div style="font-weight: 800; font-size: 0.8rem; color: #1E293B; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>🏛️ 소크라테스 (산파술 멘토)</span>
+              <span style="font-size: 0.68rem; background: #E0F2FE; color: #0369A1; padding: 2px 6px; border-radius: 4px;">일기 기억 연동</span>
+            </div>
+            <div>
+              방금 그대의 소울 일기장에서 기록된 <strong>'${latest.extractedDesire}'</strong>에 관한 내면의 고백을 깊이 경청했네.<br><br>
+              그대는 진정 이것이 외부의 조건이나 타인의 시선에서 자유로운 <em>'온전한 그대 자신만의 열망'</em>이라고 확신하는가?
+              아니면 무의식중에 결핍을 메우기 위해 쫓고 있는 또 다른 환영은 아닌가?
+            </div>
+            <div style="font-size: 0.72rem; color: #94A3B8; margin-top: 6px; text-align: right;">
+              방금 전 기록된 일기 분석 기반 산파술 질문
+            </div>
+          `;
+          chatContainer.appendChild(socratesMemoryBubble);
+          chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Highlight Elenctic Tree Stage 1
+        const treeItems = document.querySelectorAll('.elenctic-step-item');
+        treeItems.forEach((el, idx) => {
+          if (idx === 0) {
+            el.classList.add('active');
+            el.style.border = '2px solid #0284C7';
+            el.style.background = '#F0F9FF';
+          }
+        });
+
+        showAppleToast('🏛️ 소크라테스가 일기장의 고유 맥락을 바탕으로 날카로운 산파술 질문을 시작했습니다.');
+      }, 350);
     }
 
     /* =========================================================================
