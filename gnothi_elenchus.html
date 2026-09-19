@@ -730,13 +730,21 @@
         <i data-lucide="message-square" style="width: 14px; height: 14px;"></i>
         문답 챔버
       </button>
+      <button class="nav-tab-btn" id="tabBtn-sos" onclick="switchTab('sos')">
+        <i data-lucide="shield-alert" style="width: 14px; height: 14px; color: #E11D48;"></i>
+        🚨 긴급 SOS
+      </button>
+      <button class="nav-tab-btn" id="tabBtn-tracker" onclick="switchTab('tracker')">
+        <i data-lucide="trending-up" style="width: 14px; height: 14px; color: #059669;"></i>
+        📈 주간 트래커
+      </button>
       <button class="nav-tab-btn" id="tabBtn-board" onclick="switchTab('board')">
         <i data-lucide="users" style="width: 14px; height: 14px;"></i>
-        4인 이사회 청문회
+        4인 이사회
       </button>
       <button class="nav-tab-btn" id="tabBtn-swipe" onclick="switchTab('swipe')">
         <i data-lucide="zap" style="width: 14px; height: 14px;"></i>
-        3초 호불호 스와이프
+        3초 스와이프
       </button>
       <button class="nav-tab-btn" id="tabBtn-parallel" onclick="switchTab('parallel')">
         <i data-lucide="git-branch" style="width: 14px; height: 14px;"></i>
@@ -748,11 +756,15 @@
       </button>
     </nav>
 
-    <!-- ACTIONS -->
-    <div class="header-actions">
+    <!-- ACTIONS: 9,900 KRW MEMBERSHIP -->
+    <div class="header-actions" style="display: flex; align-items: center; gap: 8px;">
+      <button class="pill-btn" id="membershipBadgeBtn" onclick="openSubscriptionModal()" style="background: #EFF6FF; border: 1px solid #BFDBFE; color: #1D4ED8; font-weight: 700;">
+        <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #2563EB; margin-right: 4px;"></span>
+        <span id="membershipStatusText">월 9,900원 멤버십</span>
+      </button>
       <button class="pill-btn gold-solid" onclick="openFullReportModal()">
         <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
-        종합 검진서 발행
+        종합 검진서
       </button>
     </div>
   </header>
@@ -871,6 +883,159 @@
           </button>
         </aside>
 
+      </div>
+    </div>
+
+    <!-- =========================================================================
+         TAB: 🚨 24시간 긴급 의사결정 SOS 응급실 (Decision Emergency Room)
+         ========================================================================= -->
+    <div id="view-sos" class="tab-view">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <div style="display: inline-flex; align-items: center; gap: 6px; background: #FFE4E6; border: 1px solid #FECDD3; color: #E11D48; padding: 4px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; margin-bottom: 8px;">
+          <i data-lucide="shield-alert" style="width: 14px; height: 14px;"></i>
+          24/7 긴급 멘탈 응급실 & 의사결정 블랙박스
+        </div>
+        <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: #0F172A;">충동적 파국을 막는 3분 긴급 팩트체크 프로토콜</h2>
+        <p style="color: #64748B; font-size: 0.95rem;">밤 11시 충동적 퇴사, 분노의 폭언, 전공 포기 충동이 들 때 뇌의 편도체를 식히고 실수를 원천 방어합니다.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1050px; margin: 0 auto;">
+        <!-- STEP 1 & 2: 진정 및 인지왜곡 판독 -->
+        <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 24px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 16px;">
+          <h3 style="font-size: 1.05rem; color: #0F172A; display: flex; align-items: center; gap: 8px;">
+            <span style="width: 24px; height: 24px; border-radius: 50%; background: #E11D48; color: #FFF; font-size: 0.76rem; font-weight: 800; display: inline-flex; align-items: center; justify-content: center;">1</span>
+            현재 당신을 집어삼킨 충동적 상황은 무엇인가요?
+          </h3>
+          <textarea id="sosDilemmaInput" class="chat-textarea" placeholder="예: '상사의 모욕적인 피드백을 듣고 당장 내일 사직서를 집어던지고 싶습니다.', '공부가 너무 안 돼서 자퇴하고 싶어요.'" style="min-height: 85px; padding: 12px;"></textarea>
+
+          <h3 style="font-size: 1.05rem; color: #0F172A; display: flex; align-items: center; gap: 8px; margin-top: 6px;">
+            <span style="width: 24px; height: 24px; border-radius: 50%; background: #2563EB; color: #FFF; font-size: 0.76rem; font-weight: 800; display: inline-flex; align-items: center; justify-content: center;">2</span>
+            지금 뇌에서 작동 중인 3대 인지 왜곡 선택
+          </h3>
+          <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px;">
+              <input type="checkbox" id="distortionCatastrophe" checked>
+              <span><strong>파국화(Catastrophizing)</strong>: "지금 그만두면/실패하면 내 인생은 끝장이다"</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px;">
+              <input type="checkbox" id="distortionBlackWhite" checked>
+              <span><strong>흑백논리(All-or-Nothing)</strong>: "이걸 참거나, 아니면 전부 엎어버리는 수밖에 없다"</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px;">
+              <input type="checkbox" id="distortionMindReading">
+              <span><strong>독심술(Mind Reading)</strong>: "모두가 속으로 날 비웃고 무능하다고 생각할 것이다"</span>
+            </label>
+          </div>
+
+          <button class="send-btn" onclick="runSosProtocol()" style="background: linear-gradient(135deg, #E11D48, #BE123C); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);">
+            <i data-lucide="zap" style="width: 16px; height: 16px;"></i> 3분 긴급 팩트체크 및 해독 처방전 발행
+          </button>
+        </div>
+
+        <!-- STEP 3: 소크라테스 긴급 해독 처방전 결과 -->
+        <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 24px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #F1F5F9; padding-bottom: 10px; margin-bottom: 14px;">
+              <div style="font-weight: 800; font-size: 1.05rem; color: #0F172A; display: flex; align-items: center; gap: 8px;">
+                <span style="width: 24px; height: 24px; border-radius: 50%; background: #059669; color: #FFF; font-size: 0.76rem; font-weight: 800; display: inline-flex; align-items: center; justify-content: center;">3</span>
+                소크라테스 응급실 팩트체크 소견
+              </div>
+              <span style="font-size: 0.74rem; background: #EFF6FF; color: #2563EB; padding: 3px 8px; border-radius: 6px; font-weight: 700;">골든타임 보호</span>
+            </div>
+
+            <div id="sosResultBox" style="font-size: 0.9rem; line-height: 1.7; color: #334155;">
+              <div style="text-align: center; color: #94A3B8; padding: 40px 10px;">
+                <i data-lucide="heart-pulse" style="width: 36px; height: 36px; color: #CBD5E1; margin-bottom: 8px;"></i>
+                <p>왼쪽에서 상황을 입력하고 해독 처방전을 발행하면<br><strong>"내일 아침 10시까지 절대 하지 말아야 할 3가지"</strong>가 생성됩니다.</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: #FFF1F2; border: 1px solid #FECDD3; border-radius: 10px; padding: 12px; font-size: 0.82rem; color: #9F1239; margin-top: 14px;">
+            ⚠️ <strong>충동 방어 원칙:</strong> 분노와 모멸감이 최고조일 때 내린 결정의 94%는 72시간 이내에 막대한 기회비용과 후회로 돌아옵니다. 지금 행동하지 않고 기록하는 것만으로 수천만 원을 절약합니다.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================================================
+         TAB: 📈 주간 인지 바이오마커 트래커 (Weekly Biomarker Tracker)
+         ========================================================================= -->
+    <div id="view-tracker" class="tab-view">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <div style="display: inline-flex; align-items: center; gap: 6px; background: #ECFDF5; border: 1px solid #A7F3D0; color: #059669; padding: 4px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; margin-bottom: 8px;">
+          <i data-lucide="trending-up" style="width: 14px; height: 14px;"></i>
+          정기 구독자 전용 라이프 궤도 관리
+        </div>
+        <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: #0F172A;">주간 인지 바이오마커 시계열 추이 & 궤도 수정</h2>
+        <p style="color: #64748B; font-size: 0.95rem;">병원에서 혈압과 간 수치를 정기 추적하듯, 당신의 멘탈과 주권 회복도를 시계열로 정밀 모니터링합니다.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; max-width: 1100px; margin: 0 auto;">
+        <!-- WEEKLY CHART SIMULATION -->
+        <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 24px; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+            <h3 style="font-size: 1.05rem; font-weight: 800; color: #0F172A;">최근 7일간 5대 지표 변화 추세</h3>
+            <span style="font-size: 0.76rem; color: #2563EB; font-weight: 700;">2026.09 3주차 정기 검진 데이터</span>
+          </div>
+
+          <!-- MOCK BARS CHART -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; height: 200px; padding: 10px 20px 20px; border-bottom: 1px solid #E2E8F0; background: #F8FAFC; border-radius: 12px; margin-bottom: 16px;">
+            <div style="text-align: center; width: 12%;">
+              <div style="height: 110px; background: #93C5FD; border-radius: 6px 6px 0 0; margin-bottom: 6px;"></div>
+              <div style="font-size: 0.72rem; color: #64748B;">월</div>
+            </div>
+            <div style="text-align: center; width: 12%;">
+              <div style="height: 130px; background: #93C5FD; border-radius: 6px 6px 0 0; margin-bottom: 6px;"></div>
+              <div style="font-size: 0.72rem; color: #64748B;">화</div>
+            </div>
+            <div style="text-align: center; width: 12%;">
+              <div style="height: 155px; background: #60A5FA; border-radius: 6px 6px 0 0; margin-bottom: 6px;"></div>
+              <div style="font-size: 0.72rem; color: #64748B;">수</div>
+            </div>
+            <div style="text-align: center; width: 12%;">
+              <div style="height: 95px; background: #F87171; border-radius: 6px 6px 0 0; margin-bottom: 6px;"></div>
+              <div style="font-size: 0.72rem; color: #E11D48; font-weight: 700;">목 (위기)</div>
+            </div>
+            <div style="text-align: center; width: 12%;">
+              <div style="height: 140px; background: #60A5FA; border-radius: 6px 6px 0 0; margin-bottom: 6px;"></div>
+              <div style="font-size: 0.72rem; color: #64748B;">금</div>
+            </div>
+            <div style="text-align: center; width: 12%;">
+              <div style="height: 165px; background: #34D399; border-radius: 6px 6px 0 0; margin-bottom: 6px;"></div>
+              <div style="font-size: 0.72rem; color: #059669; font-weight: 700;">토 (회복)</div>
+            </div>
+            <div style="text-align: center; width: 12%;">
+              <div style="height: 180px; background: #2563EB; border-radius: 6px 6px 0 0; margin-bottom: 6px;"></div>
+              <div style="font-size: 0.72rem; color: #2563EB; font-weight: 800;">일 (최고)</div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-around; font-size: 0.8rem; color: #475569;">
+            <span>🔵 <strong>자기결정성</strong>: 72% (+14%)</span>
+            <span>🔴 <strong>번아웃도</strong>: 38% (-24%)</span>
+            <span>🟢 <strong>실행 복원력</strong>: 85% (+20%)</span>
+          </div>
+        </div>
+
+        <!-- WEEKLY ACTION RX -->
+        <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 24px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <h3 style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+              <i data-lucide="check-circle-2" style="width: 18px; height: 18px; color: #059669;"></i>
+              이번 주 궤도 수정 핵심 처방
+            </h3>
+            <ul style="padding-left: 18px; font-size: 0.88rem; line-height: 1.8; color: #334155;">
+              <li><strong>목요일의 에너지 급락 원인</strong>: 타인의 무리한 요구를 거절하지 못하고 과다 수용함.</li>
+              <li><strong>다음 주 실천 과제</strong>: 내 일정표에 '자기 통제 블록 2시간'을 사전에 확보하고 무조건 사수할 것.</li>
+              <li><strong>목표 달성 예상</strong>: 90일 후 직무 자율성 85점 이상 도달 확실시.</li>
+            </ul>
+          </div>
+
+          <button class="pill-btn gold-solid" style="width: 100%; justify-content: center; margin-top: 14px;" onclick="alert('주간 인생 궤도 수정 심층 리포트 PDF가 다운로드되었습니다.')">
+            <i data-lucide="download" style="width: 14px; height: 14px;"></i> 주간 분석 리포트 PDF 저장
+          </button>
+        </div>
       </div>
     </div>
 
@@ -1058,6 +1223,81 @@
     </div>
   </div>
 
+  <!-- =========================================================================
+       HIGH-CONVERTING 9,900 KRW SUBSCRIPTION PAYWALL MODAL
+       ========================================================================= -->
+  <div class="modal-overlay" id="subscriptionModal">
+    <div class="report-modal-card" style="max-width: 680px; padding: 32px 36px; border: 2px solid #2563EB;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+        <div>
+          <span style="background: #EFF6FF; border: 1px solid #BFDBFE; color: #1D4ED8; font-size: 0.76rem; font-weight: 800; padding: 4px 10px; border-radius: 20px;">GNŌTHI VIP LIFE PASS</span>
+          <h2 style="font-size: 1.45rem; font-weight: 800; color: #0F172A; margin-top: 8px; line-height: 1.3;">
+            한 달 커피 2잔 값(9,900원)으로<br>
+            <span style="color: #2563EB;">인생의 수천만 원 기회비용</span>을 방어하세요.
+          </h2>
+        </div>
+        <button class="close-btn" onclick="closeModal('subscriptionModal')">&times;</button>
+      </div>
+
+      <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 20px;">
+        잘못된 전공 등록금(수천만원), 홧김의 충동 퇴사와 경력 단절(수개월 무수입), 섣부른 감정적 창업(수천~수억원 손실)...  
+        소크라테스 인생 검진 OS는 당신이 인생의 중대한 갈림길에서 <strong>치명적인 오판을 내리지 않도록 24시간 나침반</strong>이 되어드립니다.
+      </p>
+
+      <!-- 5 CORE MEMBERSHIP BENEFITS -->
+      <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 18px; margin-bottom: 20px;">
+        <h4 style="font-size: 0.92rem; font-weight: 800; color: #1E293B; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+          <i data-lucide="crown" style="width: 16px; height: 16px; color: #D97706;"></i>
+          월 9,900원 멤버십 정기 구독자 5대 독점 혜택
+        </h4>
+        <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.84rem; color: #334155;">
+          <div style="display: flex; align-items: flex-start; gap: 8px;">
+            <i data-lucide="check" style="width: 16px; height: 16px; color: #059669; flex-shrink: 0; margin-top: 2px;"></i>
+            <span><strong>24시간 긴급 의사결정 SOS 무제한</strong> (밤 11시 충동적 퇴사/포기 충동 3분 해독)</span>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 8px;">
+            <i data-lucide="check" style="width: 16px; height: 16px; color: #059669; flex-shrink: 0; margin-top: 2px;"></i>
+            <span><strong>내면의 4대 거장 이사회 무제한 소집</strong> (소크라테스·잡스·달리오·아우렐리우스)</span>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 8px;">
+            <i data-lucide="check" style="width: 16px; height: 16px; color: #059669; flex-shrink: 0; margin-top: 2px;"></i>
+            <span><strong>주간 인지 바이오마커 시계열 트래커 & 궤도 수정 리포트</strong> 매주 월요일 발급</span>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 8px;">
+            <i data-lucide="check" style="width: 16px; height: 16px; color: #059669; flex-shrink: 0; margin-top: 2px;"></i>
+            <span><strong>학부모/가족/투자자 설득용 브리핑 시트</strong> 무제한 고해상도 인쇄 및 PDF 저장</span>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 8px;">
+            <i data-lucide="shield-check" style="width: 16px; height: 16px; color: #2563EB; flex-shrink: 0; margin-top: 2px;"></i>
+            <span><strong>100% 무조건 전액 환불 보장</strong> (구독 후 7일 이내 불만족 시 클릭 한 번으로 전액 환불)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRICING & PAYMENT SIMULATION -->
+      <div style="display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #EFF6FF, #DBEAFE); border: 1px solid #BFDBFE; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px;">
+        <div>
+          <div style="font-size: 0.74rem; color: #2563EB; font-weight: 700;">첫 7일 무료 체험 (언제든 취소 가능)</div>
+          <div style="font-size: 1.45rem; font-weight: 900; color: #0F172A;">월 9,900원 <span style="font-size: 0.8rem; font-weight: 500; color: #64748B;">(하루 330원)</span></div>
+        </div>
+        <div style="text-align: right; font-size: 0.76rem; color: #059669; font-weight: 700;">
+          ☕ 하루 커피 반 모금 가격
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button class="send-btn" onclick="subscribeMembership('card')" style="width: 100%; justify-content: center; height: 48px; font-size: 0.96rem; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);">
+          <i data-lucide="zap" style="width: 18px; height: 18px;"></i> 7일 무료 체험 시작하기 (이후 월 9,900원)
+        </button>
+        <div style="display: flex; justify-content: center; gap: 16px; font-size: 0.76rem; color: #64748B; margin-top: 4px;">
+          <span>🔒 256-bit SSL 보안 결제</span>
+          <span>⚡ 카카오페이 / 토스 / 신용카드 지원</span>
+          <span>🔄 언제든 1초 만에 해지 가능</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     // =========================================================================
     // STATE & PERSONA
@@ -1099,6 +1339,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
       setPersona('student');
+      checkMembershipStatus();
     });
 
     function setPersona(key) {
@@ -1177,7 +1418,7 @@
         } else if (conversationTurn === 2) {
           addMessage('socrates', `[문항 GN-BIO-02 전제 검증]<br>그렇다면 묻겠네. 자네가 방금 말한 생각은 <strong>온전히 자네의 내면에서 피어난 것인가, 아니면 세상의 기대가 덧씌운 두려움인가?</strong>`);
         } else {
-          addMessage('socrates', `[검진 완료]<br>훌륭하네! 껍질을 깨고 마침내 자네 자신의 목소리를 길어 올렸군. 상단의 <strong>[종합 검진서 발행]</strong>을 눌러 공식 결과표를 확인해보게나!`);
+          addMessage('socrates', `[검진 완료]<br>훌륭하네! 껍질을 깨고 마침내 자네 자신의 목소리를 길어 올렸군. 상단의 <strong>[종합 검진서]</strong>를 눌러 공식 결과표를 확인해보게나!`);
         }
       }, 700);
     }
@@ -1253,6 +1494,73 @@
           document.getElementById('swipeCardText').innerHTML = "🎉 무의식 호불호 측정 완료!<br><span style='font-size: 0.95rem; color: #059669;'>당신은 '자율적 창작'에 극도로 반응하고 '수동적 통제'에 알레르기가 있습니다.</span>";
         }
       }, 300);
+    }
+
+    // =========================================================================
+    // 24/7 SOS DECISION EMERGENCY ROOM PROTOCOL
+    // =========================================================================
+    function runSosProtocol() {
+      const dilemma = document.getElementById('sosDilemmaInput').value.trim();
+      if (!dilemma) {
+        alert('현재 당신을 괴롭히는 충동적 고민을 한 문장 이상 입력해주세요.');
+        return;
+      }
+
+      const isCatastrophe = document.getElementById('distortionCatastrophe').checked;
+      const isBlackWhite = document.getElementById('distortionBlackWhite').checked;
+      const isMindReading = document.getElementById('distortionMindReading').checked;
+
+      const resultBox = document.getElementById('sosResultBox');
+      resultBox.innerHTML = `
+        <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 14px; margin-bottom: 12px;">
+          <div style="font-weight: 800; color: #1E40AF; margin-bottom: 4px;">🧠 1단계: 편도체 인지 왜곡 진단 결과</div>
+          <div style="font-size: 0.84rem; color: #2563EB;">
+            ${isCatastrophe ? '• [파국화 경보] 일시적 좌절을 인생 전체의 실패로 과대 포장하고 있습니다.<br>' : ''}
+            ${isBlackWhite ? '• [흑백논리 경보] 극단적 퇴사/포기 외에 제3의 대안(협상, 잠시 휴식)을 배제하고 있습니다.<br>' : ''}
+            ${isMindReading ? '• [독심술 경보] 타인의 머릿속을 넘겨짚으며 스스로 자책감을 키우고 있습니다.' : ''}
+          </div>
+        </div>
+
+        <div style="background: #FFF; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px; margin-bottom: 12px;">
+          <div style="font-weight: 800; color: #0F172A; margin-bottom: 6px;">🚫 내일 오전 10시까지 절대 하지 말아야 할 행동 3가지 (Golden Rule)</div>
+          <ol style="padding-left: 18px; font-size: 0.86rem; color: #B91C1C; line-height: 1.7;">
+            <li><strong>사직서 제출 또는 결별/포기 통보 전면 금지</strong> (수면 부족 상태의 결정은 94% 후회)</li>
+            <li><strong>감정적인 장문의 홧김 카톡/메시지 발송 금지</strong> (말의 주도권을 상대에게 헌납함)</li>
+            <li><strong>보복성 충동 소비나 폭음 금지</strong> (인지 에너지를 고갈시켜 내일 판단을 더 흐림)</li>
+          </ol>
+        </div>
+
+        <div style="background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 10px; padding: 12px; font-size: 0.86rem; color: #065F46;">
+          <strong>🌿 오늘 밤 유일한 행동 지침:</strong> 찬물 한 잔을 마시고 스마트폰을 방 밖에 둔 채 7시간 숙면을 취하세요. 뇌가 냉각된 내일 아침 10시, 이 문제는 지금보다 훨씬 다루기 쉬워집니다.
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    // =========================================================================
+    // 9,900 KRW SUBSCRIPTION MEMBERSHIP ENGINE
+    // =========================================================================
+    function openSubscriptionModal() {
+      document.getElementById('subscriptionModal').classList.add('active');
+    }
+
+    function subscribeMembership(method) {
+      localStorage.setItem('gnothi_vip_member', 'true');
+      checkMembershipStatus();
+      closeModal('subscriptionModal');
+      alert('🎉 축하합니다! GNŌTHI VIP 7일 무료체험이 시작되었습니다.\n이제 24시간 긴급 SOS와 4대 거장 이사회를 무제한으로 이용하실 수 있습니다.');
+    }
+
+    function checkMembershipStatus() {
+      const isVip = localStorage.getItem('gnothi_vip_member') === 'true';
+      const statusText = document.getElementById('membershipStatusText');
+      const badgeBtn = document.getElementById('membershipBadgeBtn');
+      if (isVip && statusText && badgeBtn) {
+        statusText.innerText = '👑 VIP 정기 구독 중';
+        badgeBtn.style.background = '#ECFDF5';
+        badgeBtn.style.borderColor = '#A7F3D0';
+        badgeBtn.style.color = '#059669';
+      }
     }
 
     // =========================================================================
