@@ -100,189 +100,430 @@
       transition: background-color 0.4s ease, color 0.4s ease;
     }
 
+    /* =========================================================================
+       DYNAMIC PERSONA FULL-SPECTRUM THEMES (5 INDEPENDENT UI PARADIGMS)
+       ========================================================================= */
+
     /* -------------------------------------------------------------------------
-       1. STUDENT (중고생: 영 비비드 팝 & 소프트 민트 - 동글동글하고 산뜻한 캐주얼)
+       1. STUDENT (중고생: 틴 파스텔 드림 & 영 캔디 - 통통 튀고 산뜻한 민트 퀘스트)
        ------------------------------------------------------------------------- */
     body.persona-theme-student {
       --apple-blue: #059669;
       --apple-blue-hover: #10B981;
-      --apple-blue-soft: #ECFDF5;
-      --card-radius: 24px;
-      background-color: #F6FCF9;
+      --apple-blue-soft: #D1FAE5;
+      --card-radius: 28px;
+      background: radial-gradient(circle at top left, #D1FAE5 0%, #ECFDF5 40%, #EFF6FF 100%) !important;
+      color: #064E3B !important;
+    }
+    body.persona-theme-student .ambient-orb.orb-blue {
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.4) 0%, rgba(16, 185, 129, 0) 70%) !important;
+    }
+    body.persona-theme-student .ambient-orb.orb-emerald {
+      background: radial-gradient(circle, rgba(52, 211, 153, 0.35) 0%, rgba(52, 211, 153, 0) 70%) !important;
+    }
+    body.persona-theme-student .ambient-orb.orb-purple {
+      background: radial-gradient(circle, rgba(253, 224, 71, 0.35) 0%, rgba(253, 224, 71, 0) 70%) !important;
+    }
+    body.persona-theme-student .left-nav-dock,
+    body.persona-theme-student .right-companion-dock {
+      background: rgba(255, 255, 255, 0.94) !important;
+      border: 2.5px solid #6EE7B7 !important;
+      border-radius: 28px !important;
+      box-shadow: 0 14px 35px rgba(5, 150, 105, 0.12) !important;
+      color: #064E3B !important;
+    }
+    body.persona-theme-student .dock-nav-item { color: #047857 !important; border-radius: 20px !important; font-weight: 600 !important; }
+    body.persona-theme-student .dock-nav-item:hover { background: #ECFDF5 !important; color: #065F46 !important; }
+    body.persona-theme-student .dock-nav-item.active {
+      background: #10B981 !important;
+      color: #FFFFFF !important;
+      border-color: #059669 !important;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35) !important;
     }
     body.persona-theme-student .apple-studio-window,
     body.persona-theme-student .elenctic-tree-card,
     body.persona-theme-student .mind-journal-card,
     body.persona-theme-student .decision-compass-card,
-    body.persona-theme-student .habit-rewiring-card {
-      border-radius: 26px !important;
-      border: 2px solid rgba(16, 185, 129, 0.25) !important;
-      box-shadow: 0 12px 32px rgba(5, 150, 105, 0.08) !important;
+    body.persona-theme-student .habit-rewiring-card,
+    body.persona-theme-student .persona-scenario-card,
+    body.persona-theme-student .dock-widget-card,
+    body.persona-theme-student .bento-card,
+    body.persona-theme-student .director-card {
+      background: #FFFFFF !important;
+      border-radius: 28px !important;
+      border: 2.5px solid #6EE7B7 !important;
+      box-shadow: 0 14px 35px rgba(5, 150, 105, 0.08) !important;
+      color: #064E3B !important;
     }
-    body.persona-theme-student .chat-bubble {
-      border-radius: 22px 22px 22px 4px !important;
-      border: 1.5px solid #D1FAE5 !important;
+    body.persona-theme-student .msg-bubble,
+    body.persona-theme-student .chat-bubble,
+    body.persona-theme-student .message-row.socrates .msg-bubble {
+      border-radius: 24px 24px 24px 4px !important;
+      border: 2px solid #FDE047 !important;
+      background: #FEF9C3 !important;
+      color: #713F12 !important;
+      box-shadow: 0 6px 20px rgba(253, 224, 71, 0.25) !important;
     }
+    body.persona-theme-student .message-row.user .msg-bubble,
     body.persona-theme-student .chat-bubble.user {
-      border-radius: 22px 22px 4px 22px !important;
+      border-radius: 24px 24px 4px 24px !important;
       background: linear-gradient(135deg, #10B981, #059669) !important;
+      color: #FFFFFF !important;
+      border: none !important;
+      box-shadow: 0 8px 22px rgba(16, 185, 129, 0.35) !important;
     }
-    body.persona-theme-student .ambient-orb.orb-blue {
-      background: radial-gradient(circle, rgba(16, 185, 129, 0.45) 0%, rgba(16, 185, 129, 0) 70%);
+    body.persona-theme-student .journal-textarea,
+    body.persona-theme-student input,
+    body.persona-theme-student textarea {
+      background: #F0FDF4 !important;
+      border: 2px solid #6EE7B7 !important;
+      border-radius: 18px !important;
+      color: #064E3B !important;
     }
 
     /* -------------------------------------------------------------------------
-       2. UNDERGRAD (대학생: 사이버 인디고 & 네오 글래스모피즘 - 트렌디하고 날렵한 미래형)
+       2. UNDERGRAD (대학생: 사이버펑크 네오 글래스모피즘 & 일렉트릭 인디고 랩)
        ------------------------------------------------------------------------- */
     body.persona-theme-undergrad {
-      --apple-blue: #4F46E5;
-      --apple-blue-hover: #6366F1;
-      --apple-blue-soft: #EEF2FF;
-      --card-radius: 18px;
-      background-color: #F8F9FE;
+      --apple-blue: #6366F1;
+      --apple-blue-hover: #818CF8;
+      --apple-blue-soft: #312E81;
+      --card-radius: 16px;
+      background: radial-gradient(ellipse at 50% -20%, #312E81 0%, #0F172A 60%, #020617 100%) !important;
+      color: #F8FAFC !important;
+      font-family: 'JetBrains Mono', 'Pretendard', monospace, sans-serif !important;
+    }
+    body.persona-theme-undergrad .ambient-orb.orb-blue {
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.5) 0%, rgba(99, 102, 241, 0) 70%) !important;
+    }
+    body.persona-theme-undergrad .ambient-orb.orb-emerald {
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.45) 0%, rgba(139, 92, 246, 0) 70%) !important;
+    }
+    body.persona-theme-undergrad .ambient-orb.orb-purple {
+      background: radial-gradient(circle, rgba(236, 72, 153, 0.4) 0%, rgba(236, 72, 153, 0) 70%) !important;
+    }
+    body.persona-theme-undergrad .left-nav-dock,
+    body.persona-theme-undergrad .right-companion-dock {
+      background: rgba(15, 23, 42, 0.88) !important;
+      backdrop-filter: blur(28px) saturate(200%) !important;
+      border: 1.5px solid #818CF8 !important;
+      border-radius: 16px !important;
+      box-shadow: 0 0 30px rgba(99, 102, 241, 0.35) !important;
+      color: #F8FAFC !important;
+    }
+    body.persona-theme-undergrad .dock-nav-item { color: #CBD5E1 !important; border-radius: 12px !important; }
+    body.persona-theme-undergrad .dock-nav-item:hover {
+      background: rgba(99, 102, 241, 0.25) !important;
+      color: #FFFFFF !important;
+    }
+    body.persona-theme-undergrad .dock-nav-item.active {
+      background: rgba(99, 102, 241, 0.4) !important;
+      color: #C7D2FE !important;
+      border-color: #818CF8 !important;
+      box-shadow: 0 0 16px rgba(129, 140, 248, 0.5) !important;
     }
     body.persona-theme-undergrad .apple-studio-window,
     body.persona-theme-undergrad .elenctic-tree-card,
     body.persona-theme-undergrad .mind-journal-card,
     body.persona-theme-undergrad .decision-compass-card,
-    body.persona-theme-undergrad .habit-rewiring-card {
-      border-radius: 18px !important;
-      border: 1px solid rgba(99, 102, 241, 0.35) !important;
-      box-shadow: 0 8px 32px rgba(79, 70, 229, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.6) !important;
-      backdrop-filter: blur(20px) !important;
+    body.persona-theme-undergrad .habit-rewiring-card,
+    body.persona-theme-undergrad .persona-scenario-card,
+    body.persona-theme-undergrad .dock-widget-card,
+    body.persona-theme-undergrad .bento-card,
+    body.persona-theme-undergrad .director-card {
+      background: rgba(30, 27, 75, 0.75) !important;
+      backdrop-filter: blur(24px) !important;
+      border-radius: 16px !important;
+      border: 1.5px solid #6366F1 !important;
+      box-shadow: 0 0 32px rgba(99, 102, 241, 0.3) !important;
+      color: #F8FAFC !important;
     }
-    body.persona-theme-undergrad .chat-bubble {
+    body.persona-theme-undergrad .msg-bubble,
+    body.persona-theme-undergrad .chat-bubble,
+    body.persona-theme-undergrad .message-row.socrates .msg-bubble {
       border-radius: 14px 14px 14px 2px !important;
-      border: 1px solid #E0E7FF !important;
-      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.06) !important;
+      border: 1.5px solid #818CF8 !important;
+      background: rgba(30, 27, 75, 0.9) !important;
+      color: #E0E7FF !important;
+      box-shadow: 0 0 18px rgba(99, 102, 241, 0.2) !important;
     }
+    body.persona-theme-undergrad .message-row.user .msg-bubble,
     body.persona-theme-undergrad .chat-bubble.user {
       border-radius: 14px 14px 2px 14px !important;
-      background: linear-gradient(135deg, #6366F1, #4F46E5) !important;
+      background: linear-gradient(135deg, #6366F1, #8B5CF6) !important;
+      color: #FFFFFF !important;
+      border: none !important;
+      box-shadow: 0 0 25px rgba(99, 102, 241, 0.5) !important;
     }
-    body.persona-theme-undergrad .ambient-orb.orb-blue {
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.5) 0%, rgba(99, 102, 241, 0) 70%);
+    body.persona-theme-undergrad .journal-textarea,
+    body.persona-theme-undergrad input,
+    body.persona-theme-undergrad textarea {
+      background: rgba(15, 23, 42, 0.92) !important;
+      border: 1.5px solid #6366F1 !important;
+      border-radius: 12px !important;
+      color: #F8FAFC !important;
     }
 
     /* -------------------------------------------------------------------------
-       3. WORKER (직장인: 이그제큐티브 슬레이트 차콜 & 메탈릭 네이비 - 고밀도 프로페셔널)
+       3. WORKER (직장인: 이그제큐티브 다크 슬레이트 & 맥킨지 프로페셔널 차콜)
        ------------------------------------------------------------------------- */
     body.persona-theme-worker {
       --apple-blue: #0071E3;
-      --apple-blue-hover: #0077ED;
-      --apple-blue-soft: #F0F6FF;
-      --card-radius: 12px;
-      background-color: #F8FAFC;
+      --apple-blue-hover: #0284C7;
+      --apple-blue-soft: #1E293B;
+      --card-radius: 8px;
+      background: #0B1120 !important;
+      color: #E2E8F0 !important;
+      letter-spacing: -0.025em;
+    }
+    body.persona-theme-worker .ambient-orb.orb-blue {
+      background: radial-gradient(circle, rgba(2, 132, 199, 0.3) 0%, rgba(2, 132, 199, 0) 70%) !important;
+    }
+    body.persona-theme-worker .ambient-orb.orb-emerald {
+      background: radial-gradient(circle, rgba(51, 65, 85, 0.3) 0%, rgba(51, 65, 85, 0) 70%) !important;
+    }
+    body.persona-theme-worker .ambient-orb.orb-purple {
+      background: radial-gradient(circle, rgba(30, 41, 59, 0.3) 0%, rgba(30, 41, 59, 0) 70%) !important;
+    }
+    body.persona-theme-worker .left-nav-dock,
+    body.persona-theme-worker .right-companion-dock {
+      background: #111827 !important;
+      border: 1px solid #374151 !important;
+      border-radius: 8px !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55) !important;
+      color: #F3F4F6 !important;
+    }
+    body.persona-theme-worker .dock-nav-item { color: #9CA3AF !important; border-radius: 6px !important; font-weight: 500 !important; }
+    body.persona-theme-worker .dock-nav-item:hover {
+      background: #1F2937 !important;
+      color: #FFFFFF !important;
+    }
+    body.persona-theme-worker .dock-nav-item.active {
+      background: #1E3A8A !important;
+      color: #60A5FA !important;
+      border-color: #3B82F6 !important;
     }
     body.persona-theme-worker .apple-studio-window,
     body.persona-theme-worker .elenctic-tree-card,
     body.persona-theme-worker .mind-journal-card,
     body.persona-theme-worker .decision-compass-card,
-    body.persona-theme-worker .habit-rewiring-card {
-      border-radius: 12px !important;
-      border: 1px solid #CBD5E1 !important;
-      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.07) !important;
+    body.persona-theme-worker .habit-rewiring-card,
+    body.persona-theme-worker .persona-scenario-card,
+    body.persona-theme-worker .dock-widget-card,
+    body.persona-theme-worker .bento-card,
+    body.persona-theme-worker .director-card {
+      background: #131E32 !important;
+      border-radius: 8px !important;
+      border: 1px solid #334155 !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !important;
+      color: #F8FAFC !important;
     }
-    body.persona-theme-worker .chat-bubble {
-      border-radius: 10px 10px 10px 2px !important;
-      border: 1px solid #E2E8F0 !important;
+    body.persona-theme-worker .msg-bubble,
+    body.persona-theme-worker .chat-bubble,
+    body.persona-theme-worker .message-row.socrates .msg-bubble {
+      border-radius: 6px !important;
+      border: 1px solid #475569 !important;
+      background: #1E293B !important;
+      color: #F1F5F9 !important;
     }
+    body.persona-theme-worker .message-row.user .msg-bubble,
     body.persona-theme-worker .chat-bubble.user {
-      border-radius: 10px 10px 2px 10px !important;
-      background: linear-gradient(135deg, #0F172A, #1E293B) !important;
+      border-radius: 6px !important;
+      background: linear-gradient(135deg, #0284C7, #0369A1) !important;
+      color: #FFFFFF !important;
+      border: none !important;
     }
-    body.persona-theme-worker .ambient-orb.orb-blue {
-      background: radial-gradient(circle, rgba(0, 113, 227, 0.45) 0%, rgba(0, 113, 227, 0) 70%);
+    body.persona-theme-worker .journal-textarea,
+    body.persona-theme-worker input,
+    body.persona-theme-worker textarea {
+      background: #0F172A !important;
+      border: 1px solid #334155 !important;
+      border-radius: 6px !important;
+      color: #F8FAFC !important;
     }
 
     /* -------------------------------------------------------------------------
-       4. FOUNDER (창업가: 딥 다크 옵시디언 & 앰버 골드 - 대담한 벤처 터미널 룩)
+       4. FOUNDER (창업가: 울트라 블랙 옵시디언 & 24K 앰버 골드 벤처 작전실)
        ------------------------------------------------------------------------- */
     body.persona-theme-founder {
-      --apple-bg: #090D16;
-      --apple-surface: #111827;
-      --apple-surface-secondary: #1F2937;
-      --apple-text-primary: #F8FAFC;
-      --apple-text-secondary: #94A3B8;
+      --apple-bg: #04060A;
+      --apple-surface: #0A0E17;
+      --apple-surface-secondary: #111827;
+      --apple-text-primary: #FEF3C7;
+      --apple-text-secondary: #FBBF24;
       --apple-blue: #F59E0B;
       --apple-blue-hover: #D97706;
       --apple-blue-soft: #281F10;
-      --card-radius: 14px;
-      background-color: #090D16 !important;
-      color: #F8FAFC !important;
+      --card-radius: 12px;
+      background: #04060A !important;
+      color: #FEF3C7 !important;
+    }
+    body.persona-theme-founder .ambient-orb.orb-blue {
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.45) 0%, rgba(245, 158, 11, 0) 70%) !important;
+    }
+    body.persona-theme-founder .ambient-orb.orb-emerald {
+      background: radial-gradient(circle, rgba(217, 119, 6, 0.4) 0%, rgba(217, 119, 6, 0) 70%) !important;
+    }
+    body.persona-theme-founder .ambient-orb.orb-purple {
+      background: radial-gradient(circle, rgba(180, 83, 9, 0.35) 0%, rgba(180, 83, 9, 0) 70%) !important;
+    }
+    body.persona-theme-founder .left-nav-dock,
+    body.persona-theme-founder .right-companion-dock {
+      background: #0A0E17 !important;
+      border: 2px solid #F59E0B !important;
+      border-radius: 12px !important;
+      box-shadow: 0 0 35px rgba(245, 158, 11, 0.28) !important;
+      color: #FEF3C7 !important;
+    }
+    body.persona-theme-founder .dock-nav-item { color: #D97706 !important; border-radius: 8px !important; font-weight: 700 !important; }
+    body.persona-theme-founder .dock-nav-item:hover {
+      background: rgba(245, 158, 11, 0.18) !important;
+      color: #FDE68A !important;
+    }
+    body.persona-theme-founder .dock-nav-item.active {
+      background: rgba(245, 158, 11, 0.35) !important;
+      color: #FBBF24 !important;
+      border-color: #F59E0B !important;
+      box-shadow: 0 0 16px rgba(245, 158, 11, 0.4) !important;
     }
     body.persona-theme-founder .apple-studio-window,
     body.persona-theme-founder .elenctic-tree-card,
     body.persona-theme-founder .mind-journal-card,
     body.persona-theme-founder .decision-compass-card,
     body.persona-theme-founder .habit-rewiring-card,
-    body.persona-theme-founder .persona-scenario-card {
+    body.persona-theme-founder .persona-scenario-card,
+    body.persona-theme-founder .dock-widget-card,
+    body.persona-theme-founder .bento-card,
+    body.persona-theme-founder .director-card {
+      background: #0B0F19 !important;
+      border-radius: 12px !important;
+      border: 2px solid #F59E0B !important;
+      box-shadow: 0 0 32px rgba(245, 158, 11, 0.22) !important;
+      color: #FEF3C7 !important;
+    }
+    body.persona-theme-founder .msg-bubble,
+    body.persona-theme-founder .chat-bubble,
+    body.persona-theme-founder .message-row.socrates .msg-bubble {
       background: #111827 !important;
-      color: #F8FAFC !important;
-      border-radius: 14px !important;
-      border: 1px solid rgba(245, 158, 11, 0.35) !important;
-      box-shadow: 0 10px 36px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.1) !important;
+      border: 1.5px solid #D97706 !important;
+      color: #FEF3C7 !important;
+      border-radius: 10px !important;
+      box-shadow: 0 0 16px rgba(245, 158, 11, 0.15) !important;
     }
-    body.persona-theme-founder .chat-bubble {
-      background: #1F2937 !important;
-      color: #E2E8F0 !important;
-      border: 1px solid #374151 !important;
-    }
-    body.persona-theme-founder .chat-bubble strong {
-      color: #FBBF24 !important;
-    }
+    body.persona-theme-founder .msg-bubble strong,
+    body.persona-theme-founder .chat-bubble strong { color: #F59E0B !important; }
+    body.persona-theme-founder .message-row.user .msg-bubble,
     body.persona-theme-founder .chat-bubble.user {
-      background: linear-gradient(135deg, #D97706, #B45309) !important;
-      color: #FFFFFF !important;
+      background: linear-gradient(135deg, #F59E0B, #B45309) !important;
+      color: #000000 !important;
+      font-weight: 800 !important;
       border: none !important;
+      box-shadow: 0 0 22px rgba(245, 158, 11, 0.45) !important;
+      border-radius: 10px !important;
     }
-    body.persona-theme-founder .ambient-orb.orb-blue {
-      background: radial-gradient(circle, rgba(245, 158, 11, 0.5) 0%, rgba(245, 158, 11, 0) 70%);
+    body.persona-theme-founder .journal-textarea,
+    body.persona-theme-founder input,
+    body.persona-theme-founder textarea {
+      background: #05070B !important;
+      border: 1.5px solid #D97706 !important;
+      border-radius: 8px !important;
+      color: #FEF3C7 !important;
     }
 
     /* -------------------------------------------------------------------------
-       5. SENIOR (은퇴/신중년: 클래식 인문 서재 & 웜 세이지 미색지 - 넉넉한 글자 크기와 고서적 여유)
+       5. SENIOR (은퇴/신중년: 100년 전통 클래식 인문학 서재 & 웜 미색 서적지)
        ------------------------------------------------------------------------- */
     body.persona-theme-senior {
-      --apple-bg: #FCFBF7;
-      --apple-surface: #FFFFFF;
-      --apple-surface-secondary: #F6F3EC;
-      --apple-text-primary: #1C1917;
-      --apple-blue: #047857;
-      --apple-blue-hover: #059669;
-      --apple-blue-soft: #ECFDF5;
-      font-size: 17.5px;
-      line-height: 1.85;
-      font-family: 'MaruBuri', 'Batang', serif, -apple-system;
-      background-color: #FCFBF7 !important;
+      --apple-bg: #F4EFE6;
+      --apple-surface: #FCF9F2;
+      --apple-surface-secondary: #EFE8DA;
+      --apple-text-primary: #262320;
+      --apple-blue: #065F46;
+      --apple-blue-hover: #047857;
+      --apple-blue-soft: #D1FAE5;
+      font-size: 18.5px;
+      line-height: 2.1;
+      font-family: 'MaruBuri', 'Batang', serif !important;
+      background: #F4EFE6 !important;
+      color: #262320 !important;
+    }
+    body.persona-theme-senior .ambient-orb.orb-blue {
+      background: radial-gradient(circle, rgba(6, 95, 70, 0.3) 0%, rgba(6, 95, 70, 0) 70%) !important;
+    }
+    body.persona-theme-senior .ambient-orb.orb-emerald {
+      background: radial-gradient(circle, rgba(197, 187, 170, 0.35) 0%, rgba(197, 187, 170, 0) 70%) !important;
+    }
+    body.persona-theme-senior .ambient-orb.orb-purple {
+      background: radial-gradient(circle, rgba(180, 160, 140, 0.25) 0%, rgba(180, 160, 140, 0) 70%) !important;
+    }
+    body.persona-theme-senior .left-nav-dock,
+    body.persona-theme-senior .right-companion-dock {
+      background: #FCF9F2 !important;
+      border: 2.5px solid #C5BBAA !important;
+      border-radius: 18px !important;
+      box-shadow: 0 10px 28px rgba(90, 80, 70, 0.12) !important;
+      color: #292524 !important;
+      font-family: 'MaruBuri', serif !important;
+    }
+    body.persona-theme-senior .dock-nav-item { color: #57534E !important; border-radius: 12px !important; font-family: 'MaruBuri', serif !important; font-size: 0.95rem !important; }
+    body.persona-theme-senior .dock-nav-item:hover {
+      background: #EFE8DA !important;
+      color: #1C1917 !important;
+    }
+    body.persona-theme-senior .dock-nav-item.active {
+      background: #065F46 !important;
+      color: #FFFFFF !important;
+      border-color: #047857 !important;
+      box-shadow: 0 4px 16px rgba(6, 95, 70, 0.3) !important;
     }
     body.persona-theme-senior .apple-studio-window,
     body.persona-theme-senior .elenctic-tree-card,
     body.persona-theme-senior .mind-journal-card,
     body.persona-theme-senior .decision-compass-card,
     body.persona-theme-senior .habit-rewiring-card,
-    body.persona-theme-senior .persona-scenario-card {
-      border-radius: 16px !important;
-      border: 1.5px solid #E7E0D3 !important;
-      box-shadow: 0 8px 24px rgba(68, 64, 60, 0.08) !important;
+    body.persona-theme-senior .persona-scenario-card,
+    body.persona-theme-senior .dock-widget-card,
+    body.persona-theme-senior .bento-card,
+    body.persona-theme-senior .director-card {
+      background: #FFFDF9 !important;
+      border-radius: 18px !important;
+      border: 2.5px solid #C5BBAA !important;
+      box-shadow: 0 10px 28px rgba(90, 80, 70, 0.1) !important;
+      color: #1C1917 !important;
+      font-family: 'MaruBuri', serif !important;
+    }
+    body.persona-theme-senior .msg-bubble,
+    body.persona-theme-senior .chat-bubble,
+    body.persona-theme-senior .message-row.socrates .msg-bubble {
+      font-size: 1.08rem !important;
+      line-height: 2.0 !important;
+      border-radius: 14px !important;
+      border: 1.5px solid #D6CEBE !important;
+      padding: 18px 24px !important;
       background: #FFFFFF !important;
+      color: #1C1917 !important;
+      font-family: 'MaruBuri', serif !important;
+      box-shadow: 0 6px 20px rgba(90, 80, 70, 0.08) !important;
     }
-    body.persona-theme-senior .chat-bubble {
-      font-size: 1.05rem !important;
-      line-height: 1.9 !important;
-      border-radius: 16px !important;
-      border: 1.5px solid #E7E0D3 !important;
-      padding: 16px 22px !important;
-    }
+    body.persona-theme-senior .message-row.user .msg-bubble,
     body.persona-theme-senior .chat-bubble.user {
-      background: linear-gradient(135deg, #065F46, #047857) !important;
+      background: linear-gradient(135deg, #064E3B, #047857) !important;
       color: #FFFFFF !important;
+      border: none !important;
+      font-size: 1.05rem !important;
+      padding: 18px 24px !important;
+      font-family: 'MaruBuri', serif !important;
+      box-shadow: 0 6px 20px rgba(6, 78, 59, 0.25) !important;
     }
-    body.persona-theme-senior .ambient-orb.orb-blue {
-      background: radial-gradient(circle, rgba(5, 150, 105, 0.4) 0%, rgba(5, 150, 105, 0) 70%);
-    }
-    body.persona-theme-senior .ambient-orb.orb-emerald {
-      background: radial-gradient(circle, rgba(217, 119, 6, 0.3) 0%, rgba(217, 119, 6, 0) 70%);
+    body.persona-theme-senior .journal-textarea,
+    body.persona-theme-senior input,
+    body.persona-theme-senior textarea {
+      background: #FAF6EE !important;
+      border: 1.5px solid #C5BBAA !important;
+      border-radius: 12px !important;
+      color: #1C1917 !important;
+      font-family: 'MaruBuri', serif !important;
+      font-size: 1.05rem !important;
     }
 
     /* PERSONA MOOD BAR IN HERO */
@@ -3624,7 +3865,7 @@
     }
   </style>
 </head>
-<body>
+<body class="persona-theme-student">
 
   <!-- SPATIAL 3D AMBIENT BACKGROUND GLOW -->
   <div class="spatial-ambient-bg" aria-hidden="true">
