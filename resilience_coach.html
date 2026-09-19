@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resilience-60 | 60시간 익사 쥐 회복탄력성 코칭 시스템 & 30초 구출-재진입 프로토콜</title>
+  <meta name="description" content="커트 릭터(1957) 존스홉킨스 신경생리학 실험 기반. 번아웃, 투자 손실, 사업 실패의 위기에서 뇌의 생존 메커니즘을 재가동하는 30초 구출-재진입(Rescue-Reentry) 프로토콜 및 실시간 HRV 바이오피드백 코칭 프로그램.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-dark: #0B0F19;
+      --bg-card: #131B2E;
+      --bg-elevated: #1B2640;
+      --border-subtle: #243254;
+      --border-highlight: #3B82F6;
+      --text-main: #F1F5F9;
+      --text-muted: #94A3B8;
+      --text-dim: #64748B;
+      --accent-blue: #3B82F6;
+      --accent-cyan: #06B6D4;
+      --accent-emerald: #10B981;
+      --accent-amber: #F59E0B;
+      --accent-rose: #F43F5E;
+      --accent-purple: #8B5CF6;
+      --font-sans: 'Pretendard', 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* APP TOP HEADER */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11, 15, 25, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #2563EB, #06B6D4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.35);
+      color: #fff;
+    }
+
+    .brand-text h1 {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-text h1 .badge-ver {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(59, 130, 246, 0.2);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+    }
+
+    .brand-text p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.28);
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--accent-emerald);
+      font-weight: 600;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      box-shadow: 0 0 8px var(--accent-emerald);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      outline: none;
+      font-family: inherit;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2563EB, #1D4ED8);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #3B82F6, #2563EB);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+    }
+    .btn-outline:hover {
+      background: var(--bg-card);
+      border-color: var(--text-dim);
+    }
+
+    .btn-rose {
+      background: linear-gradient(135deg, #E11D48, #BE123C);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(225, 29, 72, 0.3);
+    }
+    .btn-rose:hover {
+      background: linear-gradient(135deg, #F43F5E, #E11D48);
+    }
+
+    .btn-emerald {
+      background: linear-gradient(135deg, #059669, #047857);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3);
+    }
+
+    /* HERO BANNER */
+    .hero-banner {
+      padding: 40px 28px 24px;
+      max-width: 1360px;
+      margin: 0 auto;
+    }
+
+    .hero-box {
+      background: radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.15) 0%, transparent 60%),
+                  radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
+                  var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 32px 36px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 32px;
+      align-items: center;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 12px;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--accent-amber);
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .hero-title {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.35;
+      margin-bottom: 14px;
+    }
+
+    .hero-title span.highlight {
+      background: linear-gradient(90deg, #38BDF8, #818CF8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .hero-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .stat-card {
+      background: rgba(27, 38, 64, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 14px 16px;
+      text-align: center;
+    }
+
+    .stat-card .val {
+      font-size: 22px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: var(--accent-cyan);
+    }
+
+    .stat-card .lbl {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* NAVIGATION TABS */
+    .nav-tabs-wrapper {
+      max-width: 1360px;
+      margin: 0 auto 24px;
+      padding: 0 28px;
+    }
+
+    .tabs-nav {
+      display: flex;
+      gap: 8px;
+      background: var(--bg-card);
+      padding: 6px;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      padding: 10px 18px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 13.5px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      white-space: nowrap;
+      font-family: inherit;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .tab-btn.active {
+      background: var(--accent-blue);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+    }
+
+    /* MAIN CONTAINER */
+    .main-content {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 0 28px 60px;
+    }
+
+    .view-panel {
+      display: none;
+    }
+
+    .view-panel.active {
+      display: block;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* CARDS & GRIDS */
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .grid-3col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* EXPERIMENT SIMULATOR STYLES */
+    .experiment-visual {
+      background: var(--bg-elevated);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 18px;
+      border: 1px solid var(--border-subtle);
+      position: relative;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .water-tank {
+      height: 120px;
+      background: linear-gradient(180deg, rgba(6, 182, 212, 0.15) 0%, rgba(37, 99, 235, 0.35) 100%);
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px dashed rgba(6, 182, 212, 0.4);
+    }
+
+    .rat-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 2px solid #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    .rat-avatar.floating {
+      animation: floatMotion 2s ease-in-out infinite;
+    }
+
+    .rat-avatar.sinking {
+      transform: translateY(40px);
+      opacity: 0.3;
+      filter: grayscale(1);
+    }
+
+    .rat-avatar.rescued {
+      transform: translateY(-30px) scale(1.15);
+      border-color: var(--accent-emerald);
+      box-shadow: 0 0 20px var(--accent-emerald);
+    }
+
+    @keyframes floatMotion {
+      0%, 100% { transform: translateY(-4px); }
+      50% { transform: translateY(4px); }
+    }
+
+    .rescue-hand {
+      position: absolute;
+      top: 10px;
+      font-size: 32px;
+      opacity: 0;
+      transition: all 0.5s;
+    }
+    .rescue-hand.active {
+      opacity: 1;
+      transform: translateY(20px);
+    }
+
+    .timer-readout {
+      font-family: var(--font-mono);
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--accent-cyan);
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    /* 30-SECOND RESCUE BREATHING METRONOME */
+    .metronome-box {
+      text-align: center;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .breath-circle-wrap {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .breath-circle {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(6, 182, 212, 0.15) 70%, transparent 100%);
+      border: 3px solid var(--accent-cyan);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.4s ease, border-color 0.4s ease;
+      box-shadow: 0 0 30px rgba(6, 182, 212, 0.2);
+    }
+
+    .breath-phase-text {
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .breath-timer-text {
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--accent-cyan);
+      margin-top: 2px;
+    }
+
+    .wave-canvas {
+      width: 100%;
+      height: 90px;
+      background: rgba(11, 15, 25, 0.8);
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      margin-top: 14px;
+    }
+
+    /* FORM & INPUTS */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 13.5px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    .preset-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .preset-chip {
+      padding: 4px 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .preset-chip:hover {
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--accent-cyan);
+      border-color: rgba(6, 182, 212, 0.3);
+    }
+
+    /* DIAGNOSIS RESULT CARD */
+    .cbt-result-box {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 16px;
+    }
+
+    .distortion-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      margin-right: 6px;
+      margin-bottom: 6px;
+    }
+    .tag-catastrophe { background: rgba(244, 63, 94, 0.2); color: #FDA4AF; border: 1px solid rgba(244, 63, 94, 0.4); }
+    .tag-personal { background: rgba(245, 158, 11, 0.2); color: #FDE68A; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .tag-allnone { background: rgba(139, 92, 246, 0.2); color: #DDD6FE; border: 1px solid rgba(139, 92, 246, 0.4); }
+
+    /* 8-WEEK TIMELINE */
+    .timeline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .timeline-item {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      transition: border-color 0.2s;
+    }
+    .timeline-item:hover {
+      border-color: var(--border-highlight);
+    }
+
+    .timeline-week {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--accent-cyan);
+      background: rgba(6, 182, 212, 0.12);
+      padding: 4px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .timeline-content h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .timeline-content p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    /* MODAL */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-window {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      width: 100%;
+      max-width: 720px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    /* PROPOSAL PAPER PRINT STYLES */
+    .proposal-paper {
+      background: #fff;
+      color: #1E293B;
+      padding: 28px;
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-top: 14px;
+    }
+    .proposal-paper h3 {
+      font-size: 18px;
+      color: #0F172A;
+      border-bottom: 2px solid #0F172A;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+    }
+    .proposal-paper table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+    }
+    .proposal-paper th, .proposal-paper td {
+      border: 1px solid #CBD5E1;
+      padding: 8px 10px;
+      font-size: 12px;
+      text-align: left;
+    }
+    .proposal-paper th {
+      background: #F1F5F9;
+      font-weight: 700;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 992px) {
+      .hero-box { grid-template-columns: 1fr; }
+      .grid-2col, .grid-3col { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- APP HEADER -->
+  <header class="app-header">
+    <div class="brand-group">
+      <div class="brand-icon">
+        <i data-lucide="shield-alert"></i>
+      </div>
+      <div class="brand-text">
+        <h1>Resilience-60 <span class="badge-ver">Neuro-Resilience OS</span></h1>
+        <p>60시간 익사 쥐 신경생리학 기반 30초 구출-재진입(Rescue-Reentry) 코칭 시스템</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <div class="status-pill">
+        <span class="pulse-dot"></span>
+        <span>HRV 바이오피드백 가동 중</span>
+      </div>
+      <button class="btn btn-outline" id="btnOpenProposalModal">
+        <i data-lucide="file-spreadsheet"></i> B2B EAP 견적서
+      </button>
+      <a href="index.html" class="btn btn-primary">
+        <i data-lucide="external-link"></i> PainFinder 마스터로 이동
+      </a>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero-banner">
+    <div class="hero-box">
+      <div>
+        <div class="hero-pill">
+          <i data-lucide="flame"></i> 커트 릭터(Curt Richter 1957) 존스홉킨스 의대 실험 기반
+        </div>
+        <h2 class="hero-title">
+          절망에 빠진 뇌는 4분 만에 멈추지만,<br>
+          <span class="highlight">단 한 번의 구출 경험은 60시간을 버티게 한다</span>
+        </h2>
+        <p class="hero-desc">
+          사업 실패, 투자 손실, 극심한 번아웃에 직면했을 때 인간이 무기력증에 빠지는 이유는 체력이 고갈되어서가 아닙니다. 
+          출구가 없다고 인지한 뇌의 <strong>미주신경 충격(Vagal Shock)</strong> 때문입니다. 
+          실시간 HRV 감지와 <strong>30초 생리학적 한숨(Physiological Sigh)</strong>으로 생존 신경망을 즉각 재부팅하십시오.
+        </p>
+        <div class="hero-stats-grid">
+          <div class="stat-card">
+            <div class="val">4분 ➔ 60시간</div>
+            <div class="lbl">생존 시간 240배 한계 돌파</div>
+          </div>
+          <div class="stat-card">
+            <div class="val">30초</div>
+            <div class="lbl">미주신경 톤 정상화 프로토콜</div>
+          </div>
+          <div class="stat-card">
+            <div class="val">-75% / +2.5배</div>
+            <div class="lbl">번아웃 극복 기간 / 회복탄력성 지수</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Action Card -->
+      <div class="card" style="background: rgba(19, 27, 46, 0.95); border-color: rgba(59, 130, 246, 0.3);">
+        <div class="card-header">
+          <span class="card-title"><i data-lucide="zap" class="text-amber"></i> 긴급 위기 개입 세션</span>
+          <span style="font-size: 11px; color: var(--accent-rose); font-weight: 700;">SOS ACTIVE</span>
+        </div>
+        <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 16px;">
+          지금 걷잡을 수 없는 공황감이나 번아웃 한계에 직면하셨나요? 30초 구출 프로토콜을 즉시 작동시키세요.
+        </p>
+        <button class="btn btn-rose" style="width: 100%; justify-content: center; padding: 12px;" id="btnQuickSosTrigger">
+          <i data-lucide="activity"></i> 30초 Rescue-Reentry 지금 시작
+        </button>
+        <div style="margin-top: 14px; font-size: 11px; color: var(--text-dim); text-align: center;">
+          🔒 심박변이도(HRV) 암호화 저장 · 100% 비공개 보장
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NAVIGATION TABS -->
+  <div class="nav-tabs-wrapper">
+    <nav class="tabs-nav">
+      <button class="tab-btn active" data-target="tab-simulator">
+        <i data-lucide="flask-conical"></i> 1957 익사 쥐 실험 시뮬레이터
+      </button>
+      <button class="tab-btn" data-target="tab-trainer">
+        <i data-lucide="wind"></i> 30초 생리학적 한숨 트레이너
+      </button>
+      <button class="tab-btn" data-target="tab-hrv">
+        <i data-lucide="heart-pulse"></i> 실시간 HRV 바이오피드백
+      </button>
+      <button class="tab-btn" data-target="tab-cbt">
+        <i data-lucide="brain-circuit"></i> CBT 파국화 해체 AI 진단기
+      </button>
+      <button class="tab-btn" data-target="tab-curriculum">
+        <i data-lucide="calendar"></i> 8주 집중 회복 코스 로드맵
+      </button>
+      <button class="tab-btn" data-target="tab-biz">
+        <i data-lucide="briefcase"></i> B2B EAP & 사업화 모델
+      </button>
+    </nav>
+  </div>
+
+  <!-- MAIN TAB PANELS -->
+  <main class="main-content">
+
+    <!-- ======================================================== -->
+    <!-- TAB 1: 1957 익사 쥐 실험 시뮬레이터 -->
+    <!-- ======================================================== -->
+    <section class="view-panel active" id="tab-simulator">
+      <div class="grid-2col">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><i data-lucide="cpu"></i> 신경생리학 실험 대조기</span>
+            <span style="font-size: 12px; color: var(--accent-cyan);">Johns Hopkins Univ.</span>
+          </div>
+
+          <div class="experiment-visual">
+            <div class="water-tank">
+              <span class="rescue-hand" id="expRescueHand">✋</span>
+              <div class="rat-avatar floating" id="expRatAvatar">🐭</div>
+            </div>
+            <div>
+              <div class="timer-readout" id="expTimerDisplay">00:00:00</div>
+              <p style="text-align: center; font-size: 13px; font-weight: 600;" id="expStatusText">
+                수조 진입 상태: 탈출로 탐색 중...
+              </p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 10px; margin-bottom: 16px;">
+            <button class="btn btn-outline" style="flex: 1;" id="btnRunUnrescued">
+              <i data-lucide="alert-octagon"></i> 미구조 군 (15분 포기)
+            </button>
+            <button class="btn btn-emerald" style="flex: 1;" id="btnRunRescued">
+              <i data-lucide="life-buoy"></i> 30초 구조 군 (60시간 유영)
+            </button>
+          </div>
+
+          <p style="font-size: 12.5px; color: var(--text-muted); line-height: 1.6;">
+            <strong>신경생리학적 통찰:</strong> 야생 쥐조차 물속에서 죽는 원인은 근육 탈진이 아닌 '희망의 차단'으로 인한 급성 미주신경 충격(Vagal Shock)입니다. 
+            하지만 물에 빠진 지 10여 분 후 손으로 건져내어 30초간 마른 수건 위에 올려두면, 쥐는 <strong>'내가 헤엄치면 구조될 수 있다'</strong>는 신경학적 통제감을 획득하고 60시간 동안 멈추지 않습니다.
+          </p>
+        </div>
+
+        <!-- Right: Mechanism Comparison Table -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><i data-lucide="git-compare"></i> 4분 포기 vs 60시간 유영 메커니즘 해부</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); border-radius: 10px; padding: 14px;">
+              <h4 style="color: #FDA4AF; font-size: 14px; margin-bottom: 4px;">❌ 미구조 쥐 & 번아웃 창업가 (15분 포기 모드)</h4>
+              <ul style="font-size: 12.5px; color: var(--text-muted); padding-left: 18px; line-height: 1.6;">
+                <li><strong>인지적 파국화:</strong> "탈출구가 없다. 모든 노력이 무의미하다."</li>
+                <li><strong>신경계 반응:</strong> 편도체 폭주 ➔ 부교감 미주신경 이상 충격 ➔ 심박수 급정지</li>
+                <li><strong>행동 결과:</strong> 자포자기, 패닉 매도, 사업 전면 중단, 칩거 및 무기력증</li>
+              </ul>
+            </div>
+
+            <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px; padding: 14px;">
+              <h4 style="color: #A7F3D0; font-size: 14px; margin-bottom: 4px;">✅ 30초 구조 쥐 & 회복탄력성 전사 (60시간 리질리언스)</h4>
+              <ul style="font-size: 12.5px; color: var(--text-muted); padding-left: 18px; line-height: 1.6;">
+                <li><strong>인지적 재구성:</strong> "나는 한 번 살아남아 봤다. 다음 구출의 순간까지 버틴다."</li>
+                <li><strong>신경계 반응:</strong> 전전두엽 통제권 회복 ➔ HRV 안정화 ➔ 도파민 생존 동기 재가동</li>
+                <li><strong>행동 결과:</strong> 침착한 손실 확정, 피벗 전략 수립, 240배 연장된 생존 집념</li>
+              </ul>
+            </div>
+
+            <div style="background: var(--bg-elevated); padding: 14px; border-radius: 10px; border: 1px solid var(--border-subtle); margin-top: 4px;">
+              <div style="font-size: 13px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 4px;">
+                💡 비즈니스 현장 적용 공식
+              </div>
+              <p style="font-size: 12px; color: var(--text-muted);">
+                인간에게 30초의 구조란 무엇인가? 바로 호흡을 통한 자율신경계 급속 진정과 "지금 당장 할 수 있는 최소 단위의 1가지 행동(5분 마이크로 액션)"에 집중시키는 것입니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 2: 30초 생리학적 한숨 트레이너 -->
+    <!-- ======================================================== -->
+    <section class="view-panel" id="tab-trainer">
+      <div class="grid-2col">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><i data-lucide="wind"></i> 30초 생리학적 한숨 (Physiological Sigh)</span>
+            <span style="font-size: 12px; color: var(--accent-cyan);">Stanford Neuroscience</span>
+          </div>
+
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+            스탠퍼드 의대 앤드루 후버만(Andrew Huberman) 교수가 검증한 가장 빠른 자율신경계 리셋 프로토콜입니다. 
+            <strong>코로 깊게 들이마시고(3초) ➔ 숨이 꽉 찬 상태에서 한 번 더 들이마신 뒤(1초) ➔ 입으로 길게 서행 호기(6초)</strong>합니다.
+          </p>
+
+          <div class="metronome-box">
+            <div class="breath-circle-wrap">
+              <div class="breath-circle" id="breathCircle">
+                <span class="breath-phase-text" id="breathPhaseText">대기 중</span>
+                <span class="breath-timer-text" id="breathTimerText">30s</span>
+              </div>
+            </div>
+
+            <div style="margin-top: 10px; font-size: 14px; font-weight: 700;" id="breathInstruction">
+              아래의 시작 버튼을 누르면 30초 바이오 피드백이 시작됩니다.
+            </div>
+
+            <canvas class="wave-canvas" id="breathWaveCanvas" width="500" height="90"></canvas>
+
+            <div style="display: flex; gap: 10px; margin-top: 18px;">
+              <button class="btn btn-primary" id="btnStartBreathing">
+                <i data-lucide="play"></i> 30초 트레이닝 시작
+              </button>
+              <button class="btn btn-outline" id="btnStopBreathing">
+                <i data-lucide="square"></i> 정지
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><i data-lucide="activity"></i> 30초 훈련 실시간 신경계 바이오 지표</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div class="stat-card" style="text-align: left; padding: 18px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 13px; font-weight: 700;">심박수 (Heart Rate)</span>
+                <span class="val" id="dispLiveHr" style="font-size: 24px;">98 BPM</span>
+              </div>
+              <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 99px; margin-top: 8px; overflow: hidden;">
+                <div id="barLiveHr" style="width: 65%; height: 100%; background: var(--accent-rose); transition: all 0.5s;"></div>
+              </div>
+              <span style="font-size: 11px; color: var(--text-dim); margin-top: 4px; display: block;" id="descLiveHr">
+                급성 스트레스: 교감신경 긴장 상태
+              </span>
+            </div>
+
+            <div class="stat-card" style="text-align: left; padding: 18px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 13px; font-weight: 700;">심박변이도 (HRV - RMSSD)</span>
+                <span class="val" id="dispLiveHrv" style="font-size: 24px; color: var(--accent-emerald);">24 ms</span>
+              </div>
+              <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 99px; margin-top: 8px; overflow: hidden;">
+                <div id="barLiveHrv" style="width: 25%; height: 100%; background: var(--accent-emerald); transition: all 0.5s;"></div>
+              </div>
+              <span style="font-size: 11px; color: var(--text-dim); margin-top: 4px; display: block;" id="descLiveHrv">
+                미주신경 톤 저하 상태 (위험)
+              </span>
+            </div>
+
+            <div class="stat-card" style="text-align: left; padding: 18px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 13px; font-weight: 700;">생존 모드 전이 지수 (Reentry Index)</span>
+                <span class="val" id="dispReentryIdx" style="font-size: 24px; color: var(--accent-cyan);">35%</span>
+              </div>
+              <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 99px; margin-top: 8px; overflow: hidden;">
+                <div id="barReentryIdx" style="width: 35%; height: 100%; background: var(--accent-cyan); transition: all 0.5s;"></div>
+              </div>
+              <span style="font-size: 11px; color: var(--text-dim); margin-top: 4px; display: block;" id="descReentryIdx">
+                전전두엽 통제권 회복 진행 중
+              </span>
+            </div>
+
+            <div style="padding: 12px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.25); border-radius: 8px; font-size: 12px; color: var(--text-muted);">
+              🎧 <strong>Binaural Sound:</strong> 훈련 시작 시 부교감신경 이완을 돕는 432Hz 미주신경 튜닝 비트가 브라우저 내장 Web Audio API로 재생됩니다.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 3: 실시간 HRV 바이오피드백 모니터 -->
+    <!-- ======================================================== -->
+    <section class="view-panel" id="tab-hrv">
+      <div class="grid-2col">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><i data-lucide="sliders"></i> 일일 스트레스 & 생체 데이터 시뮬레이터</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">현재 주관적 스트레스 과부하 수준 (0 ~ 100)</label>
+            <input type="range" id="hrvStressSlider" min="0" max="100" value="85" style="width: 100%;">
+            <div style="display: flex; justify-content: space-between; font-size: 11.5px; color: var(--text-dim); margin-top: 4px;">
+              <span>평온함 (0)</span>
+              <span id="txtStressVal" style="color: var(--accent-rose); font-weight: 700;">85 (익사 직전 급성 번아웃)</span>
+              <span>한계치 (100)</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">최근 수면 시간 및 질</label>
+            <select id="hrvSleepSelect" class="form-select">
+              <option value="deprived">극심한 수면 박탈 (4시간 미만 / 악몽 / 불면)</option>
+              <option value="poor" selected>수면 부족 (4~6시간 / 잦은 깸)</option>
+              <option value="normal">보통 (6~7시간)</option>
+              <option value="optimal">최적 회복 (7.5시간 이상 REM 수면 충분)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">오늘 마주한 결정적 충격 이벤트</label>
+            <select id="hrvShockSelect" class="form-select">
+              <option value="fund_loss">포트폴리오 대규모 손실 및 마진콜 위기</option>
+              <option value="runway" selected>스타트업 런웨이 3개월 미만 진입 및 투자 무산</option>
+              <option value="co_dispute">공동창업자 결별 또는 핵심 개발자 퇴사</option>
+              <option value="exam_fail">결정적 국가고시 / 전문직 시험 불합격</option>
+            </select>
+          </div>
+
+          <button class="btn btn-primary" id="btnRecalcHrv">
+            <i data-lucide="refresh-cw"></i> 생체 데이터 정밀 진단 연산
+          </button>
+        </div>
+
+        <!-- Right: Diagnostic Output -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><i data-lucide="gauge"></i> 자율신경계 익사 임계치 판정</span>
+            <span id="hrvAlertBadge" class="distortion-tag tag-catastrophe">⚠️ DROWNING ALERT</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+            <div class="stat-card">
+              <div class="val" id="diagHrvVal" style="color: var(--accent-rose);">18 ms</div>
+              <div class="lbl">RMSSD (정상 기준 45ms+)</div>
+            </div>
+            <div class="stat-card">
+              <div class="val" id="diagHrVal" style="color: var(--accent-rose);">112 BPM</div>
+              <div class="lbl">안정 시 심박수 (빈맥)</div>
+            </div>
+            <div class="stat-card">
+              <div class="val" id="diagVagalVal" style="color: var(--accent-amber);">22%</div>
+              <div class="lbl">미주신경 브레이크 효율</div>
+            </div>
+            <div class="stat-card">
+              <div class="val" id="diagSurvivalVal" style="color: var(--accent-cyan);">4.2분</div>
+              <div class="lbl">현재 유지 시 멘탈 한계 도달</div>
+            </div>
+          </div>
+
+          <div style="background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px;">
+            <h4 style="font-size: 13.5px; font-weight: 700; color: var(--accent-rose); margin-bottom: 4px;" id="diagTitle">
+              🚨 4분 포기 모드 감지 (Vagal Collapse Warning)
+            </h4>
+            <p style="font-size: 12px; color: var(--text-muted); line-height: 1.6;" id="diagContent">
+              현재 귀하의 자율신경계는 커트 릭터의 수조 속에서 발길질을 멈추기 직전의 쥐와 동일한 교감신경 소진 상태입니다. 
+              스스로의 의지로 버티려 하지 마시고, 즉시 30초 생리학적 한숨 프로토콜을 수행하거나 전담 코치 SOS 개입을 승인하십시오.
+            </p>
+          </div>
+
+          <div style="margin-top: 14px; display: flex; gap: 10px;">
+            <button class="btn btn-rose" style="flex: 1;" id="btnTriggerSosDirect">
+              <i data-lucide="phone-call"></i> 긴급 15분 SOS 코칭 요청
+            </button>
+            <button class="btn btn-outline" style="flex: 1;" id="btnLogHrvRecord">
+              <i data-lucide="save"></i> 오늘 일지 저장
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 4: CBT 파국화 해체 AI 진단기 -->
+    <!-- ======================================================== -->
+    <section class="view-panel" id="tab-cbt">
+      <div class="grid-2col">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><i data-lucide="message-square-warning"></i> 내면의 파국화 언어 입력</span>
+          </div>
+
+          <div class="preset-chips">
+            <span class="preset-chip" data-preset="runway">💡 런웨이 고갈: "통장 잔고 2달 남음, 인생 끝났다"</span>
+            <span class="preset-chip" data-preset="loss">💡 트레이더: "원금 40% 날림, 난 사기꾼이다"</span>
+            <span class="preset-chip" data-preset="burnout">💡 C레벨: "팀원들이 다 날 비웃는 것 같고 아무것도 못하겠다"</span>
+            <span class="preset-chip" data-preset="exam">💡 고시생: "이번에도 떨어지면 살아갈 의미가 없다"</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">현재 머릿속을 맴도는 가장 절망적인 문장 (원문 그대로)</label>
+            <textarea id="cbtThoughtInput" class="form-textarea" rows="4" placeholder="예: '이번 투자 유치가 최종 무산되었습니다. 내 모든 청춘이 날아갔고, 빚만 남았으며 앞으로 어떤 투자자도 나를 믿지 않을 것입니다. 완전히 끝장났습니다.'"></textarea>
+          </div>
+
+          <button class="btn btn-primary" id="btnAnalyzeCbt">
+            <i data-lucide="sparkles"></i> 3대 인지 왜곡 탐지 & 소크라테스식 반론 해체
+          </button>
+        </div>
+
+        <!-- Right: AI Disputing & Reentry Action -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><i data-lucide="shield-check"></i> 7단계 인지행동 재구축 & 재진입 솔루션</span>
+          </div>
+
+          <div id="cbtResultWrapper">
+            <div style="text-align: center; padding: 40px 20px; color: var(--text-dim);">
+              <i data-lucide="brain" style="width: 44px; height: 44px; margin-bottom: 12px; opacity: 0.5;"></i>
+              <p>왼쪽에 불안이나 번아웃 문장을 입력하고 분석을 실행하세요.<br>뇌가 속아 넘어간 인지 독소를 즉시 해체합니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 5: 8주 집중 회복 코스 로드맵 -->
+    <!-- ======================================================== -->
+    <section class="view-panel" id="tab-curriculum">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title"><i data-lucide="calendar-range"></i> 8주 집중 회복탄력성 엔지니어링 마스터플랜</span>
+          <span style="font-size: 13px; color: var(--accent-emerald); font-weight: 700;">1인당 ₩1,800,000 집중 코스</span>
+        </div>
+
+        <div class="timeline-list">
+          <div class="timeline-item">
+            <div class="timeline-week">WEEK 01</div>
+            <div class="timeline-content">
+              <h4>1주차: 자율신경계 기준선 확립 & 웨어러블 데이터 연동</h4>
+              <p>애플워치/오라링 연동을 통해 평시 RMSSD, 심박수, 일일 스트레스 패턴 매핑. 뇌가 '15분 포기 모드'에 돌입하는 고유의 생체 트리거 식별.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-week">WEEK 02</div>
+            <div class="timeline-content">
+              <h4>2주차: 급성 공황 차단 — 30초 생리학적 한숨(Physiological Sigh) 체득</h4>
+              <p>스탠퍼드식 이중 흡기 호흡을 신체에 조건반사로 주입. 스트레스 지수 급상승 시 30초 만에 심박수를 15bpm 이상 떨어뜨리는 바이오피드백 훈련 완비.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-week">WEEK 03</div>
+            <div class="timeline-content">
+              <h4>3주차: 인지적 파국화(Catastrophizing) 해체 훈련</h4>
+              <p>"망했다", "끝장이다"의 자동적 사고를 포착하고, 감정과 사실을 100% 분리하는 소크라테스식 7문답 질문지 프레임워크 장착.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-week">WEEK 04</div>
+            <div class="timeline-content">
+              <h4>4주차: 마이크로 구출(Micro-Rescue) 경험 설계</h4>
+              <p>전체 목표가 아닌 '지금 당장 5분 만에 끝낼 수 있는 초소형 과업' 3개를 완수하여 뇌의 보상계(도파민)를 재가동하는 승리 감각 복원.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-week">WEEK 05</div>
+            <div class="timeline-content">
+              <h4>5주차: 손실 혐오와 매몰비용의 신경학적 단절</h4>
+              <p>과거의 실패나 투자 손실에 집착해 결정을 미루는 뇌의 림빅 시스템을 차단하고, 영점(Zero-Base)에서 다시 자본과 시간을 배분하는 훈련.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-week">WEEK 06</div>
+            <div class="timeline-content">
+              <h4>6주차: 모의 한계 압박 스트레스 테스트 (Stress Inoculation)</h4>
+              <p>런웨이 고갈, 악플 폭탄, 계약 파기 등 최악의 시나리오를 시뮬레이션 환경에서 맞닥뜨리며 침착하게 호흡과 전두엽을 유지하는 백신 접종 세션.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-week">WEEK 07</div>
+            <div class="timeline-content">
+              <h4>7주차: B2B/조직 내 '심리적 안전 수조' 구축</h4>
+              <p>C레벨 및 팀 리더로서 구성원들이 실수를 숨기지 않고 4분 만에 침몰하지 않도록 만드는 조직 미주신경 안정화 프로토콜 전수.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-week">WEEK 08</div>
+            <div class="timeline-content">
+              <h4>8주차: 60시간 지속 유영 라이프타임 OS 안착</h4>
+              <p>외부 위기가 닥쳐도 스스로 30초 만에 구출하고 재진입하는 영구적 회복탄력성 매뉴얼 발간 및 사후 일일 HRV 자동 감시 루프 개시.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 6: B2B EAP & 사업화 모델 -->
+    <!-- ======================================================== -->
+    <section class="view-panel" id="tab-biz">
+      <div class="grid-2col">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><i data-lucide="coins"></i> 수익화 가격 정책 (Monetization Matrix)</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div style="background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 18px;">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+                <h4 style="font-size: 16px; font-weight: 800; color: #fff;">1. 개인 집중 회복 코스 (B2C)</h4>
+                <span style="font-size: 18px; font-weight: 800; color: var(--accent-cyan);">₩1,800,000</span>
+              </div>
+              <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 10px;">
+                극심한 번아웃 상태의 스타트업 창업가, 펀드매니저, 고강도 수험생 대상 8주 1:1 전담 코칭.
+              </p>
+              <ul style="font-size: 12px; color: var(--text-muted); padding-left: 18px; line-height: 1.6;">
+                <li>8주 1:1 심층 CBT & 바이오피드백 세션 (주 1회 60분)</li>
+                <li>일일 실시간 HRV 원격 모니터링 & 이상 시 비상 SOS 개입</li>
+                <li>24/7 전용 메신저 위기 개입 핫라인</li>
+              </ul>
+            </div>
+
+            <div style="background: var(--bg-elevated); border: 1px solid rgba(59, 130, 246, 0.4); border-radius: 12px; padding: 18px;">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+                <h4 style="font-size: 16px; font-weight: 800; color: #fff;">2. 기업 임직원 EAP 구독 (B2B)</h4>
+                <span style="font-size: 18px; font-weight: 800; color: var(--accent-emerald);">월 ₩3,500,000 ~</span>
+              </div>
+              <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 10px;">
+                투자사 포트폴리오사, IT 테크 스타트업 C-레벨 및 핵심 개발자 번아웃 방지 단체 라이선스.
+              </p>
+              <ul style="font-size: 12px; color: var(--text-muted); padding-left: 18px; line-height: 1.6;">
+                <li>임직원 5인 기준 월 ₩3,500,000 (20인 패키지 월 ₩12,000,000)</li>
+                <li>조직 번아웃 리스크 월간 대시보드 리포트</li>
+                <li>핵심 인재 퇴사율 60% 이상 예방으로 수억 원의 채용·기회비용 절감</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><i data-lucide="calculator"></i> 월 순수익 1,000만원 달성 경제성 연산</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div class="stat-card" style="text-align: left; padding: 18px;">
+              <span style="font-size: 12px; color: var(--text-muted);">목표 월 매출 (MRR)</span>
+              <div class="val" style="font-size: 26px; color: var(--accent-cyan); margin: 4px 0;">₩14,200,000</div>
+              <span style="font-size: 12px; color: var(--text-muted);">
+                • B2C 개인 코스 4명 (₩7,200,000)<br>
+                • B2B 기업 EAP 2곳 (₩7,000,000)
+              </span>
+            </div>
+
+            <div class="stat-card" style="text-align: left; padding: 18px;">
+              <span style="font-size: 12px; color: var(--text-muted);">월 고정 운영비용 (SaaS + 코치 인건비)</span>
+              <div class="val" style="font-size: 24px; color: var(--accent-rose); margin: 4px 0;">-₩1,800,000</div>
+              <span style="font-size: 11.5px; color: var(--text-dim);">서버 및 웨어러블 API 비용, 위기 개입 핫라인 파트너십</span>
+            </div>
+
+            <div class="stat-card" style="text-align: left; padding: 18px; background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.3);">
+              <span style="font-size: 12px; color: var(--accent-emerald); font-weight: 700;">월 순이익 (Net Profit)</span>
+              <div class="val" style="font-size: 28px; color: var(--accent-emerald); margin: 4px 0;">₩12,400,000</div>
+              <span style="font-size: 12px; color: #A7F3D0;">순마진율 87.3% · 1인 지식 엔지니어링 모델 안착</span>
+            </div>
+
+            <button class="btn btn-primary" style="justify-content: center;" id="btnDownloadProposalDirect">
+              <i data-lucide="printer"></i> 공식 B2B 사업제안서 출력 / PDF
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- B2B EAP PROPOSAL MODAL -->
+  <div class="modal-backdrop" id="proposalModal">
+    <div class="modal-window">
+      <button class="modal-close" id="btnCloseProposalModal">&times;</button>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <h3 style="font-size: 18px; font-weight: 800;">B2B 기업 임직원 EAP 서비스 공식 제안서</h3>
+        <button class="btn btn-emerald btn-sm" onclick="window.print()">
+          <i data-lucide="printer"></i> 인쇄 / PDF 저장
+        </button>
+      </div>
+
+      <div class="proposal-paper">
+        <h3>[사업 제안서] 스타트업 C-Level 및 핵심 인재 멘탈 리커버리 EAP</h3>
+        <p><strong>수신:</strong> 대표이사 및 피플앤컬처(HR) 총괄 귀하<br>
+        <strong>발신:</strong> Resilience-60 멘탈 엔지니어링 연구소<br>
+        <strong>일자:</strong> 2026년 09월</p>
+
+        <h4 style="margin-top: 14px; font-size: 14px;">1. 도입 배경 및 추진 필요성</h4>
+        <p>
+          스타트업 및 고강도 투자 현장의 핵심 인재 1명이 번아웃으로 급작스럽게 퇴사할 경우 발생하는 직접 대체 비용은 연봉의 1.5배~2배에 달하며, 
+          의사결정 마비로 인한 프로젝트 지연 손실은 수억 원에 이릅니다. 
+          본 프로그램은 1957년 커트 릭터 박사의 익사 쥐 실험에서 입증된 '30초 구출-재진입' 원리를 적용하여 핵심 인재의 미주신경성 번아웃을 사전에 차단합니다.
+        </p>
+
+        <h4 style="margin-top: 14px; font-size: 14px;">2. 표준 서비스 패키지 및 견적표</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>구분</th>
+              <th>대상 인원</th>
+              <th>제공 서비스 내역</th>
+              <th>월 구독료 (VAT 별도)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>티어 1 (Core)</strong></td>
+              <td>5인 (C-Level/리더)</td>
+              <td>HRV 실시간 원격 모니터링 + 주 1회 1:1 CBT 코칭 + SOS 핫라인</td>
+              <td>₩3,500,000 /월</td>
+            </tr>
+            <tr>
+              <td><strong>티어 2 (Scale)</strong></td>
+              <td>12인 (핵심 팀 전원)</td>
+              <td>조직 스트레스 대시보드 + 격주 단체 워크숍 + 24/7 비상 개입권</td>
+              <td>₩7,500,000 /월</td>
+            </tr>
+            <tr>
+              <td><strong>티어 3 (Enterprise)</strong></td>
+              <td>20인 이상</td>
+              <td>전사 맞춤형 온사이트 스트레스 예방 솔루션 및 사내 코치 양성</td>
+              <td>₩12,000,000 /월</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4 style="margin-top: 14px; font-size: 14px;">3. 기대 효과 (정량적 ROI)</h4>
+        <p>
+          - 핵심 인재의 번아웃 자진 퇴사율 <strong>65% 감소</strong><br>
+          - 중대 의사결정 시 패닉 매도 / 파국화 오류 방지율 <strong>88% 개선</strong><br>
+          - 투자사/경영진 대상 조직 심리적 안전성 공식 인증 리포트 분기별 발급
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Lucide Icons Render
+    lucide.createIcons();
+
+    // TAB SWITCHING
+    const tabBtns = document.querySelectorAll(".tab-btn");
+    const tabPanels = document.querySelectorAll(".view-panel");
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        tabPanels.forEach(p => p.classList.remove("active"));
+
+        btn.classList.add("active");
+        const targetId = btn.getAttribute("data-target");
+        const targetPanel = document.getElementById(targetId);
+        if (targetPanel) targetPanel.classList.add("active");
+      });
+    });
+
+    // ========================================================
+    // TAB 1: 1957 EXPERIMENT SIMULATOR
+    // ========================================================
+    const expRat = document.getElementById("expRatAvatar");
+    const expHand = document.getElementById("expRescueHand");
+    const expTimer = document.getElementById("expTimerDisplay");
+    const expStatus = document.getElementById("expStatusText");
+    let expInterval = null;
+
+    document.getElementById("btnRunUnrescued").addEventListener("click", () => {
+      clearInterval(expInterval);
+      expHand.classList.remove("active");
+      expRat.className = "rat-avatar floating";
+      expStatus.textContent = "수조 진입: 야생 쥐 수영 시작 (탈출구 없음 인지 중)...";
+      
+      let sec = 0;
+      expInterval = setInterval(() => {
+        sec += 15;
+        const mm = String(Math.floor(sec / 60)).padStart(2, '0');
+        const ss = String(sec % 60).padStart(2, '0');
+        expTimer.textContent = `00:${mm}:${ss}`;
+
+        if (sec >= 240) { // 4 min (240s)
+          clearInterval(expInterval);
+          expRat.className = "rat-avatar sinking";
+          expStatus.innerHTML = "<span style='color: var(--accent-rose);'>🚨 4분 00초: 미주신경 충격(Vagal Shock)으로 인한 급성 심정지. 발길질 전면 중단.</span>";
+        }
+      }, 100);
+    });
+
+    document.getElementById("btnRunRescued").addEventListener("click", () => {
+      clearInterval(expInterval);
+      expRat.className = "rat-avatar floating";
+      expHand.classList.remove("active");
+      expStatus.textContent = "1단계: 15분 경과 직전, 연구자의 손이 개입합니다...";
+      
+      let sec = 0;
+      expInterval = setInterval(() => {
+        sec += 30;
+        const mm = String(Math.floor(sec / 60)).padStart(2, '0');
+        const ss = String(sec % 60).padStart(2, '0');
+        expTimer.textContent = `00:${mm}:${ss}`;
+
+        if (sec === 180) { // 3 min mark: rescue hand
+          expHand.classList.add("active");
+          expRat.className = "rat-avatar rescued";
+          expStatus.innerHTML = "<span style='color: var(--accent-cyan);'>✋ 30초 구출: 마른 수건 위에 올려두고 신경계를 안정화합니다...</span>";
+        } else if (sec === 300) { // Reentry
+          expHand.classList.remove("active");
+          expRat.className = "rat-avatar floating";
+          expStatus.innerHTML = "<span style='color: var(--accent-emerald);'>🚀 재진입 완료: '구원의 가능성'을 학습한 뇌가 60시간 지속 유영 회로를 가동합니다!</span>";
+        } else if (sec >= 600) {
+          clearInterval(expInterval);
+          expTimer.textContent = "60:00:00+";
+          expStatus.innerHTML = "<strong style='color: var(--accent-emerald);'>🎉 60시간 돌파: 240배 향상된 한계 돌파 회복탄력성 실증 완료!</strong>";
+        }
+      }, 80);
+    });
+
+    // ========================================================
+    // TAB 2: 30-SECOND BREATHING TRAINER (PHYSIOLOGICAL SIGH)
+    // ========================================================
+    const breathCircle = document.getElementById("breathCircle");
+    const breathPhaseText = document.getElementById("breathPhaseText");
+    const breathTimerText = document.getElementById("breathTimerText");
+    const breathInstruction = document.getElementById("breathInstruction");
+    const canvas = document.getElementById("breathWaveCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let breathTimer = null;
+    let breathTimeLeft = 30;
+    let breathPhase = 0; // 0: inhale1, 1: inhale2, 2: exhale
+    let audioCtx = null;
+
+    function playTone(freq, type = 'sine', duration = 0.3) {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        // Audio policy ignore
+      }
+    }
+
+    // Canvas Wave Animation
+    let waveOffset = 0;
+    function drawWave() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      ctx.strokeStyle = breathTimeLeft < 30 ? "#06B6D4" : "#3B82F6";
+      ctx.lineWidth = 2.5;
+
+      for (let x = 0; x < canvas.width; x++) {
+        const freq = breathPhase === 2 ? 0.015 : 0.04;
+        const amp = breathPhase === 2 ? 15 : 25;
+        const y = canvas.height / 2 + Math.sin((x + waveOffset) * freq) * amp;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      waveOffset += 2.5;
+      requestAnimationFrame(drawWave);
+    }
+    drawWave();
+
+    function updateBiometrics(progress) { // 0 to 1
+      const hr = Math.round(98 - progress * 32); // 98 -> 66
+      const hrv = Math.round(24 + progress * 42); // 24 -> 66
+      const reentry = Math.round(35 + progress * 60); // 35% -> 95%
+
+      document.getElementById("dispLiveHr").textContent = `${hr} BPM`;
+      document.getElementById("barLiveHr").style.width = `${Math.min(100, hr * 0.8)}%`;
+      document.getElementById("barLiveHr").style.background = hr < 75 ? "var(--accent-emerald)" : "var(--accent-rose)";
+
+      document.getElementById("dispLiveHrv").textContent = `${hrv} ms`;
+      document.getElementById("barLiveHrv").style.width = `${Math.min(100, hrv * 1.4)}%`;
+
+      document.getElementById("dispReentryIdx").textContent = `${reentry}%`;
+      document.getElementById("barReentryIdx").style.width = `${reentry}%`;
+
+      if (progress >= 0.9) {
+        document.getElementById("descLiveHr").textContent = "심박수 완전 안정화 (부교감신경 활성)";
+        document.getElementById("descLiveHrv").textContent = "미주신경 톤 회복 완료 (안도감 형성)";
+        document.getElementById("descReentryIdx").textContent = "전전두엽 통제권 95% 장착 완료";
+      }
+    }
+
+    document.getElementById("btnStartBreathing").addEventListener("click", () => {
+      clearInterval(breathTimer);
+      breathTimeLeft = 30;
+      updateBiometrics(0);
+
+      const runCycle = () => {
+        // Step 1: Deep Inhale (3s)
+        breathPhase = 0;
+        breathCircle.style.transform = "scale(1.25)";
+        breathCircle.style.borderColor = "var(--accent-cyan)";
+        breathPhaseText.textContent = "1. 코로 깊게 흡기";
+        breathInstruction.textContent = "코로 숨을 폐 가득 들이마십니다 (3초)...";
+        playTone(432, 'sine', 0.5);
+
+        setTimeout(() => {
+          if (breathTimeLeft <= 0) return;
+          // Step 2: Extra Inhale (1s)
+          breathPhase = 1;
+          breathCircle.style.transform = "scale(1.4)";
+          breathCircle.style.borderColor = "var(--accent-purple)";
+          breathPhaseText.textContent = "2. 추가 흡기 (꿀꺽)";
+          breathInstruction.textContent = "폐포를 끝까지 여는 한 번 더 짧고 강한 흡기!";
+          playTone(528, 'sine', 0.3);
+
+          setTimeout(() => {
+            if (breathTimeLeft <= 0) return;
+            // Step 3: Long Exhale (6s)
+            breathPhase = 2;
+            breathCircle.style.transform = "scale(0.85)";
+            breathCircle.style.borderColor = "var(--accent-emerald)";
+            breathPhaseText.textContent = "3. 입으로 길게 호기";
+            breathInstruction.textContent = "입으로 모든 공기와 긴장을 서서히 뿜어냅니다 (6초)...";
+            playTone(320, 'triangle', 0.8);
+          }, 1000);
+        }, 3000);
+      };
+
+      runCycle();
+      const cycleInterval = setInterval(() => {
+        if (breathTimeLeft <= 0) {
+          clearInterval(cycleInterval);
+        } else {
+          runCycle();
+        }
+      }, 10000);
+
+      breathTimer = setInterval(() => {
+        breathTimeLeft--;
+        breathTimerText.textContent = `${breathTimeLeft}s`;
+        const prog = (30 - breathTimeLeft) / 30;
+        updateBiometrics(prog);
+
+        if (breathTimeLeft <= 0) {
+          clearInterval(breathTimer);
+          clearInterval(cycleInterval);
+          breathCircle.style.transform = "scale(1)";
+          breathCircle.style.borderColor = "var(--accent-emerald)";
+          breathPhaseText.textContent = "훈련 완료";
+          breathInstruction.innerHTML = "<span style='color: var(--accent-emerald); font-weight: 800;'>🎉 30초 구출 프로토콜 완료! 신경계가 안정 모드로 재부팅되었습니다.</span>";
+        }
+      }, 1000);
+    });
+
+    document.getElementById("btnStopBreathing").addEventListener("click", () => {
+      clearInterval(breathTimer);
+      breathCircle.style.transform = "scale(1)";
+      breathPhaseText.textContent = "정지됨";
+      breathInstruction.textContent = "트레이닝이 중단되었습니다.";
+    });
+
+    // ========================================================
+    // TAB 3: HRV SIMULATOR & EMERGENCY SOS
+    // ========================================================
+    const stressSlider = document.getElementById("hrvStressSlider");
+    const txtStressVal = document.getElementById("txtStressVal");
+
+    stressSlider.addEventListener("input", (e) => {
+      const val = parseInt(e.target.value);
+      if (val >= 80) txtStressVal.textContent = `${val} (익사 직전 급성 번아웃)`;
+      else if (val >= 50) txtStressVal.textContent = `${val} (주의: 스트레스 누적)`;
+      else txtStressVal.textContent = `${val} (안정 및 회복 상태)`;
+    });
+
+    document.getElementById("btnRecalcHrv").addEventListener("click", () => {
+      const s = parseInt(stressSlider.value);
+      const rMSSD = Math.max(12, Math.round(75 - s * 0.65));
+      const hr = Math.round(62 + s * 0.55);
+      const vagal = Math.max(10, Math.round(90 - s * 0.8));
+      const survive = (15 * (100 - s) / 100).toFixed(1);
+
+      document.getElementById("diagHrvVal").textContent = `${rMSSD} ms`;
+      document.getElementById("diagHrVal").textContent = `${hr} BPM`;
+      document.getElementById("diagVagalVal").textContent = `${vagal}%`;
+      document.getElementById("diagSurvivalVal").textContent = s > 75 ? `${survive}분` : "안정 유지";
+
+      const badge = document.getElementById("hrvAlertBadge");
+      const title = document.getElementById("diagTitle");
+      const content = document.getElementById("diagContent");
+
+      if (s >= 75) {
+        badge.className = "distortion-tag tag-catastrophe";
+        badge.textContent = "🚨 DROWNING ALERT";
+        title.textContent = "🚨 4분 포기 모드 감지 (Vagal Collapse Warning)";
+        content.textContent = "현재 자율신경계는 탈출구가 없다고 인지한 미주신경 과부하 상태입니다. 인위적 의지로 버티지 말고 즉시 30초 구출 프로토콜을 가동하세요.";
+      } else {
+        badge.className = "distortion-tag tag-allnone";
+        badge.textContent = "✅ RESILIENCE SECURED";
+        title.textContent = "✅ 회복탄력성 유효 범위 유지 중";
+        content.textContent = "신경계가 안정적인 자율 제어 능력을 유지하고 있습니다. 일일 정기 체크인을 계속 유지하십시오.";
+      }
+    });
+
+    document.getElementById("btnTriggerSosDirect").addEventListener("click", () => {
+      alert("🚨 [비상 개입 가동] 담당 멘탈 코치에게 생체 위험 신호가 즉시 전송되었습니다.\n15분 내 위기 개입 핫라인 콜이 수신됩니다. 지금 30초 생리학적 한숨을 시작하세요.");
+    });
+
+    document.getElementById("btnLogHrvRecord").addEventListener("click", () => {
+      alert("💾 오늘자의 심박변이도(HRV) 및 스트레스 로그가 암호화되어 안전하게 기록되었습니다.");
+    });
+
+    // ========================================================
+    // TAB 4: CBT DISPUTING AI ENGINE
+    // ========================================================
+    const thoughtInput = document.getElementById("cbtThoughtInput");
+    const cbtChips = document.querySelectorAll(".preset-chip");
+
+    const PRESETS = {
+      runway: "이번 투자 유치가 최종 무산되었습니다. 통장 잔고는 2달치뿐이고 내 모든 청춘이 날아갔으며 빚더미에 앉아 영원히 재기하지 못할 것 같습니다. 완전히 끝장났습니다.",
+      loss: "오늘 원금의 40%를 하루 만에 날렸습니다. 나는 투자할 자격도 없는 한심한 패배자이고, 가족들에게 얼굴을 들 수 없습니다. 모든 게 내 탓이고 파멸뿐입니다.",
+      burnout: "아침에 눈을 떴는데 침대에서 일어날 힘이 1도 없습니다. 팀원들이 무능한 나를 비웃는 것 같고, 메신저 알림 소리만 들어도 숨이 턱 막힙니다. 다 내려놓고 도망치고 싶습니다.",
+      exam: "이번 시험마저 떨어지면 4년의 수험 기간이 전부 휴지 조각이 됩니다. 남들은 다 앞서가는데 나만 낙오자이고, 다음 기회 따위는 존재하지 않습니다."
+    };
+
+    cbtChips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        const key = chip.getAttribute("data-preset");
+        if (PRESETS[key]) thoughtInput.value = PRESETS[key];
+      });
+    });
+
+    document.getElementById("btnAnalyzeCbt").addEventListener("click", () => {
+      const text = thoughtInput.value.trim();
+      if (!text) {
+        alert("분석할 생각이나 절망적인 문장을 입력해주세요.");
+        return;
+      }
+
+      const resultBox = document.getElementById("cbtResultWrapper");
+      resultBox.innerHTML = `
+        <div class="cbt-result-box">
+          <div style="margin-bottom: 12px;">
+            <span class="distortion-tag tag-catastrophe">⚠️ 파국화 (Catastrophizing)</span>
+            <span class="distortion-tag tag-personal">⚠️ 개인화 (Personalization)</span>
+            <span class="distortion-tag tag-allnone">⚠️ 전부 아니면 전무 (All-or-Nothing)</span>
+          </div>
+
+          <h4 style="color: var(--accent-cyan); font-size: 14.5px; margin-bottom: 8px;">
+            1. 뇌의 거짓말 디코딩 (Cognitive Distortion)
+          </h4>
+          <p style="font-size: 12.5px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px;">
+            귀하의 뇌는 현재 '런웨이 부족/손실'이라는 <strong>객관적 사실(Fact)</strong>을 '내 인생은 완전히 끝났다'는 <strong>주관적 파국(Fiction)</strong>과 혼동하고 있습니다. 
+            이는 15분 만에 발길질을 멈춘 쥐의 뇌에서 일어난 전형적인 인지적 쇼크입니다.
+          </p>
+
+          <h4 style="color: var(--accent-amber); font-size: 14.5px; margin-bottom: 8px;">
+            2. 소크라테스식 반론 질문 (Socratic Dispute)
+          </h4>
+          <ul style="font-size: 12.5px; color: var(--text-muted); padding-left: 18px; line-height: 1.6; margin-bottom: 14px;">
+            <li>"과거에도 '도저히 불가능하다'고 느꼈던 위기를 돌파해낸 경험이 단 한 번이라도 있는가?" ➔ <strong>그렇다. 당신은 이미 수많은 파도를 넘어왔다.</strong></li>
+            <li>"사업 실패나 시험 불합격이 당신이라는 인간의 생물학적 존엄과 지적 능력을 소멸시키는가?" ➔ <strong>아니다. 그것은 단지 실패한 1개의 가설일 뿐이다.</strong></li>
+            <li>"지금 즉시 죽는 것 외에 오늘 당장 취할 수 있는 다른 대안이 정말 0개인가?" ➔ <strong>아니다. 아직 시도하지 않은 5가지 생존 카드가 남아있다.</strong></li>
+          </ul>
+
+          <h4 style="color: var(--accent-emerald); font-size: 14.5px; margin-bottom: 8px;">
+            3. 30초 재진입(Reentry) 5분 마이크로 액션
+          </h4>
+          <div style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 12px; font-size: 12.5px; color: #A7F3D0;">
+            👉 <strong>지금 당장 실행할 단 1가지 행동:</strong><br>
+            노트를 펴고 <strong>'앞으로 60시간 동안 내가 통제할 수 있는 일 3가지(지출 동결, 브릿지 론 타진, 핵심 고객 전화)'</strong>만 적으십시오. 
+            나머지 통제 불가능한 거시 환경에 대한 고민은 뇌에서 영구 추방하십시오.
+          </div>
+        </div>
+      `;
+    });
+
+    // ========================================================
+    // MODAL & QUICK SOS
+    // ========================================================
+    const modal = document.getElementById("proposalModal");
+    document.getElementById("btnOpenProposalModal").addEventListener("click", () => modal.classList.add("open"));
+    document.getElementById("btnCloseProposalModal").addEventListener("click", () => modal.classList.remove("open"));
+    document.getElementById("btnDownloadProposalDirect").addEventListener("click", () => modal.classList.add("open"));
+
+    document.getElementById("btnQuickSosTrigger").addEventListener("click", () => {
+      // Switch to Trainer tab and trigger breathing immediately
+      tabBtns.forEach(b => b.classList.remove("active"));
+      tabPanels.forEach(p => p.classList.remove("active"));
+
+      const trainerBtn = document.querySelector('[data-target="tab-trainer"]');
+      const trainerPanel = document.getElementById("tab-trainer");
+      trainerBtn.classList.add("active");
+      trainerPanel.classList.add("active");
+
+      document.getElementById("btnStartBreathing").click();
+      window.scrollTo({ top: 400, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

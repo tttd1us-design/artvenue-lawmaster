@@ -39,13 +39,16 @@ description: 100만자 단행본 도서 기획, 목차 아키텍처, 서사 맵 
 - **자가 완결성**: 질의응답이나 추측 없이 출판사 제출용 최종 완결 원고 형태 그대로 기술.
 - **AI 환각 방지**: AI 70% 데이터 분석 + 인간 30% 현장 직접 검증의 정밀 경계 명시.
 
-## 7. 📏 전문 도서 조판 및 편집 디자인 세부 표준 (Expert Layout Standard)
-- **판형 규격**: 신국판 B5 (152mm × 225mm)
-- **여백 설정**: 안쪽(Inside/Gutter) 21mm / 바깥쪽(Outside) 19mm / 위쪽(Top) 21mm / 아래쪽(Bottom) 24mm
+## 7. 📏 도서 출판 공식 기준 포맷: 을유문화사 클래식 에디션 (Eulyoo Classic Master Standard)
+
+모든 단행본 집필의 공식 표준 조판은 **을유문화사 『이기적 유전자』 스타일**을 기본 규격으로 적용합니다:
+
+- **표지 장정**: 앤티크 린넨 미색(#FAF8F5) 1페이지 독립 표지 + 딥 차콜 네이비(#0B1120) & 골드/버건디 3도 조화
+- **판형 규격**: 신국판 (152mm × 225mm) / B5 변형판 (182mm × 257mm)
+- **황금 여백**: 상단(Top) 25mm / 하단(Bottom) 22mm / 안쪽(Gutter) 22mm / 바깥쪽(Outside) 20mm
 - **타이포그래피 위계**:
-  - Heading 1: 맑은 고딕 / KoPubWorld 돋움 Bold 20.0pt, 슬레이트 네이비 (#1E2A38), keep_with_next=True
-  - Heading 2: 맑은 고딕 / KoPubWorld 돋움 Bold 14.0pt, 슬레이트 네이비 (#1E2A38), keep_with_next=True
-  - Heading 3: 맑은 고딕 / KoPubWorld 돋움 Medium 11.5pt, 앰버 골드 (#D97706), keep_with_next=True
-  - Heading 4: 맑은 고딕 11.0pt Bold, 슬레이트 그레이 (#475569), keep_with_next=True
-  - 본문: 바탕체 10.5pt, 웜 차콜 (#2A3439), 행간 1.75(175%), 문단 후 8.5pt, 첫 줄 1자(10pt) 들여쓰기
-- **2도 별색 쇄**: 슬레이트 네이비 (#1E2A38 / Pantone 534C) 포인트 강조
+  - 대제목 / Part: 굵은 명조 / KoPub 바탕 Bold 20.0pt, 딥 차콜 네이비 (#0B1120), keep_with_next=True
+  - Chapter 제목: 굵은 명조 16.0pt, 딥 차콜 네이비 (#0B1120), keep_with_next=True
+  - 소제목 (Heading 3): 굵은 명조 12.0pt, 옥스퍼드 버건디 (#6B1D2F) 또는 앰버 골드 (#D97706), keep_with_next=True
+  - 본문: KoPub World 바탕 / Noto Serif KR 10.2pt, 웜 차콜 (#1E293B), 행간 1.92(192%), 양쪽 맞춤, 문단 첫 줄 1em 들여쓰기
+- **기둥 표제(Running Header)**: 좌측 상단 [도서명/부], 우측 상단 [장 제목], 하단 중앙 정갈한 쪽번호

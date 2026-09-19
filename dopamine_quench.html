@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dopamine Quench | 인지적 도파민 격리 & 생산자 락인 터미널</title>
+  <meta name="description" content="과시성 디지털 콘텐츠 중독과 인지적 도파민 고갈을 진단하고, 시각적 과시 자극을 원천 격리하여 뇌 가소성을 복원하는 2030 창업가 전용 생산자 락인(Lock-in) 워크스페이스">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-dark: #07090E;
+      --bg-card: #0D121F;
+      --bg-elevated: #141C30;
+      --border-subtle: #1E293B;
+      --border-accent: #38BDF8;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --text-dim: #64748B;
+      --accent-cyan: #06B6D4;
+      --accent-sky: #38BDF8;
+      --accent-emerald: #10B981;
+      --accent-rose: #F43F5E;
+      --accent-amber: #F59E0B;
+      --accent-violet: #8B5CF6;
+      --mono: 'Fira Code', monospace;
+      --sans: 'Pretendard', 'Inter', -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOP HEADER */
+    .top-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(7, 9, 14, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #0284C7, #06B6D4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+      color: #fff;
+    }
+
+    .brand-title h1 {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(6, 182, 212, 0.15);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+    }
+
+    .brand-title p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .audio-toggle-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .audio-toggle-btn.active {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: var(--accent-emerald);
+      box-shadow: 0 0 14px rgba(16, 185, 129, 0.2);
+    }
+
+    .zen-mode-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #0284C7, #0369A1);
+      border: none;
+      color: #fff;
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.2s ease;
+    }
+    .zen-mode-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
+    }
+
+    /* NAVIGATION TABS */
+    .nav-tabs {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0 28px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .tab-btn {
+      padding: 14px 18px;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+    }
+
+    .tab-btn.active {
+      color: var(--accent-sky);
+      border-bottom-color: var(--accent-sky);
+      background: rgba(56, 189, 248, 0.04);
+    }
+
+    /* MAIN CONTAINER */
+    .main-container {
+      flex: 1;
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* SYSTEM BANNER */
+    .system-banner {
+      background: linear-gradient(135deg, rgba(14, 23, 42, 0.8), rgba(15, 23, 42, 0.4));
+      border: 1px solid var(--border-subtle);
+      border-left: 4px solid var(--accent-rose);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .banner-text h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-rose);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .banner-text p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .banner-stat {
+      display: flex;
+      gap: 20px;
+      text-align: right;
+    }
+
+    .stat-pill {
+      background: rgba(13, 18, 31, 0.7);
+      border: 1px solid var(--border-subtle);
+      padding: 8px 14px;
+      border-radius: 8px;
+    }
+
+    .stat-pill .lbl {
+      font-size: 11px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      font-family: var(--mono);
+    }
+
+    .stat-pill .val {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--accent-sky);
+      font-family: var(--mono);
+    }
+
+    /* TAB CONTENTS */
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.25s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* GRID LAYOUTS */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 1024px) {
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* CARDS */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-main);
+    }
+
+    .card-sub {
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    /* RANGE & INPUT CONTROLS */
+    .control-group {
+      margin-bottom: 18px;
+    }
+
+    .control-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .control-label span.value-badge {
+      font-family: var(--mono);
+      color: var(--accent-sky);
+      font-weight: 700;
+      background: rgba(56, 189, 248, 0.1);
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--bg-elevated);
+      outline: none;
+      -webkit-appearance: none;
+      accent-color: var(--accent-sky);
+    }
+
+    /* NEURAL GAUGES & VISUALIZERS */
+    .brain-meter-box {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .meter-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .meter-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-family: var(--mono);
+    }
+
+    .meter-bar-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .meter-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+
+    /* RECEPTOR MATRIX */
+    .receptor-matrix {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 4px;
+      margin-top: 10px;
+    }
+
+    .receptor-dot {
+      aspect-ratio: 1;
+      border-radius: 3px;
+      background: #334155;
+      transition: all 0.2s ease;
+    }
+
+    .receptor-dot.active {
+      background: var(--accent-cyan);
+      box-shadow: 0 0 6px rgba(6, 182, 212, 0.6);
+    }
+
+    .receptor-dot.desensitized {
+      background: #1E293B;
+      opacity: 0.3;
+    }
+
+    .receptor-dot.burned {
+      background: var(--accent-rose);
+      box-shadow: 0 0 4px rgba(244, 63, 94, 0.5);
+    }
+
+    /* SLOP DEMOLISHER (QUARANTINE SIMULATOR) */
+    .quarantine-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 16px;
+    }
+
+    .feed-sample-card {
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #0F172A;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .feed-sample-card.quenched {
+      filter: grayscale(100%) contrast(120%);
+      background: #05070B;
+      border-color: #334155;
+    }
+
+    .feed-visual {
+      height: 190px;
+      background: linear-gradient(135deg, #7C3AED, #EC4899, #F59E0B);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 16px;
+      color: #fff;
+    }
+
+    .feed-sample-card.quenched .feed-visual {
+      background: #0F172A !important;
+      border-bottom: 1px dashed #334155;
+    }
+
+    .feed-overlay-text {
+      font-size: 15px;
+      font-weight: 800;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+    }
+
+    .feed-sample-card.quenched .feed-overlay-text {
+      color: #94A3B8;
+      font-family: var(--mono);
+      font-size: 12px;
+      text-shadow: none;
+    }
+
+    .feed-details {
+      padding: 14px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .quench-trigger-btn {
+      width: 100%;
+      margin-top: 14px;
+      padding: 12px;
+      background: linear-gradient(135deg, #0284C7, #0D9488);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .quench-trigger-btn:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 0 16px rgba(13, 148, 136, 0.4);
+    }
+
+    /* PRODUCER LOCK-IN TERMINAL */
+    .terminal-container {
+      background: #05070B;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 640px;
+    }
+
+    .terminal-topbar {
+      background: #0B0F19;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 10px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .t-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .t-dot.red { background: #EF4444; }
+    .t-dot.yellow { background: #F59E0B; }
+    .t-dot.green { background: #10B981; }
+
+    .terminal-body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      overflow: hidden;
+    }
+
+    .timer-sidebar {
+      background: #090D16;
+      border-right: 1px solid var(--border-subtle);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .clock-display {
+      font-family: var(--mono);
+      font-size: 48px;
+      font-weight: 800;
+      text-align: center;
+      color: var(--accent-sky);
+      text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+      padding: 16px 0;
+      border: 1px dashed rgba(56, 189, 248, 0.2);
+      border-radius: 8px;
+      background: rgba(56, 189, 248, 0.03);
+    }
+
+    .timer-controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-timer {
+      flex: 1;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-timer.primary {
+      background: var(--accent-sky);
+      color: #07090E;
+    }
+    .btn-timer.primary:hover {
+      background: #7DD3FC;
+    }
+
+    .btn-timer.secondary {
+      background: var(--bg-elevated);
+      color: var(--text-muted);
+      border: 1px solid var(--border-subtle);
+    }
+    .btn-timer.secondary:hover {
+      color: var(--text-main);
+    }
+
+    .impulse-trap-btn {
+      background: rgba(244, 63, 94, 0.12);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      color: var(--accent-rose);
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .impulse-trap-btn:hover {
+      background: rgba(244, 63, 94, 0.2);
+      box-shadow: 0 0 12px rgba(244, 63, 94, 0.3);
+    }
+
+    .editor-pane {
+      display: flex;
+      flex-direction: column;
+      background: #07090E;
+    }
+
+    .editor-header {
+      padding: 10px 16px;
+      background: #090D16;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-family: var(--mono);
+      color: var(--text-dim);
+    }
+
+    .raw-textarea {
+      flex: 1;
+      width: 100%;
+      background: transparent;
+      border: none;
+      padding: 20px;
+      color: #E2E8F0;
+      font-family: var(--mono);
+      font-size: 14px;
+      line-height: 1.7;
+      resize: none;
+      outline: none;
+    }
+
+    .editor-footer {
+      padding: 8px 16px;
+      background: #090D16;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* MODAL (IMPULSE INTERCEPTOR) */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 7, 18, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      max-width: 580px;
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      box-shadow: 0 0 40px rgba(244, 63, 94, 0.25);
+      border-radius: 14px;
+      padding: 24px;
+      animation: zoomIn 0.2s ease forwards;
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--accent-rose);
+      margin-bottom: 14px;
+    }
+
+    .modal-head h3 {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .cold-water-prompt {
+      background: rgba(244, 63, 94, 0.06);
+      border-left: 3px solid var(--accent-rose);
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #FDA4AF;
+      margin-bottom: 18px;
+      line-height: 1.6;
+    }
+
+    .modal-input {
+      width: 100%;
+      background: var(--bg-dark);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 12px;
+      color: #fff;
+      font-size: 13px;
+      font-family: var(--sans);
+      margin-bottom: 16px;
+      outline: none;
+    }
+
+    .modal-input:focus {
+      border-color: var(--accent-sky);
+    }
+
+    .modal-btn-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* COHORT STAGES */
+    .stage-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 8px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 10px;
+    }
+
+    .stage-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-sky);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+
+    .stage-body h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .stage-body p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* FULLSCREEN ZEN OVERLAY */
+    body.zen-active .top-header,
+    body.zen-active .nav-tabs,
+    body.zen-active .system-banner {
+      display: none !important;
+    }
+
+    body.zen-active .main-container {
+      max-width: 100%;
+      padding: 0;
+      height: 100vh;
+    }
+
+    body.zen-active .terminal-container {
+      height: 100vh;
+      border-radius: 0;
+      border: none;
+    }
+
+    /* NOTIFICATION TOAST */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--accent-emerald);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP HEADER -->
+  <header class="top-header">
+    <div class="brand">
+      <div class="brand-badge">
+        <i data-lucide="shield-alert"></i>
+      </div>
+      <div class="brand-title">
+        <h1>DOPAMINE QUENCH <span class="badge-tag">v2.6 COHORT-SPEC</span></h1>
+        <p>과시성 시각자극 원천 차단 & 뇌 가소성 복원 생산자 락인 시스템</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="audio-toggle-btn" id="audioToggleBtn" title="40Hz 바이노럴 감마파 백색소음">
+        <i data-lucide="volume-x" id="audioIcon"></i>
+        <span>40Hz 감마파 오디오: OFF</span>
+      </button>
+      <button class="zen-mode-btn" id="zenModeToggleBtn">
+        <i data-lucide="maximize-2"></i>
+        <span>Zen 락인 모드</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- NAVIGATION TABS -->
+  <nav class="nav-tabs">
+    <button class="tab-btn active" data-tab="tab-drain">
+      <i data-lucide="activity"></i>
+      <span>인지 예산 & 손실 계산기</span>
+    </button>
+    <button class="tab-btn" data-tab="tab-demolisher">
+      <i data-lucide="eye-off"></i>
+      <span>과시 자극 격리실 (Slop Demolisher)</span>
+    </button>
+    <button class="tab-btn" data-tab="tab-terminal">
+      <i data-lucide="terminal"></i>
+      <span>생산자 락인 터미널 (Deep Work)</span>
+    </button>
+    <button class="tab-btn" data-tab="tab-roadmap">
+      <i data-lucide="compass"></i>
+      <span>ACX 7단계 생산자 생존 맵</span>
+    </button>
+  </nav>
+
+  <!-- MAIN CONTAINER -->
+  <main class="main-container">
+
+    <!-- ALERT BANNER -->
+    <div class="system-banner">
+      <div class="banner-text">
+        <h3><i data-lucide="alert-triangle"></i> 주의력 착취 알고리즘 침해 경보</h3>
+        <p>퇴근 후 숏폼 3시간 소비 시, 뇌 전두엽 D2 수용체 반응성 48% 저하 및 텍스트 독해 내구도 80% 상실 발생</p>
+      </div>
+      <div class="banner-stat">
+        <div class="stat-pill">
+          <div class="lbl">ATTENTION DEFICIT</div>
+          <div class="val" id="bannerDeficitVal">-42.5%</div>
+        </div>
+        <div class="stat-pill">
+          <div class="lbl">MONTHLY CASH LEAK</div>
+          <div class="val" id="bannerCashLeakVal">₩ 2,850,000</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 1: 인지 예산 & 손실 계산기 -->
+    <section class="tab-content active" id="tab-drain">
+      <div class="grid-2">
+        <!-- Control Card -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title"><i data-lucide="sliders" style="color: var(--accent-sky);"></i> 디지털 중독 지표 설정</div>
+              <div class="card-sub">현재 하루 소비 패턴을 입력하여 뇌 신경계 손실을 정량화합니다.</div>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-label">
+              <span>일일 숏폼/SNS 소비 시간</span>
+              <span class="value-badge" id="dailyShortsLabel">3.5 시간</span>
+            </div>
+            <input type="range" id="dailyShortsInput" min="0.5" max="8.0" step="0.5" value="3.5">
+          </div>
+
+          <div class="control-group">
+            <div class="control-label">
+              <span>시간당 잠재 생산 가치 (시급/환산액)</span>
+              <span class="value-badge" id="hourlyRateLabel">35,000 원</span>
+            </div>
+            <input type="range" id="hourlyRateInput" min="15000" max="150000" step="5000" value="35000">
+          </div>
+
+          <div class="control-group">
+            <div class="control-label">
+              <span>충동적 자기계발/인강 월 결제액</span>
+              <span class="value-badge" id="guiltBuyLabel">300,000 원</span>
+            </div>
+            <input type="range" id="guiltBuyInput" min="0" max="1500000" step="50000" value="300000">
+          </div>
+
+          <div class="brain-meter-box">
+            <div class="meter-row">
+              <div class="meter-label-row">
+                <span style="color: var(--accent-rose);">전두엽 도파민 수용체(D2) 다운레귤레이션</span>
+                <span id="d2DepletionRate" style="color: var(--accent-rose); font-weight: 700;">68% 손상</span>
+              </div>
+              <div class="meter-bar-track">
+                <div class="meter-bar-fill" id="d2BarFill" style="width: 68%; background: var(--accent-rose);"></div>
+              </div>
+            </div>
+
+            <div class="meter-row">
+              <div class="meter-label-row">
+                <span style="color: var(--accent-cyan);">복합 문서(재무제표/기술문서) 독해 지속력</span>
+                <span id="readingStaminaVal" style="color: var(--accent-cyan); font-weight: 700;">8 분</span>
+              </div>
+              <div class="meter-bar-track">
+                <div class="meter-bar-fill" id="readingStaminaBar" style="width: 15%; background: var(--accent-cyan);"></div>
+              </div>
+            </div>
+
+            <div style="margin-top: 6px;">
+              <div style="font-size: 11px; color: var(--text-dim); margin-bottom: 4px; font-family: var(--mono);">
+                NEURAL RECEPTOR MATRIX (Dopamine Desensitization Map)
+              </div>
+              <div class="receptor-matrix" id="receptorMatrix"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Economic Loss Summary -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title"><i data-lucide="trending-down" style="color: var(--accent-rose);"></i> 연간 총 기회비용 손실 대차대조표</div>
+              <div class="card-sub">빅테크에 헌납한 시간과 자괴감 해소용 지출의 총합</div>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-bottom: 16px;">
+            <div class="stat-pill" style="border-left: 3px solid var(--accent-rose);">
+              <div class="lbl">연간 탕진 시간</div>
+              <div class="val" id="annualHoursLost" style="color: var(--accent-rose);">1,277 시간</div>
+              <div style="font-size: 11px; color: var(--text-dim); margin-top: 2px;">정규 근무 160일치 전량 증발</div>
+            </div>
+            <div class="stat-pill" style="border-left: 3px solid var(--accent-amber);">
+              <div class="lbl">연간 시간 가치 환산 손실</div>
+              <div class="val" id="annualTimeCostVal" style="color: var(--accent-amber);">₩ 44,712,500</div>
+              <div style="font-size: 11px; color: var(--text-dim); margin-top: 2px;">시급 기준 미창출 소득</div>
+            </div>
+          </div>
+
+          <div class="stat-pill" style="border-left: 3px solid var(--accent-violet); margin-bottom: 16px;">
+            <div class="lbl">연간 죄책감 결제(미수강 인강/도서) 누수액</div>
+            <div class="val" id="annualGuiltCostVal" style="color: var(--accent-violet);">₩ 3,600,000</div>
+            <div style="font-size: 11px; color: var(--text-dim); margin-top: 2px;">평균 완강률 2.1%로 실질 가치 제로</div>
+          </div>
+
+          <div style="background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.2); border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+            <div style="font-size: 12px; font-weight: 700; color: #FDA4AF; margin-bottom: 4px;">
+              💡 가치 재설계 솔루션 (Value Redesign Arbitrage)
+            </div>
+            <div style="font-size: 13px; color: #E2E8F0; line-height: 1.5;">
+              스마트폰 자극을 차단하고 매일 2시간을 'ACX 파이프라인(수집-해석-실행)'에 투입할 경우, 
+              <strong style="color: var(--accent-emerald);">90일 내 월 15만 원의 첫 유료 결제 파이프라인</strong> 구축 가능.
+            </div>
+          </div>
+
+          <button class="quench-trigger-btn" id="startQuenchBtn">
+            <i data-lucide="zap"></i>
+            <span>도파민 급랭(Quench) 및 격리실 진입</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: 과시 자극 격리실 (Slop Demolisher) -->
+    <section class="tab-content" id="tab-demolisher">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title"><i data-lucide="flame" style="color: var(--accent-amber);"></i> 과시성 디지털 콘텐츠 해체 엔진 (Slop-to-Signal Demolisher)</div>
+            <div class="card-sub">빅테크 쇼츠의 화려한 시각 마약을 순수 텍스트, 코드, 원시 재무제표로 강제 다운샘플링합니다.</div>
+          </div>
+          <button class="audio-toggle-btn" id="quenchToggleBtn" style="color: var(--accent-cyan);">
+            <i data-lucide="shield-check"></i>
+            <span id="quenchStateText">시각 자극 급랭 (Quench) 실행</span>
+          </button>
+        </div>
+
+        <div class="quarantine-wrapper">
+          <!-- Sample 1: 명품 하울 & 벼락부자 자랑 -->
+          <div class="feed-sample-card" id="feedCard1">
+            <div class="feed-visual" id="feedVisual1">
+              <span class="badge-tag" style="position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.6); color: #fff;">
+                🔥 ALGORITHM VIRAL #1
+              </span>
+              <div class="feed-overlay-text" id="feedText1">
+                "25세 월 1억 버는 법 대공개! 포르쉐 카이엔 하울 & 초호화 펜트하우스 투어"
+              </div>
+            </div>
+            <div class="feed-details" id="feedDetail1">
+              <p><strong>[알고리즘 착취 목적]</strong> 시기심 유발을 통한 광고 체류시간 180초 락인, 고가 사기성 리딩방/부업 링크 유도</p>
+            </div>
+          </div>
+
+          <!-- Sample 2: 자극성 비교 & 포모 조장 -->
+          <div class="feed-sample-card" id="feedCard2">
+            <div class="feed-visual" id="feedVisual2" style="background: linear-gradient(135deg, #2563EB, #7C3AED, #DB2777);">
+              <span class="badge-tag" style="position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.6); color: #fff;">
+                🚨 ALGORITHM VIRAL #2
+              </span>
+              <div class="feed-overlay-text" id="feedText2">
+                "아직도 월급 300 받고 회사 다녀요? 나는 누워서 AI로 하루 500 벌었다"
+              </div>
+            </div>
+            <div class="feed-details" id="feedDetail2">
+              <p><strong>[알고리즘 착취 목적]</strong> 직장인의 무력감과 박탈감을 자극하여 99만 원짜리 미수강 VOD 강의 결제 유발</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 20px; background: #05070B; border: 1px solid var(--border-subtle); border-radius: 8px; padding: 16px;">
+          <div style="font-family: var(--mono); font-size: 12px; color: var(--accent-sky); margin-bottom: 8px;">
+            [AST RAW DECONSTRUCTION LOG]
+          </div>
+          <pre id="astLogBox" style="font-family: var(--mono); font-size: 12px; color: #94A3B8; line-height: 1.5; white-space: pre-wrap;">
+// 원시 신호 해체 대기 중... 
+// 상단 [시각 자극 급랭 실행] 버튼을 클릭하면 허상의 영상 자극이 건조한 재무/엔지니어링 데이터로 전환됩니다.</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: 생산자 락인 터미널 (Deep Work) -->
+    <section class="tab-content" id="tab-terminal">
+      <div class="terminal-container">
+        <div class="terminal-topbar">
+          <div class="terminal-dots">
+            <div class="t-dot red"></div>
+            <div class="t-dot yellow"></div>
+            <div class="t-dot green"></div>
+          </div>
+          <div>PRODUCER-LOCKIN-OS // v2.6.4 // MONITORED_DEEPWORK_ZONE</div>
+          <div id="sessionStatusBadge" style="color: var(--accent-emerald);">● READY</div>
+        </div>
+
+        <div class="terminal-body">
+          <!-- Sidebar Controls -->
+          <div class="timer-sidebar">
+            <div>
+              <div style="font-size: 11px; color: var(--text-dim); font-family: var(--mono); margin-bottom: 6px;">
+                REMAINING ATTENTION TIME
+              </div>
+              <div class="clock-display" id="clockDisplay">25:00</div>
+            </div>
+
+            <div class="timer-controls">
+              <button class="btn-timer primary" id="timerStartBtn">
+                <i data-lucide="play"></i> <span id="timerBtnText">락인 시작</span>
+              </button>
+              <button class="btn-timer secondary" id="timerResetBtn">
+                <i data-lucide="rotate-ccw"></i> 리셋
+              </button>
+            </div>
+
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-timer secondary" id="timer25Btn" style="font-size: 11px;">25분 뽀모</button>
+              <button class="btn-timer secondary" id="timer50Btn" style="font-size: 11px;">50분 딥워크</button>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid var(--border-subtle);">
+
+            <div>
+              <div style="font-size: 11px; color: var(--text-dim); margin-bottom: 8px;">🚨 소비 유혹 긴급 비상벨</div>
+              <button class="impulse-trap-btn" id="impulseTrapBtn">
+                <i data-lucide="alert-octagon"></i>
+                <span>"쇼츠 보고 싶다" 충동 누르기</span>
+              </button>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 6px; padding: 10px; font-size: 11px; color: var(--text-muted);">
+              <div>🔒 <strong>하드웨어 락인 원칙</strong>:</div>
+              <div style="margin-top: 4px;">텍스트를 작성하지 않고 10분 이상 유휴 시 경고음 발생 및 세션 자산 환산액 초기화.</div>
+            </div>
+          </div>
+
+          <!-- Raw Markdown/Code Editor -->
+          <div class="editor-pane">
+            <div class="editor-header">
+              <span>BUFFER: /sandbox/inconvenience_asset_generator.md</span>
+              <span id="editorStats">0 words | 0 chars | ₩0 Asset Value</span>
+            </div>
+            <textarea class="raw-textarea" id="rawEditor" placeholder="# [ACX 48시간 MVP 기획서]&#10;&#10;## 1. 관찰된 일상의 치명적 불편 (Inconvenience Observation)&#10;- 매일 반복하지만 지루해서 미뤄지는 수작업:&#10;- 데이터 소스 (공공 API / 비정형 파일 / 엑셀):&#10;&#10;## 2. 절감액 기반 가격 책정 (Value Pricing)&#10;- 대체 인건비 절감 시간: 월 ___시간&#10;- 제안 구독료: 월 ___원 (순마진 85% 방어)&#10;&#10;## 3. 원클릭 실행 로직 (X-Layer Architecture)&#10;- 사용자가 누를 단 하나의 버튼: [                        ]"></textarea>
+            <div class="editor-footer">
+              <span>MODE: RAW_MARKDOWN_STRICT</span>
+              <div style="display: flex; gap: 12px;">
+                <span id="saveIndicator" style="color: var(--accent-emerald);">● 자동 저장됨</span>
+                <button id="exportMdBtn" style="background: none; border: none; color: var(--accent-sky); cursor: pointer; font-family: var(--mono);">[내보내기 .MD]</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: ACX 7단계 생산자 생존 맵 -->
+    <section class="tab-content" id="tab-roadmap">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title"><i data-lucide="map" style="color: var(--accent-cyan);"></i> ACX 7단계 생산자 안착 이정표</div>
+              <div class="card-sub">소비자에서 월 524만 원 자동화 엔진 자산가로 안착하는 단계별 체크리스트</div>
+            </div>
+          </div>
+
+          <div class="stage-item">
+            <div class="stage-num">0</div>
+            <div class="stage-body">
+              <h4>불편 관찰 (Observation)</h4>
+              <p>본인이 3년 이상 몸담은 직무에서 매일 반복되는 엑셀 복사/붙여넣기, 지루한 대조 작업 3가지 기록</p>
+            </div>
+          </div>
+
+          <div class="stage-item">
+            <div class="stage-num">1</div>
+            <div class="stage-body">
+              <h4>데이터 확보 (Acquisition)</h4>
+              <p>공공데이터포털, DART, 판례, 비정형 PDF에서 원시 데이터를 긁어와 정규화된 JSON 스키마로 가공</p>
+            </div>
+          </div>
+
+          <div class="stage-item">
+            <div class="stage-num">2</div>
+            <div class="stage-body">
+              <h4>ACX 엔진 설계 (Computation)</h4>
+              <p>수집(A), 해석(C), 실행(X) 3층 구조 수립. 계산은 코드가, 문장은 모델이 쓰는 3중 검증 설계</p>
+            </div>
+          </div>
+
+          <div class="stage-item">
+            <div class="stage-num">3</div>
+            <div class="stage-body">
+              <h4>48시간 MVP (Prototype)</h4>
+              <p>만들기 전에 검증하거나 주말 이틀 동안 랜딩페이지 + 엑셀 시트로 유효성 테스트 완료</p>
+            </div>
+          </div>
+
+          <div class="stage-item">
+            <div class="stage-num">4</div>
+            <div class="stage-body">
+              <h4>첫 결제 중력 (Validation)</h4>
+              <p>지인 판매 금지. 유기적 검색과 커뮤니티 문제 해결로 생판 남인 첫 유료 고객 10명 유치</p>
+            </div>
+          </div>
+
+          <div class="stage-item">
+            <div class="stage-num">5</div>
+            <div class="stage-body">
+              <h4>B2B 확장 (Expansion)</h4>
+              <p>기업 실무자에게 '절감액 증명서'를 제출하고 팀 단위 월 구독(순마진 85% 이상) 계약 체결</p>
+            </div>
+          </div>
+
+          <div class="stage-item">
+            <div class="stage-num">6</div>
+            <div class="stage-body">
+              <h4>자산화 & 롤업 (Exit / Moat)</h4>
+              <p>데이터 해자를 구축하여 경쟁자의 모방을 차단하고 시스템을 자산화하거나 매각</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title"><i data-lucide="users" style="color: var(--accent-emerald);"></i> 430명 실증 코호트 생존율 대조</div>
+              <div class="card-sub">12개월 추적 조사 결과: 탈락자 369명의 실패 원인 분석</div>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div style="background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.2); border-radius: 8px; padding: 14px;">
+              <div style="font-weight: 700; color: #FDA4AF; font-size: 13px; margin-bottom: 4px;">
+                ❌ 탈락자 그룹 (369명 / 85.8% 탈락)의 치명적 행동 패턴
+              </div>
+              <ul style="font-size: 12px; color: var(--text-muted); padding-left: 18px; line-height: 1.6;">
+                <li>도구 세팅 및 로고 디자인에 3주 이상 낭비 (가짜 실행)</li>
+                <li>퇴근 후 침대에서 쇼츠를 보며 "주말에 몰아서 해야지" 미루기</li>
+                <li>공공 무료 대체재가 있는 정보를 유료화하려다 외면당함</li>
+                <li>불안할 때마다 새로운 온라인 강의를 추가 결제하며 자위</li>
+              </ul>
+            </div>
+
+            <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 8px; padding: 14px;">
+              <div style="font-weight: 700; color: #6EE7B7; font-size: 13px; margin-bottom: 4px;">
+                ✅ 생존자 그룹 (61명 / 14.2% 생존)의 승리 원칙
+              </div>
+              <ul style="font-size: 12px; color: var(--text-muted); padding-left: 18px; line-height: 1.6;">
+                <li>스마트폰을 물리적으로 다른 방에 두고 흑백 터미널에서 작업</li>
+                <li>완벽주의 폐기: 48시간 만에 첫 결제 링크(Stripe/토스) 오픈</li>
+                <li>시간이 아닌 '고객이 아끼게 된 금전적 손실액'에 과금</li>
+                <li>매일 밤 1줄이라도 코드를 커밋하거나 고객 피드백을 기록</li>
+              </ul>
+            </div>
+
+            <div style="border-top: 1px solid var(--border-subtle); padding-top: 14px; text-align: center;">
+              <button class="zen-mode-btn" id="jumpToTerminalBtn" style="width: 100%; justify-content: center; padding: 12px;">
+                <i data-lucide="play"></i>
+                <span>지금 즉시 생산자 터미널에서 25분 세션 시작하기</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: 충동 탈출 인터셉터 (Cold-Water Cognitive Interceptor) -->
+  <div class="modal-overlay" id="impulseModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <i data-lucide="alert-octagon" style="width: 28px; height: 28px;"></i>
+        <h3>도파민 충동 인터셉터 가동</h3>
+      </div>
+      <div class="cold-water-prompt">
+        <strong>⚠️ 빅테크 알고리즘 함정 경고</strong><br>
+        지금 당신의 뇌는 피로를 핑계로 가변 보상 숏폼을 요구하고 있습니다. 
+        단 1분만 보려다 새벽 3시까지 탕진했던 지난밤의 자괴감을 기억하십시오. 
+        이 화면을 끄고 싶다면, 아래 질문에 답하여 전두엽의 이성 회로를 재가동하십시오.
+      </div>
+
+      <div style="margin-bottom: 12px; font-size: 13px; font-weight: 600; color: var(--text-muted);">
+        [인지 재부팅 질문] 당신이 지금 숏폼 대신 완성해야 할 <strong>'오늘의 1문장 비즈니스 가설'</strong>은 무엇입니까?
+      </div>
+      <input type="text" class="modal-input" id="impulsePledgeInput" placeholder="예: 견적서 엑셀 오타 대조기를 만들면 인테리어 실무자의 2시간을 아낄 수 있다.">
+
+      <div class="modal-btn-row">
+        <button class="btn-timer secondary" id="modalSurrenderBtn">포기하고 탕진하기 (위험)</button>
+        <button class="btn-timer primary" id="modalCommitBtn">가설 등록하고 터미널 복귀</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast" id="toast">
+    <i data-lucide="check-circle" style="color: var(--accent-emerald);"></i>
+    <span id="toastMsg">알림 메시지</span>
+  </div>
+
+  <script>
+    // Lucide Icons Init
+    lucide.createIcons();
+
+    // STATE
+    const state = {
+      dailyShorts: 3.5,
+      hourlyRate: 35000,
+      guiltBuy: 300000,
+      timerDuration: 25 * 60,
+      timerRemaining: 25 * 60,
+      timerInterval: null,
+      isTimerRunning: false,
+      isAudioPlaying: false,
+      isQuenched: false,
+      audioCtx: null,
+      noiseNode: null,
+      binauralOscLeft: null,
+      binauralOscRight: null
+    };
+
+    // DOM ELEMENTS
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const dailyShortsInput = document.getElementById('dailyShortsInput');
+    const hourlyRateInput = document.getElementById('hourlyRateInput');
+    const guiltBuyInput = document.getElementById('guiltBuyInput');
+    const dailyShortsLabel = document.getElementById('dailyShortsLabel');
+    const hourlyRateLabel = document.getElementById('hourlyRateLabel');
+    const guiltBuyLabel = document.getElementById('guiltBuyLabel');
+
+    const bannerDeficitVal = document.getElementById('bannerDeficitVal');
+    const bannerCashLeakVal = document.getElementById('bannerCashLeakVal');
+    const d2DepletionRate = document.getElementById('d2DepletionRate');
+    const d2BarFill = document.getElementById('d2BarFill');
+    const readingStaminaVal = document.getElementById('readingStaminaVal');
+    const readingStaminaBar = document.getElementById('readingStaminaBar');
+    const receptorMatrix = document.getElementById('receptorMatrix');
+
+    const annualHoursLost = document.getElementById('annualHoursLost');
+    const annualTimeCostVal = document.getElementById('annualTimeCostVal');
+    const annualGuiltCostVal = document.getElementById('annualGuiltCostVal');
+
+    const quenchToggleBtn = document.getElementById('quenchToggleBtn');
+    const quenchStateText = document.getElementById('quenchStateText');
+    const feedCard1 = document.getElementById('feedCard1');
+    const feedCard2 = document.getElementById('feedCard2');
+    const feedText1 = document.getElementById('feedText1');
+    const feedText2 = document.getElementById('feedText2');
+    const feedDetail1 = document.getElementById('feedDetail1');
+    const feedDetail2 = document.getElementById('feedDetail2');
+    const astLogBox = document.getElementById('astLogBox');
+    const startQuenchBtn = document.getElementById('startQuenchBtn');
+
+    const clockDisplay = document.getElementById('clockDisplay');
+    const timerStartBtn = document.getElementById('timerStartBtn');
+    const timerResetBtn = document.getElementById('timerResetBtn');
+    const timerBtnText = document.getElementById('timerBtnText');
+    const timer25Btn = document.getElementById('timer25Btn');
+    const timer50Btn = document.getElementById('timer50Btn');
+    const sessionStatusBadge = document.getElementById('sessionStatusBadge');
+
+    const rawEditor = document.getElementById('rawEditor');
+    const editorStats = document.getElementById('editorStats');
+    const saveIndicator = document.getElementById('saveIndicator');
+    const exportMdBtn = document.getElementById('exportMdBtn');
+
+    const impulseTrapBtn = document.getElementById('impulseTrapBtn');
+    const impulseModal = document.getElementById('impulseModal');
+    const modalCommitBtn = document.getElementById('modalCommitBtn');
+    const modalSurrenderBtn = document.getElementById('modalSurrenderBtn');
+    const impulsePledgeInput = document.getElementById('impulsePledgeInput');
+
+    const audioToggleBtn = document.getElementById('audioToggleBtn');
+    const audioIcon = document.getElementById('audioIcon');
+    const zenModeToggleBtn = document.getElementById('zenModeToggleBtn');
+    const jumpToTerminalBtn = document.getElementById('jumpToTerminalBtn');
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toastMsg');
+
+    // TAB NAVIGATION
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+
+        btn.classList.add('active');
+        const target = document.getElementById(btn.dataset.tab);
+        if (target) target.classList.add('active');
+      });
+    });
+
+    // TOAST HELPER
+    function showToast(msg) {
+      toastMsg.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // CALCULATIONS & GAUGES
+    function updateCalculations() {
+      const hours = parseFloat(dailyShortsInput.value);
+      const rate = parseInt(hourlyRateInput.value, 10);
+      const guilt = parseInt(guiltBuyInput.value, 10);
+
+      dailyShortsLabel.textContent = hours.toFixed(1) + ' 시간';
+      hourlyRateLabel.textContent = rate.toLocaleString() + ' 원';
+      guiltBuyLabel.textContent = guilt.toLocaleString() + ' 원';
+
+      // Depletion rates
+      const d2Damage = Math.min(95, Math.round(20 + hours * 14));
+      const stamina = Math.max(3, Math.round(45 - hours * 9));
+      const annualHours = Math.round(hours * 365);
+      const annualTimeLoss = annualHours * rate;
+      const annualGuiltLoss = guilt * 12;
+      const monthlyTotalLeak = Math.round((hours * 30 * rate) + guilt);
+
+      // DOM Updates
+      bannerDeficitVal.textContent = `-${Math.round(d2Damage * 0.75)}%`;
+      bannerCashLeakVal.textContent = `₩ ${monthlyTotalLeak.toLocaleString()}`;
+
+      d2DepletionRate.textContent = `${d2Damage}% 손상 (만성 둔감화)`;
+      d2BarFill.style.width = `${d2Damage}%`;
+
+      readingStaminaVal.textContent = `${stamina} 분 (한계 도달)`;
+      readingStaminaBar.style.width = `${Math.min(100, Math.round(stamina * 2.2))}%`;
+
+      annualHoursLost.textContent = `${annualHours.toLocaleString()} 시간`;
+      annualTimeCostVal.textContent = `₩ ${annualTimeLoss.toLocaleString()}`;
+      annualGuiltCostVal.textContent = `₩ ${annualGuiltLoss.toLocaleString()}`;
+
+      // Render Receptors
+      renderReceptorMatrix(d2Damage);
+    }
+
+    function renderReceptorMatrix(damageRate) {
+      receptorMatrix.innerHTML = '';
+      const totalDots = 50;
+      const damagedCount = Math.round((damageRate / 100) * totalDots);
+
+      for (let i = 0; i < totalDots; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'receptor-dot';
+        if (i < damagedCount) {
+          dot.classList.add(i % 3 === 0 ? 'burned' : 'desensitized');
+        } else {
+          dot.classList.add('active');
+        }
+        receptorMatrix.appendChild(dot);
+      }
+    }
+
+    dailyShortsInput.addEventListener('input', updateCalculations);
+    hourlyRateInput.addEventListener('input', updateCalculations);
+    guiltBuyInput.addEventListener('input', updateCalculations);
+
+    // QUENCH (SLOP DEMOLISHER) LOGIC
+    function toggleQuench(forceState = null) {
+      state.isQuenched = forceState !== null ? forceState : !state.isQuenched;
+
+      if (state.isQuenched) {
+        feedCard1.classList.add('quenched');
+        feedCard2.classList.add('quenched');
+        quenchStateText.textContent = "급랭 해제 (자극 복원)";
+        feedText1.textContent = "[RAW AST] { \"type\": \"AD_HOOK\", \"target\": \"ENVIER\", \"real_car_equity\": \"LEASE_DEBT_92%\", \"claimed_rev\": \"FABRICATED\" }";
+        feedText2.textContent = "[RAW AST] { \"type\": \"FOMO_TRIGGER\", \"retention_hack\": \"SURVEY_FUNNEL\", \"actual_vod_completion\": \"1.8%\", \"loss\": \"-990,000KRW\" }";
+        feedDetail1.innerHTML = "<p><strong>[디컨스트럭션 신호]</strong> 인지 마약 제거 완료. 시각적 허상을 걷어내자 남는 것은 <strong>연이율 14.8%의 카푸어 리스 부채표</strong>와 광고 단가뿐입니다.</p>";
+        feedDetail2.innerHTML = "<p><strong>[디컨스트럭션 신호]</strong> 허위 수익 인증 해체. <strong>복제 불가능한 낚시성 VOD</strong>에 지불할 돈으로 본인의 API 호출 비용 5만 원을 확보하십시오.</p>";
+
+        astLogBox.textContent = `[QUENCH ENGINE SUCCESS]
+• Incoming Stream: 1080x1920 60FPS Dopamine Glitch Filtered (0 bytes)
+• Retained Signal: Clean Raw Metrics & Cashflow Truth
+• Psychological Protection: FOMO/Envy Trigger neutralized.
+• Cognitive Energy Preserved: +450 kcal of prefrontal cortical budget.`;
+
+        showToast("시각 자극 급랭 완료: 허상의 과시가 원시 데이터로 해체되었습니다.");
+        playTone(320, 0.1, 'triangle');
+      } else {
+        feedCard1.classList.remove('quenched');
+        feedCard2.classList.remove('quenched');
+        quenchStateText.textContent = "시각 자극 급랭 (Quench) 실행";
+        feedText1.textContent = "\"25세 월 1억 버는 법 대공개! 포르쉐 카이엔 하울 & 초호화 펜트하우스 투어\"";
+        feedText2.textContent = "\"아직도 월급 300 받고 회사 다녀요? 나는 누워서 AI로 하루 500 벌었다\"";
+        feedDetail1.innerHTML = "<p><strong>[알고리즘 착취 목적]</strong> 시기심 유발을 통한 광고 체류시간 180초 락인, 고가 사기성 리딩방/부업 링크 유도</p>";
+        feedDetail2.innerHTML = "<p><strong>[알고리즘 착취 목적]</strong> 직장인의 무력감과 박탈감을 자극하여 99만 원짜리 미수강 VOD 강의 결제 유발</p>";
+        astLogBox.textContent = `// 원시 신호 해체 대기 중... 
+// 상단 [시각 자극 급랭 실행] 버튼을 클릭하면 허상의 영상 자극이 건조한 재무/엔지니어링 데이터로 전환됩니다.`;
+      }
+    }
+
+    quenchToggleBtn.addEventListener('click', () => toggleQuench());
+    startQuenchBtn.addEventListener('click', () => {
+      const demolisherTabBtn = document.querySelector('[data-tab="tab-demolisher"]');
+      demolisherTabBtn.click();
+      toggleQuench(true);
+    });
+
+    // TIMER & PRODUCER LOCK-IN LOGIC
+    function formatTime(seconds) {
+      const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+      const s = (seconds % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    function updateClock() {
+      clockDisplay.textContent = formatTime(state.timerRemaining);
+    }
+
+    function startTimer() {
+      if (state.isTimerRunning) {
+        clearInterval(state.timerInterval);
+        state.isTimerRunning = false;
+        timerBtnText.textContent = "락인 재개";
+        sessionStatusBadge.textContent = "⏸ 일시정지";
+        sessionStatusBadge.style.color = "var(--accent-amber)";
+        return;
+      }
+
+      state.isTimerRunning = true;
+      timerBtnText.textContent = "일시정지";
+      sessionStatusBadge.textContent = "● 딥워크 락인 가동 중";
+      sessionStatusBadge.style.color = "var(--accent-cyan)";
+      playTone(580, 0.15, 'sine');
+
+      state.timerInterval = setInterval(() => {
+        if (state.timerRemaining > 0) {
+          state.timerRemaining--;
+          updateClock();
+        } else {
+          clearInterval(state.timerInterval);
+          state.isTimerRunning = false;
+          timerBtnText.textContent = "락인 완료";
+          sessionStatusBadge.textContent = "★ 딥워크 세션 완수!";
+          sessionStatusBadge.style.color = "var(--accent-emerald)";
+          playTone(880, 0.4, 'sine');
+          showToast("🎉 축하합니다! 25분간 순수 생산자 락인을 완수했습니다.");
+        }
+      }, 1000);
+    }
+
+    function resetTimer(seconds = 25 * 60) {
+      clearInterval(state.timerInterval);
+      state.isTimerRunning = false;
+      state.timerDuration = seconds;
+      state.timerRemaining = seconds;
+      timerBtnText.textContent = "락인 시작";
+      sessionStatusBadge.textContent = "● READY";
+      sessionStatusBadge.style.color = "var(--accent-emerald)";
+      updateClock();
+    }
+
+    timerStartBtn.addEventListener('click', startTimer);
+    timerResetBtn.addEventListener('click', () => resetTimer(state.timerDuration));
+    timer25Btn.addEventListener('click', () => resetTimer(25 * 60));
+    timer50Btn.addEventListener('click', () => resetTimer(50 * 60));
+
+    // IMPULSE INTERCEPTOR MODAL
+    impulseTrapBtn.addEventListener('click', () => {
+      impulseModal.classList.add('active');
+      playTone(220, 0.3, 'sawtooth');
+    });
+
+    modalSurrenderBtn.addEventListener('click', () => {
+      alert("⚠️ 위험 경고: 빅테크 알고리즘에 자발적으로 항복했습니다. 뇌 도파민 수용체가 추가 손실됩니다.");
+      impulseModal.classList.remove('active');
+    });
+
+    modalCommitBtn.addEventListener('click', () => {
+      const text = impulsePledgeInput.value.trim();
+      if (!text) {
+        alert("이성을 되찾기 위해 비즈니스 가설 1문장을 입력하십시오.");
+        return;
+      }
+
+      // Append pledge to editor
+      const currentVal = rawEditor.value;
+      rawEditor.value = currentVal + `\n\n> 🛡️ **[충동 방어 성공 비즈니스 가설 - ${new Date().toLocaleTimeString()}]**\n> ${text}\n`;
+      impulsePledgeInput.value = '';
+      impulseModal.classList.remove('active');
+      updateEditorStats();
+      showToast("충동 극복 완료! 비즈니스 가설이 작업 버퍼에 각인되었습니다.");
+      playTone(660, 0.2, 'sine');
+    });
+
+    // EDITOR & LOCAL STORAGE
+    function updateEditorStats() {
+      const text = rawEditor.value;
+      const chars = text.length;
+      const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+      const estimatedValue = Math.round(words * 250); // 1단어당 250원 가치
+
+      editorStats.textContent = `${words} words | ${chars} chars | ₩${estimatedValue.toLocaleString()} Asset Value`;
+      localStorage.setItem('dopamine_quench_draft', text);
+      saveIndicator.textContent = "● 자동 저장됨";
+      saveIndicator.style.color = "var(--accent-emerald)";
+    }
+
+    rawEditor.addEventListener('input', () => {
+      saveIndicator.textContent = "● 작성 중...";
+      saveIndicator.style.color = "var(--accent-amber)";
+      updateEditorStats();
+    });
+
+    // Restore draft
+    const savedDraft = localStorage.getItem('dopamine_quench_draft');
+    if (savedDraft) {
+      rawEditor.value = savedDraft;
+    }
+    updateEditorStats();
+
+    // EXPORT MARKDOWN
+    exportMdBtn.addEventListener('click', () => {
+      const blob = new Blob([rawEditor.value], { type: 'text/markdown;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `producer_asset_${new Date().toISOString().slice(0,10)}.md`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast("마크다운 파일로 내보냈습니다.");
+    });
+
+    // ZEN MODE
+    zenModeToggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('zen-active');
+      const isZen = document.body.classList.contains('zen-active');
+      if (isZen) {
+        document.querySelector('[data-tab="tab-terminal"]').click();
+        zenModeToggleBtn.innerHTML = '<i data-lucide="minimize-2"></i><span>Zen 탈출</span>';
+        showToast("Zen 락인 모드: 모든 방해 요소를 숨겼습니다.");
+      } else {
+        zenModeToggleBtn.innerHTML = '<i data-lucide="maximize-2"></i><span>Zen 락인 모드</span>';
+      }
+      lucide.createIcons();
+    });
+
+    jumpToTerminalBtn.addEventListener('click', () => {
+      document.querySelector('[data-tab="tab-terminal"]').click();
+      startTimer();
+    });
+
+    // WEB AUDIO API (40Hz Binaural Beats & Synth Sounds)
+    function initAudioContext() {
+      if (!state.audioCtx) {
+        state.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function playTone(freq, duration, type = 'sine') {
+      try {
+        initAudioContext();
+        if (state.audioCtx.state === 'suspended') {
+          state.audioCtx.resume();
+        }
+        const osc = state.audioCtx.createOscillator();
+        const gain = state.audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, state.audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.12, state.audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, state.audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(state.audioCtx.destination);
+        osc.start();
+        osc.stop(state.audioCtx.currentTime + duration);
+      } catch (e) {
+        console.warn("Web Audio API error", e);
+      }
+    }
+
+    function toggle40HzAudio() {
+      initAudioContext();
+      if (state.audioCtx.state === 'suspended') {
+        state.audioCtx.resume();
+      }
+
+      if (state.isAudioPlaying) {
+        // Stop
+        if (state.binauralOscLeft) state.binauralOscLeft.stop();
+        if (state.binauralOscRight) state.binauralOscRight.stop();
+        state.isAudioPlaying = false;
+        audioToggleBtn.classList.remove('active');
+        audioToggleBtn.querySelector('span').textContent = "40Hz 감마파 오디오: OFF";
+        audioIcon.setAttribute('data-lucide', 'volume-x');
+        showToast("오디오 사운드가 종료되었습니다.");
+      } else {
+        // Start 40Hz Binaural Beats (200Hz Left, 240Hz Right -> 40Hz Gamma Differential)
+        const merger = state.audioCtx.createChannelMerger(2);
+        
+        const oscL = state.audioCtx.createOscillator();
+        const oscR = state.audioCtx.createOscillator();
+        const gainL = state.audioCtx.createGain();
+        const gainR = state.audioCtx.createGain();
+
+        oscL.frequency.value = 210; // Left ear
+        oscR.frequency.value = 250; // Right ear (diff: 40Hz Gamma)
+
+        gainL.gain.value = 0.05;
+        gainR.gain.value = 0.05;
+
+        oscL.connect(gainL);
+        oscR.connect(gainR);
+
+        gainL.connect(merger, 0, 0);
+        gainR.connect(merger, 0, 1);
+        merger.connect(state.audioCtx.destination);
+
+        oscL.start();
+        oscR.start();
+
+        state.binauralOscLeft = oscL;
+        state.binauralOscRight = oscR;
+        state.isAudioPlaying = true;
+        audioToggleBtn.classList.add('active');
+        audioToggleBtn.querySelector('span').textContent = "40Hz 감마파 오디오: ON";
+        audioIcon.setAttribute('data-lucide', 'volume-2');
+        showToast("스탠퍼드 의대 권장: 40Hz 감마파 바이노럴 비트가 재생됩니다.");
+      }
+      lucide.createIcons();
+    }
+
+    audioToggleBtn.addEventListener('click', toggle40HzAudio);
+
+    // INITIAL SETUP
+    updateCalculations();
+    updateClock();
+  </script>
+</body>
+</html>

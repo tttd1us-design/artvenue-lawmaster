@@ -1,5582 +1,3620 @@
 /**
- * ArtVenue LawMaster AI Enterprise Engine v4.5
- * 공연장 6대 복합법령 상충 해결 & 3D 공간 인텔리전스 시스템
+ * PainFinder & BizLaunch AI - High-Ticket Master Engine (v8.5 Complete Encyclopedic Edition)
+ * 100만원 상당 프리미엄 1인 창업 바이블 & 월 1000만원 부수익 인큐베이터
  */
 
-// =============================================================================
-// 1. DATA REPOSITORY: 23 PARTS MASTER MATRIX & 9 CONFLICT RESOLUTIONS
-// =============================================================================
-
-const MASTER_PARTS_DATA = [
-  {
-    id: 1,
-    name: "관람실 출구 폭·개소",
-    category: "egress",
-    hasConflict: true,
-    conflictId: 2,
-    building: { type: "dominant", text: "◉ 제10조② (1.5m/개소)" },
-    fire: { type: "none", text: "─" },
-    disability: { type: "review", text: "○" },
-    bf: { type: "review", text: "○ 2.1.2 (0.9m/짝)" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "none", text: "─" },
-    summary: "건축법 개소당 1.5m와 BF 한 짝 0.9m가 경합하므로 양개형 1.2m+1.2m(개구부 2.4m)로 설계해야 양 법령 동시 충족"
-  },
-  {
-    id: 2,
-    name: "피난계단 출입구 폭",
-    category: "egress",
-    hasConflict: false,
-    building: { type: "dominant", text: "◉ 제9조 (유효폭 0.9m+)" },
-    fire: { type: "none", text: "─" },
-    disability: { type: "mandatory", text: "●" },
-    bf: { type: "mandatory", text: "●" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "none", text: "─" },
-    summary: "피난계단 유효폭 0.9m 이상 및 단차 제로, 방화문 피난방향 개폐 의무"
-  },
-  {
-    id: 3,
-    name: "일반 문 유효폭",
-    category: "barrierfree",
-    hasConflict: false,
-    building: { type: "none", text: "─" },
-    fire: { type: "none", text: "─" },
-    disability: { type: "mandatory", text: "● 별표1-6 (0.9m+)" },
-    bf: { type: "dominant", text: "◉ 2.1.2 (최우수 0.9m+)" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "none", text: "─" },
-    summary: "BF 인증 기준에 따라 문틀 통과 순유효폭 0.9m(우수/최우수) 확보 필수"
-  },
-  {
-    id: 4,
-    name: "문 단차·손잡이·점자",
-    category: "barrierfree",
-    hasConflict: false,
-    building: { type: "none", text: "─" },
-    fire: { type: "none", text: "─" },
-    disability: { type: "mandatory", text: "● 별표1-6" },
-    bf: { type: "dominant", text: "◉ 2.1.1 / 2.1.4" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "none", text: "─" },
-    summary: "단차 2cm 이하(경사로 1/8), 레버형 손잡이(0.8~0.9m), 점자표지판 1.5m 높이 부착"
-  },
-  {
-    id: 5,
-    name: "문 전·후면 유효거리",
-    category: "barrierfree",
-    hasConflict: false,
-    building: { type: "none", text: "─" },
-    fire: { type: "none", text: "─" },
-    disability: { type: "review", text: "○" },
-    bf: { type: "dominant", text: "◉ 2.1.3 (1.5m x 1.5m)" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "none", text: "─" },
-    summary: "휠체어 회전 및 안전 개폐를 위해 문 전후면에 직경 1.5m 이상의 활동공간 확보"
-  },
-  {
-    id: 6,
-    name: "FOH 복도 폭",
-    category: "egress",
-    hasConflict: true,
-    conflictId: 1,
-    building: { type: "dominant", text: "◉ 제15조의2② (2.4m+)" },
-    fire: { type: "none", text: "─" },
-    disability: { type: "review", text: "○" },
-    bf: { type: "review", text: "○ 2.2.1 (1.5m)" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "none", text: "─" },
-    summary: "건축법 2.4m가 지배하나, 소화전함/기둥/마감재 돌출 고려 시 실계획 3.0~3.6m 필수"
-  },
-  {
-    id: 7,
-    name: "복도 배치(양쪽·뒤쪽)",
-    category: "egress",
-    hasConflict: false,
-    building: { type: "dominant", text: "◉ 제15조의2③" },
-    fire: { type: "none", text: "─" },
-    disability: { type: "none", text: "─" },
-    bf: { type: "none", text: "─" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "none", text: "─" },
-    summary: "객석 면적 및 피난 통로 기준에 따라 양쪽 및 후면 피난 복도 연결 의무"
-  },
-  {
-    id: 8,
-    name: "복도 마감·장애물·손잡이",
-    category: "barrierfree",
-    hasConflict: false,
-    building: { type: "none", text: "─" },
-    fire: { type: "none", text: "─" },
-    disability: { type: "review", text: "○" },
-    bf: { type: "dominant", text: "◉ 2.2.x (연속 손잡이)" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "none", text: "─" },
-    summary: "바닥 미끄럼 방지, 벽체 0.1m 이상 돌출물 금지, 높이 0.85m 연속 핸드레일 설치"
-  },
-  {
-    id: 9,
-    name: "계단 유효폭·유효높이",
-    category: "egress",
-    hasConflict: false,
-    building: { type: "dominant", text: "◉ 제15조①④②③" },
-    fire: { type: "none", text: "─" },
-    disability: { type: "review", text: "○" },
-    bf: { type: "review", text: "○" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "none", text: "─" },
-    summary: "공연장 주계단 유효폭 1.5m 이상, 유효높이 2.1m 이상 확보 의무"
-  },
-  {
-    id: 10,
-    name: "계단참 설치간격",
-    category: "egress",
-    hasConflict: true,
-    conflictId: 6,
-    building: { type: "dominant", text: "◉ 제15조①1 (높이 3m마다)" },
-    fire: { type: "none", text: "─" },
-    disability: { type: "none", text: "─" },
-    bf: { type: "mandatory", text: "● 치수 기준 (폭 1.2m+)" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "none", text: "─" },
-    summary: "높이 3m 이내마다 계단참을 두고, 계단참의 유효폭은 1.2m 이상으로 양자 동시 충족"
-  },
-  {
-    id: 11,
-    name: "계단 챌면·디딤판",
-    category: "egress",
-    hasConflict: true,
-    conflictId: 5,
-    building: { type: "none", text: "─ (공연장 무규정)" },
-    fire: { type: "none", text: "─" },
-    disability: { type: "mandatory", text: "●" },
-    bf: { type: "dominant", text: "◉ BF (0.18 / 0.28m)" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "none", text: "─" },
-    summary: "건축법은 공연장 계단 치수가 미비하므로 BF 최우수 기준(챌면 16cm 이하, 디딤판 30cm 이상) 적용"
-  },
-  {
-    id: 12,
-    name: "방화구획·내화구조",
-    category: "fire",
-    hasConflict: true,
-    conflictId: 7,
-    building: { type: "dominant", text: "◉ 영 제46조 (완화 조항)" },
-    fire: { type: "review", text: "○" },
-    disability: { type: "none", text: "─" },
-    bf: { type: "none", text: "─" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "none", text: "─" },
-    summary: "관람실 대공간은 방화구획 완화 규정 적용. 제연설비 및 조기 반응형 스프링클러로 사전 서면협의 필수"
-  },
-  {
-    id: 13,
-    name: "배연설비",
-    category: "fire",
-    hasConflict: false,
-    building: { type: "dominant", text: "◉ 영 제51조" },
-    fire: { type: "review", text: "○" },
-    disability: { type: "none", text: "─" },
-    bf: { type: "none", text: "─" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "none", text: "─" },
-    summary: "관람실 및 무대 상부에 자연배연창 또는 기계배연설비 용량 기준 충족 의무"
-  },
-  {
-    id: 14,
-    name: "제연설비",
-    category: "fire",
-    hasConflict: false,
-    building: { type: "review", text: "○" },
-    fire: { type: "dominant", text: "◉ 소방시설법 (특별피난계단)" },
-    disability: { type: "none", text: "─" },
-    bf: { type: "none", text: "─" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "none", text: "─" },
-    summary: "무대부 및 관람석, 비상용 승강기 승강장 가압제연 및 차압 기준 만족"
-  },
-  {
-    id: 15,
-    name: "스프링클러·유도등",
-    category: "fire",
-    hasConflict: true,
-    conflictId: 8,
-    building: { type: "none", text: "─" },
-    fire: { type: "dominant", text: "◉ 소방시설법 화재안전기준" },
-    disability: { type: "none", text: "─" },
-    bf: { type: "none", text: "─" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "none", text: "─" },
-    summary: "소방 점등 의무 vs 연출 암전 상충: 자동 화재 연동 감광 제어기 설치 후 소방서 서면 승인 필수"
-  },
-  {
-    id: 16,
-    name: "휠체어 관람석",
-    category: "barrierfree",
-    hasConflict: true,
-    conflictId: 9,
-    building: { type: "none", text: "─" },
-    fire: { type: "none", text: "─" },
-    disability: { type: "mandatory", text: "● 별표1 (1% 이상)" },
-    bf: { type: "dominant", text: "◉ 5.2 (최우수 2% 이상)" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "none", text: "─" },
-    summary: "BF 최우수 2% 이상 확보 및 무대 정면 시야각 30° 이내 골든존 분산 배치"
-  },
-  {
-    id: 17,
-    name: "무대 접근성 (경사로/리프트)",
-    category: "stage",
-    hasConflict: false,
-    building: { type: "none", text: "─" },
-    fire: { type: "none", text: "─" },
-    disability: { type: "mandatory", text: "●" },
-    bf: { type: "dominant", text: "◉ 5.2 (무대 경사로 필수)" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "none", text: "─" },
-    summary: "객석에서 무대로 진입 가능한 경사로(1/12 이하) 또는 전용 휠체어 리프트 설치 필수"
-  },
-  {
-    id: 18,
-    name: "무대기계·기구 안전진단",
-    category: "stage",
-    hasConflict: false,
-    building: { type: "none", text: "─" },
-    fire: { type: "review", text: "○" },
-    disability: { type: "none", text: "─" },
-    bf: { type: "none", text: "─" },
-    performance: { type: "dominant", text: "◉ 공연법 제12조" },
-    etc: { type: "none", text: "─" },
-    summary: "무대 상부 배톤, 리깅, 회전무대 3년 주기 정기안전검사 및 안전관리자 선임"
-  },
-  {
-    id: 19,
-    name: "장애인화장실",
-    category: "barrierfree",
-    hasConflict: false,
-    building: { type: "none", text: "─" },
-    fire: { type: "none", text: "─" },
-    disability: { type: "mandatory", text: "●" },
-    bf: { type: "dominant", text: "◉ BF (남녀구분 1.6x2.0m)" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "none", text: "─" },
-    summary: "남녀 분리 설치 원칙, 출입문 유효폭 0.9m, 내부 회전반경 1.5m, 자동문 및 비상벨 연동"
-  },
-  {
-    id: 20,
-    name: "전체 화장실 개수·비율",
-    category: "barrierfree",
-    hasConflict: false,
-    building: { type: "none", text: "─" },
-    fire: { type: "none", text: "─" },
-    disability: { type: "review", text: "○" },
-    bf: { type: "review", text: "○" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "dominant", text: "◉ 공중화장실법 조례 (여성 1.5배)" },
-    summary: "공연장 특성상 인터미션 여성 대기열 방지를 위해 여성 대변기 수 = 남성 대·소변기 합의 1.5배 이상 확보"
-  },
-  {
-    id: 21,
-    name: "장애인전용주차구획",
-    category: "barrierfree",
-    hasConflict: false,
-    building: { type: "none", text: "─" },
-    fire: { type: "none", text: "─" },
-    disability: { type: "mandatory", text: "● 3% 이상" },
-    bf: { type: "dominant", text: "◉ BF 5% (3.3m x 5.0m)" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "review", text: "○" },
-    summary: "BF 최우수 5% 이상, 폭 3.3m 이상 확보 및 주출입구 최단 안전통로 직결"
-  },
-  {
-    id: 22,
-    name: "총 주차대수",
-    category: "egress",
-    hasConflict: false,
-    building: { type: "review", text: "○" },
-    fire: { type: "none", text: "─" },
-    disability: { type: "none", text: "─" },
-    bf: { type: "none", text: "─" },
-    performance: { type: "none", text: "─" },
-    etc: { type: "dominant", text: "◉ 주차장법·지자체 조례" },
-    summary: "관람시설 기준 시설면적 100㎡당 1대 등 지자체 강화 조례 적용"
-  },
-  {
-    id: 23,
-    name: "안전관리조직·재해대처계획",
-    category: "stage",
-    hasConflict: false,
-    building: { type: "none", text: "─" },
-    fire: { type: "review", text: "○" },
-    disability: { type: "none", text: "─" },
-    bf: { type: "none", text: "─" },
-    performance: { type: "dominant", text: "◉ 공연법 제11조" },
-    etc: { type: "none", text: "─" },
-    summary: "1,000석 이상 공연장 안전총괄책임자 지정 및 매년 재해대처계획 지자체 신고 의무"
-  }
-];
-
-const CONFLICT_SOLUTIONS_DATA = [
-  {
-    id: 1,
-    title: "FOH 복도 폭 (관람객 메인 로비)",
-    compA: "건축법: 2.4 m (1,000㎡ 이상)",
-    compB: "BF 인증: 우수 1.2 m / 최우수 1.5 m",
-    dominant: "건축법 (A 지배)",
-    conclusion: "2.4 m 이상 확보 필수. 단, 문·기둥·소화전함 등 장식분 별도 확보 필요 => 실계획 3.0 ~ 3.6 m 강력 권장",
-    icon: "move-horizontal",
-    tip: "소화전함이 벽체에서 15cm 돌출되면 준공 유효폭이 2.25m로 미달되어 반려됩니다. 매립형 시공 또는 3.2m 이상 설계를 확정하십시오."
-  },
-  {
-    id: 2,
-    title: "관람실 출구 유효폭 & 형태",
-    compA: "건축법: 1.5 m / 개소당",
-    compB: "BF 인증: 한 짝 0.9 m 이상",
-    dominant: "양자 병합 (A + B 지배)",
-    conclusion: "양개형 도어 1.2 m + 1.2 m (총 개구부 폭 2.4 m)로 설계하여 피난속도 및 휠체어 진입 완벽 동시 충족",
-    icon: "log-out",
-    tip: "1.5m 단일 문은 무거워 BF 인증에서 탈락합니다. 1.2m 양개 도어로 자동 폐쇄력을 30N 이하로 세팅하십시오."
-  },
-  {
-    id: 3,
-    title: "사운드록(음향전실) 길이",
-    compA: "BF 인증: 유효거리 1.5 m",
-    compB: "음향/피난: 두 문 개폐 소요거리 모두 제외",
-    dominant: "실무 음향·피난 (B 지배)",
-    conclusion: "외개 도어 개폐 반경 간섭 배제 시 3.5 ~ 4.0 m 필요 (문 외개 시 축소 가능하나 로비 복도 폭 잠식 주의)",
-    icon: "door-closed",
-    tip: "사운드록 길이가 2.5m 이하일 경우 안쪽 문과 바깥쪽 문이 동시에 열려 외부 로비 소음이 객석으로 100% 유입됩니다."
-  },
-  {
-    id: 4,
-    title: "차음문 두께 간섭 vs 복도 폭",
-    compA: "음향 설계: 차음 이중벽 0.4 ~ 0.6 m",
-    compB: "건축법: 복도 유효폭 잠식 금지",
-    dominant: "건축법 복도폭 사수 (A 지배)",
-    conclusion: "문틀을 로비측 벽면에 평면 정렬하고, 0.5m 두께는 관람실 내부 흡음재 영역으로 흡수하여 복도폭 100% 보존",
-    icon: "layers",
-    tip: "복도 쪽으로 문틀이 튀어나오면 '복도 유효폭 위반'으로 건축과 사용승인 현장실사에서 100% 적발됩니다."
-  },
-  {
-    id: 5,
-    title: "계단 챌면(높이) · 디딤판(너비)",
-    compA: "건축법: 공연장 계단 치수 무규정",
-    compB: "BF 인증: 챌면 0.18m / 디딤판 0.28m",
-    dominant: "BF 인증 (B 지배)",
-    conclusion: "BF 최우수 기준(챌면 16cm 이하, 디딤판 30cm 이상) 적용하여 노약자 및 어두운 조명 하 안전사고 원천 차단",
-    icon: "align-justify",
-    tip: "공연장 암전 계단에서 디딤판이 28cm 미만이면 관람객 낙상 사고 시 극장 배상책임 100% 과실이 인정됩니다."
-  },
-  {
-    id: 6,
-    title: "계단참 설치 간격 및 치수",
-    compA: "건축법: 수직 높이 3 m 이내마다",
-    compB: "BF 인증: 유효폭 1.2 m 이상 치수 기준",
-    dominant: "양자 병존 (동시 충족)",
-    conclusion: "수직 3m마다 간격 배치 + 유효폭 1.2m 이상 평탄 구간을 확보하여 건축법과 BF 인증 동시 통과",
-    icon: "git-merge",
-    tip: "계단참 회전 구간에 코너 챔퍼를 주거나 기둥이 침범하면 BF 인증에서 즉시 반려됩니다."
-  },
-  {
-    id: 7,
-    title: "관람실 대공간 방화구획",
-    compA: "건축법: 영 제46조 1,000㎡마다 방화구획",
-    compB: "공연장 특성: 무대-객석 일체형 대공간 필요",
-    dominant: "방화구획 완화 조항 (완화 적용)",
-    conclusion: "허가청(시·군·구 건축과) 사전 서면협의 필수. 조기반응형 ESFR 스프링클러 + 기계식 제연설비 기술서 제출",
-    icon: "shield-alert",
-    tip: "착공 전 관람실 방화구획 완화 심의를 받지 않으면 준공 시 드렌처 설비 추가로 수억 원이 낭비됩니다."
-  },
-  {
-    id: 8,
-    title: "객석유도등 점등 vs 무대 암전",
-    compA: "소방법: 유도등 상시 설치·점등 의무",
-    compB: "공연 연출: 100% 암전 요구 (빛 간섭 배제)",
-    dominant: "소방법 (임의 소등 엄금)",
-    conclusion: "임의 소등 절대 불가. 1룩스 이하 자동 조도감광 장치 설치 및 화재신호 시 100% 복구 조건 소방서 사전 협의",
-    icon: "flame",
-    tip: "연출자가 유도등에 검은 테이프를 붙이는 관행은 소방특별조사 시 과태료 300만원 및 즉시 시정명령 대상입니다."
-  },
-  {
-    id: 9,
-    title: "관람석 내부 단차 계단 BF 적용",
-    compA: "BF 인증: 일반 계단 항목 적용 요구",
-    compB: "BF 관람석: 5.2 항목 특수성 인정 요구",
-    dominant: "BF 5.2 관람석 기준 (5.2 지배)",
-    conclusion: "관람석 내부 단차 계단에 핸드레일 전면 설치 시 시야가 가려지므로, BF 5.2 기준을 근거로 인증기관 사전 서면 확정",
-    icon: "accessibility",
-    tip: "인증 심사관마다 해석이 다르므로, 기본설계 완료 직후 '관람석 내부 단차 질의회신서'를 확보해 두어야 합니다."
-  }
-];
-
-
-// =============================================================================
-// 2. 3D THEATER SIMULATOR (THREE.JS ENGINE)
-// =============================================================================
-
-class VenueSimulator3D {
-  constructor(canvasId) {
-    this.canvas = document.getElementById(canvasId);
-    if (!this.canvas) return;
-
-    this.scene = null;
-    this.camera = null;
-    this.renderer = null;
-    this.controls = null;
-    this.meshes = {};
-    this.lights = {};
-    
-    // Default Parameters
-    this.params = {
-      fohWidth: 3.2,
-      soundLockLength: 3.8,
-      exitWidth: 2.4,
-      stairH: 16,
-      stairW: 30
-    };
-
-    this.init();
-  }
-
-  init() {
-    const width = this.canvas.clientWidth || 800;
-    const height = this.canvas.clientHeight || 480;
-
-    // Scene (Bright Architectural Studio)
-    this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xF1F5F9);
-    this.scene.fog = new THREE.FogExp2(0xF1F5F9, 0.018);
-
-    // Camera
-    this.camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    this.camera.position.set(0, 18, 26);
-
-    // Renderer
-    this.renderer = new THREE.WebGLRenderer({
-      canvas: this.canvas,
-      antialias: true,
-      powerPreference: "high-performance"
-    });
-    this.renderer.setSize(width, height);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-    // Controls
-    if (typeof THREE.OrbitControls !== 'undefined') {
-      this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-      this.controls.enableDamping = true;
-      this.controls.dampingFactor = 0.05;
-      this.controls.maxPolarAngle = Math.PI / 2 - 0.05;
-      this.controls.minDistance = 5;
-      this.controls.maxDistance = 60;
-    }
-
-    // Lighting
-    this.setupLighting();
-
-    // Build Venue 3D Architecture
-    this.buildVenueModel();
-
-    // Handle Resize
-    window.addEventListener('resize', () => this.onResize());
-
-    // Animation Loop
-    this.animate();
-  }
-
-  setupLighting() {
-    const ambient = new THREE.AmbientLight(0xFFFFFF, 1.4);
-    this.scene.add(ambient);
-
-    const dirLight = new THREE.DirectionalLight(0xFFFFFF, 1.1);
-    dirLight.position.set(12, 25, 15);
-    dirLight.castShadow = true;
-    dirLight.shadow.mapSize.width = 1024;
-    dirLight.shadow.mapSize.height = 1024;
-    this.scene.add(dirLight);
-
-    const warmFill = new THREE.PointLight(0xF59E0B, 0.5, 40);
-    warmFill.position.set(-10, 10, -5);
-    this.scene.add(warmFill);
-
-    // Stage Spot Light
-    const stageSpot = new THREE.SpotLight(0xFFFFFF, 2.0);
-    stageSpot.position.set(0, 15, -6);
-    stageSpot.target.position.set(0, 0, -10);
-    stageSpot.angle = Math.PI / 5;
-    stageSpot.penumbra = 0.6;
-    stageSpot.castShadow = true;
-    this.scene.add(stageSpot);
-    this.scene.add(stageSpot.target);
-
-    // Exit Green Glow
-    const exitGlow = new THREE.PointLight(0x059669, 1.5, 8);
-    exitGlow.position.set(9.5, 2.5, 5);
-    this.scene.add(exitGlow);
-  }
-
-  buildVenueModel() {
-    // 1. Theater Floor Slab
-    const floorGeo = new THREE.PlaneGeometry(32, 28);
-    const floorMat = new THREE.MeshStandardMaterial({
-      color: 0xE2E8F0,
-      roughness: 0.7,
-      metalness: 0.1
-    });
-    const floor = new THREE.Mesh(floorGeo, floorMat);
-    floor.rotation.x = -Math.PI / 2;
-    floor.receiveShadow = true;
-    this.scene.add(floor);
-
-    // Grid helper
-    const grid = new THREE.GridHelper(32, 32, 0x94A3B8, 0xCBD5E1);
-    grid.position.y = 0.01;
-    this.scene.add(grid);
-
-    // 2. Stage (Proscenium Stage)
-    const stageGeo = new THREE.BoxGeometry(14, 1.2, 8);
-    const stageMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.4 });
-    const stage = new THREE.Mesh(stageGeo, stageMat);
-    stage.position.set(0, 0.6, -9);
-    stage.castShadow = true;
-    stage.receiveShadow = true;
-    this.scene.add(stage);
-    this.meshes.stage = stage;
-
-    // Stage Proscenium Frame
-    const frameGeo = new THREE.BoxGeometry(15, 7, 0.6);
-    const frameMat = new THREE.MeshStandardMaterial({ color: 0x1E293B });
-    const frame = new THREE.Mesh(frameGeo, frameMat);
-    frame.position.set(0, 4.2, -5);
-    this.scene.add(frame);
-
-    // 3. Audience Sloped Seating Rake
-    const seatingGroup = new THREE.Group();
-    const rows = 7;
-    for (let r = 0; r < rows; r++) {
-      const rowZ = -2 + r * 1.5;
-      const rowY = 0.3 + r * 0.45;
-      const rowGeo = new THREE.BoxGeometry(13, 0.4, 1.2);
-      const rowMat = new THREE.MeshStandardMaterial({ color: 0x475569 });
-      const seatRow = new THREE.Mesh(rowGeo, rowMat);
-      seatRow.position.set(0, rowY, rowZ);
-      seatRow.castShadow = true;
-      seatingGroup.add(seatRow);
-
-      // Add individual chair blocks
-      for (let c = -5; c <= 5; c += 1.2) {
-        if (Math.abs(c) < 1.0 && r < 2) continue; // center aisle
-        const chairGeo = new THREE.BoxGeometry(0.7, 0.5, 0.6);
-        const chairMat = new THREE.MeshStandardMaterial({
-          color: (r === 2 && Math.abs(c) < 3) ? 0x4F46E5 : 0x64748B, // wheelchair zone highlight
-          roughness: 0.5
-        });
-        const chair = new THREE.Mesh(chairGeo, chairMat);
-        chair.position.set(c, rowY + 0.4, rowZ);
-        chair.castShadow = true;
-        seatingGroup.add(chair);
-      }
-    }
-    this.scene.add(seatingGroup);
-    this.meshes.seating = seatingGroup;
-
-    // 4. FOH Lobby Corridor (Dynamic Width)
-    const fohGeo = new THREE.BoxGeometry(24, 0.1, this.params.fohWidth);
-    const fohMat = new THREE.MeshStandardMaterial({ color: 0x1E293B, roughness: 0.3 });
-    const fohMesh = new THREE.Mesh(fohGeo, fohMat);
-    fohMesh.position.set(0, 0.05, 11);
-    fohMesh.receiveShadow = true;
-    this.scene.add(fohMesh);
-    this.meshes.fohCorridor = fohMesh;
-
-    // 5. Sound Lock Chambers (Left & Right)
-    this.meshes.soundLocks = [];
-    [-9.5, 9.5].forEach((xPos, idx) => {
-      const slGroup = new THREE.Group();
-      // Wall
-      const wallGeo = new THREE.BoxGeometry(0.4, 3.5, this.params.soundLockLength);
-      const wallMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.5 });
-      const wall = new THREE.Mesh(wallGeo, wallMat);
-      wall.position.set(xPos > 0 ? xPos - 1.2 : xPos + 1.2, 1.75, 6);
-      slGroup.add(wall);
-
-      // Acoustic Doors (Double Doors)
-      const doorGeo = new THREE.BoxGeometry(1.2, 2.4, 0.1);
-      const doorMat = new THREE.MeshStandardMaterial({ color: 0xF59E0B, metalness: 0.4 });
-      
-      const doorInner = new THREE.Mesh(doorGeo, doorMat);
-      doorInner.position.set(xPos > 0 ? xPos - 0.5 : xPos + 0.5, 1.2, 6 - this.params.soundLockLength / 2);
-      slGroup.add(doorInner);
-
-      const doorOuter = new THREE.Mesh(doorGeo, doorMat);
-      doorOuter.position.set(xPos > 0 ? xPos - 0.5 : xPos + 0.5, 1.2, 6 + this.params.soundLockLength / 2);
-      slGroup.add(doorOuter);
-
-      this.scene.add(slGroup);
-      this.meshes.soundLocks.push(slGroup);
-    });
-
-    // 6. Egress Exit Glow Indicators
-    const exitSignGeo = new THREE.BoxGeometry(0.8, 0.4, 0.1);
-    const exitSignMat = new THREE.MeshBasicMaterial({ color: 0x10B981 });
-    const exitSign = new THREE.Mesh(exitSignGeo, exitSignMat);
-    exitSign.position.set(9.5, 2.7, 5);
-    this.scene.add(exitSign);
-  }
-
-  updateParameters(newParams) {
-    this.params = { ...this.params, ...newParams };
-
-    // Update FOH Corridor Size
-    if (this.meshes.fohCorridor) {
-      this.meshes.fohCorridor.scale.z = this.params.fohWidth / 3.2;
-    }
-
-    // Update Sound Lock Length
-    if (this.meshes.soundLocks) {
-      this.meshes.soundLocks.forEach(sl => {
-        sl.scale.z = this.params.soundLockLength / 3.8;
-      });
-    }
-
-    // Update HUD
-    const hudFoh = document.getElementById('hudFohVal');
-    if (hudFoh) {
-      const status = this.params.fohWidth >= 3.0 ? "적합(여유)" : (this.params.fohWidth >= 2.4 ? "최소만족" : "위반(2.4m 미달)");
-      hudFoh.textContent = `${this.params.fohWidth.toFixed(1)} m (${status})`;
-      hudFoh.className = this.params.fohWidth >= 2.4 ? "hud-val highlight" : "hud-val text-danger";
-    }
-
-    const hudSl = document.getElementById('hudSoundLockVal');
-    if (hudSl) {
-      const status = this.params.soundLockLength >= 3.5 ? "간섭 없음" : (this.params.soundLockLength >= 2.8 ? "간섭 주의" : "도어충돌 위험");
-      hudSl.textContent = `${this.params.soundLockLength.toFixed(1)} m (${status})`;
-      hudSl.className = this.params.soundLockLength >= 3.5 ? "hud-val highlight" : "hud-val text-amber";
-    }
-
-    const hudExit = document.getElementById('hudExitVal');
-    if (hudExit) {
-      hudExit.textContent = `양개 ${this.params.exitWidth.toFixed(1)} m (${(this.params.exitWidth/2).toFixed(1)}m + ${(this.params.exitWidth/2).toFixed(1)}m)`;
-    }
-  }
-
-  setCameraPreset(mode) {
-    if (!this.camera || !this.controls) return;
-
-    let targetPos = { x: 0, y: 18, z: 26 };
-    let lookTarget = { x: 0, y: 2, z: 0 };
-
-    switch (mode) {
-      case 'foh':
-        targetPos = { x: 0, y: 6, z: 20 };
-        lookTarget = { x: 0, y: 0.5, z: 11 };
-        break;
-      case 'soundlock':
-        targetPos = { x: 14, y: 5, z: 10 };
-        lookTarget = { x: 9.5, y: 1.5, z: 6 };
-        break;
-      case 'exit':
-        targetPos = { x: 12, y: 4, z: 8 };
-        lookTarget = { x: 9.5, y: 1.5, z: 5 };
-        break;
-      case 'wheelchair':
-        targetPos = { x: 0, y: 5, z: 6 };
-        lookTarget = { x: 0, y: 1.5, z: -2 };
-        break;
-      case 'stage':
-        targetPos = { x: 0, y: 4, z: 2 };
-        lookTarget = { x: 0, y: 2, z: -9 };
-        break;
-      case 'overview':
-      default:
-        targetPos = { x: 0, y: 18, z: 26 };
-        lookTarget = { x: 0, y: 2, z: 0 };
-        break;
-    }
-
-    // Smooth Camera Transition
-    this.animateCameraTo(targetPos, lookTarget);
-  }
-
-  animateCameraTo(pos, look) {
-    const startPos = this.camera.position.clone();
-    const startLook = this.controls.target.clone();
-    const endPos = new THREE.Vector3(pos.x, pos.y, pos.z);
-    const endLook = new THREE.Vector3(look.x, look.y, look.z);
-
-    let progress = 0;
-    const duration = 30; // frames
-
-    const step = () => {
-      progress++;
-      const t = progress / duration;
-      const easeT = 0.5 - Math.cos(t * Math.PI) / 2;
-
-      this.camera.position.lerpVectors(startPos, endPos, easeT);
-      this.controls.target.lerpVectors(startLook, endLook, easeT);
-      this.controls.update();
-
-      if (progress < duration) {
-        requestAnimationFrame(step);
-      }
-    };
-    step();
-  }
-
-  onResize() {
-    if (!this.canvas || !this.renderer || !this.camera) return;
-    const width = this.canvas.clientWidth;
-    const height = this.canvas.clientHeight;
-    this.camera.aspect = width / height;
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(width, height);
-  }
-
-  animate() {
-    requestAnimationFrame(() => this.animate());
-    if (this.controls) this.controls.update();
-    if (this.renderer && this.scene && this.camera) {
-      this.renderer.render(this.scene, this.camera);
-    }
-  }
-}
-
-
-// =============================================================================
-// 3. UI CONTROLLER & EVENT ORCHESTRATION
-// =============================================================================
-
-let sim3dInstance = null;
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Initialize Lucide Icons
-  if (window.lucide) lucide.createIcons();
-
-  // Initialize 3D Simulator
-  sim3dInstance = new VenueSimulator3D('threeVenueCanvas');
-
-  // Render Initial Matrix Table & Conflict Cards
-  renderMatrixTable('all');
-  renderConflictCards();
-
-  // Setup Event Listeners
-  setupTabNavigation();
-  setupFiltersAndSearch();
-  setupSpatialSliders();
-  setupDiagnosisWizard();
-  setupOfficialDocs();
-  setupRoiModal();
-  setupPresets();
-});
-
-
-// Tab Navigation Logic
-function setupTabNavigation() {
-  const tabs = document.querySelectorAll('.tab-item');
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-
-      const targetTab = tab.getAttribute('data-tab');
-      document.querySelectorAll('.tab-pane').forEach(pane => {
-        pane.classList.remove('active');
-      });
-
-      const activePane = document.getElementById(`tab-${targetTab}`);
-      if (activePane) {
-        activePane.classList.add('active');
-      }
-
-      // Re-trigger resize on 3D canvas if switching to 3d tab
-      if (targetTab === 'spatial3d' && sim3dInstance) {
-        setTimeout(() => sim3dInstance.onResize(), 100);
-      }
-
-      if (window.lucide) lucide.createIcons();
-    });
-  });
-}
-
-
-// Render Matrix Table Body
-function renderMatrixTable(filterType = 'all', searchQuery = '') {
-  const tbody = document.getElementById('matrixTableBody');
-  if (!tbody) return;
-
-  const query = searchQuery.trim().toLowerCase();
-
-  const filtered = MASTER_PARTS_DATA.filter(item => {
-    // Filter type check
-    if (filterType === 'conflict' && !item.hasConflict) return false;
-    if (filterType !== 'all' && filterType !== 'conflict' && item.category !== filterType) return false;
-
-    // Search query check
-    if (query) {
-      const matchName = item.name.toLowerCase().includes(query);
-      const matchSummary = item.summary.toLowerCase().includes(query);
-      return matchName || matchSummary;
-    }
-    return true;
-  });
-
-  tbody.innerHTML = filtered.map(item => `
-    <tr data-part-id="${item.id}" data-conflict-id="${item.conflictId || ''}" class="${item.hasConflict ? 'conflict-row' : ''}">
-      <td>
-        <div class="part-name-cell">
-          <span>${item.name}</span>
-          ${item.hasConflict ? `<span class="conflict-badge-mini">상충 #${item.conflictId}</span>` : ''}
-        </div>
-      </td>
-      <td><span class="mat-tag ${item.building.type}">${item.building.text}</span></td>
-      <td><span class="mat-tag ${item.fire.type}">${item.fire.text}</span></td>
-      <td><span class="mat-tag ${item.disability.type}">${item.disability.text}</span></td>
-      <td><span class="mat-tag ${item.bf.type}">${item.bf.text}</span></td>
-      <td><span class="mat-tag ${item.performance.type}">${item.performance.text}</span></td>
-      <td><span class="mat-tag ${item.etc.type}">${item.etc.text}</span></td>
-    </tr>
-  `).join('');
-
-  // Row Click Event
-  tbody.querySelectorAll('tr').forEach(row => {
-    row.addEventListener('click', () => {
-      tbody.querySelectorAll('tr').forEach(r => r.classList.remove('active-row'));
-      row.classList.add('active-row');
-
-      const conflictId = row.getAttribute('data-conflict-id');
-      if (conflictId) {
-        highlightConflictCard(parseInt(conflictId));
-      }
-    });
-  });
-}
-
-
-// Render 9 Key Conflict Cards
-function renderConflictCards() {
-  const container = document.getElementById('conflictCardsContainer');
-  if (!container) return;
-
-  container.innerHTML = CONFLICT_SOLUTIONS_DATA.map(c => `
-    <div class="conflict-item-card" id="conflictCard-${c.id}" data-cid="${c.id}">
-      <div class="conflict-card-top">
-        <div class="title-with-icon">
-          <span class="conflict-num-badge">상충 #${c.id}</span>
-          <span class="conflict-title">${c.title}</span>
-        </div>
-        <i data-lucide="${c.icon}" class="text-amber"></i>
-      </div>
-
-      <div class="conflict-comparison-grid">
-        <div class="comp-box dom-a">
-          <span class="comp-lbl">경합 A 기준</span>
-          <span class="comp-val">${c.compA}</span>
-        </div>
-        <div class="comp-box dom-b">
-          <span class="comp-lbl">경합 B 기준</span>
-          <span class="comp-val">${c.compB}</span>
-        </div>
-      </div>
-
-      <div class="conflict-resolution-box">
-        <div class="res-header">
-          <span class="res-tag"><i data-lucide="shield-check"></i> 최종 지배: ${c.dominant}</span>
-        </div>
-        <div class="res-action">${c.conclusion}</div>
-      </div>
-
-      <div class="diag-note mt-2 text-muted" style="font-size: 11.5px; border-top: 1px dashed rgba(255,255,255,0.08); padding-top: 6px; margin-top: 6px;">
-        💡 <strong>실무 팁:</strong> ${c.tip}
-      </div>
-    </div>
-  `).join('');
-
-  if (window.lucide) lucide.createIcons();
-}
-
-function highlightConflictCard(cid) {
-  const card = document.getElementById(`conflictCard-${cid}`);
-  if (card) {
-    document.querySelectorAll('.conflict-item-card').forEach(c => c.classList.remove('highlighted'));
-    card.classList.add('highlighted');
-    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    showToast(`상충 구간 #${cid} 상세 솔루션을 포커스했습니다.`);
-  }
-}
-
-
-// Filters & Search Bar Setup
-function setupFiltersAndSearch() {
-  const searchInp = document.getElementById('matrixSearchInput');
-  const chips = document.querySelectorAll('.filter-chip');
-
-  let currentFilter = 'all';
-
-  chips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      chips.forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-      currentFilter = chip.getAttribute('data-filter');
-      renderMatrixTable(currentFilter, searchInp.value);
-    });
-  });
-
-  if (searchInp) {
-    searchInp.addEventListener('input', (e) => {
-      renderMatrixTable(currentFilter, e.target.value);
-    });
-  }
-}
-
-
-// Spatial Sliders Setup
-function setupSpatialSliders() {
-  const sliderFoh = document.getElementById('sliderFohWidth');
-  const sliderSl = document.getElementById('sliderSoundLock');
-  const sliderExit = document.getElementById('sliderExitWidth');
-  const stairChips = document.querySelectorAll('.stair-chip');
-
-  // Camera Switcher
-  document.querySelectorAll('.cam-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const camMode = btn.getAttribute('data-cam');
-      if (sim3dInstance) sim3dInstance.setCameraPreset(camMode);
-    });
-  });
-
-  const btnReset = document.getElementById('btnResetCamera');
-  if (btnReset) {
-    btnReset.addEventListener('click', () => {
-      if (sim3dInstance) sim3dInstance.setCameraPreset('overview');
-    });
-  }
-
-  // FOH Slider
-  if (sliderFoh) {
-    sliderFoh.addEventListener('input', (e) => {
-      const val = parseFloat(e.target.value);
-      document.getElementById('valFohWidth').textContent = `${val.toFixed(1)} m`;
-      
-      const alertBox = document.getElementById('statusFohWidth');
-      if (val >= 3.0) {
-        alertBox.className = 'param-status-alert';
-        alertBox.innerHTML = `<i data-lucide="check-circle-2" class="status-ico"></i><span class="status-msg">건축법 2.4m + 소화전/기둥 장식 여유 확보 완료 (합격)</span>`;
-      } else if (val >= 2.4) {
-        alertBox.className = 'param-status-alert warning';
-        alertBox.innerHTML = `<i data-lucide="alert-triangle" class="status-ico"></i><span class="status-msg">건축법 최소 충족하나 돌출물 발생 시 준공 불허 위험 (경고)</span>`;
-      } else {
-        alertBox.className = 'param-status-alert danger';
-        alertBox.innerHTML = `<i data-lucide="x-circle" class="status-ico"></i><span class="status-msg">건축법 제15조의2 위반! 최소 2.4m 이상 필수 (위반)</span>`;
-      }
-
-      if (sim3dInstance) sim3dInstance.updateParameters({ fohWidth: val });
-      if (window.lucide) lucide.createIcons();
-    });
-  }
-
-  // Sound Lock Slider
-  if (sliderSl) {
-    sliderSl.addEventListener('input', (e) => {
-      const val = parseFloat(e.target.value);
-      document.getElementById('valSoundLock').textContent = `${val.toFixed(1)} m`;
-      
-      const alertBox = document.getElementById('statusSoundLock');
-      if (val >= 3.5) {
-        alertBox.className = 'param-status-alert';
-        alertBox.innerHTML = `<i data-lucide="check-circle-2" class="status-ico"></i><span class="status-msg">외개 도어 개폐 반경 상호 간섭 없음 (최적 차음 성능)</span>`;
-      } else if (val >= 2.8) {
-        alertBox.className = 'param-status-alert warning';
-        alertBox.innerHTML = `<i data-lucide="alert-triangle" class="status-ico"></i><span class="status-msg">동시 개폐 시 일부 간섭 발생 (도어 완충 세팅 필요)</span>`;
-      } else {
-        alertBox.className = 'param-status-alert danger';
-        alertBox.innerHTML = `<i data-lucide="x-circle" class="status-ico"></i><span class="status-msg">도어 충돌 발생! 차음 붕괴 및 관람객 병목 유발 (위험)</span>`;
-      }
-
-      if (sim3dInstance) sim3dInstance.updateParameters({ soundLockLength: val });
-      if (window.lucide) lucide.createIcons();
-    });
-  }
-
-  // Exit Width Slider
-  if (sliderExit) {
-    sliderExit.addEventListener('input', (e) => {
-      const val = parseFloat(e.target.value);
-      const half = (val / 2).toFixed(1);
-      document.getElementById('valExitWidth').textContent = `${val.toFixed(1)} m (양개 ${half}+${half}m)`;
-      
-      const alertBox = document.getElementById('statusExitWidth');
-      if (val >= 2.4) {
-        alertBox.className = 'param-status-alert';
-        alertBox.innerHTML = `<i data-lucide="check-circle-2" class="status-ico"></i><span class="status-msg">건축법 1.5m + BF 0.9m/짝 완벽 동시 충족 (${half}m+${half}m)</span>`;
-      } else if (val >= 1.8) {
-        alertBox.className = 'param-status-alert warning';
-        alertBox.innerHTML = `<i data-lucide="alert-triangle" class="status-ico"></i><span class="status-msg">BF 한 짝 0.9m 충족하나 대형 피난 병목 발생 가능</span>`;
-      } else {
-        alertBox.className = 'param-status-alert danger';
-        alertBox.innerHTML = `<i data-lucide="x-circle" class="status-ico"></i><span class="status-msg">건축법 1.5m 또는 BF 한 짝 0.9m 미달 (부적합)</span>`;
-      }
-
-      if (sim3dInstance) sim3dInstance.updateParameters({ exitWidth: val });
-      if (window.lucide) lucide.createIcons();
-    });
-  }
-
-  // Stair Chips
-  stairChips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      stairChips.forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-      const h = chip.getAttribute('data-h');
-      const w = chip.getAttribute('data-w');
-      document.getElementById('valStairs').textContent = `H ${h}cm / W ${w}cm`;
-      showToast(`계단 스펙 변경: 챌면 ${h}cm / 디딤판 ${w}cm`);
-    });
-  });
-
-  // Auto Optimize Button
-  const btnAutoOpt = document.getElementById('btnAutoOptimizeAll');
-  if (btnAutoOpt) {
-    btnAutoOpt.addEventListener('click', () => {
-      if (sliderFoh) { sliderFoh.value = 3.2; sliderFoh.dispatchEvent(new Event('input')); }
-      if (sliderSl) { sliderSl.value = 3.8; sliderSl.dispatchEvent(new Event('input')); }
-      if (sliderExit) { sliderExit.value = 2.4; sliderExit.dispatchEvent(new Event('input')); }
-      stairChips[1].click(); // BF 최우수 16/30cm
-      showToast("🏆 골든 스펙(Golden Specs)이 전체 파라미터에 자동 적용되었습니다!");
-    });
-  }
-}
-
-
-// Diagnosis Wizard Logic
-function setupDiagnosisWizard() {
-  const btnRun = document.getElementById('btnRunDiagnosis');
-  if (btnRun) {
-    btnRun.addEventListener('click', () => {
-      runVenueDiagnosis();
-    });
-  }
-  // Initial run
-  runVenueDiagnosis();
-}
-
-function runVenueDiagnosis() {
-  const name = document.getElementById('inpVenueName')?.value || "공연장";
-  const seats = parseInt(document.getElementById('inpSeatCount')?.value || 850);
-  const area = parseInt(document.getElementById('inpFloorArea')?.value || 1200);
-  const stageType = document.getElementById('inpStageType')?.value || "proscenium";
-  const bfTarget = document.getElementById('inpBfTarget')?.value || "best";
-  const floors = document.getElementById('inpFloors')?.value || "ground";
-  const dimming = document.getElementById('inpDimmingControl')?.value || "yes";
-
-  // Calculations
-  // 1. Wheelchair Seats: BF best = 2% (min 8 seats for 850), legal min = 1%
-  const wcBestSeats = Math.max(4, Math.ceil(seats * 0.02));
-  const wcLegalMin = Math.max(2, Math.ceil(seats * 0.01));
-
-  // 2. Egress Exit: 1.5m per 100m² or seat logic (min 4 exits for 850 seats)
-  const minExitDoors = seats > 1000 ? 5 : (seats > 500 ? 4 : 2);
-  const exitTotalWidth = (minExitDoors * 1.5).toFixed(1);
-
-  // 3. FOH Corridor:
-  const recFohWidth = area > 1000 ? 3.2 : 2.8;
-
-  // 4. Female Toilets:
-  const maleToilets = Math.ceil(seats / 150);
-  const femaleToilets = Math.ceil(maleToilets * 1.5);
-
-  const container = document.getElementById('diagResultsContent');
-  if (!container) return;
-
-  container.innerHTML = `
-    <div class="diag-card success">
-      <div class="diag-card-title">
-        <span><i data-lucide="shield-check" class="text-green"></i> 1. 관람실 피난출구 & 사운드록 최적 규격</span>
-        <span class="badge-blue">건축법 제10조 / BF 2.1</span>
-      </div>
-      <div class="diag-specs-grid">
-        <div>
-          <span class="diag-stat-lbl">최소 출구 개소</span>
-          <span class="diag-stat-val">${minExitDoors} 개소 이상</span>
-        </div>
-        <div>
-          <span class="diag-stat-lbl">개별 도어 규격</span>
-          <span class="diag-stat-val">양개 2.4 m (1.2+1.2)</span>
-        </div>
-        <div>
-          <span class="diag-stat-lbl">사운드록 권장길이</span>
-          <span class="diag-stat-val">3.8 m 이상 (차음보장)</span>
-        </div>
-      </div>
-      <p class="diag-note">850석 관람객의 3분 이내 전원 피난 완료 및 외부 로비 소음 완벽 차단을 위한 필수 스펙입니다.</p>
-    </div>
-
-    <div class="diag-card primary">
-      <div class="diag-card-title">
-        <span><i data-lucide="accessibility" class="text-cyan"></i> 2. BF(무장애) ${bfTarget === 'best' ? '최우수' : '우수'} 등급 관람석 배치</span>
-        <span class="badge-amber">BF 5.2 지배기준</span>
-      </div>
-      <div class="diag-specs-grid">
-        <div>
-          <span class="diag-stat-lbl">법적 최소 설치석</span>
-          <span class="diag-stat-val">${wcLegalMin} 석 (1%)</span>
-        </div>
-        <div>
-          <span class="diag-stat-lbl">BF 최우수 권장석</span>
-          <span class="diag-stat-val">${wcBestSeats} 석 (2%+)</span>
-        </div>
-        <div>
-          <span class="diag-stat-lbl">시야각 권장존</span>
-          <span class="diag-stat-val">무대중심 30° 골든존</span>
-        </div>
-      </div>
-      <p class="diag-note">동반자석(일반석)과 1:1 인접 배치하며 무대 휠체어 진입 경사로(1/12 이하)를 설계에 반영해야 합니다.</p>
-    </div>
-
-    <div class="diag-card ${dimming === 'yes' ? 'success' : 'warning'}">
-      <div class="diag-card-title">
-        <span><i data-lucide="flame" class="text-amber"></i> 3. 소방안전 & 객석유도등 감광 시스템 판정</span>
-        <span class="badge-blue">소방시설법</span>
-      </div>
-      <div class="diag-specs-grid">
-        <div>
-          <span class="diag-stat-lbl">감광 연동 제어기</span>
-          <span class="diag-stat-val">${dimming === 'yes' ? '설치 확정' : '미설치 (위험)'}</span>
-        </div>
-        <div>
-          <span class="diag-stat-lbl">방화구획 완화협의</span>
-          <span class="diag-stat-val">${area >= 1000 ? '사전 서면협의 필수' : '해당 없음'}</span>
-        </div>
-        <div>
-          <span class="diag-stat-lbl">소방서 제출 서식</span>
-          <span class="diag-stat-val">감광신청서 즉시출력</span>
-        </div>
-      </div>
-      <p class="diag-note">${dimming === 'yes' ? '화재 수신반 연동 시 즉시 100% 점등 조건으로 소방서 완벽 인허가 가능합니다.' : '⚠️ 단순 소등 시 소방 준공 검사에서 반려됩니다. 자동감광기를 채택하십시오.'}</p>
-    </div>
-
-    <div class="diag-card primary">
-      <div class="diag-card-title">
-        <span><i data-lucide="users" class="text-cyan"></i> 4. 공중화장실 조례 및 FOH 로비 동선 규격</span>
-        <span class="badge-blue">지자체 조례</span>
-      </div>
-      <div class="diag-specs-grid">
-        <div>
-          <span class="diag-stat-lbl">여성 대변기 최소수</span>
-          <span class="diag-stat-val">${femaleToilets} 개 (남성의 1.5배)</span>
-        </div>
-        <div>
-          <span class="diag-stat-lbl">FOH 복도 설계폭</span>
-          <span class="diag-stat-val">${recFohWidth} m 확보 권장</span>
-        </div>
-        <div>
-          <span class="diag-stat-lbl">장애인 화장실</span>
-          <span class="diag-stat-val">남/녀 분리 2개소</span>
-        </div>
-      </div>
-      <p class="diag-note">인터미션(20분) 동안 850명의 관람객이 병목 없이 화장실을 이용할 수 있는 황금 비율입니다.</p>
-    </div>
-  `;
-
-  if (window.lucide) lucide.createIcons();
-  showToast(`[${name}] 법규 상충 진단 및 권장 스펙 산출 완료!`);
-}
-
-
-// Official Documents Generator Setup
-function setupOfficialDocs() {
-  const docButtons = document.querySelectorAll('.doc-nav-btn');
-  docButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      docButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const docType = btn.getAttribute('data-doc');
-      renderOfficialDoc(docType);
-    });
-  });
-
-  const btnPrint = document.getElementById('btnPrintCurrentDoc');
-  if (btnPrint) {
-    btnPrint.addEventListener('click', () => window.print());
-  }
-
-  const btnExportFull = document.getElementById('btnExportFullReport');
-  if (btnExportFull) {
-    btnExportFull.addEventListener('click', () => {
-      window.print();
-    });
-  }
-
-  const btnCopy = document.getElementById('btnCopyDocText');
-  if (btnCopy) {
-    btnCopy.addEventListener('click', () => {
-      const docPaper = document.getElementById('officialDocPaper');
-      if (docPaper) {
-        navigator.clipboard.writeText(docPaper.innerText).then(() => {
-          showToast("📋 공문서 전체 텍스트가 클립보드에 복사되었습니다.");
-        });
-      }
-    });
-  }
-
-  // Initial Document Render
-  renderOfficialDoc('fire_dimming');
-}
-
-function renderOfficialDoc(docType) {
-  const paper = document.getElementById('officialDocPaper');
-  if (!paper) return;
-
-  const today = new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
-
-  if (docType === 'fire_dimming') {
-    paper.innerHTML = `
-      <div class="doc-paper-header">
-        <div><strong>문서번호:</strong> AVL-FIRE-2026-0884</div>
-        <div style="text-align: right;"><strong>시행일자:</strong> ${today}</div>
-      </div>
-      <h1>공연장 객석유도등 연출용 감광 제어 사전협의 신청서</h1>
-      
-      <table class="doc-paper-table">
-        <tr>
-          <th style="width: 25%;">수 신</th>
-          <td>관할 소방서장 (예방안전과 화재안전조사팀)</td>
-        </tr>
-        <tr>
-          <th>신 청 인</th>
-          <td>(주)아트베뉴 엔터프라이즈 / 건축주 및 총괄안전책임자</td>
-        </tr>
-        <tr>
-          <th>대 상 처</th>
-          <td>아트베뉴 그랜드 오페라·뮤지컬 시어터 (지상 1~3층 관람실)</td>
-        </tr>
-        <tr>
-          <th>관련 법령</th>
-          <td>소방시설 설치 및 관리에 관한 법률 시행령 / 유도등 화재안전기준(NFPC 302)</td>
-        </tr>
-      </table>
-
-      <p><strong>1. 신청 배경 및 목적</strong></p>
-      <p>
-        당 시설은 고도의 몰입감이 요구되는 종합 공연시설로서, 공연 진행 중 무대 및 객석 암전 연출이 필수적입니다.
-        이에 소방시설법에 따른 안전성을 100% 담보하면서 연출을 양립시키기 위해 자동 감광 제어 설비 설치 및 운영 방안을 사전 협의 신청합니다.
-      </p>
-
-      <p><strong>2. 객석유도등 연동 제어 및 안전 시스템 사양</strong></p>
-      <table>
-        <thead>
-          <tr>
-            <th>구 분</th>
-            <th>평상시 (입·퇴장 시)</th>
-            <th>공연 중 (암전 연출 시)</th>
-            <th>비상/화재 발생 시</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>유도등 조도</strong></td>
-            <td>100% 정격 점등 (100 lx 이상)</td>
-            <td>자동 감광 (0.8 ~ 1.0 lx 유지)</td>
-            <td><strong>100% 강제 최대 점등 (Fail-Safe)</strong></td>
-          </tr>
-          <tr>
-            <td><strong>제어 방식</strong></td>
-            <td>메인 배전반 상시 전원</td>
-            <td>조명 콘솔 신호 연동</td>
-            <td><strong>자동화재탐지설비 연동 즉시 복구</strong></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <p><strong>3. 안전 담보 조치 확약</strong></p>
-      <p>
-        가. 정전 또는 화재 신호 감지 시 0.05초 이내에 객석 및 통로 유도등이 100% 자동 점등되는 하드웨어 릴레이 바이패스 회로를 구축함.<br>
-        나. 유도등에 검은 테이프 부착, 전원 차단기 임의 내림 등 불법 조작을 일체 금지하고 연 2회 소방시설 정밀점검을 이행함.
-      </p>
-
-      <div class="doc-stamp-area">
-        <p>${today}</p>
-        <p>신청인: (주)아트베뉴 엔터프라이즈 대표이사 (직인생략)</p>
-        <p style="margin-top: 10px; color: #0F172A;"><strong>귀중 : 관할 소방서장 귀하</strong></p>
-      </div>
-    `;
-  } else if (docType === 'fire_compartment') {
-    paper.innerHTML = `
-      <div class="doc-paper-header">
-        <div><strong>문서번호:</strong> AVL-ARCH-2026-1022</div>
-        <div style="text-align: right;"><strong>시행일자:</strong> ${today}</div>
-      </div>
-      <h1>공연장 관람실 방화구획 적용 완화 기술검토서</h1>
-      
-      <table>
-        <tr>
-          <th style="width: 25%;">수 신</th>
-          <td>시·군·구청 건축허가과장 귀하</td>
-        </tr>
-        <tr>
-          <th>건축물 명칭</th>
-          <td>아트베뉴 문화예술복합센터 (지상 5층 / 지하 2층)</td>
-        </tr>
-        <tr>
-          <th>완화 요청 부위</th>
-          <td>지상 1~3층 관람실 대공간 (바닥면적 1,200㎡, 층고 14m)</td>
-        </tr>
-        <tr>
-          <th>완화 근거 법령</th>
-          <td>건축법 시행령 제46조 제2항 제1호 (공연장 등 용도상 방화구획 불가 구조)</td>
-        </tr>
-      </table>
-
-      <p><strong>1. 방화구획 완화 신청 사유</strong></p>
-      <p>
-        본 건축물의 관람실은 무대와 850석 객석이 하나의 시야 및 음향 공간으로 통합되어야 하는 공연시설 고유의 특성상, 
-        건축법 제46조 제1항에 따른 '1,000㎡ 이내 방화구획'을 물리적으로 설치할 수 없습니다. 이에 동조 제2항 완화 규정을 적용받고자 합니다.
-      </p>
-
-      <p><strong>2. 대체 보완 소방방재 엔지니어링 계획</strong></p>
-      <table>
-        <thead>
-          <tr>
-            <th>구 분</th>
-            <th>법적 기본 기준</th>
-            <th>본 프로젝트 대체 강화 스펙</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>스프링클러</strong></td>
-            <td>일반 헤드 (방호반경 2.3m)</td>
-            <td><strong>조기반응형 ESFR 헤드 (헤드 간격 1.7m 이내 초밀착)</strong></td>
-          </tr>
-          <tr>
-            <td><strong>제연설비</strong></td>
-            <td>자연 배연창 기준</td>
-            <td><strong>무대 상부 및 관람석 기계 가압제연 (배풍량 55,000 CMH)</strong></td>
-          </tr>
-          <tr>
-            <td><strong>내화마감재</strong></td>
-            <td>준불연재 이상</td>
-            <td><strong>벽체 및 천장 흡음재 불연재료(A등급) 100% 시공</strong></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="doc-stamp-area">
-        <p>${today}</p>
-        <p>신청인(건축주): (주)아트베뉴 엔터프라이즈 대표이사</p>
-        <p>설계자: (주)한국공연장종합건축사사무소 대표건축사</p>
-      </div>
-    `;
-  } else if (docType === 'bf_checklist') {
-    paper.innerHTML = `
-      <div class="doc-paper-header">
-        <div><strong>문서번호:</strong> AVL-BF-2026-0419</div>
-        <div style="text-align: right;"><strong>시행일자:</strong> ${today}</div>
-      </div>
-      <h1>BF(장애물 없는 생활환경) 본인증 사전 적합성 체크리스트</h1>
-      
-      <table>
-        <tr>
-          <th style="width: 25%;">인증 신청 등급</th>
-          <td><strong>BF 최우수 등급 (Excellent Grade)</strong></td>
-        </tr>
-        <tr>
-          <th>인증 심사 기관</th>
-          <td>한국장애인개발원 / 한국생산성본부인증원</td>
-        </tr>
-        <tr>
-          <th>대상 시설</th>
-          <td>아트베뉴 850석 다목적 대공연장</td>
-        </tr>
-      </table>
-
-      <p><strong>■ 관람실 및 부속시설 세부 판정표</strong></p>
-      <table>
-        <thead>
-          <tr>
-            <th>심사 항목</th>
-            <th>BF 최우수 지배기준</th>
-            <th>설계 반영 현황</th>
-            <th>판정</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>휠체어 관람석 비율</strong></td>
-            <td>총 관람석의 2.0% 이상</td>
-            <td>850석 중 18석(2.1%) 골든존 배치</td>
-            <td><strong>적합 (만점)</strong></td>
-          </tr>
-          <tr>
-            <td><strong>사운드록 유효 회전반경</strong></td>
-            <td>직경 1.5m 회전 공간 확보</td>
-            <td>길이 3.8m / 폭 2.4m 도어 간섭 제로</td>
-            <td><strong>적합</strong></td>
-          </tr>
-          <tr>
-            <td><strong>관람실 출입문 유효폭</strong></td>
-            <td>한 짝당 통과 순폭 0.9m+</td>
-            <td>1.2m + 1.2m 양개 자동 도어</td>
-            <td><strong>적합 (우수)</strong></td>
-          </tr>
-          <tr>
-            <td><strong>무대 접근 경사로</strong></td>
-            <td>기울기 1/12 이하 (참 1.5m)</td>
-            <td>객석 좌측 1/15 완만 경사로 직결</td>
-            <td><strong>적합</strong></td>
-          </tr>
-          <tr>
-            <td><strong>장애인 전용 화장실</strong></td>
-            <td>남녀 구분, 1.6m x 2.0m</td>
-            <td>1.8m x 2.2m 자동 슬라이딩 도어</td>
-            <td><strong>적합</strong></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="doc-stamp-area">
-        <p>${today}</p>
-        <p>작성자: BF 인증 전문 총괄 엔지니어 (인)</p>
-      </div>
-    `;
-  }
-}
-
-
-// Presets Selector Logic
-function setupPresets() {
-  const select = document.getElementById('venuePresetSelect');
-  if (!select) return;
-
-  select.addEventListener('change', (e) => {
-    const val = e.target.value;
-    const nameInp = document.getElementById('inpVenueName');
-    const seatsInp = document.getElementById('inpSeatCount');
-    const areaInp = document.getElementById('inpFloorArea');
-
-    if (val === 'medium') {
-      if (nameInp) nameInp.value = "아트베뉴 중형 뮤지컬·다목적홀";
-      if (seatsInp) seatsInp.value = 850;
-      if (areaInp) areaInp.value = 1200;
-    } else if (val === 'large') {
-      if (nameInp) nameInp.value = "아트베뉴 그랜드 오페라하우스";
-      if (seatsInp) seatsInp.value = 1800;
-      if (areaInp) areaInp.value = 2800;
-    } else if (val === 'small') {
-      if (nameInp) nameInp.value = "아트베뉴 블랙박스 씨어터";
-      if (seatsInp) seatsInp.value = 300;
-      if (areaInp) areaInp.value = 450;
-    }
-
-    runVenueDiagnosis();
-    showToast(`모델 프리셋 [${select.options[select.selectedIndex].text}] 이 로드되었습니다.`);
-  });
-}
-
-
-// ROI Modal Logic
-function setupRoiModal() {
-  const modal = document.getElementById('roiModalOverlay');
-  const btnOpen = document.getElementById('btnOpenRoiModal');
-  const btnClose = document.getElementById('btnCloseRoiModal');
-  const btnConfirm = document.getElementById('btnConfirmRoi');
-
-  if (btnOpen && modal) {
-    btnOpen.addEventListener('click', () => modal.classList.add('active'));
-  }
-  if (btnClose && modal) {
-    btnClose.addEventListener('click', () => modal.classList.remove('active'));
-  }
-  if (btnConfirm && modal) {
-    btnConfirm.addEventListener('click', () => {
-      modal.classList.remove('active');
-      showToast("확인되었습니다. 법규 상충 없는 설계를 계속 진행합니다.");
-    });
-  }
-
-  // Close on outside click
-  window.addEventListener('click', (e) => {
-    if (e.target === modal) modal.classList.remove('active');
-  });
-}
-
-
-// Toast Notification Helper
-function showToast(message) {
-  const container = document.getElementById('toastContainer');
-  if (!container) return;
-
-  const toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.innerHTML = `<i data-lucide="info" class="text-indigo"></i><span>${message}</span>`;
-  container.appendChild(toast);
-
-  if (window.lucide) lucide.createIcons();
-
-  setTimeout(() => {
-    toast.style.animation = 'slideInToast 0.3s ease-in reverse forwards';
-    setTimeout(() => toast.remove(), 300);
-  }, 3500);
-}
-
-// =============================================================================
-// 7. AI BLUEPRINT LEGAL SCANNER & DETAILED BASIS ENGINE
-// =============================================================================
-
-const BLUEPRINT_DATASET = {
-  "medium-musical": {
-    name: "중형 뮤지컬홀 1F 평면·피난계획도 (850석)",
-    objCount: "48개 구획 / 12개 출구 / 850석",
-    violationCount: "⚠️ 3건 위반 (반려 위험)",
-    warningCount: "⚡ 2건 상충 (지배기준 적용)",
-    riskScore: "74% (위험)",
-    pins: [
-      {
-        id: "pin-1",
-        code: "DEFECT-01",
-        title: "관람실 주출구 사운드록(방음전실) 유효폭 협소 및 안여닫이 상충",
-        category: "egress",
-        level: "danger",
-        levelText: "⚠️ 심각 위반 (건축허가 반려 사유)",
-        x: 48,
-        y: 68,
-        partName: "관람실 주출입구 사운드록(Sound Lock Chamber)",
-        measured: "유효폭 1,100mm / 내측 도어 안여닫이 설치",
-        buildingLaw: "1,500mm 이상 / 피난방향(바깥여닫이) 개폐",
-        bfStandard: "유효폭 1,200mm / 회전반경 1,400mm 확보",
-        dominant: "개소당 1,500mm 이상 & 양개형 바깥여닫이 (건축피난규칙 제10조 지배)",
-        problemDesc: "도면상 사운드록 내부 통로폭이 1.1m로 설계되어 화재 시 병목 참사 유발 및 피난 유효너비 1.5m 기준을 명백히 위반함. 또한 내측 도어가 관람실 내부로 열리도록 표기되어 패닉 시 개폐 불능 위험 발생.",
-        legalBasisList: [
-          {
-            lawName: "건축물의 피난·방화구조 등의 기준에 관한 규칙",
-            clauseName: "제10조 (관람석 등으로부터의 출구의 설치)",
-            text: "문화 및 집회시설(공연장)의 관람실 출구 유효너비는 개소당 1.5미터 이상으로 하여야 하며, 출입문은 안여닫이로 하여서는 아니 된다(피난방향 개폐 의무).",
-            penalty: "위반 시 건축법 제11조에 따른 건축허가 반려 및 제79조 시정명령 대상.",
-            dominant: true
-          },
-          {
-            lawName: "소방시설 설치 및 관리에 관한 법률 / 화재안전성능기준(NFPC 303)",
-            clauseName: "제5조 (객석유도등 및 피난통로 유효폭)",
-            text: "공연장의 피난통로 및 전실은 관람객의 일시적 피난 지체(Queue Delay)가 발생하지 않도록 유효통로 폭을 건축법 기준 이상으로 상시 유지하여야 함.",
-            penalty: "소방시설 완비증명서 미발급 및 사용승인 불가 처분.",
-            dominant: false
-          },
-          {
-            lawName: "장애물 없는 생활환경(BF) 인증 심사기준",
-            clauseName: "2.1.3 (출입문 전후면 활동공간 및 개폐 방향)",
-            text: "출입문 전후면에는 휠체어 사용자가 정지하여 문을 여닫을 수 있는 직경 1.4m 이상의 활동공간을 연속적으로 확보하여야 함.",
-            penalty: "BF인증 본인증 점수 감점 (미달 시 공공 공연장 사업 취소).",
-            dominant: false
-          }
+// ==========================================================================
+// 1. 10대 검증 비즈니스 모델 종합 데이터베이스 (전수 100만원 VIP 패키지 수록)
+// ==========================================================================
+const BIZ_MODELS_DB = {
+  "gov-subsidy": {
+    id: "gov-subsidy",
+    category: "b2b",
+    categoryName: "소상공인 / B2B",
+    title: "1. [소상공인] AI 정부지원금·정책자금 적격 매칭 및 자동 서류 완성기",
+    shortDesc: "복잡한 공고문 없이 사업자등록번호 입력만으로 받을 수 있는 지원금 선별 및 사업계획서 3분 완성",
+    targetMrr: "₩10,250,000",
+    defaultStandardPrice: 39000,
+    defaultStandardUsers: 200,
+    defaultProPrice: 89000,
+    defaultProUsers: 30,
+    defaultOpsCost: 450000,
+    pain: {
+      summary: "전국 600만 소상공인은 수천만 원 상당의 정부지원금이 있어도 공고를 모르거나, 복잡한 서류 양식에 막혀 10~20% 고액 브로커에 의존함.",
+      bullets: [
+        "매달 수백 건의 지원사업 공고가 중기부, 지자체, 소진공 등에 흩어져 있어 탐색 불가능",
+        "지원 자격 요건(업력, 매출, 고용인원, 특허 등) 해석이 어려워 탈락 불안감 가중",
+        "한글(HWP) 사업계획서 양식 작성에 수일 소요, 브로커는 300~500만 원 선금 요구",
+        "마감일을 놓쳐 수천만 원 무상 환급형 바우처 기회 상실"
+      ]
+    },
+    solution: [
+      { step: 1, title: "사업자 정보 10초 입력", desc: "사업자등록번호, 업종, 매출 규모, 직원 수를 입력하면 공공데이터 포털과 즉시 연동" },
+      { step: 2, title: "전국 공고 실시간 적격 매칭", desc: "AI가 전국 1,200+개 지원사업 중 수혜 가능성이 높은 상위 3개 공고(승인확률 85%+) 선별" },
+      { step: 3, title: "합격형 사업계획서 3분 완성", desc: "해당 지원사업 심사위원 평가표 기준에 맞춘 표준 HWP/PDF 사업계획서 자동 생성" },
+      { step: 4, title: "원클릭 접수 가이드 및 마감 알림", desc: "공동인증서 제출 링크 및 접수 마감 D-3일 카카오톡 알림 발송" }
+    ],
+    delight: {
+      killerFeatures: "• 내 사업체 맞춤 지원금 승인 확률 예측 게이지\n• 중기부 심사위원 출신 프롬프트 엔지니어링 기반 고득점 사업계획서 생성\n• 카카오 알림톡 기반 신규 공고 실시간 타깃 푸시",
+      delightFactor: "300만 원 브로커 수수료를 아끼고, '내가 받을 수 있는 공짜 자금이 2,000만 원이나 있었다'는 즉각적 금전 혜택 체감"
+    },
+    persona: {
+      primary: "요식업/카페/제조업 운영 3~7년 차 소상공인 대표 (매출 정체기 극복 희망)",
+      secondary: "아이디어는 있으나 자금이 부족한 청년 예비 창업가 및 스타트업"
+    },
+    gtm: {
+      channel: "네이버 카페 '아프니까 사장이다', 배달외식업 커뮤니티, 지역 소상공인 단톡방",
+      leadMagnet: "'우리 매장 숨은 정부지원금 10초 무료 조회' 바이럴 계산기 링크 배포"
+    },
+    ops: {
+      automation: "정부 24 및 기업마당 RSS/웹 크롤링 자동화 + OpenAI API 기반 서류 생성 파이프라인 (무인 운영 99%)",
+      expansion: "소상공인 세무 환급(경정청구) 연계 및 프랜차이즈 본사용 단체 라이선스 공급"
+    },
+    vipMaster: {
+      grandSlamOffer: {
+        dreamOutcome: "300만원 브로커 없이 국비 1,500만원~5,000만원 무상지원금 100% 합격",
+        perceivedLikelihood: "중기부 전직 심사위원 평가표 15대 지표를 100% 반영한 고득점 알고리즘 (승인률 94.2%)",
+        timeDelay: "10초 자가진단 ➔ 3분 만에 제출용 HWP 완성",
+        effortSacrifice: "복잡한 법률 용어 해석 필요 없이 질문 3개에 '예/아니오'만 클릭",
+        stack: [
+          { title: "코어: 전국 1,200개 공고 실시간 AI 적격 판정기", value: "₩500,000 상당" },
+          { title: "보너스 1: 2026 합격 보장 HWP/PDF 사업계획서 템플릿 10종", value: "₩300,000 상당" },
+          { title: "보너스 2: 심사위원 대면 평가 1:1 모의 질의응답 시뮬레이터", value: "₩250,000 상당" },
+          { title: "보너스 3: 놓치면 끝나는 정부지원금 D-3일 카카오톡 긴급 알림톡", value: "₩150,000 상당" }
         ],
-        solutionAdvice: "사운드록 내측 벽체를 복도측으로 450mm 확장하여 순유효폭 1,550mm를 확보하십시오. 내외측 2중 차음도어는 모두 피난방향(바깥여닫이)으로 변경하고, 상시개방형 전자도어릴리즈(소방 화재신호 시 자동 쇄정 해제)를 적용하십시오.",
-        authorityTip: "관할 소방서 소방동의 심의 시 사운드록 2중 도어가 피난거리 산정에 포함되는지 질의가 잦으므로, 사운드록 통과 거리를 포함한 피난거리 도면을 사전 첨부하여 제출하십시오."
+        totalValue: "총 ₩1,200,000 상당의 패키지",
+        specialPrice: "단 월 ₩39,000 (일 1,300원)",
+        riskReversal: "30일 내 신청 가능한 지원금을 1건도 찾지 못할 경우 100% 전액 무조건 환불 + 스타벅스 커피 쿠폰 2장 지급!"
       },
-      {
-        id: "pin-2",
-        code: "DEFECT-02",
-        title: "FOH 주복도 폭 소화전·기둥 돌출로 인한 유효너비 미달",
-        category: "egress",
-        level: "danger",
-        levelText: "⚠️ 심각 위반 (소방동의 반려)",
-        x: 50,
-        y: 86,
-        partName: "FOH(Front of House) 로비 연결 주복도",
-        measured: "도면 중심선 2,400mm / 옥내소화전 돌출 후 순유효폭 2,050mm",
-        buildingLaw: "양옆 거실 복도 순유효폭 2,400mm 이상",
-        bfStandard: "유효폭 1,800mm 이상 (휠체어 교행)",
-        dominant: "장애물 제외 순유효폭 2,400mm 이상 (건축법 시행령 제15조의2 지배)",
-        problemDesc: "도면상 중심선 치수(Wall Center)는 2.4m이나, 옥내소화전함(돌출 250mm)과 흡음 마감재(100mm)가 시공될 경우 실제 피난 유효폭이 2.05m로 축소되어 건축법상 2.4m 규정을 위반함.",
-        legalBasisList: [
-          {
-            lawName: "건축물의 피난·방화구조 등의 기준에 관한 규칙",
-            clauseName: "제15조의2 (복도의 너비 및 설치기준)",
-            text: "공연장의 관람실 바닥면적의 합계가 1,000㎡ 이상인 층의 복도로서 양옆에 거실이 있는 복도의 너비는 장애물이 없는 상태에서 2.4미터 이상이어야 한다.",
-            penalty: "준공 시 사용승인(허가) 반려 및 소방 감리보고서 부적합 판정.",
-            dominant: true
-          },
-          {
-            lawName: "소방시설 설치 및 관리에 관한 법률 시행령",
-            clauseName: "별표 4 (소화전함의 설치기준)",
-            text: "옥내소화전설비의 함은 피난통로의 유효너비를 침해하지 않도록 매립형(Recessed)으로 설치하거나 벽면과 평면을 이루도록 시공할 것.",
-            penalty: "시정명령 및 소방시설법 제53조에 따른 300만원 이하 과태료.",
-            dominant: false
-          }
-        ],
-        solutionAdvice: "옥내소화전함을 100% 매립형(Wall Recessed Type)으로 변경 표기하고, 벽체 중심선 치수를 2,400mm에서 최소 2,800mm(안전치수 3,000mm)로 확대 수정하여 마감재 시공 후에도 2.4m 클리어를 보장하십시오.",
-        authorityTip: "지자체 건축과 허가권자는 '실측 순유효너비(Clear Width)' 기준 심사를 진행하므로, 도면에 '마감면 기준 유효폭 2,400mm 이상 확보' 주기를 명기하십시오."
+      promptEngine: {
+        systemPrompt: `You are the Premier Korean Government Subsidy Evaluator AI & Grant Proposal Specialist with 15 years of Ministry of SMEs and Startups (중소벤처기업부) evaluation committee experience.
+Your goal is to parse user company profiles and output a high-converting, compliant grant proposal according to official SME promotion standards.
+
+[INPUT PROFILE SCHEMA]
+- company_name: string
+- industry_type: string (food / retail / tech / mfg)
+- annual_revenue_krw: number
+- employee_count: number
+- target_grant_program: string
+
+[EVALUATION & GENERATION RULES]
+1. Calculate exact suitability score (0-100) based on eligibility criteria.
+2. Structure the proposal into 4 official HWP sections:
+   - Section 1: Business Need & Urgency (추진 배경 및 필요성)
+   - Section 2: Core Technology / Service Innovation (사업 내용 및 차별성)
+   - Section 3: Expected Revenue & Job Creation (기대 효과 및 고용 창출 계획)
+   - Section 4: Budget Allocation Table (사업비 집행 계획)
+3. Tone: Highly objective, quantitative, professional, using official governmental policy terminologies.
+4. Output MUST be valid JSON conforming to the SubsidyResult schema.`,
+        apiSnippet: `// Node.js OpenAI GPT-4o Integration
+import OpenAI from "openai";
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+async function generateGrantProposal(businessInfo) {
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    response_format: { type: "json_object" },
+    messages: [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user", content: JSON.stringify(businessInfo) }
+    ],
+    temperature: 0.2,
+  });
+  return JSON.parse(response.choices[0].message.content);
+}`
       },
-      {
-        id: "pin-3",
-        code: "DEFECT-03",
-        title: "무대부와 관람석 사이 방화막(Proscenium Fire Curtain) 표기 누락",
-        category: "fire",
-        level: "danger",
-        levelText: "⚠️ 법정 의무 누락 (공연법·소방법 중대결함)",
-        x: 50,
-        y: 20,
-        partName: "무대부 프로세니엄 아치(Proscenium Arch) 경계부",
-        measured: "방화막(무대방화셔터) 미표기 / 일반 커튼레일만 표기됨",
-        buildingLaw: "무대부 바닥면적 300㎡ 이상 시 방화막 설치 의무",
-        bfStandard: "해당 없음",
-        dominant: "내화 1시간 이상 무대 방화막 설치 의무 (건축법 시행령 제46조 지배)",
-        problemDesc: "본 공연장은 무대부 면적이 450㎡(300석 초과)이므로 화재 시 무대에서 발생한 연기·화염이 객석으로 확산되는 것을 차단하는 방화막(방화셔터 및 일제살수 드렌처설비)이 법정 의무설비이나 도면상 완전히 누락됨.",
-        legalBasisList: [
-          {
-            lawName: "건축법 시행령",
-            clauseName: "제46조 (방화구획 등의 설치)",
-            text: "공연장의 무대부로서 바닥면적이 300제곱미터 이상인 것은 무대부와 관람석 사이에 내화구조의 방화막 또는 국토교통부령이 정하는 기준에 적합한 방화구획을 설치하여야 한다.",
-            penalty: "건축허가 소방동의 불가 처분 및 공연장 등록 취소 사유.",
-            dominant: true
-          },
-          {
-            lawName: "공연법",
-            clauseName: "제12조 (공연장 무대시설 등의 안전진단 및 방화기준)",
-            text: "공연장의 무대시설은 화재 등 재난 발생 시 관람객의 안전한 피난을 보장할 수 있는 방화막 및 제연설비를 갖추어야 함.",
-            penalty: "공연장 폐쇄명령 및 1년 이하의 징역 또는 1천만원 이하의 벌금.",
-            dominant: false
-          }
+      salesScripts: [
+        {
+          channel: "네이버 카페 (아프니까 사장이다)",
+          title: "고통 공감 & 무료 진단 시딩 글",
+          script: `[제목] 사장님들, 300만원 브로커 쓰지 마세요. 이번 달 중기부 1500만원 지원금 공고 떴습니다.
+
+안녕하세요, 카페 4년 차 운영 중인 자영업자입니다.
+저도 작년에 서류 쓸 줄 몰라서 300만 원 주고 대행 맡겼다가 탈락하고 피눈물 흘렸는데요...
+
+이번에 중기부에서 '2026 스마트상점 기술보급' 공고가 새로 나왔는데, 국비 70% 무상환 지원입니다.
+사업자 번호만 넣으면 10초 만에 내가 받을 수 있는 지원금이랑 심사 기준 맞춰서 서류 초안 뽑아주는 무료 툴이 있더라고요.
+
+저희 매장도 이걸로 1,500만 원 키오스크/테이블오더 지원사업 합격했습니다.
+필요하신 사장님들 계실까 봐 링크 남겨드립니다. 무료니까 꼭 자가진단 해보세요!
+👉 링크: https://bizlaunch.ai/check`
+        },
+        {
+          channel: "인스타그램 릴스 / 유튜브 쇼츠",
+          title: "30초 고전환 숏폼 스크립트 (3초 훅)",
+          script: `[화면: 300만 원 브로커 견적서를 찢는 장면]
+(자막/음성): "자영업자 99%가 몰라서 못 받는 정부 공짜 돈 2,000만 원!"
+
+(본문): 
+"사장님, 아직도 지원금 서류 쓰느라 밤새우거나 브로커한테 수수료 떼이시나요?
+네이버에 '기업마당' 검색해도 공고 1,200개 중에 내 업종에 맞는 거 찾기 불가능하죠.
+이제 사업자번호만 딱 입력하세요. 
+10초 만에 지원 자격 합격률 94% 선별해주고, 사업계획서 1번부터 4번까지 완성해 드립니다.
+
+프로필 링크에서 이번 달 소상공인 무상 지원금 무료로 조회해 보세요!"`
+        },
+        {
+          channel: "인스타그램 / 카카오톡 1:1 콜드 DM",
+          title: "외식업/카페 대표 타깃 1:1 아웃리치",
+          script: `안녕하세요 대표님! 인스타 피드 잘 보고 있습니다. 
+혹시 이번 상반기 [소상공인 경영개선 바우처] 최대 2,000만 원 지원사업 신청하셨을까요?
+
+대표님의 매장 업력과 위치를 분석해보니 이번 지원사업 1순위 적격 대상에 해당하셔서 메시지 드립니다.
+복잡한 서류 작성 없이 3분 만에 제출용 계획서를 완성할 수 있는 전용 툴을 무료로 열어드리고 있습니다.
+
+관심 있으시면 편하게 답장 남겨주세요. 바로 진단 리포트 발송해 드리겠습니다! 😊`
+        }
+      ],
+      cashflowRoadmap: [
+        { week: "1주차: 48시간 사전검증", targetRev: "₩390,000 (결제 10건)", actions: ["Tally 노코드 폼으로 '무료 지원금 자가진단' 오픈", "자영업자 단톡방 5곳 & 카페 시딩으로 잠재고객 100명 DB 수집", "자가진단 유저 중 10명에게 39,000원 선결제 유치 성공"] },
+        { week: "2주차: 초기 바이럴 & 정기구독 50명", targetRev: "₩2,500,000 (누적 65명)", actions: ["인스타 릴스 숏폼 3편 업로드로 유입 트래픽 5,000뷰 달성", "카카오 알림톡 서비스 연동 (마감 D-3일 알림 푸시)", "표준 구독 유저 50명 돌파 (MRR ₩1,950,000 확보)"] },
+        { week: "3주차: B2B 제휴 & 프랜차이즈 패키지", targetRev: "₩6,200,000 (B2B 15곳)", actions: ["지역 소상공인 협회 및 세무사 사무소 20곳에 B2B 제안서 발송", "세무사 고객 관리용 프로 라이선스(월 ₩89,000) 15곳 체결", "개인 구독자 120명 누적 달성"] },
+        { week: "4주차: 월 1,000만원 달성 & 무인화", targetRev: "₩10,250,000 /월 (MRR 달성)", actions: ["스탠다드 구독자 200명 (₩7,800,000) + B2B 30곳 (₩2,670,000) 달성", "CS 챗봇 자동화로 주당 운영 시간 2시간 이내로 단축", "순이익률 95% (월 순수익 980만 원 체제 구축)"] }
+      ]
+    }
+  },
+
+  "pdf-excel-parser": {
+    id: "pdf-excel-parser",
+    category: "individual",
+    categoryName: "직장인 / 실무",
+    title: "2. [직장인/프리랜서] AI PDF·엑셀 데이터 자동 정제 & 보고서 생성기",
+    shortDesc: "스캔된 PDF 표, 뒤죽박죽 엑셀 데이터를 업로드하면 10초 만에 완벽한 피벗 테이블과 경영 보고서로 변환",
+    targetMrr: "₩10,185,000",
+    defaultStandardPrice: 29000,
+    defaultStandardUsers: 300,
+    defaultProPrice: 99000,
+    defaultProUsers: 15,
+    defaultOpsCost: 350000,
+    pain: {
+      summary: "서로 다른 포맷의 영수증, 발주서, 거래명세서 데이터를 수작업 타이핑하고 엑셀 수식을 맞추느라 매일 2~3시간 야근 발생.",
+      bullets: [
+        "스캔된 이미지 PDF나 관공서 HWP 표는 복사-붙여넣기 시 서식이 전부 깨짐",
+        "지점별/거래처별로 다른 엑셀 양식을 하나로 통합하는 데 매주 반나절 이상 소요",
+        "VLOOKUP, INDEX-MATCH 등 복잡한 함수 오류로 인한 경영진 보고 오류 리스크",
+        "반복 작업으로 인한 실무자의 만성 피로와 번아웃"
+      ]
+    },
+    solution: [
+      { step: 1, title: "비정형 문서 일괄 업로드", desc: "PDF, 이미지, 깨진 엑셀 파일을 드래그앤드롭으로 일괄 첨부" },
+      { step: 2, title: "멀티모달 OCR+구조화 파싱", desc: "표 구조와 텍스트를 인식하여 표준 데이터베이스(스키마)로 자동 변환" },
+      { step: 3, title: "이상치 탐지 및 자동 정제", desc: "오타, 중복 행, 계산 오류를 AI가 사전 검출하여 완벽한 정합성 확보" },
+      { step: 4, title: "원클릭 엑셀/시각화 보고서 렌더링", desc: "피벗 테이블, 차트, 핵심 요약이 포함된 완성형 Excel/PPT 보고서 즉시 다운로드" }
+    ],
+    delight: {
+      killerFeatures: "• 깨진 서식 100% 복구 지능형 테이블 파서\n• '지난달 대비 매출 변동 원인 요약' 경영 인사이트 자동 생성\n• 다운로드 즉시 임원 보고 가능한 세련된 차트 템플릿",
+      delightFactor: "매일 2시간 걸리던 마감 정산 업무가 10초 만에 끝나 칼퇴근을 보장받는 압도적 해방감"
+    },
+    persona: {
+      primary: "중소기업 총무/회계/영업관리 담당 1~5년 차 직장인",
+      secondary: "여러 거래처의 세금계산서와 견적서를 취합해야 하는 1인 프리랜서"
+    },
+    gtm: {
+      channel: "직장인 인스타 릴스/유튜브 쇼츠 ('야근러 필수템'), 블라인드 생산성 게시판",
+      leadMagnet: "'깨진 PDF 표 1초 만에 엑셀로 복구하는 무료 웹툴' 배포"
+    },
+    ops: {
+      automation: "브라우저 기반 클라이언트 사이드 파싱 + 서버리스 OCR API 호출 (서버 유지비 최소화)",
+      expansion: "더존, 이카운트 ERP 연동 플러그인 및 구글 시트 전용 확장 프로그램 출시"
+    },
+    vipMaster: {
+      grandSlamOffer: {
+        dreamOutcome: "매일 2시간 걸리는 영수증/발주서 타이핑 야근 100% 영구 제거",
+        perceivedLikelihood: "스캔된 흐릿한 영수증도 99.8% 정확도로 인식하는 멀티모달 비전 엔진 탑재",
+        timeDelay: "파일 드래그 ➔ 10초 만에 정제된 Excel 파일 다운로드",
+        effortSacrifice: "복잡한 파이썬 판다스(Pandas)나 엑셀 매크로(VBA) 공부 전혀 필요 없음",
+        stack: [
+          { title: "코어: 무제한 PDF/이미지 표 ➔ 정형 엑셀 변환 엔진", value: "₩400,000 상당" },
+          { title: "보너스 1: 대기업 재무팀 표준 자동 피벗테이블 템플릿 20종", value: "₩250,000 상당" },
+          { title: "보너스 2: 임원 보고용 경영 분석 1줄 브리핑 자동 생성기", value: "₩200,000 상당" },
+          { title: "보너스 3: 구글 스프레드시트 1초 연동 크롬 익스텐션", value: "₩150,000 상당" }
         ],
-        solutionAdvice: "프로세니엄 상부에 분당 4.5m 이상 하강 가능한 수밀성 내화 방화막(드렌처 헤드 일체형) 상세도를 추가하고, 무대 상부 연돌효과 억제를 위한 배연창(무대면적의 1/10 이상) 설계를 반영하십시오.",
-        authorityTip: "무대 방화막은 무대기계 감리 및 소방 감리 교차 검사 항목이므로 전기 연동 제어반(소방수신반 인터페이스) 계통도를 도면에 반드시 첨부하십시오."
+        totalValue: "총 ₩1,000,000 상당의 패키지",
+        specialPrice: "단 월 ₩29,000 (일 900원)",
+        riskReversal: "서식이 깨져서 수작업 수정이 10분 이상 걸린다면 해당 월 구독료 전액 환불!"
       },
-      {
-        id: "pin-4",
-        code: "DEFECT-04",
-        title: "BF 장애인 휠체어 관람석 단차 및 시야각 차폐 문제",
-        category: "barrierfree",
-        level: "warning",
-        levelText: "⚡ 주의/상충 (BF 본인증 반려 위험)",
-        x: 32,
-        y: 44,
-        partName: "객석 C열 좌측 휠체어 관람석 구획",
-        measured: "단차 35mm 계단 구간 뒤 배치 / 휠체어석 폭 850mm",
-        buildingLaw: "전체 좌석의 1% 이상 설치",
-        bfStandard: "1석당 폭 900mm x 깊이 1,400mm 이상 / 단차 0mm / 시야각 확보",
-        dominant: "단차 제로 & 폭 900x1,400mm 이상 (BF인증 최우수 지배)",
-        problemDesc: "휠체어 관람석으로 지정된 구획의 진입로에 35mm 바닥 단차가 존재하여 휠체어 단독 접근이 불가능하며, 1석당 너비가 850mm로 설계되어 BF 최우수 기준(900mm 이상)에 미달함.",
-        legalBasisList: [
-          {
-            lawName: "장애인·노인·임산부 등의 편의증진 보장에 관한 법률 시행령",
-            clauseName: "별표 2 (공연장 관람석의 설치기준)",
-            text: "공연장의 관람석은 장애인등이 이용하기 편리한 위치에 전체 관람석 수의 1퍼센트 이상을 설치하여야 하며, 출입구로부터 단차 없는 경사로로 연결되어야 한다.",
-            penalty: "편의증진법 제23조에 따른 500만원 이하 이행강제금 부과.",
-            dominant: false
-          },
-          {
-            lawName: "장애물 없는 생활환경(BF) 인증 심사기준",
-            clauseName: "3.2.1 (장애인 관람석의 구조 및 시야각)",
-            text: "휠체어 관람석은 1석당 유효너비 0.9m 이상, 깊이 1.4m 이상이어야 하며, 앞좌석 관람객의 기립 시에도 무대 전면이 보이는 시야각을 확보하여야 함.",
-            penalty: "BF 인증 등급 하락(우수 이하 전락) 또는 인증 취소.",
-            dominant: true
-          }
-        ],
-        solutionAdvice: "해당 열의 진입로를 완경사(1/18 이하) 무단차 플랫 슬래브로 레벨을 재조정하고, 휠체어석 1구획당 치수를 1,000mm x 1,500mm로 여유 있게 확대하여 동반자석(Companion Seat)과 1:1 나란히 연접 배치하십시오.",
-        authorityTip: "BF 본인증 실사위원은 실측 휠체어 진입 시뮬레이션을 현장에서 직접 수행하므로, 바닥 카펫 마감 후에도 0mm 단차가 유지되도록 시공 상세도를 반영하십시오."
+      promptEngine: {
+        systemPrompt: `You are the Expert Document Parsing & Financial Data Structuring AI.
+Convert unstructured/scanned table images into normalized JSON matrix.`,
+        apiSnippet: `// Python Fast-API Document Parser
+async def parse_table(image_bytes):
+  return await openai.chat.completions.create(model="gpt-4o", messages=[...])`
       },
-      {
-        id: "pin-5",
-        code: "DEFECT-05",
-        title: "우측 비상계단 출입 방화문 피난방향 양개도어 유효폭 상충",
-        category: "egress",
-        level: "warning",
-        levelText: "⚡ 주의/상충 (건축법 vs BF 경합)",
-        x: 85,
-        y: 50,
-        partName: "우측 2호 직통 피난계단실 출입구",
-        measured: "양개형 도어 (한 짝 750mm + 750mm = 총 1,500mm)",
-        buildingLaw: "개소당 유효너비 1.5m 이상 (충족)",
-        bfStandard: "상시 개폐되는 주 유효 통과폭 1짝 900mm 이상 (미달)",
-        dominant: "주 사용문 1짝 유효폭 900mm 이상 & 개구부 1,800mm 이상 (BF 지배)",
-        problemDesc: "건축법은 개소당 총 유효너비 1.5m만 요구하므로 750+750mm 양개도어로 설계되었으나, BF 심사 시 한 짝만 열렸을 때 통과너비가 750mm에 불과하여 휠체어(최소 900mm)가 통과하지 못해 BF 인증 심사에서 불합격 처리됨.",
-        legalBasisList: [
-          {
-            lawName: "장애물 없는 생활환경(BF) 인증 심사기준",
-            clauseName: "2.1.2 (출입문의 형태 및 유효폭)",
-            text: "양개도어(두 짝 문)의 경우, 평상시 주로 열리는 한 짝의 유효 통과너비가 0.9미터 이상이어야 한다.",
-            penalty: "BF 인증 필수조건 미충족으로 본인증 반려.",
-            dominant: true
-          },
-          {
-            lawName: "건축물의 피난·방화구조 등의 기준에 관한 규칙",
-            clauseName: "제9조 (피난계단 및 특별피난계단의 구조)",
-            text: "건축물의 내부에서 계단실로 통하는 출입구의 유효너비는 0.9미터 이상으로 하고 피난방향으로 열릴 수 있는 갑종방화문으로 설치할 것.",
-            dominant: false
-          }
-        ],
-        solutionAdvice: "750mm+750mm 균등 양개도어를 비대칭 양개도어(주 사용문 1,000mm + 보조문 800mm = 총 1,800mm 개구부)로 변경 설계하여 건축법(총폭 1.5m 충족)과 BF인증(한 짝 0.9m 충족)을 동시 해결하십시오.",
-        authorityTip: "인허가 도면 표기 시 '비대칭 양개 방화문(주사용 1,000mm)'으로 주석을 기재하여 소방과 및 BF인증 심사관이 추가 보완요구 없이 1회에 승인하도록 조치하십시오."
-      }
-    ]
+      salesScripts: [
+        {
+          channel: "블라인드 (직장인 커뮤니티)",
+          title: "야근 탈출 바이럴 공유",
+          script: `[제목] 회계팀 분들 제발 영수증 PDF 손으로 치지 마세요...
+매달 말일마다 스캔 PDF 엑셀에 옮겨 적느라 11시까지 야근하던 3년차입니다.
+드래그하면 10초 만에 완벽한 엑셀 표로 바꿔주는 툴 만들었습니다.
+👉 무료 링크: https://excel-parser.ai`
+        }
+      ],
+      cashflowRoadmap: [
+        { week: "1주차", targetRev: "₩290,000", actions: ["직장인 커뮤니티에 무료 변환 웹툴 배포", "첫 유료 결제 10명 유치"] },
+        { week: "2주차", targetRev: "₩1,800,000", actions: ["인스타 릴스 숏폼 바이럴", "월 29,000원 구독자 60명 돌파"] },
+        { week: "3주차", targetRev: "₩5,400,000", actions: ["중소기업 팀 라이선스(월 99,000원) 10곳 도입"] },
+        { week: "4주차", targetRev: "₩10,185,000", actions: ["개인 구독자 300명 + B2B 15곳 달성으로 월 1,000만원 MRR 돌파"] }
+      ]
+    }
   },
-  "large-opera": {
-    name: "1,800석 그랜드 오페라하우스 피난·방화계획도",
-    objCount: "72개 구획 / 24개 출구 / 1,800석",
-    violationCount: "⚠️ 4건 위반 (소방동의 반려)",
-    warningCount: "⚡ 3건 상충",
-    riskScore: "86% (초고위험)",
-    pins: [
-      {
-        id: "pin-1",
-        code: "DEFECT-01",
-        title: "무대부 개방형 스프링클러 헤드 수평거리 1.7m 초과 위반",
-        category: "fire",
-        level: "danger",
-        levelText: "⚠️ 심각 위반 (소방설비 기술기준 위반)",
-        x: 50,
-        y: 15,
-        partName: "상부 무대 플라이갤러리(Fly Gallery) 소화설비",
-        measured: "헤드 간격 2.8m (수평거리 2.0m)",
-        buildingLaw: "해당 없음",
-        bfStandard: "해당 없음",
-        dominant: "무대부 스프링클러 헤드 수평거리 1.7m 이하 (소방시설법 NFPC 103 지배)",
-        problemDesc: "오페라하우스 무대부는 대량의 가연성 무대세트가 적재되는 특수장소로서 스프링클러 헤드 배치 수평거리가 1.7m 이하여야 하나, 도면상 2.0m로 과다 이격되어 화재 시 초기 진화 실패 위험이 큼.",
-        legalBasisList: [
-          {
-            lawName: "스프링클러설비의 화재안전성능기준(NFPC 103)",
-            clauseName: "제4조 (헤드의 배치거리)",
-            text: "무대부 또는 특수가연물을 저장·취급하는 장소에 있어서는 스프링클러헤드의 수평거리를 1.7미터 이하로 유지하여야 한다.",
-            penalty: "소방 완비증명서 부적합 및 소방준공 불가.",
-            dominant: true
-          }
+
+  "dirty-read-lab": {
+    id: "dirty-read-lab",
+    category: "edu-legal",
+    categoryName: "교육 / 자기계발",
+    title: "3. [교육/지식] 책을 지저분하게 만드는 능동적 독서 코칭 & '3줄 아웃풋' 워크북 (DirtyRead Lab)",
+    shortDesc: "책을 사놓고 완독하지 못하는 현대인을 위해 챕터별 강제 질문 제기, 반론 낙서, 3줄 아웃풋을 강제하는 인터랙티브 디지털 워크북 및 코칭 시스템",
+    targetMrr: "₩10,090,000",
+    defaultStandardPrice: 35000,
+    defaultStandardUsers: 220,
+    defaultProPrice: 89000,
+    defaultProUsers: 30,
+    defaultOpsCost: 280000,
+    pain: {
+      summary: "책을 사놓고 완독하지 못하거나, 읽어도 머리에 남는 것이 없고 수동적으로 눈으로만 훑고 지나쳐 지식으로 체화되지 않는 만성 독서 무기력증.",
+      bullets: [
+        "1년에 책 10권을 사도 완독하는 책은 1권 미만, 책장만 채우는 자책감과 죄책감",
+        "숏폼 도파민에 절여진 뇌 회로로 인해 3페이지 이상 깊은 텍스트를 읽지 못하는 집중력 붕괴",
+        "책을 깨끗하게 보려는 강박 때문에 수동적 독서에 머물며 읽은 뒤 3일이면 내용 95% 휘발",
+        "자신의 언어로 정리하거나 실행에 옮기는 '아웃풋(Output)' 훈련과 피드백 시스템의 전무"
+      ]
+    },
+    solution: [
+      { step: 1, title: "도서 및 챕터 선택", desc: "읽을 책과 오늘의 목표 챕터를 선택하면 도서별 핵심 논쟁점과 프레임워크 자동 매핑" },
+      { step: 2, title: "소크라테스식 강제 반론 제기", desc: "저자의 주장에 맹종하지 않고 여백에 '지저분한 낙서와 반론'을 던지도록 유도하는 AI 반론 프롬프트" },
+      { step: 3, title: "3줄 아웃풋 강제 인출", desc: "①핵심 명제 1줄, ②내 반론/경험 1줄, ③내 삶/업무 적용점 1줄을 3분 내 입력하도록 강제" },
+      { step: 4, title: "디지털 인터랙티브 워크북 완성 & 완독 인증", desc: "노션 템플릿/PDF 워크북으로 즉시 변환 저장되며, 슬랙/카톡 커뮤니티에 완독 도장 자동 발행" }
+    ],
+    delight: {
+      killerFeatures: "• 책을 낙서장으로 만드는 '지저분한 독서' 트리거 엔진\n• 3문장만 쓰면 논리 구조를 칭찬하고 확장해주는 'AI 소크라테스 튜터'\n• 베스트셀러 100선 챕터별 맞춤 질문지 및 노션 워크북 1초 자동 렌더링",
+      delightFactor: "'내가 300페이지 벽돌책을 3일 만에 씹어 먹고 내 언어로 설명할 수 있게 되었다'는 지적 효능감과 문해력 폭발"
+    },
+    persona: {
+      primary: "독서의 필요성은 절감하지만 매번 1~2챕터에서 완독에 실패하는 2040 직장인 및 취준생",
+      secondary: "인사이트를 사업과 콘텐츠로 빠르게 전환해야 하는 1인 창업가, 마케터, 크리에이터"
+    },
+    gtm: {
+      channel: "스레드(Threads) 지식 계정, 인스타 릴스 '책 깨끗하게 읽지 마라', 직장인 커뮤니티(블라인드)",
+      leadMagnet: "'베스트셀러 상위 10권 3분 3줄 아웃풋 워크북 노션 템플릿 무료 배포'"
+    },
+    ops: {
+      automation: "교보/알라딘 베스트셀러 목차 기반 자동 워크북 생성 파이프라인 + OpenAI API 실시간 반론 피드백 무인화 (98%)",
+      expansion: "월간 베스트셀러 정기 배송 워크북 구독 및 오프라인 '지저분한 독서 클럽' 유료 살롱(티켓 15만원) 연계"
+    },
+    vipMaster: {
+      grandSlamOffer: {
+        dreamOutcome: "벽돌책도 3일 만에 씹어 먹어 내 비즈니스와 삶의 무기로 만드는 '문해력 300% 폭발'",
+        perceivedLikelihood: "430명 실증 코호트 완독률 91.4% 달성, 3줄만 쓰면 끝나는 강제 인출 시스템",
+        timeDelay: "챕터당 15분 읽고 3분 만에 아웃풋 완성 ➔ 당일 즉시 지식 체화",
+        effortSacrifice: "길고 지루한 독후감 쓰기 완전 폐지, 여백 낙서와 3문장 입력만으로 종결",
+        stack: [
+          { title: "코어: 베스트셀러 100선 챕터별 AI 인터랙티브 'DirtyRead' 워크북 엔진", value: "₩400,000相当" },
+          { title: "보너스 1: 숏폼 뇌를 독서 뇌로 리셋하는 '3분 딥워크 몰입 루틴 가이드'", value: "₩150,000 상당" },
+          { title: "보너스 2: 내 생각을 비즈니스 기획서로 변환하는 '3줄 아웃풋 프롬프트 10종'", value: "₩200,000 상당" },
+          { title: "보너스 3: 매주 일요일 밤 9시 라이브 '지저분한 독서 살롱' VIP 입장권", value: "₩250,000 상당" }
         ],
-        solutionAdvice: "무대 상부 및 그리드아이언 하부에 고온형(121℃) 개방형 스프링클러 헤드를 정방형 2.2m 간격(수평거리 1.55m)으로 재배치하고, 무대 측면 드렌처설비 연동 배관을 보강하십시오.",
-        authorityTip: "소방성능위주설계(PBD) 심의 대상 건축물이므로 화재 시뮬레이션(FDS) 결과보고서에 1.7m 헤드 배치 시 연기 하강 저지 데이터를 첨부하십시오."
-      }
-    ]
+        totalValue: "총 ₩1,000,000 상당의 패키지",
+        specialPrice: "단 월 ₩35,000 (VIP 클럽 패키지 월 ₩89,000)",
+        riskReversal: "30일 내에 책 2권을 완독하고 3줄 아웃풋을 남기지 못하면 100% 무조건 전액 환불 + 실물 도서 1권 무료 증정!"
+      },
+      promptEngine: {
+        systemPrompt: `You are the Premier Socratic Active Reading Coach & 'DirtyRead Lab' Chief Mentor.
+Your mission is to dismantle passive reading habits, force the user to annotate boldly with counterarguments, and crystallize text into high-converting 3-sentence outputs.
+
+[INPUT CONTEXT]
+- book_title: string
+- chapter_name: string
+- user_raw_reflection: string
+
+[COACHING PROTOCOL]
+1. Socratic Counter-Question: Challenge the author's premise directly to prevent blind obedience.
+2. The "Dirty Margin" Note: A punchy, provocative annotation (under 30 words) to scribble on the physical/digital book margin.
+3. 3-Sentence Output Matrix:
+   - Line 1 (Core Premise): The single sharpest thesis of this chapter in user's own words.
+   - Line 2 (Counter/Critique): The blind spot, limit, or personal counterargument.
+   - Line 3 (Micro-Action): Exactly 1 action the user will execute within 24 hours.
+4. Output MUST be valid JSON conforming to DirtyReadOutput schema.`,
+        apiSnippet: `// Node.js DirtyRead Output Generator
+import OpenAI from "openai";
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+async function generateDirtyReadWorkbook(bookTitle, chapter, rawNotes) {
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    response_format: { type: "json_object" },
+    messages: [
+      { role: "system", content: DIRTY_READ_SYSTEM_PROMPT },
+      { role: "user", content: JSON.stringify({ bookTitle, chapter, rawNotes }) }
+    ],
+    temperature: 0.3,
+  });
+  return JSON.parse(response.choices[0].message.content);
+}`
+      },
+      salesScripts: [
+        {
+          channel: "스레드 (Threads) / 인스타그램 릴스",
+          title: "고전환 30초 숏폼 훅 ('책 깨끗하게 읽지 마세요')",
+          script: `[화면: 새 책에 형광펜과 빨간 펜으로 거침없이 반론을 휘갈겨 쓰는 장면]
+(음성/자막): "책 깨끗하게 읽어서 중고서점에 되파는 분들, 솔직히 돈 버린 겁니다."
+
+(본문):
+"책장에 꽂힌 책 20권 중에 지금 당장 3줄로 요약할 수 있는 책 있으신가요?
+없다면 당신은 책을 읽은 게 아니라, 글자를 수동적으로 눈으로 훑고 도파민만 낭비한 겁니다.
+진짜 천재들은 책을 걸레처럼 지저분하게 읽습니다. 저자의 주장에 '개소리 마라'고 반론을 달고, 질문을 던지고, 3줄로 내 삶에 적용하죠.
+
+완독률 300% 올려주는 '지저분한 독서 3줄 아웃풋 워크북' 노션 템플릿, 지금 프로필 링크에서 무료로 받아 가세요!"`
+        },
+        {
+          channel: "블라인드 / 직장인 자기계발 게시판",
+          title: "야근러의 완독 성공기 바이럴 글",
+          script: `[제목] 책 사놓고 매번 30페이지만 읽다 포기하던 사람인데 완독법 찾음
+매달 교보문고에서 10만원씩 책 사놓고 완독률 0%라 늘 자책하던 4년차 대리입니다.
+숏폼에 절여져서 긴 글 못 읽는 뇌가 된 줄 알았는데, 'DirtyRead Lab' 3줄 워크북 쓰고 이번 달에만 3권 완독했습니다.
+독후감 길게 쓸 필요 없이 챕터 끝날 때마다 질문 1개, 반론 1개, 내 업무 적용 1줄만 딱 쓰면 끝납니다.
+머리에 남는 깊이가 아예 다릅니다. 독서 포기자분들 꼭 써보세요.
+👉 무료 워크북: https://dirtyread.lab/free`
+        },
+        {
+          channel: "인스타그램 1:1 아웃리치 DM",
+          title: "북스타그램 / 자기계발 크리에이터 제휴 제안",
+          script: `안녕하세요 크리에이터님! 서평 피드 너무 깊이 있게 잘 보고 있습니다. 📚
+혹시 팔로워분들 중에서 '책은 열심히 사는데 완독을 못 하거나 기억에 안 남는다'고 호소하시는 분들 많지 않으신가요?
+
+저희가 개발한 [DirtyRead Lab 3줄 아웃풋 워크북]을 크리에이터님 독자 전용으로 커스텀하여 무료 배포해 드리고자 합니다. 
+이미 사전 테스트에서 완독률 91.4%를 기록했습니다. 
+
+관심 있으시다면 크리에이터님 성함이 들어간 전용 템플릿과 100만원 상당 VIP 라이선스를 전달드리겠습니다! 편하게 답장 부탁드립니다. 😊`
+        }
+      ],
+      cashflowRoadmap: [
+        { week: "1주차: 48시간 사전검증", targetRev: "₩350,000 (결제 10건)", actions: ["스레드/인스타에 '책 지저분하게 읽기' 노션 템플릿 무료 배포", "다운로더 200명 중 10명에게 월 35,000원 워크북 구독 결제 유치", "첫 코호트 10명과 3줄 아웃풋 챌린지 시작"] },
+        { week: "2주차: 완독 후기 바이럴 & 구독 70명", targetRev: "₩2,450,000 (누적 70명)", actions: ["1기 완독자들의 '새까맣게 낙서된 책 사진' 바이럴 유도", "주간 베스트셀러 10권 맞춤 워크북 매주 금요일 자동 업데이트", "월 35,000원 스탠다드 구독자 70명 돌파"] },
+        { week: "3주차: VIP 독서클럽 패키지 런칭", targetRev: "₩5,800,000 (VIP 20명+)", actions: ["월 89,000원 상당 '4주 완성 라이브 소크라테스 살롱' 고가 티켓 20장 완판", "스탠다드 구독자 120명 확보 (MRR ₩4,200,000 달성)", "기업 사내 도서관 및 독서동아리 단체 제안서 발송"] },
+        { week: "4주차: 월 1,000만원 MRR & 오프라인 확장", targetRev: "₩10,090,000 /월 (MRR 달성)", actions: ["스탠다드 220명 (₩7,700,000) + VIP 독서클럽 30명 (₩2,670,000) 결합", "오프라인 '지저분한 독서 클럽' 월간 유료 세미나 정기 매진", "무인 워크북 파이프라인으로 순이익률 96% 방어"] }
+      ]
+    }
   },
-  "small-blackbox": {
-    name: "300석 소극장·블랙박스 씨어터 BF 도면",
-    objCount: "22개 구획 / 6개 출구 / 300석",
-    violationCount: "⚠️ 2건 위반",
-    warningCount: "⚡ 1건 상충",
-    riskScore: "52% (보통)",
-    pins: [
-      {
-        id: "pin-1",
-        code: "DEFECT-01",
-        title: "소극장 주출구 유효너비 1.2m로 건축법 기준 미달",
-        category: "egress",
-        level: "danger",
-        levelText: "⚠️ 심각 위반 (건축피난규칙 위반)",
-        x: 50,
-        y: 75,
-        partName: "블랙박스 메인 출입구",
-        measured: "유효너비 1,200mm",
-        buildingLaw: "공연장 출구 개소당 1,500mm 이상",
-        bfStandard: "유효폭 900mm 이상",
-        dominant: "개소당 1,500mm 이상 (건축물의 피난방화규칙 제10조 지배)",
-        problemDesc: "300석 소극장의 출구를 1.2m로 계획하였으나 건축법상 공연장 관람실 출구는 규모에 관계없이 개소당 1.5m 이상이어야 하므로 명백한 위반임.",
-        legalBasisList: [
-          {
-            lawName: "건축물의 피난·방화구조 등의 기준에 관한 규칙",
-            clauseName: "제10조 (관람실 출구의 유효너비)",
-            text: "공연장의 관람실 출구는 개소당 1.5미터 이상으로 설치하여야 함.",
-            dominant: true
-          }
+
+  "legal-contract-audit": {
+    id: "legal-contract-audit",
+    category: "edu-legal",
+    categoryName: "부동산 / 계약",
+    title: "5. [법률/계약] AI 부동산·원룸·용역 계약서 독소조항 탐지기",
+    shortDesc: "전세 계약서, 프리랜서 용역 계약서를 올리면 사기 위험 조항과 불리한 특약을 찾아 수정 문구 제시",
+    targetMrr: "₩10,170,000",
+    defaultStandardPrice: 9900,
+    defaultStandardUsers: 500,
+    defaultProPrice: 29000,
+    defaultProUsers: 180,
+    defaultOpsCost: 350000,
+    pain: {
+      summary: "전세사기, 깡통전세, 임금체불, 불공정 위약금 등 어려운 법률 용어 때문에 변호사 상담료(건당 20만 원) 없이 위험 파악 불가.",
+      bullets: [
+        "부동산 공인중개사가 주는 표준계약서 뒤에 숨겨진 불리한 특약을 이해하지 못함",
+        "프리랜서 계약 시 저작권 양도, 무제한 수정 요구 등 독소조항에 무방비 노출",
+        "보증금을 떼일 수 있는 선순위 근저당권 위험성을 일반인이 계산하기 어려움",
+        "상대방에게 어떤 문구로 수정을 요구해야 할지 법률 지식 부족"
+      ]
+    },
+    solution: [
+      { step: 1, title: "계약서 사진/PDF 업로드", desc: "임대차 계약서나 프리랜서 용역 계약서 파일 업로드" },
+      { step: 2, title: "대법원 판례 기반 독소조항 탐지", desc: "주택임대차보호법 및 표준약관 기준 15대 필수 체크리스트 교차 검증" },
+      { step: 3, title: "위험 등급(안전/주의/위험) 판정", desc: "선순위 채권 및 보증금 반환 리스크를 100점 만점 안전도 점수로 환산" },
+      { step: 4, title: "안전 특약 수정 문구 완성", desc: "임대인/발주처에 그대로 복사해서 보낼 수 있는 '방어용 특약 조항' 텍스트 제공" }
+    ],
+    delight: {
+      killerFeatures: "• 전세사기 10대 유형 실시간 매칭 알고리즘\n• 상대방 기분 안 나쁘게 요구하는 협상용 멘트 가이드\n• 등기부등본 권리분석 연동 점수표",
+      delightFactor: "'이 특약 넣었으면 1억 떼일 뻔했다'는 소름 돋는 안도감과 든든한 법적 보호막 확보"
+    },
+    persona: {
+      primary: "사회초년생 원룸/오피스텔 임차인, 신혼부부 전세 입주자",
+      secondary: "불공정 계약에 자주 노출되는 1인 프리랜서 디자이너/개발자"
+    },
+    gtm: {
+      channel: "직장인 익명 커뮤니티 블라인드, 청년 주거 복지 카페, 자취생 유튜브 채널",
+      leadMagnet: "'전세 계약 전 필수 확인 3대 위험 특약 무료 진단기'"
+    },
+    ops: {
+      automation: "법률 지식베이스 RAG 임베딩 및 판례 DB 자동 동기화",
+      expansion: "공인중개사용 안전 계약 검증 마크 발급 B2B 서비스로 확장"
+    },
+    vipMaster: {
+      grandSlamOffer: {
+        dreamOutcome: "1억 전세 보증금 사기 및 불공정 계약 위험 100% 원천 차단",
+        perceivedLikelihood: "대법원 전세사기 판례 5만 건 및 주택임대차보호법 기준 15대 독소조항 교차 검증",
+        timeDelay: "계약서 사진 업로드 ➔ 3초 만에 붉은색 독소조항 분석 완료",
+        effortSacrifice: "어려운 법률 용어 몰라도 '집주인에게 보낼 복사 텍스트' 제공",
+        stack: [
+          { title: "코어: AI 전세/용역 계약서 독소조항 실시간 정밀 진단권", value: "₩300,000 상당" },
+          { title: "보너스 1: 전세보증금 100% 방어 5대 필수 특약 문구집", value: "₩200,000 상당" },
+          { title: "보너스 2: 등기부등본 근저당 깡통전세 위험도 계산기", value: "₩200,000 상당" },
+          { title: "보너스 3: 공인중개사 협상 시 사용할 예의 바른 요청 멘트 스크립트", value: "₩150,000 상당" }
         ],
-        solutionAdvice: "출입문 개구부를 1,600mm로 확장하여 순유효폭 1,500mm를 확보하십시오.",
-        authorityTip: "소규모 공연장이라도 출구 1.5m 규정은 예외가 없으므로 지자체 사전협의 전 즉시 수정 도면을 제출하십시오."
-      }
-    ]
+        totalValue: "총 ₩850,000 상당의 패키지",
+        specialPrice: "단 ₩9,900 (공인중개사용 B2B 월 ₩29,000)",
+        riskReversal: "진단 리포트가 도움이 되지 않았다고 판단되면 100% 즉시 무조건 환불!"
+      },
+      promptEngine: {
+        systemPrompt: `You are the Senior Real Estate Legal Specialist AI.
+Evaluate lease/service contracts for predatory clauses, illegal forfeitures, and fraudulent terms against the Korean Housing Lease Protection Act.`,
+        apiSnippet: `const analysis = await openai.chat.completions.create({ model: "gpt-4o", messages: [...] });`
+      },
+      salesScripts: [
+        {
+          channel: "당근마켓 동네생활 / 자취생 단톡방",
+          title: "전세계약 전 필수 확인",
+          script: `[제목] 자취생 분들, 전세 계약서 도장 찍기 전에 이거 꼭 확인하세요!
+공인중개사가 '다들 이렇게 씁니다' 하면서 특약 1줄 넣었는데, 보증금 1억 못 돌려받아도 소송 못 거는 독소조항이었습니다...
+계약서 사진 올리면 3초 만에 빨간색으로 찾아주는 AI 진단기 꼭 돌려보세요!
+👉 링크: https://safe-contract.ai`
+        }
+      ],
+      cashflowRoadmap: [
+        { week: "1주차", targetRev: "₩500,000", actions: ["이사/부동산 커뮤니티에 무료 진단 배포", "단건 9,900원 결제 50건 달성"] },
+        { week: "2주차", targetRev: "₩2,200,000", actions: ["공인중개사 B2B 안심마크 런칭", "B2B 30곳 가입"] },
+        { week: "3주차", targetRev: "₩5,800,000", actions: ["일 결제 50건 돌파", "B2B 공인중개사 100곳 돌파"] },
+        { week: "4주차", targetRev: "₩10,170,000", actions: ["개인 500건 + B2B 180곳 달성으로 월 1,000만원 돌파"] }
+      ]
+    }
   },
-  "remodel-hall": {
-    name: "노후 문화예술회관 리모델링 피난도면",
-    objCount: "35개 구획 / 8개 출구 / 600석",
-    violationCount: "⚠️ 3건 위반",
-    warningCount: "⚡ 2건 상충",
-    riskScore: "68% (위험)",
-    pins: [
-      {
-        id: "pin-1",
-        code: "DEFECT-01",
-        title: "리모델링 사운드록 통과 시 최장 보행거리 30m 초과",
-        category: "egress",
-        level: "danger",
-        levelText: "⚠️ 심각 위반 (피난 보행거리 초과)",
-        x: 25,
-        y: 60,
-        partName: "좌측 후면 객석 피난경로",
-        measured: "피난계단까지 보행거리 38.5m",
-        buildingLaw: "직통계단까지 보행거리 30m 이하 (내화구조 50m)",
-        bfStandard: "해당 없음",
-        dominant: "보행거리 30m 이하 (건축법 시행령 제34조 지배)",
-        problemDesc: "방음벽 및 사운드록 굴절 통로 추가로 인해 객석 최외곽에서 직통계단까지의 실제 보행거리가 38.5m로 늘어나 법정 허용치를 초과함.",
-        legalBasisList: [
-          {
-            lawName: "건축법 시행령",
-            clauseName: "제34조 (직통계단의 설치 및 피난거리)",
-            text: "공연장의 거실 각 부분으로부터 보행거리 30미터 이내에 직통계단을 설치하여야 한다.",
-            dominant: true
-          }
+
+  "post-career-architect": {
+    id: "post-career-architect",
+    category: "retire",
+    categoryName: "은퇴 / 1인 창직·지식창업",
+    title: "6. [은퇴/창직] 직장인 은퇴 대비 '문해력 기반 1인 창직(創職) 로드맵' 설계 컨설팅 (Post-Career Architect)",
+    shortDesc: "50대 진입을 앞두고 은퇴 이후의 삶과 소득 절벽이 두려운 직장인의 30년 커리어와 결정성 지능을 분석하여 지식 창업·전자책·1인 컨설팅 비즈니스로 변환하는 마스터플랜 엔진",
+    targetMrr: "₩10,400,000",
+    defaultStandardPrice: 49000,
+    defaultStandardUsers: 120,
+    defaultProPrice: 290000,
+    defaultProUsers: 18,
+    defaultOpsCost: 700000,
+    pain: {
+      summary: "50대 진입을 앞두고 은퇴 이후의 삶과 소득 절벽이 두렵지만, 평생 경험으로 막상 무엇을 준비해야 할지 방향을 잡지 못하는 극심한 실존적 불안과 무력감.",
+      bullets: [
+        "30년간 쌓아온 독보적 직무 경험과 노하우가 퇴직과 동시에 '0원'으로 초기화될 것이라는 커리어 단절 공포",
+        "국민연금 수령(65세)까지 최소 5~10년 동안 발생하는 잔인한 '소득 크레바스(소득 절벽)' 기간의 자산 고갈 위기",
+        "치킨집, 카페 등 섣부른 자영업 창업으로 2~3억 원의 퇴직금을 3년 안에 탕진할까 봐 두려움",
+        "배움과 일에는 은퇴가 없음을 알면서도, 내 무형의 경험을 시장이 지불할 지식 상품(출판·자문·강의)으로 패키징하는 실전 방법론의 부재"
+      ]
+    },
+    solution: [
+      { step: 1, title: "30년 커리어·결정성 지능(Crystallized Intelligence) 정밀 해체", desc: "직무 이력과 사내 문제 해결 성공 경험을 입력하면 AI가 시장성 높은 핵심 3대 지식 자산 영역 자동 도출" },
+      { step: 2, title: "문해력 기반 1인 창직(創職) 포지셔닝 설계", desc: "'배움에는 은퇴가 없다'는 철학 아래 소비자가 월 10~50만 원을 지불할 버티컬 틈새 시장과 1인 창직가 공식 칭호 부여" },
+      { step: 3, title: "3대 고수익 지식 상품군 자동 패키징", desc: "①1인 출판(교보/알라딘 전자책 10챕터 목차), ②1:1 프리미엄 자문 컨설팅 제안서, ③B2B 기업 전직지원 출강 마스터플랜 생성" },
+      { step: 4, title: "90일 소득 파이프라인 로드맵 & 세무·법률 가이드 완성", desc: "퇴직 D-180일부터 실행하는 리스크 제로 파이프라인 구축 및 신중년 1인 기업가 세무·법률(개인vs법인) 가이드라인 연 2회 자동 업데이트" }
+    ],
+    delight: {
+      killerFeatures: "• 30년 커리어를 10초 만에 3대 고단가 지식 상품으로 변환하는 '커리어 지식 자산화 엔진'\n• 교보문고/예스24 등록용 전자책 10챕터 목차 및 프롤로그 1초 자동 조판\n• 은퇴 시장 트렌드 및 세무·법률(개인vs법인) 가이드라인 연 2회 정기 업데이트\n• 4050 은퇴 예정자를 위한 소득 크레바스 방어 90일 단계별 캐시플로우 타임라인",
+      delightFactor: "'내 30년 직장 경험이 사라지는 것이 아니라, 월 1,000만 원 가치의 1인 창직 무기였다'는 눈물 나는 자존감 회복과 명확한 인생 2막의 설계도"
+    },
+    persona: {
+      primary: "은퇴(퇴직)를 앞두고 제2의 인생과 소득 절벽을 준비하는 40대 후반~50대 전문직/대기업/금융권/공공기관 직장인",
+      secondary: "조기 퇴직 후 자영업 리스크 없이 무자본 1인 지식 창업을 희망하는 5060 신중년 및 시니어 전문가"
+    },
+    gtm: {
+      channel: "링크드인(LinkedIn) 4050 시니어 네트워킹, 리멤버(Remember) 시니어 커뮤니티, 브런치스토리(Brunch) 은퇴/커리어 섹션, 대기업 퇴직예정자 동호회",
+      leadMagnet: "'퇴직금 3억으로 치킨집 차리지 마라: 30년 경력으로 월 500만원 버는 1인 창직 자가진단 리포트 (PDF 25P)' 무료 배포"
+    },
+    ops: {
+      automation: "커리어 진단 설문 ➔ 지식 창업 기획서 생성 100% 무인 AI 파이프라인 (OpenAI API 기반)",
+      expansion: "교보/예스24 전자책 출판 대행 서비스(ISBN 발급 및 유통), 1인 기업가 양성 스쿨 아카데미 법인화, 대기업 B2B 전직지원(Outplacement) 프로그램 공급"
+    },
+    vipMaster: {
+      grandSlamOffer: {
+        dreamOutcome: "퇴직금 날리는 치킨집 창업 대신, 내 30년 경력으로 월 1,000만원 버는 '1인 지식 창직가(Post-Career Architect)' 데뷔",
+        perceivedLikelihood: "4050 퇴직 예정자 120명 코호트 실증 완료, 90일 내 전자책 출간 및 1:1 컨설팅 수주율 88.3% 달성",
+        timeDelay: "경력 키워드 3개 입력 ➔ 10초 만에 1인 창직 마스터플랜 및 전자책 목차 완성",
+        effortSacrifice: "어려운 코딩이나 SNS 춤추기 없이, 검증된 1:1 컨설팅 제안서와 자문 대본 그대로 복사 사용",
+        stack: [
+          { title: "코어: 30년 커리어 기반 AI 1인 창직(創職) 마스터플랜 진단기", value: "₩500,000 상당" },
+          { title: "보너스 1: 교보/알라딘 등록용 전자책(e-Book) 10챕터 자동 기획서 템플릿", value: "₩250,000 상당" },
+          { title: "보너스 2: 시간당 30만원 받는 '1:1 자문 계약서 & B2B 제안서 양식집'", value: "₩250,000 상당" },
+          { title: "보너스 3: 신중년 세무 절세(개인vs법인) & 정부 1인 창업지원금 족보집", value: "₩200,000 상당" }
         ],
-        solutionAdvice: "좌측 측면에 옥외 피난발코니 또는 제2직통계단을 신설하여 최대 보행거리를 24m로 단축하십시오.",
-        authorityTip: "리모델링의 경우 기존 구조체 철거 불가 시 소방서와 '스프링클러 전구역 설치에 따른 피난거리 1.5배 완화 적용' 심의를 신청하십시오."
-      }
-    ]
+        totalValue: "총 ₩1,200,000 상당의 패키지",
+        specialPrice: "단 월 ₩49,000 (VIP 1:1 마스터클래스 월 ₩290,000)",
+        riskReversal: "90일 내에 나만의 1인 창직 비즈니스 모델 1건 및 전자책 초안을 완성하지 못할 경우 100% 무조건 전액 환불!"
+      },
+      promptEngine: {
+        systemPrompt: `You are the Premier Executive Post-Career Architect & Master Knowledge-Entrepreneurship Mentor.
+Your philosophy is: "배움에는 은퇴가 없다 (There is no retirement in learning)."
+Your mission is to dismantle the 50s income-cliff anxiety, extract the user's crystallized intelligence from 20-30 years of corporate experience, and architect a high-ticket, literacy-based solo entrepreneurship (創職) masterplan.
+
+[INPUT PARAMETERS]
+- user_career_domain: string (e.g. 28-year Manufacturing Ops Director / 25-year Commercial Bank Credit Underwriter)
+- target_retirement_dday: string (e.g. D-1 Year, D-6 Months, Already Retired)
+- core_strength_notes: string
+
+[OUTPUT PROTOCOL]
+1. Solo-Creator Title (1인 창직 공식 명칭): Distinctive, authoritative positioning in high-ticket consulting.
+2. 3-Tier Product Architecture:
+   - Tier 1: Digital E-Book Blueprint (10-chapter outline, target audience, price point ₩25,000).
+   - Tier 2: 1:1 High-Ticket Advisory Package (Hour-rate ₩250,000, 4-week roadmap).
+   - Tier 3: B2B Corporate Outplacement Workshop / Keynote syllabus.
+3. 90-Day Cashflow Crevasse Defense Timeline: Specific week-by-week actions before and after formal retirement.
+4. Tax & Legal Setup Guideline (연 2회 업데이트 기준 반영).
+5. Output valid JSON matching PostCareerArchitectSchema.`,
+        apiSnippet: `// Node.js Post-Career Architect Pipeline
+import OpenAI from "openai";
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+async function generatePostCareerRoadmap(careerDomain, retirementDday, coreNotes) {
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o",
+    response_format: { type: "json_object" },
+    messages: [
+      { role: "system", content: POST_CAREER_ARCHITECT_SYSTEM_PROMPT },
+      { role: "user", content: JSON.stringify({ careerDomain, retirementDday, coreNotes }) }
+    ],
+    temperature: 0.35,
+  });
+  return JSON.parse(response.choices[0].message.content);
+}`
+      },
+      salesScripts: [
+        {
+          channel: "링크드인 (LinkedIn) / 리멤버 시니어 라운지",
+          title: "고전환 바이럴 칼럼 ('50대 부장님, 퇴직금으로 치킨집 차리지 마세요')",
+          script: `[제목] 30년 직장 생활 끝내고 치킨집 차리는 선배들을 보며 눈물이 났습니다
+
+대기업에서 28년간 생산관리 공장장으로 일하며 수백억 원 원가를 절감했던 선배가, 은퇴 후 퇴직금 2억 5천을 들여 프랜차이즈 치킨집을 차렸다가 2년 만에 빚만 안고 폐업했습니다.
+
+왜 우리는 30년간 쌓은 그 엄청난 '결정성 지능(경험과 노하우)'을 쓰레기통에 버리고, 평생 튀겨본 적도 없는 닭을 튀기러 가는 걸까요?
+
+"배움과 경험에는 은퇴가 없습니다."
+중소 제조기업들은 지금도 스마트공장 국비 1억을 따내는 서류를 몰라 발을 동동 구릅니다. 선배의 30년 경험은 시간당 25만 원을 받아 마땅한 독보적 컨설팅 상품이었습니다.
+
+소득 절벽이 두려운 4050 직장인 분들, 치킨집 대신 내 경험으로 월 1,000만 원 버는 '1인 창직(創職) 자가진단 리포트'를 먼저 확인해 보세요.
+👉 무료 리포트: https://post-career.architect/free`
+        },
+        {
+          channel: "대기업 사내게시판 / 퇴직자 단톡방",
+          title: "은퇴 1년 남은 54세 선배의 1인 창직 실전기",
+          script: `[제목] 정년 1년 남기고 무자본으로 1인 지식 기업가 된 후기
+
+동기들이 은퇴 후 경비원 자리나 귀농을 알아볼 때, 저는 제 은행 여신 심사 25년 경력을 '중소기업 정책자금 대출 자문 전자책'과 '1:1 컨설팅'으로 패키징했습니다.
+
+지난달 교보문고 전자책에서 150만 원, 중소기업 3곳 1:1 금융 자문으로 450만 원, 총 600만 원의 부수익을 만들었습니다. 퇴직하기도 전에 소득 크레바스 걱정이 완전히 사라졌습니다.
+
+내 경험을 어떻게 시장이 돈을 내는 지식 상품으로 만드는지 궁금하신 분들은 'Post-Career Architect' 로드맵 꼭 참고해 보세요.
+👉 로드맵 링크: https://post-career.architect/roadmap`
+        },
+        {
+          channel: "B2B 대기업 인사팀 (HRD) 제안서",
+          title: "퇴직 예정 임직원을 위한 '1인 창직·전자책 출간' 전직지원 프로그램",
+          script: `수신: OOO 그룹 인사혁신팀 HRD 담당 팀장님 귀하
+
+안녕하십니까, 1인 창직 인큐베이터 [Post-Career Architect] 총괄 디렉터입니다.
+
+귀사의 50대 정년퇴직 예정 임직원분들이 퇴직 후 자영업 실패 리스크에 노출되지 않고, 귀사에서 쌓은 평생의 전문성을 살려 명예로운 '1인 지식 자문가 / 전문 강사 / 전자책 작가'로 제2의 커리어를 시작할 수 있도록 돕는 [4주 완성 1인 창직 마스터클래스]를 제안드립니다.
+
+이미 대기업 시니어 퇴직자 코호트에서 88.3%가 90일 내 전자책 출간 및 1:1 자문 계약을 수주했습니다.
+상세 커리큘럼 및 제안서를 검토해 보실 수 있도록 샘플 자료를 송부드립니다.`
+        }
+      ],
+      cashflowRoadmap: [
+        { week: "1주차: 커리어 자산 해체 & 무료 자가진단", targetRev: "₩735,000 (결제 15건)", actions: ["리멤버/링크드인에 '30년 경력 1인 창직 무료 진단기' 배포", "진단자 300명 중 15명에게 월 49,000원 심층 리포트 구독 전환", "핵심 지식 자산 3대 영역 및 공식 창직 칭호 확정"] },
+        { week: "2주차: 전자책 10챕터 집필 & 마스터클래스 1기", targetRev: "₩3,655,000 (누적)", actions: ["교보문고 e-Book 등록용 10챕터 원고 완성 및 표지 조판", "월 290,000원 VIP 1:1 창직 마스터클래스 1기 5명 전격 완판", "월 49,000원 스탠다드 구독자 45명 돌파"] },
+        { week: "3주차: 1:1 고단가 자문 계약 8곳 수주", targetRev: "₩7,400,000 (누적)", actions: ["타깃 중소기업 및 개인 대상 시간당 25만원 자문 제안서 발송", "1:1 컨설팅 리테이너 고객 8곳 유치 (월 ₩3,500,000 매출 확보)", "스탠다드 구독자 80명 + 마스터클래스 12명"] },
+        { week: "4주차: 월 1,000만원 MRR 달성 & 아카데미 법인화", targetRev: "₩10,400,000 /월 (MRR 달성)", actions: ["스탠다드 구독자 120명(₩5,880,000) + VIP 코칭 18명(₩5,220,000) 결합", "운영비 70만원 제외 순이익 ₩10,400,000 돌파", "1인 기업가 양성 스쿨 아카데미 법인 설립 및 대기업 B2B 계약 체결"] }
+      ]
+    }
+  },
+
+  "deepfocus-21": {
+    id: "deepfocus-21",
+    category: "focus",
+    categoryName: "멘탈 / 도파민 디톡스·집중력",
+    title: "5. [멘탈/도파민] 숏폼 도파민 중독 탈출 및 심층 사유 복원 프로젝트 코칭 (DeepFocus 21)",
+    shortDesc: "릴스·쇼츠·틱톡의 자극적 알고리즘에 붕괴된 뇌의 집중력을 21일 스마트폰 강제 통제와 텍스트 몰입 미션으로 복원하는 뇌과학 기반 안티-도파민 코칭 솔루션",
+    targetMrr: "₩10,350,000",
+    defaultStandardPrice: 49000,
+    defaultStandardUsers: 150,
+    defaultProPrice: 250000,
+    defaultProUsers: 12,
+    defaultOpsCost: 600000,
+    pain: {
+      summary: "릴스, 쇼츠, 틱톡의 도파민 알고리즘에 중독되어 긴 글을 읽거나 10분 이상 깊게 집중하는 뇌의 능력이 완전히 망가진 2040 현대인의 극심한 인지 붕괴와 무기력증.",
+      bullets: [
+        "침대에 누워 무의식중에 숏폼을 2~3시간씩 넘기다 늦은 새벽에 잠들고 다음 날 뇌가 멍해지는 만성 수면장애 및 죄책감",
+        "책이나 업무 기획서 5페이지도 진득하게 읽지 못하고 3분마다 스마트폰을 만지작거리는 팝콘 브레인(Popcorn Brain) 증후군",
+        "자극적인 15초 영상에만 반응하도록 전두엽 도파민 수용체가 파괴되어, 일상의 깊은 사유와 고도의 문제 해결 능력 완전 상실",
+        "의지만으로 앱을 지워보지만 3일 만에 재설치하고 실패를 반복하며 '나는 왜 이럴까' 자책하는 도파민 의존 악순환"
+      ]
+    },
+    solution: [
+      { step: 1, title: "스마트폰 사용 시간 강제 물리적·디지털 통제", desc: "도파민 트리거 차단 락커 앱 및 데스크 물리적 보관함 세팅으로 하루 SNS 노출 15분 이하 강제 잠금" },
+      { step: 2, title: "주간 45분 딥다이브(Deep Dive) 몰입 타이머 가동", desc: "알파파·세타파 바이노럴 비트 뇌파 동기화 음원과 함께 잡념 없이 오직 한 가지 업무/독서에만 몰입하는 45분 타이머 훈련" },
+      { step: 3, title: "텍스트 몰입 & 심층 사유 역질문 미션", desc: "단순 숏폼 소비를 끊고 엄선된 인문·과학 단행본 챕터를 정독한 뒤 저자의 핵심 논리에 반론 질문과 3줄 통찰을 작성하는 매일 1미션" },
+      { step: 4, title: "21일 신경가소성(Neuroplasticity) 리셋 & 인증 커뮤니티", desc: "뇌신경 회로가 재배선되는 21일간 슬랙/디스코드 상호 인증과 전후 인지능력·업무 생산성 2배 향상 진단 리포트 발급" }
+    ],
+    delight: {
+      killerFeatures: "• 도파민 수용체 회복률을 실시간 시각화하는 '뇌신경 가소성 21일 트래커'\n• 45분 딥다이브 초몰입 유도 세타파 바이노럴 비트 사운드트랙 전용 앱\n• 스마트폰 미사용 시간당 가치(월 +105시간 회복) 실시간 환산 대시보드\n• 전두엽 활성화를 촉진하는 매일 1개 소크라테스식 심층 사유 역질문 워크시트",
+      delightFactor: "'뇌에 끼어있던 짙은 안개(Brain Fog)가 걷히고, 내 손으로 내 시간과 삶의 주도권을 되찾았다'는 눈부신 환희와 하루 3시간 이상의 온전한 몰입 해방감"
+    },
+    persona: {
+      primary: "숏폼 중독으로 업무 집중도가 급격히 떨어지고 늘 피로와 무기력감을 호소하는 20~40대 직장인, 지식근로자, 기획자",
+      secondary: "긴 글 시험 지문이나 전공 서적을 읽어야 하나 숏폼 도파민 덫에 걸려 성적이 정체된 대학원생, 고시생, 수험생"
+    },
+    gtm: {
+      channel: "인스타그램 릴스/유튜브 쇼츠(안티 도파민 숏폼 역발상 공략), 스레드(Threads 직장인 번아웃/도파민 단식 에세이), 블라인드(Blind), 노션 템플릿 커뮤니티",
+      leadMagnet: "'당신의 뇌는 지금 몇 % 절여져 있는가? 도파민 중독 10초 자가진단표 & 24시간 스마트폰 단식 치트키 PDF' 무료 배포"
+    },
+    ops: {
+      automation: "21일 데일리 미션 카카오 알림톡/슬랙 봇 자동 발송 + 주간 집중도 리포트 AI 자동 생성 (무인 운영율 92%)",
+      expansion: "오프라인 '주말 1박 2일 디지털 디톡스 캠프' (스마트폰 금고 보관 & 숲속 묵언 독서 리트릿), 수면 유도 뇌파 오디오 구독권, B2B 기업 임직원 번아웃 탈출 집중력 워크숍 공급"
+    },
+    vipMaster: {
+      grandSlamOffer: {
+        dreamOutcome: "숏폼 중독과 브레인포그에서 완전히 벗어나, 하루 4시간 초집중력과 책 1권 완독 능력을 21일 만에 100% 회복",
+        perceivedLikelihood: "카이스트/하버드 뇌인지과학 신경가소성 메커니즘 적용, 21일 챌린지 1~3기 420명 실증 완료 (집중 지속시간 2.4배 향상, 숏폼 스크린타임 78% 감소)",
+        timeDelay: "신청 즉시 스마트폰 차단 락커 셋업 가이드 발송 + 오늘 밤 9시 첫 45분 딥다이브 세션 시작",
+        effortSacrifice: "의지박약이라도 저절로 실천되는 '벌금형 디스코드 상호인증'과 '귀에 꽂기만 하면 집중되는 세타파 뇌파 사운드' 제공",
+        stack: [
+          { title: "코어: 21일 안티-도파민 신경가소성 챌린지 풀패키지", value: "₩500,000 상당" },
+          { title: "보너스 1: 뇌파 동기화 집중력 향상 & 숙면 바이노럴 비트 음원 10선", value: "₩300,000 상당" },
+          { title: "보너스 2: 전두엽 심층 사유 복원용 '소크라테스 텍스트 몰입 워크북 21선'", value: "₩250,000 상당" },
+          { title: "보너스 3: 실패율 0% 보장 스마트폰 물리적·디지털 차단 완벽 셋업 매뉴얼", value: "₩150,000 상당" }
+        ],
+        totalValue: "총 ₩1,200,000 상당의 패키지",
+        specialPrice: "단 21일 챌린지 월 ₩49,000 (VIP 1:1 심층 코칭권 월 ₩250,000)",
+        riskReversal: "21일 챌린지 미션을 80% 이상 수행했음에도 스크린타임이 50% 이상 줄지 않거나 집중력 향상을 체감하지 못하면 100% 무조건 전액 환불!"
+      },
+      promptEngine: {
+        systemPrompt: `You are the Premier Cognitive Neuro-Coach & Anti-Dopamine Attention Recovery Specialist at DeepFocus 21.
+Your philosophy is: "집중력은 타고나는 재능이 아니라, 훈련으로 회복되는 뇌의 근육이다 (Attention is not innate talent; it is a brain muscle restored through systematic training)."
+Your mission is to liberate modern knowledge workers from the algorithmic dopamine trap of short-form content (Reels, Shorts, TikTok) and rewire their neuroplasticity for deep cognitive reasoning and 4-hour uninterrupted flow.
+
+[INPUT PARAMETERS]
+- daily_shortform_hours: number (e.g. 2.5, 4.0, 5.5+)
+- primary_symptom: string (e.g. Cannot read >5 pages of books / Checks phone every 3 minutes / Chronic brain fog & sleep disorder)
+- target_habit_goal: string (e.g. Read 1 deep-thinking book weekly / Complete 45-minute deep work blocks without tab switching)
+
+[OUTPUT PROTOCOL]
+1. Dopamine Receptor Reset Prescription: Personalized 3-stage protocol (Day 1-7 Detox, Day 8-14 Text Immersion, Day 15-21 High-Order Synthesis).
+2. Daily 45-Minute Deep-Dive Task: Structured text immersion prompt with critical counter-argument questions.
+3. Quantified Productivity Recovery: Extra hours saved daily, annual financial value recovered (calculated at ₩25,000/hr).
+4. Offline Retreat & Sleep Audio Recommendation.
+5. Output valid JSON matching DeepFocusPrescriptionSchema.`,
+        apiSnippet: `// Node.js DeepFocus 21 Neuro-Coach Pipeline
+import OpenAI from "openai";
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+async function generateDeepFocusPlan(screenHours, symptom, goal) {
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o",
+    response_format: { type: "json_object" },
+    messages: [
+      { role: "system", content: DEEPFOCUS_SYSTEM_PROMPT },
+      { role: "user", content: JSON.stringify({ screenHours, symptom, goal }) }
+    ],
+    temperature: 0.3,
+  });
+  return JSON.parse(response.choices[0].message.content);
+}`
+      },
+      salesScripts: [
+        {
+          channel: "스레드 (Threads) / 블라인드 (Blind)",
+          title: "고전환 바이럴 칼럼 ('침대에서 숏폼 3시간 보고 자책하는 당신에게')",
+          script: `[제목] 밤 12시에 침대에 누워 숏폼 보다가 새벽 3시에 폰 던진 적 있으신가요?
+
+"오늘도 의미 없이 3시간을 날렸다..." 
+밀려오는 죄책감, 멍한 뇌, 다음 날 출근길의 극심한 피로. 
+하지만 이건 당신의 의지박약 탓이 아닙니다. 
+
+실리콘밸리의 수천 명 천재 엔지니어들이 수조 원의 AI 알고리즘으로 당신의 도파민 수용체를 해킹했기 때문입니다.
+15초 자극에 뇌가 절여지면, 책을 읽거나 복잡한 기획서를 쓸 때 작동해야 할 전두엽 회로가 완전히 마비됩니다.
+
+"집중력은 의지가 아니라 신경가소성(뇌의 물리적 회복)의 문제입니다."
+스마트폰 강제 잠금과 하루 45분 텍스트 몰입 미션으로 뇌의 도파민 수용체를 원래대로 되돌려 놓는 [DeepFocus 21 챌린지]에 참여해 보세요.
+21일 뒤, 당신은 하루 3시간의 잃어버린 인생을 되찾게 됩니다.
+
+👉 10초 도파민 중독 자가진단: https://deepfocus21.ai/check`
+        },
+        {
+          channel: "인스타그램 릴스 / 유튜브 쇼츠",
+          title: "30초 역발상 숏폼 스크립트 ('지금 당장 스크롤을 멈추세요')",
+          script: `[화면: 화면을 멍하니 스크롤하는 사람의 눈동자를 클로즈업하다가 갑자기 검은 화면으로 전환]
+(음성/자막): "잠깐만요. 지금 이 영상을 멍하니 넘기려던 당신, 스크롤을 멈추세요."
+
+(본문): 
+"지난 1시간 동안 손가락으로 넘긴 영상 중에 머릿속에 남은 게 딱 1개라도 있나요?
+없죠. 지금 당신의 뇌는 초당 수천 번의 가짜 도파민 스파이크를 맞고 탈진한 상태입니다.
+책 5페이지도 못 읽고, 3분마다 폰을 확인하는 이유가 바로 이겁니다.
+
+당신의 집중력은 망가진 게 아니라, 잠시 납치당했을 뿐입니다.
+프로필 링크에서 21일 만에 도파민 뇌를 리셋하고 하루 4시간의 집중력을 되찾는 무료 자가진단 리포트를 받아보세요.
+지금 당장 스마트폰 화면을 끄고 심호흡 3번을 하세요."`
+        },
+        {
+          channel: "스터디/자기계발 커뮤니티 1:1 콜드 DM",
+          title: "이직/자격증 준비생 타깃 1:1 디톡스 제안",
+          script: `안녕하세요 00님! 피드에서 자기계발과 이직 준비 열심히 하시는 모습 인상 깊게 보았습니다.
+
+혹시 퇴근 후 공부하려고 책상에 앉았는데 자꾸 손이 폰으로 가고, 릴스나 쇼츠 몇 개 보다 보면 2시간이 훌쩍 지나버려 자책하신 적 있으실까요?
+저희가 뇌인지과학 기반으로 21일간 스마트폰 사용을 강제 차단하고 45분 딥다이브 몰입 루틴을 만들어주는 [DeepFocus 21] 4기를 모집 중입니다.
+
+참여자분들의 하루 평균 집중 시간이 1.8시간에서 4.2시간으로 늘어났습니다.
+부담 없이 이번 주 무료 집중력 진단 테스트 링크를 보내드릴 수 있으니 편하게 답장 주세요! 응원합니다. 🔥`
+        }
+      ],
+      cashflowRoadmap: [
+        { week: "1주차: 도파민 자가진단 툴 & 48시간 사전예약", targetRev: "₩735,000 (결제 15건)", actions: ["스레드/노션 커뮤니티에 '10초 뇌 도파민 중독 자가진단표' 무료 배포", "진단 참여자 250명 중 15명에게 21일 챌린지 1기(₩49,000) 얼리버드 선결제 유치", "스마트폰 차단 락커 가이드 및 1주차 도파민 단식 미션 시트 전달"] },
+        { week: "2주차: 1기 50명 완판 & 45분 바이노럴 세션 가동", targetRev: "₩3,700,000 (누적)", actions: ["인스타 릴스 역발상 숏폼 영상 바이럴로 챌린지 1기 50명 정원 마감 (MRR ₩2,450,000)", "월 250,000원 프리미엄 1:1 딥코칭 5명 유치 (₩1,250,000 추가 확보)", "매일 밤 9시 디스코드 45분 딥다이브 라이브 타이머 운영"] },
+        { week: "3주차: 전후 비교 후기 바이럴 & 2기 100명 확장", targetRev: "₩7,400,000 (누적)", actions: ["1기 완주자 '하루 스크린타임 5시간 ➔ 1.2시간 감소, 책 3권 완독' 비포/애프터 인터뷰 카드뉴스 배포", "2기 스탠다드 100명 모집 돌파 (누적 150명 결제 완료)", "1:1 프리미엄 코칭 수강생 10명으로 확대"] },
+        { week: "4주차: 월 1,000만원 순수익 달성 & 디톡스 캠프 론칭", targetRev: "₩10,350,000 /월 (MRR 달성)", actions: ["스탠다드 150명(₩7,350,000) + 프리미엄 1:1 코칭 12명(₩3,000,000) 결합", "운영비 60만원 제외 순이익 ₩9,750,000 달성", "오프라인 '주말 1박 2일 디지털 디톡스 캠프' 유료 파일럿 오픈 및 B2B 기업 출강 계약 체결"] }
+      ]
+    }
+  },
+
+  "resilience-60h": {
+    id: "resilience-60h",
+    category: "focus",
+    categoryName: "멘탈 / 신경생리학",
+    title: "8. [창업가/임원] 60시간 익사 쥐 회복탄력성(Resilience) 코칭 프로그램",
+    shortDesc: "커트 릭터(1957) 신경생리학 기반: 번아웃·투자손실·사업실패 시 뇌의 생존 메커니즘을 재가동하는 30초 구출-재진입(Rescue-Reentry) 프로토콜",
+    targetMrr: "₩14,200,000",
+    defaultStandardPrice: 1800000,
+    defaultStandardUsers: 4,
+    defaultProPrice: 3500000,
+    defaultProUsers: 2,
+    defaultOpsCost: 1800000,
+    pain: {
+      summary: "번아웃, 사업 실패, 투자 손실 등 인생의 한계에 부딪혔을 때 4분 만에 포기하는 쥐처럼 무기력증에 빠져 재기하지 못함.",
+      bullets: [
+        "1957년 커트 릭터 실험: 탈출구가 없다고 인지한 쥐는 탈진 전 미주신경 충격(Vagal Shock)으로 4분 만에 심정지",
+        "스타트업 창업가·펀드매니저·C레벨: '끝장났다'는 파국화 공포로 전전두엽 혈류 차단 및 자포자기 침몰",
+        "기존 심리상담의 한계: '긍정적으로 생각하라'는 추상적 조언뿐, 자율신경계 물리적 재부팅 부재",
+        "급성 스트레스 폭발 시 심박변이도(HRV) 붕괴 및 파국적 의사결정(패닉 셀링, 사업 자진 포기)"
+      ]
+    },
+    solution: [
+      { step: 1, title: "실시간 HRV 생체 데이터 트래킹 (A층)", desc: "스마트워치/반지로 RMSSD 및 심박수 실시간 집계, 미주신경 과부하 임계치 자동 감지" },
+      { step: 2, title: "파국화 인지 왜곡 3중 해체 (C층)", desc: "소크라테스식 7문답 질문지로 '사업 실패=인생 끝장'이라는 뇌의 착각을 사실과 분리" },
+      { step: 3, title: "30초 생리학적 한숨 Rescue 가동 (X층)", desc: "스탠퍼드식 이중 흡기 호흡(Physiological Sigh)으로 30초 만에 자율신경계 급속 안정화" },
+      { step: 4, title: "60시간 Reentry 5분 마이크로 액션", desc: "'앞으로 60시간 동안 내가 통제할 수 있는 일 3가지'에만 집중시켜 240배 한계 돌파" }
+    ],
+    delight: {
+      killerFeatures: "• 30초 생리학적 한숨 시각/오디오 메트로놈 가이드\\n• 실시간 심박변이도(HRV) 기반 비상 SOS 위기 개입 핫라인\\n• 커트 릭터 1957 신경생리학 대조 60시간 리질리언스 지수 분석",
+      delightFactor: "4분 만에 가라앉던 절망적인 패닉 상태에서 30초 만에 뇌가 생존 통제권을 되찾는 압도적 해방감과 안도감"
+    },
+    persona: {
+      primary: "사업 실패, 투자 손실, 런웨이 고갈로 극심한 번아웃과 공황을 겪는 스타트업 창업가 및 펀드매니저",
+      secondary: "극심한 업무 스트레스와 팀 관리 압박에 짓눌린 C-Level 임원 및 수험생"
+    },
+    gtm: {
+      channel: "스타트업 창업가 커뮤니티(EO, 디스콰이엇), 헤지펀드/트레이더 단톡방, C레벨 네트워킹 모임",
+      leadMagnet: "'1957 익사 쥐 실험 기반 10초 뇌 생존 회복탄력성 자가진단표' 무료 배포"
+    },
+    ops: {
+      automation: "웨어러블 HRV 연동 모니터링 + 30초 오디오 가이드 자동 송출 + SOS 알림 봇 (운영 공수 85% 무인화)",
+      expansion: "B2C 8주 개인 집중 코스 ➔ B2B 테크 기업/투자사 임직원 EAP 구독 모델로 확장"
+    },
+    vipMaster: {
+      grandSlamOffer: {
+        dreamOutcome: "4분 만에 무기력하게 포기하던 뇌를 60시간 버티는 강철 회복탄력성 멘탈 OS로 개조",
+        perceivedLikelihood: "존스홉킨스 커트 릭터 실험 & 스탠퍼드 신경생리학 기반 30초 생리학적 한숨 (성공률 96.8%)",
+        timeDelay: "30초 만에 자율신경계 급속 진정 ➔ 8주 만에 번아웃 완전 극복",
+        effortSacrifice: "억지로 긍정적인 척 애쓸 필요 없이, 호흡 가이드에 맞춰 숨만 쉬고 5분 마이크로 액션 수행",
+        stack: [
+          { title: "코어: 8주 1:1 신경생리학 회복탄력성 집중 코칭 세션 (주 1회 60분)", value: "₩2,400,000 상당" },
+          { title: "보너스 1: 30초 생리학적 한숨 인터랙티브 바이오피드백 웹앱 (resilience_coach.html)", value: "₩500,000 상당" },
+          { title: "보너스 2: 24/7 비상 SOS 심박변이도(HRV) 위기 개입 핫라인", value: "₩600,000 상당" },
+          { title: "보너스 3: B2B 기업 C레벨 멘탈 EAP 관리 대시보드 리포트", value: "₩450,000 상당" }
+        ],
+        totalValue: "총 ₩3,950,000 상당의 패키지",
+        specialPrice: "개인 8주 집중 코스 ₩1,800,000 (기업 EAP 월 ₩3,500,000~)",
+        riskReversal: "첫 2주 수강 후 심박변이도(HRV) 안정화 및 번아웃 지수 50% 이상 개선되지 않을 시 100% 무조건 전액 환불!"
+      },
+      promptEngine: {
+        systemPrompt: `You are the Resilience-60 Neuro-Psychologist & High-Performance Resilience Coach AI, specialized in Curt Richter's (1957) Drowning Rat survival physiology and Stanford Neuroscience (Physiological Sigh, Vagal Tone regulation).
+
+[EVALUATION PROTOCOL]
+1. Parse user crisis input (burnout, startup runway exhaustion, portfolio crash, exam despair).
+2. Identify the 3 Major Cognitive Distortions:
+   - Catastrophizing (파국화)
+   - Personalization (개인화)
+   - All-or-Nothing Thinking (전부 아니면 전무)
+3. Deconstruct the "4-Minute Despair Loop" (Vagal shock caused by lack of hope).
+4. Prescribe the "30-Second Rescue-Reentry Protocol":
+   - Physiological Sigh (double inhale through nose, long slow exhale through mouth)
+   - 3 Socratic Dispute Inquiries separating Fact from Fiction
+   - 5-Minute Micro-Action Plan focused strictly on controllable variables for the next 60 hours.
+5. Tone: Calm, authoritative, scientific, intensely supportive and grounded.`,
+        apiSnippet: `// Node.js OpenAI GPT-4o Integration for Resilience Coaching
+import OpenAI from "openai";
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+async function analyzeCrisisAndPrescribeRescue(crisisText, hrvMetrics) {
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o",
+    messages: [
+      { role: "system", content: RESILIENCE_SYSTEM_PROMPT },
+      { role: "user", content: JSON.stringify({ crisis: crisisText, hrv: hrvMetrics }) }
+    ],
+    temperature: 0.3
+  });
+  return response.choices[0].message.content;
+}`
+      },
+      salesScripts: [
+        {
+          channel: "창업가 커뮤니티 (디스콰이엇, EO, 단톡방)",
+          title: "고통 공감 & 1957 익사 쥐 칼럼 ('4분 만에 멈추는 쥐 이야기')",
+          script: `[제목] 번아웃 온 대표님들, 당신이 나약해서 포기하는 게 아닙니다. (익사 쥐의 신경생리학)
+
+1957년 존스홉킨스 의대 커트 릭터 교수는 쥐를 수조에 넣었습니다.
+체력이 강한 야생 쥐조차 15분 만에 발길질을 멈추고 가라앉았습니다.
+부검 결과 지쳐서가 아니라 '희망이 없다'고 인지한 뇌의 미주신경 충격으로 심장이 멈춘 것이었습니다.
+
+하지만 가라앉기 직전 손으로 건져내 30초간 마른 수건에 올려둔 쥐는, 다시 수조에 넣자 '60시간(240배)'을 헤엄쳤습니다.
+차이는 체력이 아니라 '구원의 경험'이었습니다.
+
+런웨이 고갈, 투자 무산으로 밤마다 공황이 오는 창업가 대표님들,
+당신의 뇌를 30초 만에 리셋하고 다시 60시간을 버티게 만드는 '30초 구출-재진입' 프로토콜을 무료로 열어드립니다.
+👉 자가진단 링크: https://bizlaunch.ai/resilience`
+        },
+        {
+          channel: "인스타그램 릴스 / 유튜브 쇼츠",
+          title: "30초 충격 반전 숏폼 ('쥐는 왜 4분 만에 죽었을까?')",
+          script: `[화면: 물속으로 천천히 가라앉는 쥐의 일러스트 ➔ 연구원의 손이 건져 올리는 장면]
+(음성/자막): "쥐는 힘이 빠져서 익사한 게 아닙니다. 심장이 먼저 멈췄습니다."
+
+(본문): 
+"1957년 존스홉킨스 실험. 탈출구가 없다고 느낀 쥐는 15분 만에 심장을 스스로 멈췄습니다.
+하지만 죽기 직전 단 30초 동안 손으로 건져 올려준 쥐는, 다시 넣자 무려 '60시간'을 헤엄쳤습니다.
+
+당신이 사업 실패나 번아웃으로 무기력한 이유도 똑같습니다.
+당신이 게을러서가 아니라, 뇌의 미주신경이 출구가 없다고 착각해 전원을 내린 것입니다.
+프로필 링크에서 30초 만에 뇌의 생존 회로를 재가동하는 '생리학적 한숨' 프로토콜을 무료로 체험해보세요!"`
+        },
+        {
+          channel: "B2B C-Level / 투자사(VC) 1:1 제안",
+          title: "포트폴리오사 대표 번아웃 방지 EAP 제안",
+          script: `대표님 안녕하십니까! 
+스타트업 생태계에서 핵심 인재 및 대표이사의 번아웃으로 인한 의사결정 마비와 퇴사는 수억 원의 손실을 유발합니다.
+
+저희는 존스홉킨스 익사 쥐 신경생리학 기반 30초 Rescue-Reentry 프로토콜과 실시간 HRV 모니터링을 결합한 [Resilience-60] C-Level 전담 EAP를 운영하고 있습니다.
+
+핵심 인재의 번아웃 자진 퇴사율 65% 감소 및 위기 대응 의사결정 오류 88% 개선 효과를 제공합니다.
+이번 달 5개 사 한정 파일럿 도입 제안서를 보내드릴 수 있으니 편하게 회신 부탁드립니다. 감사합니다!`
+        }
+      ],
+      cashflowRoadmap: [
+        { week: "1주차: 익사 쥐 칼럼 바이럴 & 48시간 사전예약", targetRev: "₩3,600,000 (B2C 2건)", actions: ["디스콰이엇/링크드인에 '익사 쥐의 신경생리학과 번아웃' 아티클 기고", "아티클 조회수 8,000뷰 달성 및 30초 호흡 웹앱 무료 배포", "극심한 번아웃 창업가 2명 대상 8주 집중 코스(₩1,800,000) 첫 유료 결제 유치"] },
+        { week: "2주차: B2C 수강생 4명 완판 & HRV 모니터링 안착", targetRev: "₩7,200,000 (누적 4명)", actions: ["B2C 개인 집중 코스 1기 정원 4명 마감 (매출 ₩7,200,000 달성)", "애플워치/오라링 연동 실시간 HRV 자동 감시 루프 개시", "30초 생리학적 한숨 훈련 후 안정 시 심박수 18bpm 감소 실증"] },
+        { week: "3주차: 스타트업 VC/액셀러레이터 B2B EAP 제휴", targetRev: "₩10,700,000 (누적)", actions: ["초기 스타트업 투자사 10곳에 포트폴리오사 대표 멘탈 케어 EAP 제안서 발송", "팁스(TIPS) 운영사 1곳과 5개 포트폴리오사 대표 단체 구독 계약(월 ₩3,500,000) 체결", "총 누적 매출 1,000만 원 돌파"] },
+        { week: "4주차: 월 1,420만원 매출 & 순수익 1,240만원 안착", targetRev: "₩14,200,000 /월 (MRR 달성)", actions: ["B2C 개인 4명(₩7,200,000) + B2B 기업 2곳(₩7,000,000) 안정적 유지", "운영비(SaaS+파트너 코치 ₩1,800,000) 제외 순수익 ₩12,400,000 달성", "순마진율 87.3% 및 고단가 1인 멘탈 엔지니어링 기업 공식 안착"] }
+      ]
+    }
   }
 };
 
-class BlueprintScannerApp {
+// ==========================================================================
+// 2. 🎯 15대 고객 반론 극복 & 세일즈 클로징 데이터베이스 (OBJECTION_CRUSHING_DB)
+// ==========================================================================
+const OBJECTION_CRUSHING_DB = [
+  {
+    id: 1,
+    tag: "가격 저항",
+    question: "1. '월 39,000원도 영세 자영업자/직장인에겐 비싸게 느껴져요.'",
+    psychology: "고객은 지출 비용(3.9만 원)만 보고 자신이 아낄 수 있는 수백만 원의 손실을 인지하지 못하는 상태입니다.",
+    script: `<strong>[클로징 스크립트]</strong><br>
+"대표님, 완전히 이해합니다. 매달 나가는 고정비는 100원도 아까운 법이죠.<br>
+하지만 만약 브로커에게 300만 원 수수료를 떼이거나, 서류를 몰라 1,500만 원 공짜 지원금을 놓친다면 그 손실은 하루 1,300원(월 3.9만 원)의 몇 백 배에 달합니다.<br>
+하루 담배 반 갑, 커피 한 잔 값으로 1,500만 원의 국비를 100% 무인 확보하는 가장 확실한 투자입니다. 30일 내에 적격 지원금을 1건도 못 찾으시면 100% 전액 환불해 드립니다. 오늘 커피 한 잔으로 시작해 보세요!"`
+  },
+  {
+    id: 2,
+    tag: "효과 의심",
+    question: "2. '이거 쓴다고 정말 정부지원금 합격하거나 칼퇴가 되나요?'",
+    psychology: "사기나 허위 과장 광고에 대한 불안감과 탈락에 대한 두려움이 존재하는 상태입니다.",
+    script: `<strong>[클로징 스크립트]</strong><br>
+"정확한 질문이십니다. 뜬구름 잡는 일반 챗GPT와 달리, 저희 시스템은 중기부 전직 심사위원 평가 기준표 15개 항목과 대법원 판례 5만 건을 1:1 매칭하여 채점합니다.<br>
+이미 지난달에만 84명의 소상공인 대표님이 스마트상점 및 바우처 사업에서 평균 1,800만 원 수혜를 받으셨습니다. 결과물이 마음에 들지 않으시면 즉시 환불 버튼 하나로 돌려드립니다."`
+  },
+  {
+    id: 3,
+    tag: "AI 퀄리티 의심",
+    question: "3. 'AI로 작성하면 심사위원이 티 난다고 탈락시키지 않나요?'",
+    psychology: "AI 특유의 어색한 문체나 복붙 느낌으로 인해 불이익을 받을까 우려하는 심리입니다.",
+    script: `<strong>[클로징 스크립트]</strong><br>
+"가장 많은 분들이 오해하시는 부분입니다! 저희 엔진은 단순 텍스트 생성이 아니라, 실제 중기부 공무원들이 채점하는 '정량 지표(매출 성장률, 고용 효과, 예산 집행표)'를 표준 행정 서식에 맞춰 정확히 계산해 넣습니다.<br>
+오히려 손으로 대충 쓴 계획서보다 통계와 데이터 정합성이 완벽하여 심사위원 평가에서 10점 이상의 가점을 받습니다."`
+  },
+  {
+    id: 4,
+    tag: "무료 대안재",
+    question: "4. '무료 챗GPT나 네이버 검색해서 쓰면 되지 않나요?'",
+    psychology: "범용 AI 도구와 버티컬 전문 SaaS 솔루션의 본질적 차이를 아직 체감하지 못한 상태입니다.",
+    script: `<strong>[클로징 스크립트]</strong><br>
+"네, 챗GPT를 직접 쓰셔도 됩니다. 하지만 최신 정부 공고 1,200개를 실시간 크롤링하고, 사업자 자격 요건을 필터링하며, HWP 서식 규격에 맞춘 4단 표를 챗GPT 프롬프트로 직접 짜시려면 족히 20시간 이상 프롬프트 공부를 하셔야 합니다.<br>
+저희는 그 20시간의 삽질을 단 '10초 원클릭'으로 줄여드리는 것입니다. 대표님의 20시간 인건비는 3만 9천 원보다 훨씬 소중합니다."`
+  },
+  {
+    id: 5,
+    tag: "보안/정보 유출",
+    question: "5. '사업자등록번호나 회사 매출 데이터를 넣어도 안전한가요?'",
+    psychology: "개인정보 유출 및 국세청/경쟁사 유출에 대한 본능적인 프라이버시 방어 심리입니다.",
+    script: `<strong>[클로징 스크립트]</strong><br>
+"안심하셔도 좋습니다! 당사는 금융기관 수준의 AES-256 비트 종단간 암호화를 적용하며, 입력하신 데이터는 AI 학습용으로 절대 사용되지 않고 분석 즉시 파기됩니다.<br>
+또한 공공데이터포털(data.go.kr) 공식 API 인증 파트너로서 법적 규제를 100% 준수하고 있습니다."`
+  },
+  {
+    id: 6,
+    tag: "구독 락인 공포",
+    question: "6. '나중에 해지하기 어렵게 만들어 놓은 것 아닌가요?'",
+    psychology: "넷플릭스나 통신사처럼 해지 절차를 복잡하게 꼬아놓았을 것이라는 불신입니다.",
+    script: `<strong>[클로징 스크립트]</strong><br>
+"전혀 걱정하지 마세요. 로그인 후 마이페이지에서 [원클릭 즉시 해지] 버튼을 누르면 1초 만에 다음 달 결제가 자동 취소됩니다.<br>
+어떠한 위약금이나 수수료도 없으며, 해지 후에도 이미 다운로드받으신 서류는 평생 무료로 영구 소장하실 수 있습니다."`
+  }
+];
+
+// ==========================================================================
+// 3. 7단계 심층 소크라테스식 인터뷰 시나리오 트리 (SOCRATIC_DISCOVERY_STEPS)
+// ==========================================================================
+const SOCRATIC_DISCOVERY_STEPS = [
+  {
+    step: 1,
+    botMsg: `안녕하세요! <strong>PainFinder 100만원급 비즈니스 멘토 AI</strong>입니다.<br><br>` +
+            `우리는 뜬구름 잡는 아이디어를 만들지 않습니다. <strong>"사람들이 매일 겪으며 분노하고, 돈을 내고서라도 당장 해결하고 싶어 하는 진짜 고통"</strong>만 집요하게 파고들어 <strong>월 1,000만 원 순부수익</strong> 모델을 만듭니다.<br><br>` +
+            `먼저, <strong>누구의 어떤 순간에 발생하는 결정적 고통을 해결하고 싶으신가요?</strong> 아래에서 선택하거나 직접 입력해 주세요.`,
+    choices: [
+      "1. 🏪 소상공인: 지원금/세무 공고를 몰라 수천만원을 날리고 300만원 브로커에 의존",
+      "2. 💼 직장인/회계: 깨진 스캔 PDF/영수증 표를 엑셀에 손으로 치느라 매일 2시간 야근",
+      "3. 📚 직장인/성인: 책을 사놓고 완독 못하며 숏폼 도파민에 뇌가 절여져 내용 95% 휘발",
+      "4. 🏠 부동산/임차인: 전세 계약서 독소조항을 몰라 1억 보증금 떼일까 봐 불안에 떪",
+      "5. 🛍️ 이커머스 셀러: 상세페이지 외주비 50만원 부담 & 식약처 금지어 계정 정지 공포",
+      "6. 👴 은퇴/창직: 50대 진입을 앞두고 소득 절벽과 은퇴 불안은 크지만 무엇을 할지 막막함",
+      "7. 📱 숏폼/도파민: 릴스·쇼츠 알고리즘에 뇌가 절여져 집중력 붕괴 & 만성 무기력증에 시달림",
+      "8. 🐭 창업가/임원: 번아웃·투자손실에 4분 만에 포기하는 쥐처럼 무기력증에 빠져 재기 불가 (60시간 익사 쥐 회복탄력성)"
+    ],
+    feedback: "🎯 **100만원 컨설팅 조언**: 돈을 버는 비즈니스의 첫 단추는 '타깃 고객의 분노 유발 순간'을 명확히 정의하는 것입니다."
+  },
+  {
+    step: 2,
+    botMsg: `좋습니다! 그렇다면 그 고객이 이 문제를 겪을 때 <strong>실제로 잃어버리는 비용(시간, 돈, 기회비용)의 크기</strong>는 어느 정도인가요? 고통의 크기가 클수록 고객은 더 높은 가격을 기꺼이 지불합니다.`,
+    choices: [
+      "A. 매달 20~40시간 이상의 극심한 야근 및 수작업 시간 낭비 (시급 환산 월 50만원 손실)",
+      "B. 외주업체/브로커에게 건당 50~300만 원의 과도한 선금 수수료 강제 지출",
+      "C. 자칫 잘못하면 보증금 1억 손실이나 계정 정지 등 치명적인 파산 리스크",
+      "D. 비싼 교육비/학원비를 내고도 결과가 나오지 않는 기회비용 상실",
+      "E. 50대 은퇴 후 30년 생애 소득 크레바스 및 평생 커리어 사장(死藏)에 대한 실존적 공포",
+      "F. 하루 2~3시간씩 숏폼에 버려지는 뇌 피로, 업무 생산성 반토막 및 삶의 통제력 상실",
+      "G. 사업 포기, 패닉 매도, C레벨 번아웃 퇴사로 인한 수억 원대 기회비용 및 자포자기 침몰 손실"
+    ],
+    feedback: "💡 **수익화 분석**: 고객이 '잃고 있는 돈'이 월 50만 원 이상이라면, 우리 서비스가 월 3만~5만 원을 청구했을 때 고객은 '10배 이득'이라고 느껴 1초 만에 결제합니다!"
+  },
+  {
+    step: 3,
+    botMsg: `핵심을 찌르셨습니다. 그렇다면 <strong>현재 사람들은 이 문제를 해결하기 위해 어떤 차선책(대안)을 쓰고 있나요? 그리고 그 기존 대안의 치명적 결함은 무엇인가요?</strong>`,
+    choices: [
+      "1. 네이버 검색/유튜브를 뒤지지만 90%가 쓸모없는 광고성 글이라 시간만 낭비한다.",
+      "2. 외주/전문가에게 맡기지만 비용이 너무 비싸고 납기가 일주일 이상 걸린다.",
+      "3. 엑셀이나 수작업으로 때우지만 오류가 잦고 담당자가 바뀌면 관리가 안 된다.",
+      "4. 너무 복잡해서 그냥 포기하고 매달 수백만 원의 손해를 감수한다."
+    ],
+    feedback: "🔥 **킬러 기능 도출**: 기존 대안재의 빈틈이 바로 우리의 '킬러 기능'이 됩니다. '외주보다 100배 빠르고(10초), 비용은 1/10'이라는 가치 제안이 성립합니다."
+  },
+  {
+    step: 4,
+    botMsg: `이제 해결책을 구체화합시다. 만약 우리가 <strong>"사용자가 데이터 1개만 넣으면 AI가 10초 만에 완벽한 결과물을 만들어주는 무인 자동화 엔진"</strong>을 만든다면, 고객에게 어떤 <strong>극적인 감동(Delight Factor)</strong>을 안겨줄 수 있을까요?`,
+    choices: [
+      "✨ '300만 원 외주 비용이 0원이 되었다'는 압도적 금전 절감",
+      "✨ '매일 2시간 걸리던 야근 업무가 10초 만에 끝났다'는 전율의 칼퇴 해방감",
+      "✨ '1억 원 전세사기 독소조항을 붉은색으로 찾아냈다'는 소름 돋는 안도감",
+      "✨ '시작 첫날부터 바로 매출 3배 주문이 터졌다'는 즉각적 성공 체험"
+    ],
+    feedback: "❤️ **바이럴 통찰**: 단순 편의성이 아니라 '감정적 해방감(안도감/환호)'을 주는 제품이어야 입소문 바이럴이 폭발하고 이탈률이 2% 미만으로 떨어집니다."
+  },
+  {
+    step: 5,
+    botMsg: `완벽합니다! 마지막으로 <strong>수익 창출 공식</strong>입니다.<br><br>` +
+            `월 39,000원에 스탠다드 구독자 200명 + B2B 프로 89,000원에 30곳을 확보하면 <strong>월 1,025만 원의 순부수익</strong>이 달성됩니다.<br><br>` +
+            `아래의 <strong>[이 아이템으로 확정 & 100만원급 바이블 열기]</strong>를 누르시면, 오늘 당장 돈을 벌 수 있는 <strong>'그랜드슬램 오퍼, 실전 시스템 프롬프트, 10대 콜드 대본, 4주 로드맵'</strong>이 즉시 열립니다!`,
+    choices: [
+      "🚀 이 아이템으로 확정 & 100만원급 창업 바이블 열기",
+      "🔄 다른 산업 분야 불편함도 추가 탐색해보기"
+    ],
+    feedback: "💰 **축하합니다!** 월 1,000만원 자동화 비즈니스 모델이 완벽하게 정의되었습니다. 이제 VIP 실전 바이블을 통해 실행에 옮기세요!"
+  }
+];
+
+// 12대 산업 불편함 레이더 DB
+const INDUSTRY_PAIN_RADAR_DB = [
+  {
+    id: "p-gov",
+    industry: "b2b",
+    industryName: "소상공인 / 세무·지원금",
+    title: "정부지원금 공고 탐색 불가 & 300만원 브로커 수수료",
+    quote: "지원금이 수천만 원 있다는데 어디서 찾는지도 모르겠고, 사업계획서 양식(HWP)이 너무 복잡해서 브로커가 요구하는 300만 원 선금을 낼 수밖에 없어요.",
+    intensity: "🔥 초고통 (즉시 결제 의향 95%)",
+    target: "전국 600만 자영업자, 카페/식당/제조업 대표",
+    solutionIdea: "사업자 번호 입력 시 적격 지원금 3종 자동 매칭 + 합격형 사업계획서 3분 완성",
+    wtp: "월 ₩39,000 / 건당 ₩49,000",
+    modelRef: "gov-subsidy"
+  },
+  {
+    id: "p-pdf",
+    industry: "office",
+    industryName: "직장인 / 회계·총무",
+    title: "스캔 PDF 표 서식 깨짐 & 수작업 엑셀 타이핑 야근",
+    quote: "거래처에서 보내준 스캔 PDF나 영수증 표를 복사하면 줄이 다 깨져서 매일 밤 11시까지 일일이 손으로 엑셀에 타이핑하고 수식 검산하느라 미치겠어요.",
+    intensity: "🔥 초고통 (즉시 결제 의향 92%)",
+    target: "중소기업 총무/회계/영업관리 직장인, 1인 프리랜서",
+    solutionIdea: "비정형 PDF/이미지 표를 10초 만에 완벽한 피벗 테이블과 경영 보고서로 변환",
+    wtp: "월 ₩29,000 (기업 팀 ₩99,000)",
+    modelRef: "pdf-excel-parser"
+  },
+  {
+    id: "p-legal",
+    industry: "legal",
+    industryName: "부동산 / 계약·주거",
+    title: "전세 계약서 독소조항 무지와 전세사기 보증금 미반환 공포",
+    quote: "공인중개사가 주는 표준계약서에 숨겨진 불리한 특약 때문에 보증금 1억을 날릴까 봐 너무 무서운데, 변호사 상담료 30만 원은 부담스러워요.",
+    intensity: "🔥 초고통 (즉시 결제 의향 98%)",
+    target: "2030 사회초년생, 원룸/전세 임차인, 신혼부부",
+    solutionIdea: "계약서 사진 업로드 시 대법원 판례 기반 독소조항 붉은색 탐지 및 방어 특약 생성",
+    wtp: "건당 ₩9,900 / 공인중개사 월 ₩29,000",
+    modelRef: "legal-contract-audit"
+  },
+  {
+    id: "p-dirtyread",
+    industry: "edu",
+    industryName: "교육 / 자기계발·독서",
+    title: "사놓고 완독 못하는 책장 책 & 숏폼 도파민 뇌의 집중력 붕괴",
+    quote: "매달 책을 3~4권씩 사놓고 30페이지도 못 읽고 덮어버려요. 숏폼만 보다가 뇌가 굳어서 글을 읽어도 머리에 하나도 안 남고 자책감만 듭니다.",
+    intensity: "🔥 초고통 (즉시 결제 의향 94%)",
+    target: "독서 필요성은 절감하나 완독 실패하는 직장인, 취준생, 1인 창업가",
+    solutionIdea: "챕터별 강제 질문, 반론 메모, 3줄 아웃풋을 강제하는 인터랙티브 디지털 워크북 & 라이브 코칭",
+    wtp: "월 ₩35,000 / VIP 클럽 월 ₩89,000",
+    modelRef: "dirty-read-lab"
+  },
+  {
+    id: "p-retire",
+    industry: "retire",
+    industryName: "은퇴 / 1인 창직·신중년",
+    title: "50대 은퇴 후 소득 절벽 & 내 경험으로 무엇을 할지 모르는 실존적 불안",
+    quote: "정년이 2년 남았는데 퇴직금으로 치킨집이나 카페를 차리자니 망할까 봐 두렵고, 30년 동안 한 업무 말고는 세상 밖에서 뭘 해야 돈을 벌 수 있을지 너무 막막합니다.",
+    intensity: "🔥 초고통 (즉시 결제 의향 96%)",
+    target: "은퇴를 앞둔 40대 후반~50대 직장인, 퇴직 예정자, 신중년",
+    solutionIdea: "사용자의 평생 경험과 결정성 지능을 분석하여 지식 창업, 전자책 출판, 1:1 컨설팅 마스터플랜으로 자동 변환",
+    wtp: "월 ₩49,000 / VIP 코칭 ₩290,000",
+    modelRef: "post-career-architect"
+  },
+  {
+    id: "p-deepfocus",
+    industry: "focus",
+    industryName: "멘탈 / 도파민 디톡스·집중력",
+    title: "릴스·쇼츠 알고리즘에 중독된 뇌의 집중력 붕괴 & 만성 무기력증",
+    quote: "퇴근 후 침대에서 숏폼을 2~3시간씩 멍하니 넘기다 새벽에 자고, 책 5페이지도 못 읽으며 집중력이 완전히 산산조각 났습니다. 삶을 통제하지 못한다는 자괴감이 듭니다.",
+    intensity: "🔥 초고통 (즉시 결제 의향 95%)",
+    target: "숏폼 중독으로 업무 집중도가 떨어지고 무기력함을 느끼는 20~40대 직장인",
+    solutionIdea: "스마트폰 강제 통제, 45분 딥다이브 타이머, 텍스트 몰입 훈련 미션을 수행하는 21일 챌린지 및 1:1 딥코칭",
+    wtp: "월 ₩49,000 / VIP 코칭 ₩250,000",
+    modelRef: "deepfocus-21"
+  },
+  {
+    id: "p-resilience",
+    industry: "focus",
+    industryName: "멘탈 / 신경생리학·회복탄력성",
+    title: "번아웃·사업실패 시 4분 만에 포기하는 쥐처럼 무기력증에 빠지는 공포",
+    quote: "투자 유치가 무산되고 런웨이가 고갈되자 15분 만에 침몰한 쥐처럼 뇌가 마비되어 아무것도 못하고 자포자기 상태에 빠졌습니다.",
+    intensity: "🔥 초고통 (즉시 결제 의향 99%)",
+    target: "극심한 스트레스와 실패 위기에 노출된 창업가, 펀드매니저, 고강도 수험생",
+    solutionIdea: "1957 익사 쥐 신경생리학 기반 30초 구출-재진입(Rescue-Reentry) 프로토콜 및 실시간 HRV 코칭",
+    wtp: "8주 코스 ₩1,800,000 / B2B 월 ₩3,500,000",
+    modelRef: "resilience-60h"
+  }
+];
+
+// 5단계 35개 실행 체크리스트
+const BASE_CHECKLIST_TEMPLATE = [
+  { id: "c1", phase: 1, phaseName: "1단계: 시장 검증 (D-1~7)", title: "잠재 고객 10명 심층 인터뷰 (IDI)", desc: "타깃 고객을 찾아 핵심 불편함(Pain Point)과 기존 대안재의 불만을 구체적으로 녹취 및 문서화", duration: "D-1~2" },
+  { id: "c2", phase: 1, phaseName: "1단계: 시장 검증 (D-1~7)", title: "경쟁 서비스 5곳 벤치마킹 및 빈틈 분석", desc: "경쟁사 가격, 약점 리뷰, 미충족 기능을 매트릭스로 정리하여 킬러 기능 정의", duration: "D-3" },
+  { id: "c3", phase: 1, phaseName: "1단계: 시장 검증 (D-1~7)", title: "원페이지 사전 예약(스모크 테스트) 랜딩페이지 제작", desc: "Framer/Notion/HTML로 핵심 가치 제안 및 '출시 알림 받기' 이메일 수집 폼 개설", duration: "D-4~5" },
+  { id: "c4", phase: 1, phaseName: "1단계: 시장 검증 (D-1~7)", title: "타깃 커뮤니티 3곳에 문제 제기 글 시딩", desc: "직접적인 홍보가 아닌 '이런 불편함 저만 겪나요?' 공감 글 작성 후 반응률 테스트", duration: "D-6" },
+  { id: "c5", phase: 1, phaseName: "1단계: 시장 검증 (D-1~7)", title: "사전 예약자 50명 확보 및 시장성 Go/No-Go 판정", desc: "전환율 10% 이상 달성 시 본격 개발 착수, 미달 시 가치 제안 문구 수정", duration: "D-7" },
+
+  { id: "c6", phase: 2, phaseName: "2단계: MVP 구축 (D-8~14)", title: "핵심 킬러 기능 1가지 정의 (Feature Freeze)", desc: "모든 부가 기능을 배제하고 고객의 고통을 즉각 해결하는 단 하나의 엔진에 집중", duration: "D-8" },
+  { id: "c7", phase: 2, phaseName: "2단계: MVP 구축 (D-8~14)", title: "UI/UX 와이어프레임 및 디자인 시스템 구축", desc: "Vercel/Linear 스타일의 세련된 다크 글래스모피즘 인터페이스 설계", duration: "D-9" },
+  { id: "c8", phase: 2, phaseName: "2단계: MVP 구축 (D-8~14)", title: "프론트엔드 인터랙션 및 상태 관리 구현", desc: "사용자 입력, 파일 업로드, 실시간 계산 및 반응형 웹 레이아웃 완성", duration: "D-10~11" },
+  { id: "c9", phase: 2, phaseName: "2단계: MVP 구축 (D-8~14)", title: "AI 엔진 (LLM / OCR / RAG) 파이프라인 연동", desc: "OpenAI/Claude API 및 정밀 프롬프트 템플릿 결합으로 고품질 결과물 생성 보장", duration: "D-12~13" },
+  { id: "c10", phase: 2, phaseName: "2단계: MVP 구축 (D-8~14)", title: "사전 예약자 10명 대상 클로즈드 알파 테스트", desc: "핵심 유저 10명에게 직접 사용하게 하고 버그 및 첫인상 피드백 즉시 개선", duration: "D-14" },
+
+  { id: "c11", phase: 3, phaseName: "3단계: 결제·법률 (D-15~21)", title: "개인사업자등록 및 통신판매업 신고", desc: "홈택스 및 정부24를 통해 온라인 서비스 판매를 위한 기본 인허가 완료", duration: "D-15" },
+  { id: "c12", phase: 3, phaseName: "3단계: 결제·법률 (D-15~21)", title: "토스페이먼츠 / 포트원 결제 모듈 연동", desc: "정기구독(빌링) 및 단건 결제 PG사 심사 신청 및 웹 결제창 연동", duration: "D-16~17" },
+  { id: "c13", phase: 3, phaseName: "3단계: 결제·법률 (D-15~21)", title: "이용약관 및 개인정보처리방침 표준안 게시", desc: "전자상거래법 및 개인정보보호법 준수를 위한 필수 정책 페이지 하단 배치", duration: "D-18" },
+  { id: "c14", phase: 3, phaseName: "3단계: 결제·법률 (D-15~21)", title: "3티어(Free/Standard/Pro) 가격 정책 확정", desc: "월 1,000만원 달성을 위한 최적의 유료 전환 가격대 및 크레딧 제한선 설정", duration: "D-19" },
+  { id: "c15", phase: 3, phaseName: "3단계: 결제·법률 (D-15~21)", title: "실결제 및 환불 프로세스 엔드투엔드(E2E) 테스트", desc: "100원 테스트 결제, 구독 갱신, 취소/환불 시 자동 권한 회수 로직 검증", duration: "D-20~21" },
+
+  { id: "c16", phase: 4, phaseName: "4단계: 바이럴·런칭 (D-22~28)", title: "고전환 세일즈 랜딩페이지 정식 오픈", desc: "사회적 증거(후기), 비포/애프터 비교, 100% 환불 보장 문구 전면 배치", duration: "D-22" },
+  { id: "c17", phase: 4, phaseName: "4단계: 바이럴·런칭 (D-22~28)", title: "사전 예약자 50명 대상 런칭 특별 50% 할인 메일 발송", desc: "D-Day 런칭 공지와 함께 72시간 한정 특가로 첫 유료 결제 고객 전환 유도", duration: "D-23" },
+  { id: "c18", phase: 4, phaseName: "4단계: 바이럴·런칭 (D-22~28)", title: "숏폼 릴스/쇼츠 5편 제작 및 업로드", desc: "'이거 모르고 야근하지 마세요' 스타일의 고통 유발 및 해결 30초 숏폼 배포", duration: "D-24~25" },
+  { id: "c19", phase: 4, phaseName: "4단계: 바이럴·런칭 (D-22~28)", title: "타깃 카페 및 오픈카톡방 무료 체험 이벤트 진행", desc: "'선착순 30명 무료 진단/생성권 증정' 이벤트로 강력한 바이럴 입소문 유발", duration: "D-26~27" },
+  { id: "c20", phase: 4, phaseName: "4단계: 바이럴·런칭 (D-22~28)", title: "런칭 첫 주 유료 결제 30명 돌파 및 1차 리뷰 수집", desc: "첫 결제 고객들에게 감사의 친필 이메일을 보내고 솔직한 텍스트/영상 후기 확보", duration: "D-28" },
+
+  { id: "c21", phase: 5, phaseName: "5단계: 무인화·확장 (D-29~)", title: "CS 문의 자동 응대 채널톡/챗봇 셋업", desc: "자주 묻는 질문(FAQ) 90%를 AI 챗봇이 자동 처리하도록 구성해 시간 확보", duration: "D-29" },
+  { id: "c22", phase: 5, phaseName: "5단계: 무인화·확장 (D-29~)", title: "구독 해지 방어(Churn Reduction) 시나리오 가동", desc: "해지 버튼 클릭 시 30% 추가 할인 또는 무료 크레딧을 제안하여 이탈률 3% 이하 유지", duration: "D-30" },
+  { id: "c23", phase: 5, phaseName: "5단계: 무인화·확장 (D-29~)", title: "친구 추천(Referral) 바이럴 리워드 시스템 오픈", desc: "친구 초대 시 추천인과 피추천인 모두에게 1개월 무료 혜택 제공", duration: "D-31~32" },
+  { id: "c24", phase: 5, phaseName: "5단계: 무인화·확장 (D-29~)", title: "B2B 단체 라이선스 및 협회 제휴 제안서 발송", desc: "관련 협회, 프랜차이즈 본사, 대형 커뮤니티에 단체 할인 패키지 제안", duration: "D-33~34" },
+  { id: "c25", phase: 5, phaseName: "5단계: 무인화·확장 (D-29~)", title: "월 1,000만원 달성 모니터링 및 2차 제품군 확장", desc: "유료 구독자 200명+ 안정화 확인 후 연관 부가 서비스 런칭으로 LTV 극대화", duration: "D-35" }
+];
+
+// ==========================================================================
+// 4. PainFinderApp 메인 클래스
+// ==========================================================================
+class PainFinderApp {
   constructor() {
-    this.currentSampleKey = "medium-musical";
-    this.currentSelectedPinId = "pin-1";
-    this.zoomScale = 1.0;
-    this.svgElement = document.getElementById('blueprintSvg');
-    this.pinsOverlay = document.getElementById('blueprintPinsOverlay');
-    this.stage = document.getElementById('blueprintStage');
-    this.activeLayers = {
-      violations: true,
-      dimensions: true,
-      bf: true,
-      fire: true
+    this.models = { ...BIZ_MODELS_DB };
+    this.currentModelId = "gov-subsidy";
+    this.currentPlaybookSubtab = "offer";
+    this.checklistState = this.loadChecklistState();
+    this.discoveryStep = 1;
+    this.discoveredItem = {
+      target: "전국 600만 소상공인, 요식업/카페/제조업 대표",
+      pain: "지원금 공고를 모르거나 복잡한 HWP 서류에 막혀 수천만 원 혜택을 놓치고 브로커에 300만원을 뜯김",
+      solution: "사업자 번호만 입력하면 적격 지원금 3종 자동 매칭 + 심사 기준 맞춤 사업계획서 3분 완성",
+      monetization: "스탠다드 월 ₩39,000 × 200명 + 프로 ₩89,000 × 30곳 ➔ 월 1,025만 원 순부수익",
+      modelRef: "gov-subsidy",
+      score: 99
     };
+
+    this.isVip = this.loadVipState();
+    this.userApiKey = localStorage.getItem("painfinder_openai_key") || "";
+
+    this.initElements();
+    this.initEventListeners();
+    this.initCountdownTimer();
+    this.initSocialProofEngine();
+    this.updateVipUI();
+    this.restoreSavedProject();
+    this.renderAll();
   }
 
-  init() {
-    this.bindEvents();
-    this.loadSample(this.currentSampleKey);
+  initElements() {
+    this.tabs = document.querySelectorAll(".tab-item");
+    this.tabPanes = document.querySelectorAll(".tab-pane");
+
+    // Discovery Elements
+    this.discoveryChatMessages = document.getElementById("discoveryChatMessages");
+    this.discoveryChoiceBar = document.getElementById("discoveryChoiceBar");
+    this.discoveryTextInput = document.getElementById("discoveryTextInput");
+    this.btnSendDiscoveryMessage = document.getElementById("btnSendDiscoveryMessage");
+    this.btnResetDiscoveryChat = document.getElementById("btnResetDiscoveryChat");
+    this.btnAdoptFoundItem = document.getElementById("btnAdoptFoundItem");
+    this.aiCoachFeedbackBox = document.getElementById("aiCoachFeedbackBox");
+    this.aiCoachFeedbackContent = document.getElementById("aiCoachFeedbackContent");
+
+    // Spec Sheet Elements
+    this.specTargetCustomer = document.getElementById("specTargetCustomer");
+    this.specCorePain = document.getElementById("specCorePain");
+    this.specSolution = document.getElementById("specSolution");
+    this.specMonetization = document.getElementById("specMonetization");
+    this.specStatusTag = document.getElementById("specStatusTag");
+    this.discoveryScoreCard = document.getElementById("discoveryScoreCard");
+    this.headerCurrentItemName = document.getElementById("headerCurrentItemName");
+    this.headerViabilityScore = document.getElementById("headerViabilityScore");
+
+    // Playbook & Objection Elements
+    this.playbookStageContainer = document.getElementById("playbookStageContainer");
+    this.playbookHeroItemName = document.getElementById("playbookHeroItemName");
+    this.playbookSubnavBtns = document.querySelectorAll(".pb-subnav-btn");
+    this.objectionQaGrid = document.getElementById("objectionQaGrid");
+
+    // Radar & Other Elements
+    this.radarCategoryBar = document.getElementById("radarCategoryBar");
+    this.radarPainsGrid = document.getElementById("radarPainsGrid");
+    this.ideasCardsGrid = document.getElementById("ideasCardsGrid");
+    this.sandboxInteractiveStage = document.getElementById("sandboxInteractiveStage");
+    this.checklistContainer = document.getElementById("checklistContainer");
+    this.checklistMeterFill = document.getElementById("checklistMeterFill");
+    this.checklistMeterTxt = document.getElementById("checklistMeterTxt");
+    this.checklistProgressBadge = document.getElementById("checklistProgressBadge");
+    this.landingPreviewContainer = document.getElementById("landingPreviewContainer");
+    this.printableReportPaper = document.getElementById("printableReportPaper");
+
+    // Simulator
+    this.inputStandardPrice = document.getElementById("inputStandardPrice");
+    this.valStandardPrice = document.getElementById("valStandardPrice");
+    this.inputStandardUsers = document.getElementById("inputStandardUsers");
+    this.valStandardUsers = document.getElementById("valStandardUsers");
+    this.inputProPrice = document.getElementById("inputProPrice");
+    this.valProPrice = document.getElementById("valProPrice");
+    this.inputProUsers = document.getElementById("inputProUsers");
+    this.valProUsers = document.getElementById("valProUsers");
+    this.inputOpsCost = document.getElementById("inputOpsCost");
+    this.valOpsCost = document.getElementById("valOpsCost");
+
+    this.mrrNetProfitAmount = document.getElementById("mrrNetProfitAmount");
+    this.mrrProgressBarFill = document.getElementById("mrrProgressBarFill");
+    this.mrrTargetPercent = document.getElementById("mrrTargetPercent");
+    this.mrrGrossAmount = document.getElementById("mrrGrossAmount");
+    this.mrrCostAmount = document.getElementById("mrrCostAmount");
+    this.mrrMarginAmount = document.getElementById("mrrMarginAmount");
+    this.mrrArrAmount = document.getElementById("mrrArrAmount");
+    this.mrrFormulaInsightText = document.getElementById("mrrFormulaInsightText");
+    this.simStatusTag = document.getElementById("simStatusTag");
+
+    // Stress Testing Inputs
+    this.inputCacCost = document.getElementById("inputCacCost");
+    this.inputChurnRate = document.getElementById("inputChurnRate");
+    this.inputRefundRate = document.getElementById("inputRefundRate");
+    this.valCacCost = document.getElementById("valCacCost");
+    this.valChurnRate = document.getElementById("valChurnRate");
+    this.valRefundRate = document.getElementById("valRefundRate");
+    this.valLtvAmount = document.getElementById("valLtvAmount");
+    this.valLtvCacRatio = document.getElementById("valLtvCacRatio");
+    this.valBepUsers = document.getElementById("valBepUsers");
+    this.valRealNetMrr = document.getElementById("valRealNetMrr");
+    this.badgeStressVerdict = document.getElementById("badgeStressVerdict");
+
+    // Monetization & Modal Elements
+    this.modalCheckout = document.getElementById("modalCheckout");
+    this.modalApiKey = document.getElementById("modalApiKey");
+    this.btnOpenCheckout = document.getElementById("btnOpenCheckout");
+    this.btnBannerCheckout = document.getElementById("btnBannerCheckout");
+    this.btnCloseCheckoutModal = document.getElementById("btnCloseCheckoutModal");
+    this.btnExecutePayment = document.getElementById("btnExecutePayment");
+    this.txtVipBtnLabel = document.getElementById("txtVipBtnLabel");
+    this.btnOpenApiKeyModal = document.getElementById("btnOpenApiKeyModal");
+    this.btnCloseApiKeyModal = document.getElementById("btnCloseApiKeyModal");
+    this.inputUserApiKey = document.getElementById("inputUserApiKey");
+    this.btnSaveApiKey = document.getElementById("btnSaveApiKey");
+    this.btnClearApiKey = document.getElementById("btnClearApiKey");
+    this.btnSaveProject = document.getElementById("btnSaveProject");
+    this.btnExportProject = document.getElementById("btnExportProject");
+    this.socialProofToastContainer = document.getElementById("socialProofToastContainer");
   }
 
-  bindEvents() {
-    // Sample blueprint buttons
-    const sampleChips = document.querySelectorAll('.sample-chip');
-    sampleChips.forEach(chip => {
-      chip.addEventListener('click', (e) => {
-        sampleChips.forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-        const key = chip.getAttribute('data-sample');
-        this.loadSample(key);
+  initEventListeners() {
+    this.tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        const targetTab = tab.getAttribute("data-tab");
+        this.switchTab(targetTab);
       });
     });
 
-    // File Upload handling
-    const fileInput = document.getElementById('blueprintFileInput');
-    const btnBrowse = document.getElementById('btnBrowseBlueprint');
-    const dropzone = document.getElementById('blueprintDropzone');
-
-    if (btnBrowse && fileInput) {
-      btnBrowse.addEventListener('click', (e) => {
-        e.stopPropagation();
-        fileInput.click();
+    this.playbookSubnavBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        this.playbookSubnavBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        this.currentPlaybookSubtab = btn.getAttribute("data-subtab");
+        this.renderMonetizationPlaybook();
       });
-    }
-
-    if (dropzone && fileInput) {
-      dropzone.addEventListener('click', () => fileInput.click());
-      dropzone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropzone.style.borderColor = 'var(--accent-primary)';
-      });
-      dropzone.addEventListener('dragleave', () => {
-        dropzone.style.borderColor = 'var(--border-medium)';
-      });
-      dropzone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropzone.style.borderColor = 'var(--border-medium)';
-        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-          this.handleFileUpload(e.dataTransfer.files[0]);
-        }
-      });
-      fileInput.addEventListener('change', (e) => {
-        if (e.target.files && e.target.files[0]) {
-          this.handleFileUpload(e.target.files[0]);
-        }
-      });
-    }
-
-    // Zoom & Reset Controls
-    const btnZoomIn = document.getElementById('btnZoomIn');
-    const btnZoomOut = document.getElementById('btnZoomOut');
-    const btnZoomReset = document.getElementById('btnZoomReset');
-
-    if (btnZoomIn) {
-      btnZoomIn.addEventListener('click', () => {
-        this.zoomScale = Math.min(this.zoomScale + 0.15, 2.5);
-        this.applyZoom();
-      });
-    }
-    if (btnZoomOut) {
-      btnZoomOut.addEventListener('click', () => {
-        this.zoomScale = Math.max(this.zoomScale - 0.15, 0.6);
-        this.applyZoom();
-      });
-    }
-    if (btnZoomReset) {
-      btnZoomReset.addEventListener('click', () => {
-        this.zoomScale = 1.0;
-        this.applyZoom();
-      });
-    }
-
-    // Layer Toggles
-    const chkLayerViolations = document.getElementById('chkLayerViolations');
-    const chkLayerDimensions = document.getElementById('chkLayerDimensions');
-    const chkLayerBF = document.getElementById('chkLayerBF');
-    const chkLayerFire = document.getElementById('chkLayerFire');
-
-    if (chkLayerViolations) {
-      chkLayerViolations.addEventListener('change', (e) => {
-        this.activeLayers.violations = e.target.checked;
-        if (this.pinsOverlay) this.pinsOverlay.style.display = e.target.checked ? 'block' : 'none';
-      });
-    }
-    if (chkLayerDimensions) {
-      chkLayerDimensions.addEventListener('change', (e) => {
-        this.activeLayers.dimensions = e.target.checked;
-        this.toggleSvgLayer('layer-dimensions', e.target.checked);
-      });
-    }
-    if (chkLayerBF) {
-      chkLayerBF.addEventListener('change', (e) => {
-        this.activeLayers.bf = e.target.checked;
-        this.toggleSvgLayer('layer-bf', e.target.checked);
-      });
-    }
-    if (chkLayerFire) {
-      chkLayerFire.addEventListener('change', (e) => {
-        this.activeLayers.fire = e.target.checked;
-        this.toggleSvgLayer('layer-fire', e.target.checked);
-      });
-    }
-
-    // Export Audit Report Button
-    const btnExportAudit = document.getElementById('btnExportBlueprintAudit');
-    if (btnExportAudit) {
-      btnExportAudit.addEventListener('click', () => this.exportBlueprintAuditReport());
-    }
-  }
-
-  applyZoom() {
-    if (this.stage) {
-      this.stage.style.transform = `scale(${this.zoomScale})`;
-    }
-  }
-
-  toggleSvgLayer(layerClass, isVisible) {
-    const elements = document.querySelectorAll(`.${layerClass}`);
-    elements.forEach(el => {
-      el.style.display = isVisible ? 'inline' : 'none';
     });
+
+    document.getElementById("btnRestartDiscovery")?.addEventListener("click", () => {
+      this.resetDiscovery();
+    });
+    document.getElementById("btnHeaderExportPlan")?.addEventListener("click", () => {
+      this.switchTab("report");
+    });
+
+    this.btnSendDiscoveryMessage?.addEventListener("click", () => this.handleDiscoveryInput());
+    this.discoveryTextInput?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        this.handleDiscoveryInput();
+      }
+    });
+    this.btnResetDiscoveryChat?.addEventListener("click", () => this.resetDiscovery());
+    this.btnAdoptFoundItem?.addEventListener("click", () => this.adoptCurrentDiscoveredItem());
+
+    [this.inputStandardPrice, this.inputStandardUsers, this.inputProPrice, this.inputProUsers, this.inputOpsCost].forEach(s => {
+      s?.addEventListener("input", () => this.updateSimulatorCalculations());
+    });
+
+    document.querySelectorAll(".phase-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".phase-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const phase = btn.getAttribute("data-phase");
+        this.renderChecklist(phase);
+      });
+    });
+
+    document.querySelectorAll("#galleryFilterGroup .filter-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("#galleryFilterGroup .filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const filter = btn.getAttribute("data-filter");
+        this.renderCardsGrid(filter);
+      });
+    });
+
+    document.getElementById("btnResetChecklist")?.addEventListener("click", () => {
+      if (confirm("모든 체크리스트 진행 상황을 초기화하시겠습니까?")) {
+        this.checklistState = {};
+        this.saveChecklistState();
+        this.renderChecklist();
+      }
+    });
+    document.getElementById("btnExportChecklist")?.addEventListener("click", () => {
+      this.exportChecklistMarkdown();
+    });
+
+    document.getElementById("btnCopyLandingHtml")?.addEventListener("click", () => this.copyLandingHtml());
+    document.getElementById("btnPreviewLandingNewTab")?.addEventListener("click", () => this.openLandingInNewTab());
+
+    document.getElementById("btnCopyReportMarkdown")?.addEventListener("click", () => this.copyReportMarkdown());
+    document.getElementById("btnPrintReportPdf")?.addEventListener("click", () => window.print());
+
+    // Stress test input listeners
+    [this.inputCacCost, this.inputChurnRate, this.inputRefundRate].forEach(s => {
+      s?.addEventListener("input", () => this.updateSimulatorCalculations());
+    });
+
+    // Modal & VIP listeners
+    this.btnOpenCheckout?.addEventListener("click", () => this.openCheckoutModal());
+    this.btnBannerCheckout?.addEventListener("click", () => this.openCheckoutModal());
+    this.btnCloseCheckoutModal?.addEventListener("click", () => this.closeCheckoutModal());
+    this.modalCheckout?.addEventListener("click", (e) => {
+      if (e.target === this.modalCheckout) this.closeCheckoutModal();
+    });
+
+    this.btnExecutePayment?.addEventListener("click", () => this.executePaymentFlow());
+
+    this.btnOpenApiKeyModal?.addEventListener("click", () => this.openApiKeyModal());
+    this.btnCloseApiKeyModal?.addEventListener("click", () => this.closeApiKeyModal());
+    this.modalApiKey?.addEventListener("click", (e) => {
+      if (e.target === this.modalApiKey) this.closeApiKeyModal();
+    });
+    this.btnSaveApiKey?.addEventListener("click", () => this.saveUserApiKey());
+    this.btnClearApiKey?.addEventListener("click", () => this.clearUserApiKey());
+
+    this.btnSaveProject?.addEventListener("click", () => this.saveCurrentProject());
+    this.btnExportProject?.addEventListener("click", () => this.exportProjectJson());
   }
 
-  handleFileUpload(file) {
-    showToast(`도면 파일 [${file.name}] 을 분석 중입니다... AI Vision 엔진 가동`);
+  switchTab(tabName) {
+    this.tabs.forEach(t => {
+      if (t.getAttribute("data-tab") === tabName) {
+        t.classList.add("active");
+      } else {
+        t.classList.remove("active");
+      }
+    });
+
+    this.tabPanes.forEach(pane => {
+      if (pane.id === `tab-${tabName}`) {
+        pane.classList.add("active");
+      } else {
+        pane.classList.remove("active");
+      }
+    });
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    if (tabName === "playbook") this.renderMonetizationPlaybook();
+    if (tabName === "objection") this.renderObjectionCrushing();
+    if (tabName === "strategy") this.renderStrategyCanvas();
+    if (tabName === "sandbox") this.renderSandbox();
+    if (tabName === "landing") this.renderLandingPreview();
+    if (tabName === "report") this.renderReportPaper();
+  }
+
+  renderAll() {
+    this.renderDiscoveryChat();
+    this.renderMonetizationPlaybook();
+    this.renderObjectionCrushing();
+    this.renderPainRadar();
+    this.renderCardsGrid();
+    this.renderStrategyCanvas();
+    this.renderSandbox();
+    this.updateSimulatorCalculations();
+    this.renderChecklist();
+    this.renderLandingPreview();
+    this.renderReportPaper();
+
+    if (window.lucide) lucide.createIcons();
+  }
+
+  // [1] AI 집요한 고통 발굴실 인터뷰 엔진
+  renderDiscoveryChat() {
+    if (!this.discoveryChatMessages) return;
+    this.discoveryChatMessages.innerHTML = "";
+
+    const stepData = SOCRATIC_DISCOVERY_STEPS.find(s => s.step === this.discoveryStep) || SOCRATIC_DISCOVERY_STEPS[0];
     
-    // Simulate AI Vision Scan
-    const titleEl = document.getElementById('currentViewerDocTitle');
-    if (titleEl) titleEl.innerText = `[업로드 도면 분석] ${file.name}`;
+    this.appendDiscoveryMsg("bot", stepData.botMsg);
+    this.renderDiscoveryChoices(stepData.choices);
+
+    if (stepData.feedback && this.aiCoachFeedbackBox) {
+      this.aiCoachFeedbackBox.style.display = "block";
+      this.aiCoachFeedbackContent.innerHTML = stepData.feedback;
+    }
+
+    const stepCounter = document.getElementById("discoveryStepCount");
+    if (stepCounter) stepCounter.textContent = `Step ${this.discoveryStep}/5`;
+    this.updateSpecSheetUI();
+  }
+
+  renderDiscoveryChoices(choices) {
+    if (!this.discoveryChoiceBar) return;
+    this.discoveryChoiceBar.innerHTML = "";
+
+    if (!choices || choices.length === 0) {
+      this.discoveryChoiceBar.style.display = "none";
+      return;
+    }
+
+    this.discoveryChoiceBar.style.display = "flex";
+    choices.forEach(choice => {
+      const chip = document.createElement("button");
+      chip.className = "choice-chip";
+      chip.textContent = choice;
+      chip.addEventListener("click", () => {
+        this.processDiscoveryChoice(choice);
+      });
+      this.discoveryChoiceBar.appendChild(chip);
+    });
+  }
+
+  processDiscoveryChoice(choiceText) {
+    this.appendDiscoveryMsg("user", choiceText);
+
+    if (this.discoveryStep === 1) {
+      if (choiceText.includes("소상공인")) {
+        this.discoveredItem.target = "전국 600만 소상공인, 요식업/카페/제조업 대표";
+        this.discoveredItem.modelRef = "gov-subsidy";
+      } else if (choiceText.includes("독서") || choiceText.includes("도파민") || choiceText.includes("완독")) {
+        this.discoveredItem.target = "독서 필요성은 절감하지만 완독에 매번 실패하는 2040 직장인 및 취준생";
+        this.discoveredItem.modelRef = "dirty-read-lab";
+      } else if (choiceText.includes("직장인") || choiceText.includes("회계")) {
+        this.discoveredItem.target = "중소기업 총무/회계/영업관리 담당 직장인, 1인 프리랜서";
+        this.discoveredItem.modelRef = "pdf-excel-parser";
+      } else if (choiceText.includes("부동산") || choiceText.includes("임차인")) {
+        this.discoveredItem.target = "2030 사회초년생, 원룸/오피스텔 전세 임차인, 신혼부부";
+        this.discoveredItem.modelRef = "legal-contract-audit";
+      } else if (choiceText.includes("은퇴") || choiceText.includes("창직") || choiceText.includes("50대")) {
+        this.discoveredItem.target = "은퇴를 앞두고 제2의 인생을 준비하는 40대 후반~50대 직장인";
+        this.discoveredItem.pain = "50대 진입을 앞두고 은퇴 이후의 삶과 소득 절벽이 두렵지만 막상 무엇을 준비해야 할지 방향을 잡지 못함";
+        this.discoveredItem.solution = "평생 경험과 결정성 지능을 분석하여 1인 창직(지식 창업, 컨설팅, 1인 출판) 마스터플랜 설계";
+        this.discoveredItem.monetization = "스탠다드 월 ₩49,000 × 120명 + VIP 마스터클래스 ₩290,000 × 18명 ➔ 월 1,040만 원 순부수익";
+        this.discoveredItem.modelRef = "post-career-architect";
+      } else if (choiceText.includes("숏폼") || choiceText.includes("도파민") || choiceText.includes("DeepFocus")) {
+        this.discoveredItem.target = "숏폼 중독으로 업무 집중도가 떨어지고 무기력함을 느끼는 20~40대 직장인";
+        this.discoveredItem.pain = "릴스, 쇼츠, 틱톡 알고리즘에 중독되어 긴 글을 읽지 못하고 깊은 집중력이 완전히 붕괴됨";
+        this.discoveredItem.solution = "스마트폰 사용 시간 강제 통제, 45분 딥다이브 몰입 타이머, 텍스트 몰입 훈련 21일 챌린지";
+        this.discoveredItem.monetization = "스탠다드 월 ₩49,000 × 150명 + 1:1 딥코칭 ₩250,000 × 12명 ➔ 월 1,035만 원 순부수익";
+        this.discoveredItem.modelRef = "deepfocus-21";
+      }
+      this.discoveredItem.score = 85;
+    } else if (this.discoveryStep === 2) {
+      this.discoveredItem.pain = choiceText;
+      this.discoveredItem.score = 90;
+    } else if (this.discoveryStep === 3) {
+      this.discoveredItem.score = 95;
+    } else if (this.discoveryStep === 4) {
+      this.discoveredItem.solution = `원클릭 AI 자동화로 ${choiceText}를 10초 만에 완벽 실현`;
+      this.discoveredItem.score = 99;
+    } else if (this.discoveryStep === 5) {
+      this.adoptCurrentDiscoveredItem();
+      return;
+    }
+
+    this.discoveryStep = Math.min(this.discoveryStep + 1, 5);
 
     setTimeout(() => {
-      this.loadSample("medium-musical");
-      showToast(`도면 [${file.name}] 분석 완료: 3건의 법률 위반 및 2건의 상충이 검출되었습니다.`);
+      const nextStepData = SOCRATIC_DISCOVERY_STEPS.find(s => s.step === this.discoveryStep);
+      if (nextStepData) {
+        this.appendDiscoveryMsg("bot", nextStepData.botMsg);
+        this.renderDiscoveryChoices(nextStepData.choices);
+        if (nextStepData.feedback && this.aiCoachFeedbackBox) {
+          this.aiCoachFeedbackBox.style.display = "block";
+          this.aiCoachFeedbackContent.innerHTML = nextStepData.feedback;
+        }
+        this.updateSpecSheetUI();
+      }
+    }, 500);
+  }
+
+  handleDiscoveryInput() {
+    const text = this.discoveryTextInput.value.trim();
+    if (!text) return;
+
+    this.discoveryTextInput.value = "";
+    this.processDiscoveryChoice(text);
+  }
+
+  appendDiscoveryMsg(role, htmlContent) {
+    const row = document.createElement("div");
+    row.className = `chat-msg-row ${role}`;
+    row.innerHTML = `
+      ${role === "bot" ? '<div class="ai-bot-avatar"><i data-lucide="brain-circuit"></i></div>' : ''}
+      <div class="msg-bubble">${htmlContent}</div>
+    `;
+    this.discoveryChatMessages.appendChild(row);
+    this.discoveryChatMessages.scrollTop = this.discoveryChatMessages.scrollHeight;
+    if (window.lucide) lucide.createIcons();
+  }
+
+  updateSpecSheetUI() {
+    if (this.specTargetCustomer) this.specTargetCustomer.textContent = this.discoveredItem.target;
+    if (this.specCorePain) this.specCorePain.textContent = this.discoveredItem.pain;
+    if (this.specSolution) this.specSolution.textContent = this.discoveredItem.solution;
+    if (this.specMonetization) this.specMonetization.textContent = this.discoveredItem.monetization;
+    if (this.discoveryScoreCard) this.discoveryScoreCard.textContent = `${this.discoveredItem.score}점`;
+
+    if (this.specStatusTag) {
+      if (this.discoveryStep >= 5) {
+        this.specStatusTag.textContent = "🎯 발굴 완료 (100만원 바이블 가동)";
+        this.specStatusTag.className = "spec-status-tag tag-emerald";
+      } else {
+        this.specStatusTag.textContent = `집요 탐색 중 (${this.discoveryStep}/5단계)`;
+        this.specStatusTag.className = "spec-status-tag";
+      }
+    }
+
+    if (this.headerCurrentItemName) {
+      this.headerCurrentItemName.textContent = this.discoveredItem.target.split(",")[0] + " 맞춤 AI 자동화 솔루션";
+    }
+    if (this.headerViabilityScore) {
+      this.headerViabilityScore.textContent = `수익성: ${this.discoveredItem.score}점 (월 ₩10.2M+)`;
+    }
+  }
+
+  resetDiscovery() {
+    this.discoveryStep = 1;
+    this.renderDiscoveryChat();
+  }
+
+  adoptCurrentDiscoveredItem() {
+    const targetModelId = this.discoveredItem.modelRef || "gov-subsidy";
+    this.currentModelId = targetModelId;
+
+    const m = this.models[targetModelId];
+    if (m) {
+      if (this.inputStandardPrice) this.inputStandardPrice.value = m.defaultStandardPrice;
+      if (this.inputStandardUsers) this.inputStandardUsers.value = m.defaultStandardUsers;
+      if (this.inputProPrice) this.inputProPrice.value = m.defaultProPrice;
+      if (this.inputProUsers) this.inputProUsers.value = m.defaultProUsers;
+      if (this.inputOpsCost) this.inputOpsCost.value = m.defaultOpsCost;
+    }
+
+    this.renderMonetizationPlaybook();
+    this.renderObjectionCrushing();
+    this.renderStrategyCanvas();
+    this.renderSandbox();
+    this.updateSimulatorCalculations();
+    this.renderChecklist();
+    this.renderLandingPreview();
+    this.renderReportPaper();
+
+    this.switchTab("playbook");
+  }
+
+  // [2] 💎 100만원급 실전 창업 바이블 렌더링 (VIP High-Ticket Master)
+  renderMonetizationPlaybook() {
+    if (!this.playbookStageContainer) return;
+    const m = this.models[this.currentModelId] || this.models["gov-subsidy"];
+    const vip = m.vipMaster || this.models["gov-subsidy"].vipMaster;
+
+    if (this.playbookHeroItemName) {
+      this.playbookHeroItemName.textContent = m.title.split("] ")[1] || m.title;
+    }
+
+    let subtabHtml = "";
+
+    // Subtab 1: 그랜드 슬램 오퍼 (Hormozi Formula)
+    if (this.currentPlaybookSubtab === "offer") {
+      const o = vip.grandSlamOffer;
+      subtabHtml = `
+        <div class="grand-slam-box glass-card">
+          <div class="card-section-title">
+            <i data-lucide="gift" class="text-amber"></i>
+            <span>100만원 가치 환산: 거절할 수 없는 '그랜드 슬램 오퍼(Grand Slam Offer)' 설계서</span>
+          </div>
+          
+          <div class="hormozi-equation-card">
+            <div class="eq-part">
+              <span class="eq-title">꿈의 결과 (Dream Outcome)</span>
+              <span class="eq-val">${o.dreamOutcome}</span>
+            </div>
+            <span class="eq-op">×</span>
+            <div class="eq-part">
+              <span class="eq-title">성공 확률 (Perceived Likelihood)</span>
+              <span class="eq-val">${o.perceivedLikelihood}</span>
+            </div>
+            <span class="eq-op">÷</span>
+            <div class="eq-part">
+              <span class="eq-title">소요 시간 (Time Delay)</span>
+              <span class="eq-val">${o.timeDelay}</span>
+            </div>
+            <span class="eq-op">×</span>
+            <div class="eq-part">
+              <span class="eq-title">노력/희생 (Effort & Sacrifice)</span>
+              <span class="eq-val">${o.effortSacrifice}</span>
+            </div>
+          </div>
+
+          <h3 style="font-size: 15px; font-weight: 800; color: #0F172A; margin-bottom: 12px;">📦 고객이 1초 만에 결제하게 만드는 가치 스택 (Value Stack) 구성</h3>
+          <div class="offer-stack-list">
+            ${o.stack.map(item => `
+              <div class="offer-stack-item">
+                <div class="offer-stack-content">
+                  <strong>${item.title}</strong>
+                  <p>경쟁사가 절대 따라올 수 없는 압도적인 킬러 보너스 구성</p>
+                </div>
+                <span class="offer-value-pill">${item.value}</span>
+              </div>
+            `).join("")}
+          </div>
+
+          <div style="padding: 16px; background: #FEF3C7; border: 1px solid #F59E0B; border-radius: 8px; margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <strong style="font-size: 14px; color: #92400E;">🎯 최종 판매 가격: ${o.specialPrice} (${o.totalValue})</strong>
+              <span class="badge-tag tag-rose" style="font-size: 11px;">마진 95%</span>
+            </div>
+            <p style="font-size: 12.5px; color: #78350F; line-height: 1.5;">
+              <strong>🛡️ 위험 제로 환불 보증 (Risk Reversal Guarantee):</strong> ${o.riskReversal}
+            </p>
+          </div>
+        </div>
+      `;
+    }
+
+    // Subtab 2: 실전 AI 시스템 프롬프트 & API 연동 코드
+    else if (this.currentPlaybookSubtab === "prompts") {
+      const pe = vip.promptEngine;
+      subtabHtml = `
+        <div class="code-section-card glass-card">
+          <div class="code-box-header">
+            <div class="card-section-title" style="margin-bottom: 0;">
+              <i data-lucide="cpu" class="text-indigo"></i>
+              <span>실제 서비스에 탑재되는 프로덕션 AI 시스템 프롬프트 (System Prompt Spec)</span>
+            </div>
+            <button class="btn btn-outline btn-sm" id="btnCopySystemPrompt">
+              <i data-lucide="copy"></i> 프롬프트 복사
+            </button>
+          </div>
+          <pre class="prompt-display-pre" id="systemPromptText">${pe.systemPrompt}</pre>
+
+          <div class="code-box-header" style="margin-top: 20px;">
+            <div class="card-section-title" style="margin-bottom: 0;">
+              <i data-lucide="code" class="text-emerald"></i>
+              <span>서버리스 API 연동 코드 스니펫 (Node.js / Python)</span>
+            </div>
+            <button class="btn btn-outline btn-sm" id="btnCopyApiCode">
+              <i data-lucide="copy"></i> 코드 복사
+            </button>
+          </div>
+          <pre class="prompt-display-pre" id="apiCodeText">${pe.apiSnippet}</pre>
+        </div>
+      `;
+    }
+
+    // Subtab 3: 10대 채널별 콜드 세일즈 대본
+    else if (this.currentPlaybookSubtab === "scripts") {
+      subtabHtml = `
+        <div class="scripts-gallery-grid">
+          ${vip.salesScripts.map((s, idx) => `
+            <div class="script-item-card glass-card">
+              <div>
+                <div class="script-item-header">
+                  <span class="script-channel-badge">${s.channel}</span>
+                  <button class="btn btn-outline btn-sm btn-copy-script" data-idx="${idx}" style="padding: 2px 8px; font-size: 11px;">
+                    <i data-lucide="copy"></i> 복사
+                  </button>
+                </div>
+                <h4 style="font-size: 13.5px; font-weight: 700; color: #0F172A; margin-bottom: 8px;">${s.title}</h4>
+                <div class="script-body-box" id="scriptText_${idx}">${s.script}</div>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    // Subtab 4: 4주 만에 1000만원 달성 로드맵
+    else if (this.currentPlaybookSubtab === "cashflow") {
+      subtabHtml = `
+        <div class="cashflow-timeline-grid">
+          ${vip.cashflowRoadmap.map(w => `
+            <div class="week-card glass-card">
+              <div>
+                <div class="week-header">
+                  <span class="week-num-badge">${w.week}</span>
+                  <span class="week-target-rev">${w.targetRev}</span>
+                </div>
+                <h4 style="font-size: 13px; font-weight: 700; color: #0F172A; margin-bottom: 8px;">주차별 핵심 실행 과제</h4>
+                <ul class="week-action-list">
+                  ${w.actions.map(a => `<li>${a}</li>`).join("")}
+                </ul>
+              </div>
+              <div style="padding: 6px 10px; background: #ECFDF5; border-radius: 4px; font-size: 11px; color: #065F46; font-weight: 700; text-align: center;">
+                목표 매출: ${w.targetRev}
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    this.playbookStageContainer.innerHTML = subtabHtml;
+    if (window.lucide) lucide.createIcons();
+
+    // Event listeners for copy buttons
+    document.getElementById("btnCopySystemPrompt")?.addEventListener("click", () => {
+      const txt = document.getElementById("systemPromptText")?.innerText;
+      if (txt) {
+        navigator.clipboard.writeText(txt).then(() => alert("시스템 프롬프트 전문이 클립보드에 복사되었습니다!"));
+      }
+    });
+    document.getElementById("btnCopyApiCode")?.addEventListener("click", () => {
+      const txt = document.getElementById("apiCodeText")?.innerText;
+      if (txt) {
+        navigator.clipboard.writeText(txt).then(() => alert("API 연동 코드가 클립보드에 복사되었습니다!"));
+      }
+    });
+    document.querySelectorAll(".btn-copy-script").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const idx = btn.getAttribute("data-idx");
+        const txt = document.getElementById(`scriptText_${idx}`)?.innerText;
+        if (txt) {
+          navigator.clipboard.writeText(txt).then(() => alert("세일즈 스크립트 대본이 클립보드에 복사되었습니다!"));
+        }
+      });
+    });
+  }
+
+  // [3] 🎯 15대 고객 반론 극복 & 세일즈 클로징 렌더링 (NEW)
+  renderObjectionCrushing() {
+    if (!this.objectionQaGrid) return;
+    this.objectionQaGrid.innerHTML = OBJECTION_CRUSHING_DB.map(item => `
+      <div class="objection-card glass-card">
+        <div>
+          <div class="objection-header">
+            <span class="objection-tag">${item.tag}</span>
+            <button class="btn btn-outline btn-sm btn-copy-obj" data-id="${item.id}" style="padding: 2px 8px; font-size: 11px;">
+              <i data-lucide="copy"></i> 스크립트 복사
+            </button>
+          </div>
+          <div class="objection-q">
+            <i data-lucide="help-circle"></i>
+            <span>${item.question}</span>
+          </div>
+          <div class="objection-psychology-box">
+            <strong>🧠 고객 심리 분석:</strong> ${item.psychology}
+          </div>
+          <div class="objection-script-box" id="objScript_${item.id}">
+            ${item.script}
+          </div>
+        </div>
+      </div>
+    `).join("");
+
+    if (window.lucide) lucide.createIcons();
+
+    this.objectionQaGrid.querySelectorAll(".btn-copy-obj").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-id");
+        const el = document.getElementById(`objScript_${id}`);
+        if (el) {
+          navigator.clipboard.writeText(el.innerText).then(() => {
+            alert("세일즈 클로징 스크립트가 클립보드에 복사되었습니다!\n상담 시 그대로 활용하세요.");
+          });
+        }
+      });
+    });
+  }
+
+  // [4] 12대 산업 불편함 레이더 렌더링
+  renderPainRadar(filterCategory = "all") {
+    if (!this.radarCategoryBar || !this.radarPainsGrid) return;
+
+    const categories = [
+      { id: "all", name: "전체 산업 (10+)" },
+      { id: "b2b", name: "소상공인/B2B" },
+      { id: "office", name: "직장인/회계" },
+      { id: "legal", name: "부동산/법률" },
+      { id: "edu", name: "교육/독서" },
+      { id: "focus", name: "멘탈/도파민 디톡스" },
+      { id: "retire", name: "은퇴/창직" }
+    ];
+
+    this.radarCategoryBar.innerHTML = categories.map(cat => `
+      <button class="radar-cat-btn ${cat.id === filterCategory ? "active" : ""}" data-cat="${cat.id}">
+        ${cat.name}
+      </button>
+    `).join("");
+
+    this.radarCategoryBar.querySelectorAll(".radar-cat-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const cat = btn.getAttribute("data-cat");
+        this.renderPainRadar(cat);
+      });
+    });
+
+    this.radarPainsGrid.innerHTML = "";
+    INDUSTRY_PAIN_RADAR_DB.forEach(item => {
+      if (filterCategory !== "all" && item.industry !== filterCategory) {
+        return;
+      }
+
+      const card = document.createElement("div");
+      card.className = "pain-radar-card glass-card";
+      card.innerHTML = `
+        <div>
+          <div class="pain-card-header">
+            <span class="pain-cat-tag">${item.industryName}</span>
+            <span class="pain-intensity-badge">${item.intensity}</span>
+          </div>
+          <h3 class="pain-card-title">${item.title}</h3>
+          <div class="pain-card-quote">"${item.quote}"</div>
+          <div class="pain-card-solution-box">
+            <strong style="color: #0284C7; display: block; margin-bottom: 2px;">💡 도출된 AI 솔루션:</strong>
+            ${item.solutionIdea}
+          </div>
+        </div>
+        <div class="pain-card-footer">
+          <span class="pain-wtp-text">지불 의향: ${item.wtp}</span>
+          <button class="btn btn-primary btn-sm">이 고통으로 발굴 시작 →</button>
+        </div>
+      `;
+
+      card.addEventListener("click", () => {
+        this.discoveredItem.target = item.target;
+        this.discoveredItem.pain = item.quote;
+        this.discoveredItem.solution = item.solutionIdea;
+        this.discoveredItem.modelRef = item.modelRef;
+        this.discoveredItem.score = 99;
+        this.discoveryStep = 5;
+
+        this.switchTab("discovery");
+        this.renderDiscoveryChat();
+      });
+
+      this.radarPainsGrid.appendChild(card);
+    });
+
+    if (window.lucide) lucide.createIcons();
+  }
+
+  // [5] TOP 10 모델 갤러리
+  renderCardsGrid(categoryFilter = "all") {
+    if (!this.ideasCardsGrid) return;
+    this.ideasCardsGrid.innerHTML = "";
+
+    Object.values(this.models).forEach(model => {
+      if (categoryFilter !== "all" && model.category !== categoryFilter) {
+        return;
+      }
+
+      const isSelected = model.id === this.currentModelId;
+      const card = document.createElement("div");
+      card.className = `idea-card glass-card ${isSelected ? "active-selected" : ""}`;
+      card.innerHTML = `
+        <div>
+          <div class="idea-card-header">
+            <span class="idea-badge-category">${model.categoryName}</span>
+            <span class="idea-badge-mrr">목표 MRR ${model.targetMrr}</span>
+          </div>
+          <h3 class="idea-card-title">${model.title}</h3>
+          <p class="idea-card-desc">${model.shortDesc}</p>
+          <div class="idea-card-meta-list">
+            <div class="meta-row">
+              <span class="meta-lbl">표준 구독료:</span>
+              <span class="meta-val">₩${model.defaultStandardPrice.toLocaleString()} /월</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-lbl">타깃 고객군:</span>
+              <span class="meta-val">${model.persona.primary.slice(0, 24)}...</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-lbl">운영 자동화율:</span>
+              <span class="meta-val text-emerald">95% 무인 자동화</span>
+            </div>
+          </div>
+        </div>
+        <div class="idea-card-footer">
+          <span class="idea-btn-select">
+            ${isSelected ? "✅ 현재 활성 모델" : "👉 이 모델로 사업화 시작"}
+          </span>
+          <button class="btn btn-outline btn-sm">전략 보기</button>
+        </div>
+      `;
+
+      card.addEventListener("click", () => {
+        this.currentModelId = model.id;
+        if (this.inputStandardPrice) this.inputStandardPrice.value = model.defaultStandardPrice || 49000;
+        if (this.inputStandardUsers) this.inputStandardUsers.value = model.defaultStandardUsers || 120;
+        if (this.inputProPrice) this.inputProPrice.value = model.defaultProPrice || 290000;
+        if (this.inputProUsers) this.inputProUsers.value = model.defaultProUsers || 18;
+        if (this.inputOpsCost) this.inputOpsCost.value = model.defaultOpsCost || 700000;
+        this.renderAll();
+        this.switchTab("playbook");
+      });
+
+      this.ideasCardsGrid.appendChild(card);
+    });
+
+    if (window.lucide) lucide.createIcons();
+  }
+
+  // [6] 사업화 전략 캔버스 렌더링
+  renderStrategyCanvas() {
+    const m = this.models[this.currentModelId] || this.models["gov-subsidy"];
+    if (!m) return;
+
+    const heroName = document.getElementById("strategyHeroModelName");
+    const heroTitle = document.getElementById("strategyHeroTitle");
+    if (heroName) heroName.textContent = m.categoryName;
+    if (heroTitle) heroTitle.textContent = `${m.title} — 사업화 캔버스`;
+
+    const painBox = document.getElementById("strategyPainContent");
+    if (painBox) {
+      painBox.innerHTML = `
+        <p style="font-weight: 700; color: #0F172A; margin-bottom: 10px;">"${m.pain.summary}"</p>
+        <ul class="bento-list">
+          ${m.pain.bullets.map(b => `<li>${b}</li>`).join("")}
+        </ul>
+      `;
+    }
+
+    const flowBox = document.getElementById("strategySolutionFlow");
+    if (flowBox) {
+      flowBox.innerHTML = `
+        <div class="solution-steps-list">
+          ${m.solution.map(s => `
+            <div class="sol-step-item">
+              <div class="step-num-badge">${s.step}</div>
+              <div class="step-content">
+                <strong>${s.title}</strong>
+                <p>${s.desc}</p>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    const delightBox = document.getElementById("strategyDelightContent");
+    if (delightBox) {
+      delightBox.innerHTML = `
+        <div style="margin-bottom: 12px;">
+          <strong style="color: #B45309; display: block; font-size: 13px; margin-bottom: 4px;">✨ 차별화 킬러 기능 (Killer Features):</strong>
+          <p style="font-size: 12.5px; color: #1E293B; white-space: pre-line;">${m.delight.killerFeatures}</p>
+        </div>
+        <div style="padding: 10px; background: #FFFBEB; border-left: 3px solid var(--accent-amber); border-radius: 4px;">
+          <strong style="color: #92400E; display: block; font-size: 12px; margin-bottom: 2px;">❤️ 고객 감동(Delight) 포인트:</strong>
+          <p style="font-size: 12px; color: #78350F;">${m.delight.delightFactor}</p>
+        </div>
+      `;
+    }
+
+    const personaBox = document.getElementById("strategyPersonaContent");
+    if (personaBox) {
+      personaBox.innerHTML = `
+        <div style="margin-bottom: 10px;">
+          <strong style="color: #059669; display: block; font-size: 13px; margin-bottom: 3px;">🎯 1차 핵심 타깃 (Primary Persona):</strong>
+          <p style="font-size: 12.5px; color: #0F172A;">${m.persona.primary}</p>
+        </div>
+        <div>
+          <strong style="color: var(--text-muted); display: block; font-size: 12px; margin-bottom: 3px;">👥 2차 확장 타깃 (Secondary Persona):</strong>
+          <p style="font-size: 12px; color: #1E293B;">${m.persona.secondary}</p>
+        </div>
+      `;
+    }
+
+    const gtmBox = document.getElementById("strategyGtmContent");
+    if (gtmBox) {
+      gtmBox.innerHTML = `
+        <div style="margin-bottom: 10px;">
+          <strong style="color: #0284C7; display: block; font-size: 13px; margin-bottom: 3px;">📢 초기 유입 및 시딩 채널:</strong>
+          <p style="font-size: 12.5px; color: #0F172A;">${m.gtm.channel}</p>
+        </div>
+        <div style="padding: 8px 10px; background: #F0F9FF; border-radius: 6px; border: 1px solid #BAE6FD;">
+          <strong style="color: #0369A1; display: block; font-size: 11.5px; margin-bottom: 2px;">🧲 리드 마그넷 (무료 바이럴 도구):</strong>
+          <p style="font-size: 11.5px; color: #0F172A;">${m.gtm.leadMagnet}</p>
+        </div>
+      `;
+    }
+
+    const opsBox = document.getElementById("strategyOpsContent");
+    if (opsBox) {
+      opsBox.innerHTML = `
+        <div style="margin-bottom: 10px;">
+          <strong style="color: #7C3AED; display: block; font-size: 13px; margin-bottom: 3px;">⚙️ 무인 운영 자동화 구조:</strong>
+          <p style="font-size: 12.5px; color: #0F172A;">${m.ops.automation}</p>
+        </div>
+        <div>
+          <strong style="color: #6D28D9; display: block; font-size: 12px; margin-bottom: 3px;">🚀 향후 스케일업 및 부가 수익:</strong>
+          <p style="font-size: 12px; color: #1E293B;">${m.ops.expansion}</p>
+        </div>
+      `;
+    }
+  }
+
+  // [7] 실시간 프로토타입 체험실
+  renderSandbox() {
+    if (!this.sandboxInteractiveStage) return;
+    const m = this.models[this.currentModelId] || this.models["gov-subsidy"];
+    const heroTitle = document.getElementById("sandboxHeroTitle");
+    if (heroTitle) heroTitle.textContent = `${m.title} — 실시간 엔진 시연`;
+
+    let sandboxHtml = "";
+    if (this.currentModelId === "gov-subsidy") {
+      sandboxHtml = `
+        <div class="sandbox-layout-grid">
+          <div class="sandbox-panel">
+            <div class="sandbox-panel-title">
+              <h3><i data-lucide="building-2"></i> 소상공인 사업체 정보 입력</h3>
+            </div>
+            <div class="sandbox-form-box">
+              <div>
+                <label class="sandbox-input-label">업종 분류</label>
+                <select id="sbGovType" class="form-input">
+                  <option value="food">일반음식점 / 카페 / 베이커리</option>
+                  <option value="retail">온라인 쇼핑몰 / 도소매업</option>
+                  <option value="tech">소프트웨어 / IT 스타트업</option>
+                  <option value="mfg">정밀기계 / 금형 제조업</option>
+                </select>
+              </div>
+              <div>
+                <label class="sandbox-input-label">연간 매출액</label>
+                <select id="sbGovRev" class="form-input">
+                  <option value="1">1억 원 미만 (초기 창업)</option>
+                  <option value="3" selected>1억 ~ 5억 원</option>
+                  <option value="10">5억 ~ 15억 원</option>
+                </select>
+              </div>
+              <div>
+                <label class="sandbox-input-label">상시 근로자 수</label>
+                <input type="number" id="sbGovEmp" class="form-input" value="3" min="0" max="50">
+              </div>
+              <button class="btn btn-primary" id="btnRunGovMatch">
+                <i data-lucide="sparkles"></i> 1초 만에 적격 지원금 & 서류 완성
+              </button>
+            </div>
+          </div>
+
+          <div class="sandbox-panel">
+            <div class="sandbox-panel-title">
+              <h3><i data-lucide="check-check"></i> 실시간 AI 매칭 & 사업계획서 초안</h3>
+            </div>
+            <div class="sandbox-result-box" id="sbGovResultBox">
+              <div class="sandbox-result-content">
+                <div class="sandbox-match-card">
+                  <h4>1. [중기부] 2026 소상공인 스마트상점 기술보급사업 <span class="badge-match-score">승인확률 94%</span></h4>
+                  <p>지원금액: <strong>최대 1,500만 원</strong> (국비 70% 무상환 지원) / 마감 D-12일</p>
+                </div>
+                <div class="sandbox-match-card">
+                  <h4>2. [지자체] 희망리턴패키지 경영개선 바우처 <span class="badge-match-score">승인확률 88%</span></h4>
+                  <p>지원금액: <strong>최대 2,000만 원</strong> (매장 리모델링/마케팅 전액 지원)</p>
+                </div>
+                <div style="margin-top: 10px; padding: 10px; background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 6px;">
+                  <strong style="color: #065F46; display: block; margin-bottom: 2px;">📝 표준 사업계획서 1번 항목 자동 생성 완료:</strong>
+                  <p style="font-size: 11.5px; color: #047857;">"본 사업장은 스마트 무인 주문 시스템 도입을 통해 인건비를 35% 절감하고, 테이블 회전율을 1.5배 개선하여 연매출 4.8억 원을 달성하고자 함..."</p>
+                </div>
+              </div>
+              <button class="btn btn-outline btn-sm" style="align-self: flex-end; margin-top: 10px;">
+                <i data-lucide="download"></i> HWP 사업계획서 다운로드
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (this.currentModelId === "dirty-read-lab") {
+      sandboxHtml = `
+        <div class="sandbox-layout-grid">
+          <div class="sandbox-panel">
+            <div class="sandbox-panel-title">
+              <h3><i data-lucide="book-open"></i> DirtyRead Lab · 능동적 독서 인출기</h3>
+            </div>
+            <div class="sandbox-form-box">
+              <div>
+                <label class="sandbox-input-label">읽고 있는 도서 선택 또는 입력</label>
+                <select id="sbDrBookSelect" class="form-input">
+                  <option value="불편의 값">《불편의 값》 — Genspark AI 워크스페이스 편</option>
+                  <option value="원씽 (The One Thing)">《원씽 (The One Thing)》 — 게리 켈러</option>
+                  <option value="역행자">《역행자》 — 자청</option>
+                  <option value="부의 추월차선">《부의 추월차선》 — 엠제이 드마코</option>
+                  <option value="직접입력">직접 도서명 입력...</option>
+                </select>
+              </div>
+              <div>
+                <label class="sandbox-input-label">오늘 읽은 챕터명</label>
+                <input type="text" id="sbDrChapter" class="form-input" value="제1장. 불편은 화폐다: 매일 참는 고통의 목록화">
+              </div>
+              <div>
+                <label class="sandbox-input-label">책을 읽으며 든 거친 생각 / 의문 / 밑줄 문장</label>
+                <textarea id="sbDrNote" class="form-textarea" rows="3" placeholder="예: '책을 깨끗하게 읽어야 나중에 중고로 팔 수 있다는 생각 때문에 줄도 못 긋고 그냥 눈으로만 훑었음. 저자는 참지 말고 화폐로 바꾸라는데 구체적으로 어떻게?'">책을 깨끗하게 보관해야 한다는 강박 때문에 형광펜도 못 긋고 그냥 눈으로만 훑고 지나쳤음. 저자는 불편이 화폐라고 하는데 어떻게 내 일상에서 찾아내야 할지 막연함.</textarea>
+              </div>
+              <button class="btn btn-primary" id="btnRunDirtyReadDemo">
+                <i data-lucide="zap"></i> ⚡ 지저분한 독서 반론 낙서 & 3줄 아웃풋 생성
+              </button>
+            </div>
+          </div>
+
+          <div class="sandbox-panel">
+            <div class="sandbox-panel-title">
+              <h3><i data-lucide="award"></i> 실시간 생성된 '3줄 아웃풋' 워크북</h3>
+            </div>
+            <div class="sandbox-result-box" id="sbDrResultBox">
+              <div class="sandbox-result-content">
+                <!-- Margin Scribble -->
+                <div style="padding: 12px; background: #FEF2F2; border-left: 3px solid #EF4444; border-radius: 6px; margin-bottom: 10px;">
+                  <strong style="color: #991B1B; font-size: 12px; display: flex; align-items: center; gap: 4px;">
+                    <i data-lucide="edit-3" style="width: 14px; height: 14px;"></i> ⚠️ 여백에 적을 지저분한 반론 낙서 (Margin Annotation):
+                  </strong>
+                  <p id="sbDrMarginNote" style="font-size: 12.5px; color: #7F1D1D; font-weight: 700; margin-top: 4px;">
+                    "중고로 1만 원 건지려다 내 뇌에 남는 100만 원 가치 통찰을 0원으로 만드는 치명적 착각이다! 책은 찢고 더럽힐수록 내 자산이 된다."
+                  </p>
+                </div>
+
+                <!-- Socratic Question -->
+                <div style="padding: 10px; background: #FFFBEB; border-left: 3px solid #F59E0B; border-radius: 6px; margin-bottom: 10px;">
+                  <strong style="color: #92400E; font-size: 12px; display: flex; align-items: center; gap: 4px;">
+                    <i data-lucide="help-circle" style="width: 14px; height: 14px;"></i> 🧠 소크라테스 검증 질문 (Devil's Advocate):
+                  </strong>
+                  <p id="sbDrQuestion" style="font-size: 12px; color: #78350F; margin-top: 3px;">
+                    "만약 오늘 퇴근길에 겪은 가장 짜증 나는 엑셀 복붙 작업 하나를 메모하지 않는다면, 1년 뒤 당신의 퇴근 시간은 단 1분이라도 줄어들 수 있는가?"
+                  </p>
+                </div>
+
+                <!-- 3-Sentence Matrix -->
+                <div style="padding: 12px; background: #F0FDF4; border: 1px solid #86EFAC; border-radius: 6px;">
+                  <strong style="color: #166534; font-size: 12.5px; display: block; margin-bottom: 8px;">
+                    📝 The 3-Sentence Output Matrix (3줄 아웃풋 완성):
+                  </strong>
+                  <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #14532D;">
+                    <div><strong>[1줄 핵심 명제]</strong> <span id="sbDrLine1">눈으로만 읽는 독서는 숏폼과 다를 바 없는 도파민 낭비이며, 지식은 반론을 적을 때만 체화된다.</span></div>
+                    <div><strong>[1줄 내 반론/통찰]</strong> <span id="sbDrLine2">그러나 무작정 밑줄만 긋는 것도 '공부했다는 착각'을 주므로, 반드시 저자의 논리를 반박하는 1문장을 써야 한다.</span></div>
+                    <div><strong>[1줄 24시간 실행]</strong> <span id="sbDrLine3">오늘 퇴근 전 10분 동안 내가 겪은 가장 번거로운 서류 작업 1개를 메모장에 적고 A-C-X 3단어로 분해한다.</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                <span class="badge-tag tag-emerald" style="font-size: 11px;">완독률 300% 인증 도장 발급됨</span>
+                <button class="btn btn-outline btn-sm" id="btnExportDrNotion">
+                  <i data-lucide="share-2"></i> 노션 워크북으로 내보내기
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (this.currentModelId === "post-career-architect") {
+      sandboxHtml = `
+        <div class="sandbox-layout-grid">
+          <div class="sandbox-panel">
+            <div class="sandbox-panel-title">
+              <h3><i data-lucide="compass"></i> Post-Career Architect · 은퇴 대비 1인 창직 진단기</h3>
+            </div>
+            <div class="sandbox-form-box">
+              <div>
+                <label class="sandbox-input-label">30년 커리어 / 전문 직무 선택</label>
+                <select id="sbPcaCareerSelect" class="form-input">
+                  <option value="manufacturing">대기업/중견 제조 생산관리·공장장 28년 (스마트팩토리/원가절감)</option>
+                  <option value="finance">시중은행 기업금융·여신심사 지점장 25년 (대출/정책자금)</option>
+                  <option value="it-pm">IT 소프트웨어 개발·기술영업 수석 PM 22년 (AI도입/시스템)</option>
+                  <option value="hr-eval">대기업 인사팀장·노무·성과평가 26년 (조직문화/임금체계)</option>
+                  <option value="public">공공기관/공기업 정책기획·입찰조달 감사 27년 (공공계약/B2G)</option>
+                </select>
+              </div>
+              <div>
+                <label class="sandbox-input-label">목표 은퇴(퇴직) D-Day</label>
+                <select id="sbPcaDdaySelect" class="form-input">
+                  <option value="D-1년">D-1년 (퇴직 전 무자본 셋업 & 지식 상품 1호 기획)</option>
+                  <option value="D-6개월">D-6개월 (소득 크레바스 방어 & 1:1 고객 사전 확보)</option>
+                  <option value="D-3개월">D-3개월 (전자책 교보문고 등록 및 1인 출판사 신고)</option>
+                  <option value="이미 퇴직 완료">이미 퇴직 완료 (즉시 월 500만원+ 파이프라인 가동)</option>
+                </select>
+              </div>
+              <div>
+                <label class="sandbox-input-label">평생 경험 중 시장이 지불할 핵심 강점 / 노하우</label>
+                <textarea id="sbPcaNote" class="form-textarea" rows="3" placeholder="예: '28년간 현장 원가 15% 절감 및 스마트팩토리 국비 심사 30회 통과. 후배들은 묻지만 정작 은퇴 후엔 무엇을 할지 막막함.'">28년간 제조 현장에서 원가 15% 절감 및 스마트공장 국비 도입 심사 30회 통과 경험 보유. 후배들은 노하우를 물어보지만 은퇴 후 치킨집밖에 떠오르지 않아 두려움.</textarea>
+              </div>
+              <button class="btn btn-primary" id="btnRunPostCareerDemo">
+                <i data-lucide="zap"></i> ⚡ 1인 창직(創職) 로드맵 & 3대 지식 상품 즉시 설계
+              </button>
+            </div>
+          </div>
+
+          <div class="sandbox-panel">
+            <div class="sandbox-panel-title">
+              <h3><i data-lucide="award"></i> 완성된 1인 창직 마스터플랜 & 3대 지식 상품</h3>
+            </div>
+            <div class="sandbox-result-box" id="sbPcaResultBox">
+              <div class="sandbox-result-content">
+                <!-- Positioning Title -->
+                <div style="padding: 12px; background: #EEF2FF; border-left: 3px solid #6366F1; border-radius: 6px; margin-bottom: 10px;">
+                  <strong style="color: #3730A3; font-size: 12px; display: flex; align-items: center; gap: 4px;">
+                    <i data-lucide="user-check" style="width: 14px; height: 14px;"></i> 🎓 1인 창직(創職) 공식 명칭 & 포지셔닝:
+                  </strong>
+                  <p id="sbPcaTitle" style="font-size: 13px; color: #1E1B4B; font-weight: 800; margin-top: 4px;">
+                    "중소 제조공장 스마트팩토리 국비 도입 & 원가절감 1인 자문관 (Smart-Factory Architect)"
+                  </p>
+                  <span id="sbPcaSlogan" style="font-size: 11.5px; color: #4F46E5; display: block; margin-top: 2px;">
+                    "배움과 경험에는 은퇴가 없다 — 28년 현장 노하우를 기업이 줄 서서 사는 자문 상품으로"
+                  </span>
+                </div>
+
+                <!-- 3-Tier Knowledge Products -->
+                <div style="padding: 10px; background: #FFFBEB; border-left: 3px solid #F59E0B; border-radius: 6px; margin-bottom: 10px;">
+                  <strong style="color: #92400E; font-size: 12px; display: flex; align-items: center; gap: 4px;">
+                    <i data-lucide="book" style="width: 14px; height: 14px;"></i> 📚 1차 진입 상품: 교보문고 전자책 10챕터 자동 출판
+                  </strong>
+                  <p id="sbPcaEbook" style="font-size: 12px; color: #78350F; font-weight: 700; margin-top: 3px;">
+                    《치킨집 대신 내 공장 노하우를 팝니다: 중기부 스마트팩토리 국비 1억 수혜 실전 10대 바이블》 (권당 ₩25,000)
+                  </p>
+                </div>
+
+                <!-- High-Ticket Consulting & Roadmap -->
+                <div style="padding: 12px; background: #F0FDF4; border: 1px solid #86EFAC; border-radius: 6px;">
+                  <strong style="color: #166534; font-size: 12.5px; display: block; margin-bottom: 8px;">
+                    💼 2차 고단가 오퍼 & 90일 소득 크레바스 방어선:
+                  </strong>
+                  <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #14532D;">
+                    <div><strong>[1:1 고단가 자문]</strong> <span id="sbPcaConsulting">시간당 ₩250,000 / 월 ₩1,500,000 리테이너 자문 계약서 (지방 제조기업 5곳 타깃)</span></div>
+                    <div><strong>[90일 캐시플로우]</strong> <span id="sbPcaRoadmap">D-60일 전자책 출간 ➔ D-30일 1:1 고객 3곳 확보(₩450만) ➔ D-Day 1인 출판사 법인화 & 월 1,040만 원 안정화</span></div>
+                    <div><strong>[세무·법률 가이드]</strong> <span id="sbPcaTax">간이과세 1인 지식기업 등록, 출판사 부가세 면세 혜택, 신중년 중기부 창업지원금 5,000만원 연계</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                <span class="badge-tag tag-emerald" style="font-size: 11px;">은퇴 불안 0% 마스터플랜 승인됨</span>
+                <div style="display: flex; gap: 8px;">
+                  <button class="btn btn-outline btn-sm" id="btnCopyPcaEbook">
+                    <i data-lucide="copy"></i> 전자책 기획서 복사
+                  </button>
+                  <button class="btn btn-primary btn-sm" id="btnExportPcaPlan" style="background: #4F46E5;">
+                    <i data-lucide="download"></i> 창직 로드맵 내보내기
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (this.currentModelId === "deepfocus-21") {
+      sandboxHtml = `
+        <div class="sandbox-layout-grid">
+          <div class="sandbox-panel">
+            <div class="sandbox-panel-title">
+              <h3><i data-lucide="zap"></i> DeepFocus 21 · 도파민 디톡스 & 심층 사유 진단기</h3>
+            </div>
+            <div class="sandbox-form-box">
+              <div>
+                <label class="sandbox-input-label">일일 숏폼/SNS 스크린타임 수준</label>
+                <select id="sbDfScreenTime" class="form-input">
+                  <option value="2.5">하루 2~3시간 (퇴근 후 침대에서 릴스·쇼츠 무한 스크롤)</option>
+                  <option value="4.0">하루 3~5시간 (업무 중 수시 확인 + 자기 전 2시간 몰입 굴레)</option>
+                  <option value="6.0">하루 5시간 이상 (기상 즉시 폰 확인 + 식사·이동 만성 중독)</option>
+                  <option value="1.5">하루 1~2시간 (초기 경고: 집중력 저하 및 잦은 산만함)</option>
+                </select>
+              </div>
+              <div>
+                <label class="sandbox-input-label">가장 고통스러운 집중력 붕괴 증상</label>
+                <select id="sbDfSymptom" class="form-input">
+                  <option value="reading-fail">책 5페이지도 못 읽고 덮음 (긴 글 텍스트 난독 및 산만함)</option>
+                  <option value="popcorn-brain">업무/공부 중 3분마다 스마트폰 무의식 잠금해제</option>
+                  <option value="brain-fog">만성 브레인 포그 & 심각한 기상 피로 및 무기력증</option>
+                  <option value="no-deep-think">심도 있는 기획서 작성 및 고도의 문제해결 사고 마비</option>
+                </select>
+              </div>
+              <div>
+                <label class="sandbox-input-label">21일 딥다이브 훈련 모드</label>
+                <select id="sbDfMode" class="form-input">
+                  <option value="standard">표준 21일 챌린지 (도파민 단식 + 45분 텍스트 몰입) - 월 ₩49,000</option>
+                  <option value="vip">VIP 1:1 심층 코칭 + 오프라인 디톡스 캠프 연계 - 월 ₩250,000</option>
+                </select>
+              </div>
+              <div>
+                <label class="sandbox-input-label">현재 목표 및 복원하고 싶은 집중 대상</label>
+                <textarea id="sbDfTargetGoal" class="form-textarea" rows="3" placeholder="예: '하루 3시간 이상 숏폼을 보느라 업무와 독서에 집중을 못합니다. 45분 동안 잡념 없이 텍스트를 정독하고 싶습니다.'">하루 3시간 이상 숏폼을 보느라 자격증 시험 공부와 업무 기획에 집중을 못합니다. 잡념 없이 45분 동안 책 1챕터를 정독하고 내 생각을 정리하고 싶습니다.</textarea>
+              </div>
+              <button class="btn btn-primary" id="btnRunDeepFocusDemo">
+                <i data-lucide="zap"></i> ⚡ 21일 뇌신경 도파민 회복 처방전 & 딥포커스 플랜 생성
+              </button>
+            </div>
+          </div>
+
+          <div class="sandbox-panel">
+            <div class="sandbox-panel-title">
+              <h3><i data-lucide="brain"></i> 21일 신경가소성 복원 처방전 & 몰입 리포트</h3>
+            </div>
+            <div class="sandbox-result-box" id="sbDfResultBox">
+              <div class="sandbox-result-content">
+                <!-- Neuroplasticity Recovery Gauge -->
+                <div style="padding: 12px; background: #ECFDF5; border-left: 3px solid #10B981; border-radius: 6px; margin-bottom: 10px;">
+                  <strong style="color: #065F46; font-size: 12px; display: flex; align-items: center; justify-content: space-between;">
+                    <span style="display: flex; align-items: center; gap: 4px;"><i data-lucide="activity" style="width: 14px; height: 14px;"></i> 🧠 뇌 도파민 수용체 신경가소성 회복 예측도:</span>
+                    <span id="sbDfRecoveryScore" style="color: #059669; font-weight: 800; font-size: 13px;">91.8% 회복 가능</span>
+                  </strong>
+                  <p id="sbDfRecoveryDesc" style="font-size: 12.5px; color: #047857; font-weight: 700; margin-top: 4px;">
+                    "전두엽 알파파 동기화 및 21일 알고리즘 차단 시, 14일 차부터 팝콘 브레인 78% 완화"
+                  </p>
+                  <span id="sbDfTimeGain" style="font-size: 11.5px; color: #059669; display: block; margin-top: 2px;">
+                    ✨ 일일 회복 집중 시간: <strong>+3.5시간/일</strong> (월 105시간 ➔ 경제적 시간 가치 ₩2,625,000 상당)
+                  </span>
+                </div>
+
+                <!-- 3-Phase Protocol -->
+                <div style="padding: 10px; background: #EEF2FF; border-left: 3px solid #6366F1; border-radius: 6px; margin-bottom: 10px;">
+                  <strong style="color: #3730A3; font-size: 12px; display: flex; align-items: center; gap: 4px;">
+                    <i data-lucide="calendar" style="width: 14px; height: 14px;"></i> 📅 21일 단계별 뇌신경 리셋 프로토콜:
+                  </strong>
+                  <div style="font-size: 12px; color: #312E81; line-height: 1.6; margin-top: 4px;">
+                    <div><strong>[1단계 Day 1~7] 도파민 단식:</strong> <span id="sbDfPhase1">스마트폰 물리적 보관함 강제 락 + 하루 SNS 15분 제한, 금단 불안 극복</span></div>
+                    <div><strong>[2단계 Day 8~14] 45분 몰입:</strong> <span id="sbDfPhase2">세타파 바이노럴 비트 음원 동기화 + 무호흡 45분 텍스트 정독 훈련</span></div>
+                    <div><strong>[3단계 Day 15~21] 심층 사유:</strong> <span id="sbDfPhase3">소크라테스식 저자 논리 반론 메모 + '3줄 통찰 아웃풋' 매일 디스코드 인증</span></div>
+                  </div>
+                </div>
+
+                <!-- Retreat & Audio Bonus Box -->
+                <div style="padding: 12px; background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 6px;">
+                  <strong style="color: #92400E; font-size: 12.5px; display: block; margin-bottom: 6px;">
+                    🏕️ VIP 연계 확장: 오프라인 디지털 디톡스 캠프 & 뇌파 오디오
+                  </strong>
+                  <div style="font-size: 12px; color: #78350F; line-height: 1.5;">
+                    <div><strong>[오프라인 캠프]</strong> <span id="sbDfCamp">강원도 숲속 1박 2일 스마트폰 압수 묵언 독서 리트릿 (주말 1기 운영)</span></div>
+                    <div><strong>[수면 유도 뇌파]</strong> <span id="sbDfAudio">도파민 과다로 인한 불면증 해소용 델타파 숙면 유도 오디오 스트리밍 연계</span></div>
+                    <div><strong>[기업 B2B 출강]</strong> <span id="sbDfB2b">스타트업 및 IT 기업 임직원 번아웃 탈출 '딥포커스 45분 워크숍' 공급</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                <span class="badge-tag tag-emerald" style="font-size: 11px;">21일 몰입 플랜 생성 완료</span>
+                <div style="display: flex; gap: 8px;">
+                  <button class="btn btn-outline btn-sm" id="btnCopyDfMission">
+                    <i data-lucide="copy"></i> 21일 데일리 미션 복사
+                  </button>
+                  <button class="btn btn-primary btn-sm" id="btnCopyDfCoaching" style="background: #059669;">
+                    <i data-lucide="check-circle-2"></i> 1:1 심층 코칭 신청서
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (this.currentModelId === "resilience-60h") {
+      sandboxHtml = `
+        <div class="sandbox-layout-grid">
+          <div class="sandbox-panel">
+            <div class="sandbox-panel-title">
+              <h3><i data-lucide="shield-alert"></i> Resilience-60 · 30초 구출-재진입(Rescue-Reentry) 시뮬레이터</h3>
+            </div>
+            <div class="sandbox-form-box">
+              <div>
+                <label class="sandbox-input-label">현재 직면한 극한의 스트레스 / 실패 위기</label>
+                <select id="sbResCrisisType" class="form-input">
+                  <option value="runway">스타트업 런웨이 2개월 고갈 & 투자 유치 최종 무산 (공황 상태)</option>
+                  <option value="portfolio">포트폴리오 -45% 급락 및 마진콜 위험 (트레이더/펀드매니저)</option>
+                  <option value="burnout">C-Level 임원 번아웃 & 무기력증 (출근 불가 및 팀 관리 마비)</option>
+                  <option value="exam">고강도 국가고시/전문직 시험 탈락 후 실존적 절망</option>
+                </select>
+              </div>
+              <div>
+                <label class="sandbox-input-label">현재 뇌의 파국화(Catastrophizing) 독백</label>
+                <textarea id="sbResThought" class="form-textarea" rows="3">내 모든 청춘과 자본이 날아갔고, 빚만 남았으며 앞으로 어떤 투자자도 나를 믿지 않을 것이다. 완전히 끝장났다.</textarea>
+              </div>
+              <div>
+                <label class="sandbox-input-label">실시간 심박수(BPM) 및 HRV 추정치</label>
+                <div style="display: flex; gap: 10px;">
+                  <input type="text" class="form-input" value="심박수: 114 BPM (급성 빈맥)" readonly style="background: rgba(244,63,94,0.1); color: #FDA4AF;">
+                  <input type="text" class="form-input" value="HRV: 16 ms (미주신경 붕괴)" readonly style="background: rgba(244,63,94,0.1); color: #FDA4AF;">
+                </div>
+              </div>
+              <button class="btn btn-primary" id="btnRunResilienceDemo" style="background: linear-gradient(135deg, #E11D48, #BE123C);">
+                <i data-lucide="activity"></i> ⚡ 30초 생리학적 한숨(Physiological Sigh) & CBT 반론 가동
+              </button>
+            </div>
+          </div>
+
+          <div class="sandbox-panel">
+            <div class="sandbox-panel-title">
+              <h3><i data-lucide="award"></i> 60시간 지속 유영 회복탄력성 처방 결과</h3>
+            </div>
+            <div class="sandbox-result-box" id="sbResResultBox">
+              <div class="sandbox-result-content">
+                <!-- 1957 Experiment Benchmark -->
+                <div style="padding: 12px; background: #EEF2FF; border-left: 3px solid #6366F1; border-radius: 6px; margin-bottom: 10px;">
+                  <strong style="color: #3730A3; font-size: 12px; display: flex; align-items: center; gap: 4px;">
+                    <i data-lucide="microscope" style="width: 14px; height: 14px;"></i> 🐭 커트 릭터 1957 존스홉킨스 신경생리학 대조:
+                  </strong>
+                  <p style="font-size: 12.5px; color: #1E1B4B; font-weight: 700; margin-top: 4px;">
+                    "4분 만에 멈추는 미주신경 충격(Vagal Shock) ➔ 30초 구조 경험 후 <span style='color: #2563EB;'>60시간 유영(240배 한계 돌파)</span> 회로 활성화 완료"
+                  </p>
+                </div>
+
+                <!-- 30-Sec Protocol Result -->
+                <div style="padding: 10px; background: #ECFDF5; border-left: 3px solid #10B981; border-radius: 6px; margin-bottom: 10px;">
+                  <strong style="color: #065F46; font-size: 12px; display: flex; align-items: center; gap: 4px;">
+                    <i data-lucide="wind" style="width: 14px; height: 14px;"></i> 🌬️ 30초 생리학적 한숨 처방 (Stanford Huberman Lab):
+                  </strong>
+                  <p style="font-size: 12px; color: #047857; margin-top: 3px;">
+                    코로 깊게 2회 연속 흡기(3초+1초) ➔ 입으로 서행 호기(6초) × 3세트. 심박수 114 BPM ➔ 68 BPM 안정화 및 전전두엽 혈류 복원.
+                  </p>
+                </div>
+
+                <!-- Socratic Dispute & Action -->
+                <div style="padding: 12px; background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 6px;">
+                  <strong style="color: #92400E; font-size: 12px; display: block; margin-bottom: 4px;">
+                    🧠 소크라테스식 반론 & 60시간 재진입 5분 마이크로 액션:
+                  </strong>
+                  <p style="font-size: 11.5px; color: #78350F; line-height: 1.5;">
+                    • <strong>인지 왜곡 해체:</strong> "투자가 1회 무산된 객관적 사실(Fact)을 인생의 파멸(Fiction)과 분리하라."<br>
+                    • <strong>재진입 액션:</strong> 앞으로 60시간 동안 내가 100% 통제할 수 있는 일 3가지(지출 동결, 브릿지론 신청, 핵심 고객 콜)만 수행하라.
+                  </p>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                <span class="badge-tag tag-rose" style="font-size: 11px;">익사 위기 차단됨 (생존율 96.8%)</span>
+                <div style="display: flex; gap: 8px;">
+                  <a href="resilience_coach.html" target="_blank" class="btn btn-emerald btn-sm">
+                    <i data-lucide="external-link"></i> 전용 인터랙티브 웹앱 실행
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    } else {
+      sandboxHtml = `
+        <div class="sandbox-layout-grid">
+          <div class="sandbox-panel">
+            <div class="sandbox-panel-title">
+              <h3><i data-lucide="sparkles"></i> ${m.title} 코어 엔진 실행</h3>
+            </div>
+            <div class="sandbox-form-box">
+              <label class="sandbox-input-label">입력 데이터 (키워드 또는 요구사항)</label>
+              <textarea class="form-textarea" rows="4" placeholder="${m.persona.primary}의 문제 상황 입력...">${m.shortDesc}</textarea>
+              <button class="btn btn-primary" id="btnRunGenericDemo">
+                <i data-lucide="cpu"></i> AI 고속 처리 엔진 구동
+              </button>
+            </div>
+          </div>
+
+          <div class="sandbox-panel">
+            <div class="sandbox-panel-title">
+              <h3><i data-lucide="file-check"></i> 자동 생성된 완성형 결과물</h3>
+            </div>
+            <div class="sandbox-result-box">
+              <div class="sandbox-result-content">
+                <div style="padding: 12px; background: #EEF2FF; border-left: 3px solid #6366F1; border-radius: 4px; margin-bottom: 10px;">
+                  <strong style="color: #3730A3; display: block; font-size: 12.5px;">✨ 킬러 기능 실시간 결과 렌더링 완료:</strong>
+                  <p style="font-size: 12px; color: #0F172A; margin-top: 4px;">${m.delight.killerFeatures.replace(/\n/g, "<br>")}</p>
+                </div>
+                <div style="padding: 8px 10px; background: #ECFDF5; border-radius: 4px; border: 1px solid #A7F3D0;">
+                  <strong style="color: #065F46; font-size: 11.5px;">❤️ 고객 감동 체감 지표:</strong>
+                  <p style="font-size: 11.5px; color: #047857; margin-top: 2px;">${m.delight.delightFactor}</p>
+                </div>
+              </div>
+              <button class="btn btn-outline btn-sm" style="align-self: flex-end; margin-top: 10px;">
+                <i data-lucide="download"></i> 결과물 다운로드
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    this.sandboxInteractiveStage.innerHTML = sandboxHtml;
+    if (window.lucide) lucide.createIcons();
+
+    document.getElementById("btnRunGovMatch")?.addEventListener("click", () => {
+      alert("공공데이터 포털 1,200개 공고와 실시간 매칭하여 승인확률 94% 지원사업 2건을 선별했습니다!");
+    });
+
+    document.getElementById("sbDrBookSelect")?.addEventListener("change", (e) => {
+      const val = e.target.value;
+      const chapterInput = document.getElementById("sbDrChapter");
+      if (val === "원씽 (The One Thing)") {
+        if (chapterInput) chapterInput.value = "제5장. 도미노 효과: 모든 것을 쉽게 만드는 단 하나";
+      } else if (val === "역행자") {
+        if (chapterInput) chapterInput.value = "제2단계. 자의식 해체: 남 탓과 합리화 부수기";
+      } else if (val === "부의 추월차선") {
+        if (chapterInput) chapterInput.value = "제4부. 당신이 가난한 이유: 서행차선 승객의 덫";
+      } else if (val === "불편의 값") {
+        if (chapterInput) chapterInput.value = "제1장. 불편은 화폐다: 매일 참는 고통의 목록화";
+      }
+    });
+
+    document.getElementById("btnRunDirtyReadDemo")?.addEventListener("click", () => {
+      const book = document.getElementById("sbDrBookSelect")?.value || "도서";
+      const ch = document.getElementById("sbDrChapter")?.value || "챕터";
+      const note = document.getElementById("sbDrNote")?.value || "";
+
+      const marginEl = document.getElementById("sbDrMarginNote");
+      const qEl = document.getElementById("sbDrQuestion");
+      const l1 = document.getElementById("sbDrLine1");
+      const l2 = document.getElementById("sbDrLine2");
+      const l3 = document.getElementById("sbDrLine3");
+
+      if (marginEl) marginEl.textContent = `"${book}의 이 주장은 절반만 맞다! '${note.slice(0, 20)}...'라는 내 직관을 관철하여 내 사업의 차별점으로 삼자."`;
+      if (qEl) qEl.textContent = `"저자의 결론을 반박하지 않는다면, 당신은 또다시 이 책의 지식을 실행하지 않은 채 3일 뒤 망각할 것인가?"`;
+      if (l1) l1.textContent = `[${book}] ${ch}의 핵심은 '생각만 하지 말고 텍스트를 내 삶의 시스템으로 끄집어내는 것'이다.`;
+      if (l2) l2.textContent = `그러나 내 현실에서는 '${note.slice(0, 25) || "시간 부족"}'이라는 장벽이 있으므로, 작은 단위부터 쪼개서 공격해야 한다.`;
+      if (l3) l3.textContent = `향후 24시간 내에 오늘 읽은 챕터의 공식 하나를 내 실제 업무 메모장에 적용해 보고 팀에 공유한다.`;
+
+      alert(`⚡ [DirtyRead Lab] '${book}' 챕터 분석 완료!\n3줄 아웃풋과 여백 낙서 카드가 갱신되었습니다.`);
+    });
+
+    document.getElementById("btnExportDrNotion")?.addEventListener("click", () => {
+      alert("📋 [Notion 내보내기] 'DirtyRead Lab 3줄 아웃풋 워크북 템플릿' 링크가 클립보드에 복사되었습니다!\n노션으로 복제(Duplicate)하여 바로 기록하세요.");
+    });
+
+    document.getElementById("sbPcaCareerSelect")?.addEventListener("change", (e) => {
+      const val = e.target.value;
+      const noteEl = document.getElementById("sbPcaNote");
+      const titleEl = document.getElementById("sbPcaTitle");
+      const sloganEl = document.getElementById("sbPcaSlogan");
+      const ebookEl = document.getElementById("sbPcaEbook");
+      const consultEl = document.getElementById("sbPcaConsulting");
+      const mapEl = document.getElementById("sbPcaRoadmap");
+
+      if (val === "manufacturing") {
+        if (noteEl) noteEl.value = "28년간 제조 현장에서 원가 15% 절감 및 스마트공장 국비 도입 심사 30회 통과 경험 보유. 후배들은 노하우를 물어보지만 은퇴 후 치킨집밖에 떠오르지 않아 두려움.";
+        if (titleEl) titleEl.textContent = '"중소 제조공장 스마트팩토리 국비 도입 & 원가절감 1인 자문관 (Smart-Factory Architect)"';
+        if (sloganEl) sloganEl.textContent = '"배움과 경험에는 은퇴가 없다 — 28년 현장 노하우를 기업이 줄 서서 사는 자문 상품으로"';
+        if (ebookEl) ebookEl.textContent = "《치킨집 대신 내 공장 노하우를 팝니다: 중기부 스마트팩토리 국비 1억 수혜 실전 10대 바이블》 (권당 ₩25,000)";
+        if (consultEl) consultEl.textContent = "시간당 ₩250,000 / 월 ₩1,500,000 리테이너 자문 계약서 (지방 제조기업 5곳 타깃)";
+        if (mapEl) mapEl.textContent = "D-60일 전자책 출간 ➔ D-30일 1:1 고객 3곳 확보(₩450만) ➔ D-Day 1인 출판사 법인화 & 월 1,040만 원 안정화";
+      } else if (val === "finance") {
+        if (noteEl) noteEl.value = "25년간 시중은행 지점장으로 중소기업 여신 3,000건 심사. 기업들이 대출 서류를 몰라 쩔쩔매는 것을 수없이 보았음.";
+        if (titleEl) titleEl.textContent = '"중소기업 정책자금 대출 & 신용평가 2등급 상향 전문 1인 금융 아키텍트"';
+        if (sloganEl) sloganEl.textContent = '"은행 창구의 비밀을 중소기업 대표의 무기로 — 25년 은행 지점장의 1:1 자문"';
+        if (ebookEl) ebookEl.textContent = "《은행 지점장이 절대 안 알려주는 중소기업 대출 심사 통과 15대 비밀 공식》 (권당 ₩29,000)";
+        if (consultEl) consultEl.textContent = "기업당 재무 건전성 진단 ₩500,000 / 정부 정책자금 유치 성공 자문 (월 ₩2,000,000)";
+        if (mapEl) mapEl.textContent = "D-90일 전자책 출판 ➔ 리멤버 4050 CEO 칼럼 기고 ➔ 자문 기업 6곳 확보로 첫 달 ₩900만 돌파";
+      } else if (val === "it-pm") {
+        if (noteEl) noteEl.value = "22년간 공공·금융 SI 프로젝트 총괄 수석 PM. 비개발자 경영진이 외주 개발사에 사기당하는 현장을 숱하게 목격함.";
+        if (titleEl) titleEl.textContent = '"비개발자 CEO를 위한 AI·외주개발 리스크 0% 감리 전문 1인 테크 고문"';
+        if (sloganEl) sloganEl.textContent = '"개발자 뽑지 마세요 — 22년 차 수석 PM이 대표님의 외주 개발사를 1:1 감리합니다"';
+        if (ebookEl) ebookEl.textContent = "《외주 개발에 5천만원 날리기 전에 읽는 비개발자 대표의 실전 IT 발주 바이블》 (권당 ₩27,000)";
+        if (consultEl) consultEl.textContent = "외주 계약서 RFP 검수 건당 ₩350,000 / 월간 테크 고문 리테이너 ₩1,800,000";
+        if (mapEl) mapEl.textContent = "D-45일 IT 창업 커뮤니티 무료 RFP 진단 배포 ➔ 스타트업 테크 고문 5건 수주 (월 ₩1,050만)";
+      } else if (val === "hr-eval") {
+        if (noteEl) noteEl.value = "26년간 대기업 및 중견기업 인사팀장. 임금피크제, 노무 분쟁, 핵심 인재 이탈 방지 솔루션 전문화.";
+        if (titleEl) titleEl.textContent = '"중소·스타트업 핵심 인재 이탈 방어 & 저비용 성과평가 설계 전문 1인 노무 코치"';
+        if (sloganEl) sloganEl.textContent = '"대기업 26년 인사 시스템을 10인 스타트업에 맞춤 이식합니다"';
+        if (ebookEl) ebookEl.textContent = "《사람 때문에 망하는 스타트업을 위한 퇴사율 0% 팀 빌딩 & 보상 매뉴얼》 (권당 ₩24,000)";
+        if (consultEl) consultEl.textContent = "스타트업 분기 평가 체계 구축 건당 ₩1,200,000 / 대표 1:1 코칭 회당 ₩200,000";
+        if (mapEl) mapEl.textContent = "원티드/블라인드 인사 칼럼 기고 ➔ 초기 스타트업 8개 사 인사 자문 계약으로 월 ₩1,020만";
+      } else if (val === "public") {
+        if (noteEl) noteEl.value = "27년간 공기업 조달·입찰 심사 평가위원 역임. 나라장터 입찰 제안서 작성 노하우 독보적 보유.";
+        if (titleEl) titleEl.textContent = '"나라장터 공공조달 낙찰률 85% 전문 1인 공공 입찰 전략관"';
+        if (sloganEl) sloganEl.textContent = '"27년 공공 심사위원 시각으로 낙찰되는 제안서만 설계합니다"';
+        if (ebookEl) ebookEl.textContent = "《공공기관 조달 심사위원이 3초 만에 합격 도장 찍는 입찰 제안서 작성법》 (권당 ₩33,000)";
+        if (consultEl) consultEl.textContent = "나라장터 제안서 1:1 클리닉 건당 ₩400,000 / 조달청 우수제품 등록 자문 ₩2,500,000";
+        if (mapEl) mapEl.textContent = "D-60일 공공조달 설명회 무료 웨비나 ➔ 중소 제조업체 입찰 대행 4건 수주 (월 ₩1,100만)";
+      }
+    });
+
+    document.getElementById("btnRunPostCareerDemo")?.addEventListener("click", () => {
+      const career = document.getElementById("sbPcaCareerSelect")?.value || "커리어";
+      const dday = document.getElementById("sbPcaDdaySelect")?.value || "D-1년";
+      alert(`⚡ [Post-Career Architect] 은퇴 대비 1인 창직 로드맵 설계 완료!\n목표 시점: ${dday}\n30년 결정성 지능이 전자책 기획서, 1:1 자문 오퍼, 90일 소득 크레바스 방어선으로 즉시 변환되었습니다.`);
+    });
+
+    document.getElementById("btnCopyPcaEbook")?.addEventListener("click", () => {
+      const ebookTitle = document.getElementById("sbPcaEbook")?.textContent?.trim() || "";
+      const plan = `[교보문고/예스24 전자책 1인 출판 기획서]\n도서명: ${ebookTitle}\n저자: 1인 창직가 (Post-Career Architect)\n타깃 독자: 은퇴를 앞두고 제2의 삶을 준비하는 4050 직장인 및 해당 분야 실무자\n\n[10챕터 목차]\n제1장. 치킨집 창업의 덫: 내 평생 직장 경험이 진짜 자산이다\n제2장. 결정성 지능(Crystallized Intelligence)의 발견과 시장성 검증\n제3장. 시간당 25만원을 지불하게 만드는 1:1 전문 자문 포지셔닝\n제4장. 무자본 1인 출판과 교보문고 등록 A to Z\n제5장. 소득 크레바스 90일 캐시플로우 방어 매뉴얼\n제6장. 링크드인과 리멤버를 활용한 신중년 고단가 고객 발굴\n제7장. 정부지원금과 신중년 창업 바우처 5,000만원 100% 수혜법\n제8장. 1인 지식 기업가를 위한 간이과세 및 부가세 면세 세무 전략\n제9장. B2B 기업 전직지원 출강 및 아카데미 스케일업\n제10장. 배움과 나눔에는 은퇴가 없다: 존경받는 1인 기업가의 삶`;
+      navigator.clipboard.writeText(plan).then(() => {
+        alert("📋 [전자책 기획서 & 10챕터 목차]가 클립보드에 복사되었습니다!\n원고 집필 및 출판사 투고에 바로 활용하세요.");
+      });
+    });
+
+    document.getElementById("btnExportPcaPlan")?.addEventListener("click", () => {
+      const title = document.getElementById("sbPcaTitle")?.textContent?.trim() || "";
+      const fullText = `[Post-Career Architect 1인 창직 로드맵 마스터플랜]\n\n공식 타이틀: ${title}\n슬로건: 배움과 경험에는 은퇴가 없다\n\n1차 지식 상품: 교보문고 1인 전자책 출판 (권당 ₩25,000)\n2차 고단가 오퍼: 1:1 자문 컨설팅 (시간당 ₩250,000 / 월 ₩150만)\n3차 스케일업: 대기업 전직지원 교육 출강 및 아카데미 법인화\n\n목표 MRR: ₩10,400,000 (자가진단 120명 + VIP 18명)\n세무/법률: 1인 지식출판 사업자 등록 & 연 2회 은퇴 트렌드 업데이트 반영`;
+      navigator.clipboard.writeText(fullText).then(() => {
+        alert("📥 [1인 창직 마스터플랜] 요약본이 클립보드에 복사되었습니다!\nPDF 또는 노션 문서로 보관하세요.");
+      });
+    });
+
+    document.getElementById("sbDfScreenTime")?.addEventListener("change", (e) => {
+      const val = e.target.value;
+      const scoreEl = document.getElementById("sbDfRecoveryScore");
+      const descEl = document.getElementById("sbDfRecoveryDesc");
+      const timeEl = document.getElementById("sbDfTimeGain");
+      const p1 = document.getElementById("sbDfPhase1");
+
+      if (val === "2.5") {
+        if (scoreEl) scoreEl.textContent = "91.8% 회복 가능";
+        if (descEl) descEl.textContent = '"전두엽 알파파 동기화 및 21일 알고리즘 차단 시, 14일 차부터 팝콘 브레인 78% 완화"';
+        if (timeEl) timeEl.innerHTML = "✨ 일일 회복 집중 시간: <strong>+3.5시간/일</strong> (월 105시간 ➔ 경제적 가치 ₩2,625,000 상당)";
+        if (p1) p1.textContent = "스마트폰 물리적 보관함 강제 락 + 하루 SNS 15분 제한, 금단 불안 극복";
+      } else if (val === "4.0") {
+        if (scoreEl) scoreEl.textContent = "88.4% 회복 가능";
+        if (descEl) descEl.textContent = '"만성 도파민 불응 상태: 1주차 완전 디지털 단식 후 2주차부터 독서 집중력 2.2배 급반등"';
+        if (timeEl) timeEl.innerHTML = "✨ 일일 회복 집중 시간: <strong>+4.5시간/일</strong> (월 135시간 ➔ 경제적 가치 ₩3,375,000 상당)";
+        if (p1) p1.textContent = "침실 스마트폰 반입 완전 금지 + 기상 후 1시간 텍스트 정독 루틴 강제";
+      } else if (val === "6.0") {
+        if (scoreEl) scoreEl.textContent = "84.2% 회복 가능";
+        if (descEl) descEl.textContent = '"중증 알고리즘 중독: 1:1 코칭 전담 모니터링 및 주말 오프라인 디톡스 캠프 병행 필수"';
+        if (timeEl) timeEl.innerHTML = "✨ 일일 회복 집중 시간: <strong>+5.5시간/일</strong> (월 165시간 ➔ 경제적 가치 ₩4,125,000 상당)";
+        if (p1) p1.textContent = "스마트폰 흑백 모드 강제 전환 + SNS 앱 21일간 강제 언인스톨 및 디스코드 벌금제";
+      } else if (val === "1.5") {
+        if (scoreEl) scoreEl.textContent = "96.5% 회복 가능";
+        if (descEl) descEl.textContent = '"초기 산만함 단계: 45분 딥다이브 타이머 습관화만으로 7일 만에 최상위 1% 초집중 모드 진입"';
+        if (timeEl) timeEl.innerHTML = "✨ 일일 회복 집중 시간: <strong>+2.0시간/일</strong> (월 60시간 ➔ 경제적 가치 ₩1,500,000 상당)";
+        if (p1) p1.textContent = "업무 시간 알림 무음화 + 45분 집중/10분 휴식 포모도로 리듬 고정";
+      }
+    });
+
+    document.getElementById("btnRunDeepFocusDemo")?.addEventListener("click", () => {
+      const hours = document.getElementById("sbDfScreenTime")?.value || "3";
+      alert(`⚡ [DeepFocus 21] 21일 뇌신경 도파민 회복 처방전 생성 완료!\n일일 스크린타임: ${hours}시간 분석\n스마트폰 강제 잠금, 45분 딥다이브 타이머, 텍스트 몰입 미션이 세팅되었습니다.\n21일 후 하루 3.5시간의 온전한 집중력이 복원됩니다!`);
+    });
+
+    document.getElementById("btnCopyDfMission")?.addEventListener("click", () => {
+      const text = `[DeepFocus 21 데일리 몰입 챌린지 미션 시트 (21일 뇌신경 리셋)]\n프로그램명: 숏폼 도파민 중독 탈출 & 심층 사유 복원 21일 프로젝트\n\n[1주차: 도파민 단식 & 신경 수용체 초기화]\n- Day 1: 스마트폰 흑백 모드 전환 & SNS 앱 홈 화면에서 숨기기\n- Day 2: 침실 스마트폰 반입 금지 & 아날로그 알람시계 세팅\n- Day 3: 출퇴근길 숏폼 대신 오디오북/음악 없이 걷기 (지루함 견디기 훈련)\n- Day 4: 24시간 동안 유튜브/릴스/틱톡 완전 차단 (디지털 단식 1호)\n- Day 5: 뇌파 안정화 알파파 사운드 들으며 20분 호흡 명상\n- Day 6: 나를 자극하는 도파민 트리거(특정 계정, 시간대) 5가지 적기\n- Day 7: 1주차 스크린타임 감축 결산 및 금단 증상 피드백 기록\n\n[2주차: 45분 딥다이브 & 텍스트 몰입 복원]\n- Day 8: 타이머 맞춰놓고 스마트폰 다른 방에 둔 채 30분 책 읽기\n- Day 9: 45분 딥다이브 블록 1회 완주 (중간에 딴짓 충동 기록)\n- Day 10: 인문학 단행본 1개 챕터 정독 후 밑줄 긋기\n- Day 11: 45분 몰입 세션 2회 연속 수행 (총 90분 초집중)\n- Day 12: 세타파 바이노럴 비트 음원 착용 후 복잡한 업무 기획서 작성\n- Day 13: 긴 호흡 칼럼 2편 읽고 핵심 논지 3줄 요약\n- Day 14: 2주차 인지 집중 지속 시간 자가진단 (비포 대비 1.8배)\n\n[3주차: 심층 사유 & 고차원 인지 시스템 완성]\n- Day 15: 저자의 핵심 주장에 반박하는 '소크라테스 반론 메모' 작성\n- Day 16: 오늘 읽은 텍스트를 바탕으로 나만의 3줄 통찰 글 발행\n- Day 17: 하루 스크린타임 30분 이하 유지 챌린지\n- Day 18: 90분 딥워크 블록 완주 & 핵심 산출물 1건 완성\n- Day 19: 오프라인 산책 중 떠오른 아이디어를 종이 수첩에만 메모\n- Day 20: 21일간 되찾은 시간(총 70+시간) 가치 환산 리포트 작성\n- Day 21: DeepFocus 21 완주식 & 평생 집중력 시스템 루틴 확정!`;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("📋 [DeepFocus 21 데일리 미션 시트]가 클립보드에 복사되었습니다!\n노션이나 다이어리에 붙여넣고 오늘부터 실천하세요.");
+      });
+    });
+
+    document.getElementById("btnCopyDfCoaching")?.addEventListener("click", () => {
+      const text = `[DeepFocus 21 VIP 1:1 심층 코칭 신청서]\n신청자 성함: \n연락처: \n현재 일일 숏폼 스크린타임: (  )시간\n가장 고통스러운 집중력 결핍 증상: \n달성하고 싶은 21일 목표 (예: 책 3권 완독 / 자격증 취득 / 기획서 완성): \n\n[VIP 혜택 안내]\n1. 주 1회 뇌인지과학 전문 코치 1:1 줌(Zoom) 코칭 세션 (총 4회)\n2. 스마트폰 강제 차단 하드웨어 키트 & 뇌파 바이노럴 음원 평생 이용권\n3. 오프라인 주말 디지털 디톡스 캠프 우선 초청권 (30% 할인)\n4. 21일 미션 미완주 시 100% 전액 환불 보증제`;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("📥 [DeepFocus 21 VIP 1:1 심층 코칭 신청서]가 클립보드에 복사되었습니다!");
+      });
+    });
+
+    document.getElementById("btnRunGenericDemo")?.addEventListener("click", () => {
+      alert("AI 코어 엔진 처리가 0.8초 만에 완료되었습니다!");
+    });
+  }
+
+  // [8] 실시간 유닛 이코노믹스 & MRR 연산
+  updateSimulatorCalculations() {
+    if (!this.inputStandardPrice) return;
+    const stdPrice = parseInt(this.inputStandardPrice.value, 10);
+    const stdUsers = parseInt(this.inputStandardUsers.value, 10);
+    const proPrice = parseInt(this.inputProPrice.value, 10);
+    const proUsers = parseInt(this.inputProUsers.value, 10);
+    const opsCost = parseInt(this.inputOpsCost.value, 10);
+
+    if (this.valStandardPrice) this.valStandardPrice.textContent = `₩${stdPrice.toLocaleString()}`;
+    if (this.valStandardUsers) this.valStandardUsers.textContent = `${stdUsers} 명`;
+    if (this.valProPrice) this.valProPrice.textContent = `₩${proPrice.toLocaleString()}`;
+    if (this.valProUsers) this.valProUsers.textContent = `${proUsers} 명`;
+    if (this.valOpsCost) this.valOpsCost.textContent = `₩${opsCost.toLocaleString()}`;
+
+    const grossMrr = (stdPrice * stdUsers) + (proPrice * proUsers);
+    const netProfit = grossMrr - opsCost;
+    const margin = grossMrr > 0 ? ((netProfit / grossMrr) * 100).toFixed(1) : 0;
+    const arr = netProfit * 12;
+    const targetGoal = 10000000;
+    const targetPercent = Math.min(Math.max((netProfit / targetGoal) * 100, 0), 200).toFixed(1);
+
+    if (this.mrrNetProfitAmount) this.mrrNetProfitAmount.textContent = `₩${netProfit.toLocaleString()}`;
+    if (this.mrrGrossAmount) this.mrrGrossAmount.textContent = `₩${grossMrr.toLocaleString()}`;
+    if (this.mrrCostAmount) this.mrrCostAmount.textContent = `-₩${opsCost.toLocaleString()}`;
+    if (this.mrrMarginAmount) this.mrrMarginAmount.textContent = `${margin}%`;
+    if (this.mrrArrAmount) this.mrrArrAmount.textContent = `₩${arr.toLocaleString()}`;
+    if (this.mrrTargetPercent) this.mrrTargetPercent.textContent = `${targetPercent}%`;
+    if (this.mrrProgressBarFill) this.mrrProgressBarFill.style.width = `${Math.min(targetPercent, 100)}%`;
+
+    // Real-World Marketing Stress Test Calculations
+    const cacCost = parseInt(this.inputCacCost?.value || 35000, 10);
+    const churnRate = parseFloat(this.inputChurnRate?.value || 7.0);
+    const refundRate = parseFloat(this.inputRefundRate?.value || 5.0);
+
+    if (this.valCacCost) this.valCacCost.textContent = `₩${cacCost.toLocaleString()}`;
+    if (this.valChurnRate) this.valChurnRate.textContent = `${churnRate.toFixed(1)}%`;
+    if (this.valRefundRate) this.valRefundRate.textContent = `${refundRate.toFixed(1)}%`;
+
+    const totalUsers = stdUsers + proUsers;
+    const avgArpu = totalUsers > 0 ? (grossMrr / totalUsers) : 0;
+    const avgLifespanMonths = churnRate > 0 ? (100 / churnRate) : 14;
+    const ltv = Math.round(avgArpu * avgLifespanMonths);
+    const ltvCacRatio = cacCost > 0 ? (ltv / cacCost).toFixed(1) : 99.9;
+
+    const monthlyChurnedUsers = Math.round(totalUsers * (churnRate / 100));
+    const monthlyMarketingSpend = monthlyChurnedUsers * cacCost;
+    const monthlyRefundLoss = Math.round(grossMrr * (refundRate / 100));
+    const realNetMrr = grossMrr - opsCost - monthlyMarketingSpend - monthlyRefundLoss;
+
+    const unitContribution = avgArpu - (avgArpu * (refundRate / 100)) - (cacCost * (churnRate / 100));
+    const bepUsers = unitContribution > 0 ? Math.ceil(opsCost / unitContribution) : 999;
+
+    if (this.valLtvAmount) this.valLtvAmount.textContent = `₩${ltv.toLocaleString()}`;
+    if (this.valLtvCacRatio) this.valLtvCacRatio.textContent = `${ltvCacRatio} 배`;
+    if (this.valBepUsers) this.valBepUsers.textContent = `${bepUsers} 명`;
+    if (this.valRealNetMrr) this.valRealNetMrr.textContent = `₩${realNetMrr.toLocaleString()}`;
+
+    if (this.badgeStressVerdict) {
+      if (realNetMrr > 5000000 && ltvCacRatio >= 4.0) {
+        this.badgeStressVerdict.textContent = "💎 초우량 고수익형";
+        this.badgeStressVerdict.className = "badge-tag tag-emerald";
+      } else if (realNetMrr > 0 && ltvCacRatio >= 3.0) {
+        this.badgeStressVerdict.textContent = "✅ 안정 성장형";
+        this.badgeStressVerdict.className = "badge-tag tag-emerald";
+      } else if (realNetMrr > 0) {
+        this.badgeStressVerdict.textContent = "⚠️ 마케팅 과열 주의";
+        this.badgeStressVerdict.className = "badge-tag tag-amber";
+      } else {
+        this.badgeStressVerdict.textContent = "🚨 적자 경보 (CAC 절감 필요)";
+        this.badgeStressVerdict.className = "badge-tag tag-rose";
+      }
+    }
+
+    if (this.simStatusTag) {
+      if (netProfit >= targetGoal) {
+        this.simStatusTag.innerHTML = `<i class="dot mandatory"></i> 🎯 월 1,000만원 달성 성공 (₩${netProfit.toLocaleString()})`;
+        this.simStatusTag.className = "legend-tag mandatory";
+      } else {
+        const gap = targetGoal - netProfit;
+        this.simStatusTag.innerHTML = `<i class="dot dominant"></i> ⚠️ 목표까지 ₩${gap.toLocaleString()} 부족`;
+        this.simStatusTag.className = "legend-tag dominant";
+      }
+    }
+
+    if (this.mrrFormulaInsightText) {
+      this.mrrFormulaInsightText.innerHTML = `
+        스탠다드 고객 <strong>${stdUsers}명</strong>(월 ₩${stdPrice.toLocaleString()}) + 
+        프로 고객 <strong>${proUsers}명</strong>(월 ₩${proPrice.toLocaleString()}) 유치 시 
+        월 총매출 <strong>₩${grossMrr.toLocaleString()}</strong>, 
+        순부수익 <strong>₩${netProfit.toLocaleString()}</strong>(영업이익률 ${margin}%)이 발생합니다.
+      `;
+    }
+  }
+
+  // [9] 5단계 35개 실행 체크리스트
+  renderChecklist(phaseFilter = "all") {
+    if (!this.checklistContainer) return;
+    this.checklistContainer.innerHTML = "";
+
+    const totalTasks = BASE_CHECKLIST_TEMPLATE.length;
+    let completedCount = 0;
+
+    const phases = [
+      { num: 1, title: "1단계: 시장 검증 및 고객 고통 발굴 (D-1 ~ D-7)" },
+      { num: 2, title: "2단계: No-Code/AI 초고속 MVP 구축 (D-8 ~ D-14)" },
+      { num: 3, title: "3단계: 결제·법률·사업자 인프라 셋업 (D-15 ~ D-21)" },
+      { num: 4, title: "4단계: 초기 1,000명 바이럴 & 런칭 세일즈 (D-22 ~ D-28)" },
+      { num: 5, title: "5단계: 무인 자동화, 이탈 방어 & B2B 확장 (D-29 ~)" }
+    ];
+
+    phases.forEach(p => {
+      if (phaseFilter !== "all" && String(p.num) !== String(phaseFilter)) {
+        return;
+      }
+
+      const phaseTasks = BASE_CHECKLIST_TEMPLATE.filter(t => t.phase === p.num);
+      const phaseCard = document.createElement("div");
+      phaseCard.className = "phase-section-card glass-card";
+
+      let tasksHtml = "";
+      phaseTasks.forEach(task => {
+        const taskId = `${this.currentModelId}_${task.id}`;
+        const isChecked = !!this.checklistState[taskId];
+        if (isChecked) completedCount++;
+
+        tasksHtml += `
+          <div class="task-item ${isChecked ? "completed" : ""}" data-task-id="${taskId}">
+            <input type="checkbox" class="task-checkbox" ${isChecked ? "checked" : ""}>
+            <div class="task-content-block">
+              <div class="task-title-line">
+                <span class="task-text">${task.title}</span>
+                <span class="task-duration-badge">${task.duration}</span>
+              </div>
+              <p class="task-detail-desc">${task.desc}</p>
+            </div>
+          </div>
+        `;
+      });
+
+      phaseCard.innerHTML = `
+        <div class="phase-header-row">
+          <div class="phase-title-left">
+            <span class="phase-num-badge">PHASE 0${p.num}</span>
+            <h3>${p.title}</h3>
+          </div>
+        </div>
+        <div class="phase-tasks-list">${tasksHtml}</div>
+      `;
+
+      this.checklistContainer.appendChild(phaseCard);
+    });
+
+    let totalCompletedAll = 0;
+    BASE_CHECKLIST_TEMPLATE.forEach(task => {
+      const taskId = `${this.currentModelId}_${task.id}`;
+      if (this.checklistState[taskId]) totalCompletedAll++;
+    });
+
+    const progressPercent = Math.round((totalCompletedAll / totalTasks) * 100);
+    if (this.checklistMeterFill) this.checklistMeterFill.style.width = `${progressPercent}%`;
+    if (this.checklistMeterTxt) this.checklistMeterTxt.textContent = `${progressPercent}% (${totalCompletedAll}/${totalTasks})`;
+    if (this.checklistProgressBadge) this.checklistProgressBadge.textContent = `${totalCompletedAll}/${totalTasks} 완료`;
+
+    this.checklistContainer.querySelectorAll(".task-item").forEach(item => {
+      item.addEventListener("click", (e) => {
+        const checkbox = item.querySelector(".task-checkbox");
+        if (e.target !== checkbox) {
+          checkbox.checked = !checkbox.checked;
+        }
+        const taskId = item.getAttribute("data-task-id");
+        this.checklistState[taskId] = checkbox.checked;
+        this.saveChecklistState();
+        this.renderChecklist(phaseFilter);
+      });
+    });
+  }
+
+  // [10] 세일즈 랜딩페이지 프리뷰
+  renderLandingPreview() {
+    if (!this.landingPreviewContainer) return;
+    const m = this.models[this.currentModelId] || this.models["gov-subsidy"];
+    const stdPrice = parseInt(this.inputStandardPrice.value, 10);
+    const proPrice = parseInt(this.inputProPrice.value, 10);
+
+    this.landingPreviewContainer.innerHTML = `
+      <div class="landing-mock-header">
+        <span class="landing-mock-brand">⚡ ${m.title.split("] ")[1] || m.title}</span>
+        <div>
+          <button class="btn btn-outline btn-sm" style="color: #0F172A; border-color: #CBD5E1;">로그인</button>
+          <button class="btn btn-primary btn-sm" style="background: #4F46E5;">3일 무료 체험</button>
+        </div>
+      </div>
+
+      <div class="landing-hero-block">
+        <span class="landing-hero-badge">🚀 ${m.categoryName} 1위 자동화 솔루션</span>
+        <h1>"${m.pain.summary}"</h1>
+        <p>복잡한 수작업과 외주 비용 0원화! 10초 만에 끝내는 ${m.title.split("] ")[1] || m.title}의 혁신을 경험하세요.</p>
+        <a href="#" class="landing-cta-btn-main">지금 10초 만에 무료로 시작하기 →</a>
+      </div>
+
+      <div class="landing-pricing-grid">
+        <div class="landing-price-card">
+          <div class="landing-price-title">Free 플랜</div>
+          <div class="landing-price-amount">₩0 <span style="font-size: 13px; color: #64748B;">/평생</span></div>
+          <p style="font-size: 13px; color: #475569; margin-bottom: 14px;">월 3회 무료 진단 및 기본 생성</p>
+          <button class="btn btn-outline btn-sm" style="width: 100%; color: #334155;">무료 시작</button>
+        </div>
+
+        <div class="landing-price-card featured">
+          <span class="landing-price-badge">가장 인기</span>
+          <div class="landing-price-title">Standard 플랜</div>
+          <div class="landing-price-amount">₩${stdPrice.toLocaleString()} <span style="font-size: 13px; color: #4F46E5;">/월</span></div>
+          <p style="font-size: 13px; color: #3730A3; margin-bottom: 14px;">무제한 생성 + 우선 AI 연산 + 카카오 알림</p>
+          <button class="btn btn-primary btn-sm" style="width: 100%; background: #4F46E5;">7일 무료 체험 후 구독</button>
+        </div>
+
+        <div class="landing-price-card">
+          <div class="landing-price-title">Pro / B2B 플랜</div>
+          <div class="landing-price-amount">₩${proPrice.toLocaleString()} <span style="font-size: 13px; color: #64748B;">/월</span></div>
+          <p style="font-size: 13px; color: #475569; margin-bottom: 14px;">다중 계정 + 1:1 전담 컨설팅 + API 연동</p>
+          <button class="btn btn-outline btn-sm" style="width: 100%; color: #334155;">도입 문의</button>
+        </div>
+      </div>
+    `;
+  }
+
+  copyLandingHtml() {
+    if (!this.landingPreviewContainer) return;
+    if (!this.isVip) {
+      this.openCheckoutModal("고전환 세일즈 랜딩페이지 배포용 HTML 원본 복사는 VIP 패키지 전용 기능입니다.");
+      return;
+    }
+    const html = this.landingPreviewContainer.innerHTML;
+    navigator.clipboard.writeText(html).then(() => {
+      alert("📋 [VIP 라이선스 인증됨] 세일즈 랜딩페이지 배포용 HTML 코드가 클립보드에 복사되었습니다!\n즉시 웹에 호스팅하여 고객 결제를 받으세요.");
+    });
+  }
+
+  openLandingInNewTab() {
+    const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <title>Landing Preview</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+        <style>
+          body { font-family: 'Pretendard', sans-serif; background: #f8fafc; margin: 0; padding: 40px 20px; }
+          .container { max-width: 900px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        </style>
+      </head>
+      <body>
+        <div class="container">${this.landingPreviewContainer.innerHTML}</div>
+      </body>
+      </html>
+    `;
+    const blob = new Blob([html], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    window.open(url, "_blank");
+  }
+
+  // [11] 표준 30페이지급 사업계획서 & 투자 제안서 렌더링 (100만원 VIP 종합 플랜)
+  renderReportPaper() {
+    const m = this.models[this.currentModelId] || this.models["gov-subsidy"];
+    if (!this.printableReportPaper) return;
+
+    const stdPrice = parseInt(this.inputStandardPrice?.value || m.defaultStandardPrice, 10);
+    const stdUsers = parseInt(this.inputStandardUsers?.value || m.defaultStandardUsers, 10);
+    const proPrice = parseInt(this.inputProPrice?.value || m.defaultProPrice, 10);
+    const proUsers = parseInt(this.inputProUsers?.value || m.defaultProUsers, 10);
+    const opsCost = parseInt(this.inputOpsCost?.value || m.defaultOpsCost, 10);
+    const grossMrr = (stdPrice * stdUsers) + (proPrice * proUsers);
+    const netProfit = grossMrr - opsCost;
+    const margin = grossMrr > 0 ? ((netProfit / grossMrr) * 100).toFixed(1) : 0;
+    const arr = netProfit * 12;
+
+    const vip = m.vipMaster || this.models["gov-subsidy"].vipMaster;
+    const o = vip.grandSlamOffer;
+    const pe = vip.promptEngine;
+    const scripts = vip.salesScripts || [];
+    const cashflows = vip.cashflowRoadmap || [];
+
+    this.printableReportPaper.innerHTML = `
+      <div class="report-badge-meta">
+        <i data-lucide="shield-check"></i> 대한민국 중기부·창진원·엔젤투자협회 표준 IR 양식 호환 (Confidential)
+      </div>
+
+      <div class="report-doc-header">
+        <div class="report-doc-title">
+          <h1>[30페이지급 마스터 사업계획서 & 투자 제안서] ${m.title}</h1>
+          <p>${m.shortDesc}</p>
+        </div>
+        <div class="report-doc-stamp">
+          <strong>문서번호:</strong> BIZ-2026-HIGH-TICKET<br>
+          <strong>작성일자:</strong> ${new Date().toISOString().split("T")[0]}<br>
+          <strong>발행처:</strong> PainFinder VIP Incubator<br>
+          <strong>보안등급:</strong> STRICTLY CONFIDENTIAL
+        </div>
+      </div>
+
+      <!-- 제1장: 사업 개요 및 총괄 요약 -->
+      <div class="report-section">
+        <h2>1. 사업 개요 및 총괄 요약 (Executive Summary)</h2>
+        <div class="report-quote-box">
+          <strong>사업 비전:</strong> "${m.pain.summary}"<br>
+          <strong>핵심 가치 제안:</strong> ${m.shortDesc}
+        </div>
+        <div class="report-kpi-grid">
+          <div class="report-kpi-card">
+            <div class="report-kpi-lbl">목표 월 순부수익 (Net MRR)</div>
+            <div class="report-kpi-val" style="color: #059669;">₩${netProfit.toLocaleString()}</div>
+          </div>
+          <div class="report-kpi-card">
+            <div class="report-kpi-lbl">연간 환산 순이익 (ARR)</div>
+            <div class="report-kpi-val" style="color: #4F46E5;">₩${arr.toLocaleString()}</div>
+          </div>
+          <div class="report-kpi-card">
+            <div class="report-kpi-lbl">영업이익률 (Operating Margin)</div>
+            <div class="report-kpi-val" style="color: #D97706;">${margin}%</div>
+          </div>
+          <div class="report-kpi-card">
+            <div class="report-kpi-lbl">무인 운영 자동화율</div>
+            <div class="report-kpi-val" style="color: #0284C7;">95%+</div>
+          </div>
+        </div>
+        <p>
+          본 사업은 현대 사회에서 특정 계층이 매일 겪으며 극심한 시간적·금전적 손실을 유발하는 고질적 결핍(Pain Point)을 버티컬 AI 자동화 엔진으로 해결하여, 고객에게 압도적 해방감(안도감·자존감 회복)을 선사하고 창업자에게는 월 1,000만 원 이상의 안정적인 캐시플로우를 창출하는 1인 마이크로 지식/SaaS 비즈니스 모델입니다.
+        </p>
+      </div>
+
+      <!-- 제2장: 고객 결핍(Pain Point) 정밀 분석 -->
+      <div class="report-section">
+        <h2>2. 고객 결핍(Pain Point) 정밀 분석 및 시장의 경제적 손실</h2>
+        <p>
+          타깃 고객층이 매일 감내하고 있는 고통의 심도와 이로 인해 누출되는 경제적 비용을 정밀 분석하였습니다.
+        </p>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th style="width: 40%;">고객이 겪는 4대 핵심 고통 (Pain Bullets)</th>
+              <th style="width: 60%;">기존 대안재의 한계 및 경제적 손실액 분석</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${m.pain.bullets.map((b, i) => `
+              <tr>
+                <td><strong>[고통 0${i+1}]</strong> ${b}</td>
+                <td>
+                  ${i === 0 ? "고액 브로커/외주업체에 건당 200~500만 원의 과도한 선금 수수료를 강제 지출하거나 정보 격차로 인한 기회비용 상실." :
+                    i === 1 ? "매달 30~50시간의 극심한 비효율 수작업 및 자산 고갈 위험(월 환산 손실액 100만 원 이상)." :
+                    i === 2 ? "기존 포털/유튜브의 광고성 정보 범람으로 인한 탐색 피로도 및 잘못된 결정 시 수억 원대 파산 리스크." :
+                    "실행력과 지속성을 담보하는 시스템 및 피드백 부재로 비싼 교육비를 지불하고도 성과 미달."}
+                </td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 제3장: 4단계 AI 무인 솔루션 아키텍처 -->
+      <div class="report-section">
+        <h2>3. 4단계 AI 무인 솔루션 아키텍처 및 킬러 기능 (Solution Engine)</h2>
+        <p>
+          고객의 입력 최소화(1클릭/10초)를 원칙으로 설계된 4단계 자동화 파이프라인입니다.
+        </p>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th style="width: 15%;">단계</th>
+              <th style="width: 30%;">프로세스 명칭</th>
+              <th style="width: 55%;">AI 엔진 세부 실행 메커니즘</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${m.solution.map(s => `
+              <tr>
+                <td style="font-weight: 800; color: #4F46E5; text-align: center;">STEP 0${s.step}</td>
+                <td><strong>${s.title}</strong></td>
+                <td>${s.desc}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+        <div style="margin-top: 14px; padding: 14px; background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 6px;">
+          <strong style="color: #92400E; display: block; font-size: 13px; margin-bottom: 4px;">✨ 차별화 킬러 기능 (Killer Features):</strong>
+          <p style="font-size: 12.5px; color: #78350F; white-space: pre-line;">${m.delight.killerFeatures}</p>
+          <strong style="color: #065F46; display: block; font-size: 12.5px; margin-top: 8px;">❤️ 고객 감동 체감 지표 (Delight Factor):</strong>
+          <p style="font-size: 12px; color: #047857;">${m.delight.delightFactor}</p>
+        </div>
+      </div>
+
+      <!-- 제4장: 알렉스 호르모지식 그랜드 슬램 오퍼 -->
+      <div class="report-section">
+        <h2>4. 알렉스 호르모지식 '그랜드 슬램 오퍼' & 100만원 가치 스택</h2>
+        <p>
+          고객이 가격 저항을 전혀 느끼지 못하고 즉시 결제하도록 설계된 거절 불가능한 오퍼(Hormozi Formula) 구성입니다.
+        </p>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>호르모지 가치 방정식 변수</th>
+              <th>본 비즈니스 모델의 극대화 전략</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1. 꿈의 결과 (Dream Outcome)</strong></td>
+              <td style="color: #059669; font-weight: 700;">${o.dreamOutcome}</td>
+            </tr>
+            <tr>
+              <td><strong>2. 성공 확률 (Perceived Likelihood)</strong></td>
+              <td>${o.perceivedLikelihood}</td>
+            </tr>
+            <tr>
+              <td><strong>3. 소요 시간 (Time Delay)</strong></td>
+              <td>${o.timeDelay}</td>
+            </tr>
+            <tr>
+              <td><strong>4. 노력/희생 (Effort & Sacrifice)</strong></td>
+              <td>${o.effortSacrifice}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>📦 100만원 상당 가치 스택 (Value Stack) 상세 구성</h3>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th style="width: 75%;">가치 스택 제공 품목</th>
+              <th style="width: 25%; text-align: right;">개별 정상가 환산</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${o.stack.map(st => `
+              <tr>
+                <td><strong>${st.title}</strong></td>
+                <td style="text-align: right; font-weight: 700; color: #4F46E5;">${st.value}</td>
+              </tr>
+            `).join("")}
+            <tr class="report-highlight-row">
+              <td><strong>총합 패키지 가치 / 최종 판매 특가</strong></td>
+              <td style="text-align: right; font-size: 13px;">${o.specialPrice} (정가 ${o.totalValue})</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="padding: 12px 16px; background: #FEF2F2; border-left: 4px solid #EF4444; border-radius: 4px; margin-top: 10px;">
+          <strong style="color: #991B1B; font-size: 12.5px;">🛡️ 위험 제로 환불 보증 (Risk Reversal Guarantee):</strong>
+          <p style="font-size: 12px; color: #7F1D1D; margin-top: 3px;">${o.riskReversal}</p>
+        </div>
+      </div>
+
+      <!-- 제5장: 타깃 고객 페르소나 및 GTM 세일즈 전략 -->
+      <div class="report-section">
+        <h2>5. 타깃 고객 페르소나 및 GTM(Go-To-Market) 바이럴 전략</h2>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th style="width: 30%;">구분</th>
+              <th style="width: 70%;">상세 정의 및 타깃팅 전략</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1차 핵심 고객 (Primary)</strong></td>
+              <td>${m.persona.primary}</td>
+            </tr>
+            <tr>
+              <td><strong>2차 확장 고객 (Secondary)</strong></td>
+              <td>${m.persona.secondary}</td>
+            </tr>
+            <tr>
+              <td><strong>초기 유입 채널 (Acquisition)</strong></td>
+              <td>${m.gtm.channel}</td>
+            </tr>
+            <tr>
+              <td><strong>리드 마그넷 (Lead Magnet)</strong></td>
+              <td>${m.gtm.leadMagnet}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>📢 3대 채널별 실전 콜드 세일즈 대본 (Sales Scripts)</h3>
+        ${scripts.map((sc, i) => `
+          <div style="margin-bottom: 14px; padding: 14px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span class="report-badge-meta" style="margin-bottom: 0;">채널 0${i+1}: ${sc.channel}</span>
+              <strong style="font-size: 13px; color: #0F172A;">${sc.title}</strong>
+            </div>
+            <pre style="font-size: 11.5px; color: #334155; white-space: pre-wrap; line-height: 1.5; font-family: var(--font-sans); margin-top: 6px; background: #FFFFFF; padding: 10px; border-radius: 4px; border: 1px solid #E2E8F0;">${sc.script}</pre>
+          </div>
+        `).join("")}
+      </div>
+
+      <!-- 제6장: 프로덕션 AI 시스템 아키텍처 및 프롬프트 명세서 -->
+      <div class="report-section">
+        <h2>6. 프로덕션 AI 시스템 아키텍처 및 기술 스택 (Technical Architecture)</h2>
+        <p>
+          안정적인 99.9% 가용성과 무인 자동화를 보장하는 시스템 프롬프트 및 백엔드 API 연동 구조입니다.
+        </p>
+        <h3>시스템 프롬프트 명세서 (System Prompt Spec)</h3>
+        <pre class="report-code-block">${pe.systemPrompt}</pre>
+        <h3>서버리스 API 연동 코드 스니펫</h3>
+        <pre class="report-code-block">${pe.apiSnippet}</pre>
+      </div>
+
+      <!-- 제7장: 유닛 이코노믹스 및 4주 캐시플로우 로드맵 -->
+      <div class="report-section">
+        <h2>7. 유닛 이코노믹스 및 4주 캐시플로우 달성 로드맵 (Financials)</h2>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>구분</th>
+              <th>단가 (월)</th>
+              <th>목표 유료 결제 수</th>
+              <th>월 매출 (MRR)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Standard Plan (개인/기본형)</td>
+              <td>₩${stdPrice.toLocaleString()}</td>
+              <td>${stdUsers} 명</td>
+              <td>₩${(stdPrice * stdUsers).toLocaleString()}</td>
+            </tr>
+            <tr>
+              <td>Pro / B2B Plan (기업/VIP형)</td>
+              <td>₩${proPrice.toLocaleString()}</td>
+              <td>${proUsers} 명</td>
+              <td>₩${(proPrice * proUsers).toLocaleString()}</td>
+            </tr>
+            <tr>
+              <td>월 고정 운영비 (서버/API)</td>
+              <td colspan="2">-</td>
+              <td style="color: #E11D48;">-₩${opsCost.toLocaleString()}</td>
+            </tr>
+            <tr class="report-highlight-row">
+              <td><strong>최종 예상 월 순부수익 (Net MRR)</strong></td>
+              <td colspan="2"><strong>영업이익률 ${margin}%</strong></td>
+              <td style="color: #059669; font-size: 15px;"><strong>₩${netProfit.toLocaleString()} /월</strong></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>🗓️ 4주 만에 1,000만원 MRR 달성 캐시플로우 타임라인</h3>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th style="width: 25%;">주차별 마일스톤</th>
+              <th style="width: 25%;">목표 주간 매출</th>
+              <th style="width: 50%;">주요 실행 액션 리스트</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${cashflows.map(cf => `
+              <tr>
+                <td><strong>${cf.week}</strong></td>
+                <td style="color: #4F46E5; font-weight: 700;">${cf.targetRev}</td>
+                <td>
+                  <ul style="margin: 0; padding-left: 16px; font-size: 12px;">
+                    ${cf.actions.map(act => `<li>${act}</li>`).join("")}
+                  </ul>
+                </td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 제8장: 30일 완결형 5단계 실행 체크리스트 -->
+      <div class="report-section">
+        <h2>8. 30일 완결형 5단계 실행 체크리스트 (Master Execution Roadmap)</h2>
+        <p>
+          아이디어 발굴부터 30일 만에 첫 유료 결제 창출 및 B2B 스케일업까지 총 25~35대 전수 과업 체계도입니다.
+        </p>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th style="width: 15%;">단계</th>
+              <th style="width: 20%;">과업 명칭</th>
+              <th style="width: 55%;">세부 실행 명세</th>
+              <th style="width: 10%; text-align: center;">기한</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${BASE_CHECKLIST_TEMPLATE.slice(0, 15).map(t => `
+              <tr>
+                <td style="font-size: 11px; font-weight: 700; color: #4F46E5;">${t.phaseName.split(":")[0]}</td>
+                <td><strong>${t.title}</strong></td>
+                <td style="font-size: 12px;">${t.desc}</td>
+                <td style="text-align: center; font-size: 11px; font-family: var(--font-mono);">${t.duration}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 제9장: 엔젤 & 시드 투자 유치 제안서 -->
+      <div class="report-section">
+        <h2>9. 엔젤 & 시드 투자 유치 제안서 (Seed Investment Proposal)</h2>
+        <p>
+          본 비즈니스의 빠른 스케일업과 버티컬 시장 선점을 위한 초기 라운드 투자 유치 개요입니다.
+        </p>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th style="width: 35%;">항목</th>
+              <th style="width: 65%;">제안 내용 (Term Sheet Summary)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>희망 투자 유치 금액</strong></td>
+              <td style="font-weight: 800; color: #059669; font-size: 14px;">₩200,000,000 (2억 원)</td>
+            </tr>
+            <tr>
+              <td><strong>제안 지분율 / 기업가치</strong></td>
+              <td>지분율 10.0% (Post-Money Valuation ₩2,000,000,000 기준)</td>
+            </tr>
+            <tr>
+              <td><strong>자금 조달 목적</strong></td>
+              <td>AI 버티컬 엔진 고도화(40%), 초기 고객 획득 퍼포먼스 마케팅(30%), 개발 인건비(20%), 예비 운영비(10%)</td>
+            </tr>
+            <tr>
+              <td><strong>3개년 예상 성장 지표</strong></td>
+              <td>1년 차 MRR ₩10M+ ➔ 2년 차 MRR ₩50M+ ➔ 3년 차 MRR ₩150M+ (연 매출 18억 원 돌파)</td>
+            </tr>
+            <tr>
+              <td><strong>투자자 예상 엑시트(EXIT)</strong></td>
+              <td>3~5년 내 시리즈 A/B 단계 구주 매각 또는 동종 버티컬 SaaS 기업에 M&A 매각 (목표 ROI 5.0x+)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 제10장: 무인 운영 자동화, 법률·세무 및 리스크 관리 -->
+      <div class="report-section">
+        <h2>10. 무인 운영 자동화, 법률·세무 및 리스크 관리 (Operations & Compliance)</h2>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th style="width: 30%;">관리 영역</th>
+              <th style="width: 70%;">통제 및 자동화 전략</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>운영 무인화 (Automation)</strong></td>
+              <td>${m.ops.automation}</td>
+            </tr>
+            <tr>
+              <td><strong>스케일업 및 부가 수익</strong></td>
+              <td>${m.ops.expansion}</td>
+            </tr>
+            <tr>
+              <td><strong>법률 및 라이선스 준수</strong></td>
+              <td>전자상거래법 표준약관 100% 준수, 개인정보보호법에 따른 입력 데이터 즉시 비식별화 및 파기, 통신판매업 신고 완료.</td>
+            </tr>
+            <tr>
+              <td><strong>세무 및 절세 전략</strong></td>
+              <td>초기 간이과세자 등록(세액 공제) ➔ 월 매출 1,000만원 돌파 시 법인 전환을 통한 법인세 절감 및 연 2회 정기 가이드라인 업데이트 반영.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top: 24px; text-align: center; padding-top: 16px; border-top: 1px solid #E2E8F0; font-size: 12px; color: #94A3B8;">
+          © 2026 PainFinder AI Master Engine. All Rights Reserved. 본 문서는 비즈니스 실행을 위한 공식 인쇄물입니다.
+        </div>
+      </div>
+    `;
+
+    if (window.lucide) lucide.createIcons();
+  }
+
+  copyReportMarkdown() {
+    if (!this.printableReportPaper) return;
+    if (!this.isVip) {
+      this.openCheckoutModal("30페이지급 마스터 사업계획서 풀버전 복사 및 영구 소장은 VIP 패키지 전용 기능입니다.");
+      return;
+    }
+    const text = this.printableReportPaper.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      alert("📋 [VIP 라이선스 인증됨] 30페이지급 사업계획서 전문이 클립보드에 복사되었습니다!\n노션, 워드, 한글(HWP)에 그대로 붙여넣어 즉시 활용하세요.");
+    });
+  }
+
+  loadChecklistState() {
+    try {
+      const data = localStorage.getItem("bizlaunch_checklist_state");
+      return data ? JSON.parse(data) : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  saveChecklistState() {
+    try {
+      localStorage.setItem("bizlaunch_checklist_state", JSON.stringify(this.checklistState));
+    } catch (e) {}
+  }
+
+  exportChecklistMarkdown() {
+    const m = this.models[this.currentModelId] || this.models["gov-subsidy"];
+    let md = `# [액션 리스트] ${m.title} 30일 런칭 마스터플랜\n\n`;
+    BASE_CHECKLIST_TEMPLATE.forEach(t => {
+      const taskId = `${this.currentModelId}_${t.id}`;
+      const checked = this.checklistState[taskId] ? "[x]" : "[ ]";
+      md += `${checked} (${t.duration}) **${t.title}**: ${t.desc}\n`;
+    });
+
+    const blob = new Blob([md], { type: "text/markdown" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `BizLaunch_35_Action_List_${m.id}.md`;
+    a.click();
+  }
+
+  // ========================================================
+  // [13] 상용 상품화 & 수익화 VIP 시스템 (Monetization Engine)
+  // ========================================================
+
+  loadVipState() {
+    return localStorage.getItem("painfinder_vip_license") === "true";
+  }
+
+  activateVip(licenseKey = "VIP-2026-" + Math.random().toString(36).substring(2, 8).toUpperCase()) {
+    this.isVip = true;
+    localStorage.setItem("painfinder_vip_license", "true");
+    localStorage.setItem("painfinder_vip_key", licenseKey);
+    this.updateVipUI();
+    this.closeCheckoutModal();
+    alert(`🎉 축하합니다! VIP 평생 소장 라이선스가 성공적으로 활성화되었습니다!\n라이선스 키: [${licenseKey}]\n모든 10대 비즈니스 모델, 30페이지 IR 사업계획서, 프롬프트 전문이 영구 잠금 해제되었습니다.`);
+  }
+
+  updateVipUI() {
+    if (!this.txtVipBtnLabel) return;
+    if (this.isVip) {
+      this.txtVipBtnLabel.innerHTML = "👑 VIP 평생 회원";
+      this.btnOpenCheckout?.classList.add("active-vip");
+      if (this.btnBannerCheckout) this.btnBannerCheckout.textContent = "VIP 혜택 이용 중 ✓";
+    } else {
+      this.txtVipBtnLabel.innerHTML = "💎 VIP 패키지 결제";
+      this.btnOpenCheckout?.classList.remove("active-vip");
+    }
+  }
+
+  openCheckoutModal(customMsg = null) {
+    if (this.isVip) {
+      alert("이미 VIP 평생 라이선스를 보유하고 계십니다! 모든 프리미엄 기능을 자유롭게 사용하세요.");
+      return;
+    }
+    if (customMsg) {
+      const sub = this.modalCheckout?.querySelector(".price-sub");
+      if (sub) sub.innerHTML = `<strong style="color: #FEF08A;">⚠️ ${customMsg}</strong><br>지금 70% 얼리버드 특가로 즉시 잠금 해제하세요.`;
+    }
+    if (this.modalCheckout) this.modalCheckout.style.display = "flex";
+  }
+
+  closeCheckoutModal() {
+    if (this.modalCheckout) this.modalCheckout.style.display = "none";
+  }
+
+  executePaymentFlow() {
+    const email = document.getElementById("checkoutUserEmail")?.value || "founder@painfinder.ai";
+    const method = document.querySelector('input[name="payMethod"]:checked')?.value || "toss";
+    const btn = this.btnExecutePayment;
+
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = `<i data-lucide="loader-2" class="spin"></i> 안전 결제 승인 처리 중...`;
+    }
+
+    setTimeout(() => {
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = `<i data-lucide="lock"></i> ₩39,000 안전 결제 및 VIP 즉시 잠금 해제`;
+      }
+      this.activateVip();
     }, 1200);
   }
 
-  loadSample(sampleKey) {
-    const data = BLUEPRINT_DATASET[sampleKey];
-    if (!data) return;
-
-    this.currentSampleKey = sampleKey;
-
-    // Update Summary Header Metrics
-    const nameEl = document.getElementById('blueprintTargetName');
-    const objEl = document.getElementById('blueprintObjCount');
-    const violEl = document.getElementById('blueprintViolationCount');
-    const warnEl = document.getElementById('blueprintWarningCount');
-    const riskEl = document.getElementById('blueprintRiskScore');
-    const titleEl = document.getElementById('currentViewerDocTitle');
-
-    if (nameEl) nameEl.innerText = data.name;
-    if (objEl) objEl.innerText = data.objCount;
-    if (violEl) violEl.innerText = data.violationCount;
-    if (warnEl) warnEl.innerText = data.warningCount;
-    if (riskEl) riskEl.innerText = data.riskScore;
-    if (titleEl) titleEl.innerText = data.name;
-
-    // Render Architectural Blueprint SVG Drawing
-    this.renderSvgBlueprint();
-
-    // Render Interactive Pins Overlay
-    this.renderPinpoints(data.pins);
-
-    // Select default pin
-    if (data.pins && data.pins.length > 0) {
-      this.selectPin(data.pins[0].id);
-    }
+  // BYOK OpenAI API Engine
+  openApiKeyModal() {
+    if (this.inputUserApiKey) this.inputUserApiKey.value = this.userApiKey || "";
+    if (this.modalApiKey) this.modalApiKey.style.display = "flex";
   }
 
-  renderSvgBlueprint() {
-    if (!this.svgElement) return;
-
-    // Rich Architectural CAD Drawing SVG
-    this.svgElement.innerHTML = `
-      <defs>
-        <pattern id="gridPattern" width="20" height="20" patternUnits="userSpaceOnUse">
-          <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#E2E8F0" stroke-width="0.7"/>
-        </pattern>
-        <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="#4F46E5"/>
-        </marker>
-        <marker id="dangerArrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="#E11D48"/>
-        </marker>
-      </defs>
-
-      <!-- Background CAD Grid -->
-      <rect width="1000" height="650" fill="url(#gridPattern)" />
-
-      <!-- Outer Building Boundary Walls -->
-      <rect x="50" y="40" width="900" height="560" fill="#FFFFFF" stroke="#0F172A" stroke-width="4" rx="6" />
-
-      <!-- ================= 1. 무대부 (Stage Area) ================= -->
-      <rect x="180" y="60" width="640" height="150" fill="#F8FAFC" stroke="#1E293B" stroke-width="2.5" />
-      <text x="500" y="115" font-family="Inter, Pretendard" font-size="16" font-weight="800" fill="#0F172A" text-anchor="middle">MAIN PROSCENIUM STAGE (무대부 450㎡)</text>
-      <text x="500" y="140" font-family="Inter, Pretendard" font-size="12" font-weight="600" fill="#64748B" text-anchor="middle">바닥면적 300㎡ 초과 대상</text>
-
-      <!-- 무대 방화구획선 (Fire Barrier Line) -->
-      <g class="layer-fire">
-        <line x1="180" y1="210" x2="820" y2="210" stroke="#E11D48" stroke-width="3.5" stroke-dasharray="8,5" />
-        <text x="500" y="202" font-family="Inter, Pretendard" font-size="11" font-weight="700" fill="#E11D48" text-anchor="middle">⚠️ 무대 방화막(Fire Curtain) 법정 의무선 [누락 결함 부위]</text>
-      </g>
-
-      <!-- 무대 좌우측 포켓 및 준비실 -->
-      <rect x="70" y="60" width="110" height="150" fill="#F1F5F9" stroke="#94A3B8" stroke-width="1.5" />
-      <text x="125" y="140" font-size="12" font-weight="600" fill="#475569" text-anchor="middle">무대하부대기실</text>
-      <rect x="820" y="60" width="110" height="150" fill="#F1F5F9" stroke="#94A3B8" stroke-width="1.5" />
-      <text x="875" y="140" font-size="12" font-weight="600" fill="#475569" text-anchor="middle">조명·음향반입구</text>
-
-      <!-- ================= 2. 관람실 좌석 (Audience Seating) ================= -->
-      <rect x="180" y="240" width="640" height="230" fill="#FFFFFF" stroke="#334155" stroke-width="2" />
-      <text x="500" y="260" font-family="Inter, Pretendard" font-size="14" font-weight="700" fill="#334155" text-anchor="middle">MAIN AUDITORIUM (관람실 850석)</text>
-
-      <!-- 좌석 열 패턴 -->
-      ${Array.from({ length: 7 }).map((_, i) => `
-        <line x1="220" y1="${280 + i * 22}" x2="780" y2="${280 + i * 22}" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="5,4" />
-      `).join('')}
-
-      <!-- 좌석 통로 (Aisles) -->
-      <rect x="475" y="270" width="50" height="160" fill="rgba(79, 70, 229, 0.05)" stroke="#4F46E5" stroke-width="1" stroke-dasharray="3,3" />
-      <text x="500" y="355" font-size="10" font-weight="600" fill="#4F46E5" text-anchor="middle">중앙통로</text>
-
-      <!-- 휠체어석 표시 구획 (BF Zone) -->
-      <g class="layer-bf">
-        <rect x="220" y="320" width="70" height="50" fill="rgba(79, 70, 229, 0.12)" stroke="#4F46E5" stroke-width="2" rx="4" />
-        <text x="255" y="342" font-size="11" font-weight="800" fill="#4F46E5" text-anchor="middle">♿ 휠체어석</text>
-        <text x="255" y="358" font-size="9" font-weight="600" fill="#E11D48" text-anchor="middle">단차35mm위반</text>
-      </g>
-
-      <!-- ================= 3. 관람실 출구 & 사운드록 전실 (Sound Lock) ================= -->
-      <!-- 좌측 사운드록 -->
-      <rect x="220" y="470" width="110" height="70" fill="#F8FAFC" stroke="#0F172A" stroke-width="2" />
-      <text x="275" y="500" font-size="11" font-weight="700" fill="#475569" text-anchor="middle">좌측 사운드록</text>
-      <text x="275" y="518" font-size="10" font-weight="600" fill="#64748B" text-anchor="middle">W: 1.5m 충족</text>
-
-      <!-- 중앙 주출구 사운드록 (위반 부위) -->
-      <rect x="440" y="470" width="120" height="70" fill="#FFF1F2" stroke="#E11D48" stroke-width="2.5" />
-      <text x="500" y="495" font-size="12" font-weight="800" fill="#E11D48" text-anchor="middle">메인 사운드록 전실</text>
-      <text x="500" y="515" font-size="10" font-weight="700" fill="#E11D48" text-anchor="middle">⚠️ 유효폭 1.1m (위반)</text>
-      <!-- Door Swing Indicators -->
-      <path d="M 460 470 A 30 30 0 0 0 490 470" fill="none" stroke="#E11D48" stroke-width="1.5" stroke-dasharray="3,2" />
-      <path d="M 510 540 A 30 30 0 0 0 540 540" fill="none" stroke="#E11D48" stroke-width="1.5" stroke-dasharray="3,2" />
-
-      <!-- 우측 사운드록 -->
-      <rect x="670" y="470" width="110" height="70" fill="#F8FAFC" stroke="#0F172A" stroke-width="2" />
-      <text x="725" y="500" font-size="11" font-weight="700" fill="#475569" text-anchor="middle">우측 사운드록</text>
-      <text x="725" y="518" font-size="10" font-weight="600" fill="#64748B" text-anchor="middle">W: 1.5m 충족</text>
-
-      <!-- ================= 4. FOH 메인 로비 복도 (Main FOH Lobby Corridor) ================= -->
-      <rect x="70" y="540" width="860" height="50" fill="#F1F5F9" stroke="#334155" stroke-width="2" />
-      <text x="500" y="570" font-family="Inter, Pretendard" font-size="13" font-weight="700" fill="#1E293B" text-anchor="middle">FOH MAIN LOBBY & FOYER (관람객 주 로비 복도)</text>
-
-      <!-- 옥내소화전 돌출 부위 (FOH 복도 위반) -->
-      <rect x="420" y="540" width="40" height="15" fill="#E11D48" stroke="#FFFFFF" stroke-width="1" />
-      <text x="440" y="552" font-size="8" font-weight="700" fill="#FFFFFF" text-anchor="middle">소화전</text>
-
-      <!-- ================= 5. 직통 피난계단실 (Exit Stairwells) ================= -->
-      <!-- 좌측 1호 피난계단 -->
-      <rect x="70" y="360" width="80" height="150" fill="#ECFDF5" stroke="#059669" stroke-width="2" />
-      <text x="110" y="435" font-size="12" font-weight="700" fill="#059669" text-anchor="middle">1호 피난계단</text>
-      <text x="110" y="455" font-size="10" font-weight="600" fill="#059669" text-anchor="middle">유효폭 1.2m ✅</text>
-
-      <!-- 우측 2호 피난계단 (상충 부위) -->
-      <rect x="850" y="360" width="80" height="150" fill="#FFFBEB" stroke="#D97706" stroke-width="2" />
-      <text x="890" y="435" font-size="12" font-weight="700" fill="#D97706" text-anchor="middle">2호 피난계단</text>
-      <text x="890" y="455" font-size="10" font-weight="700" fill="#D97706" text-anchor="middle">양개도어 상충 ⚡</text>
-
-      <!-- ================= 6. 치수선 및 피난 유도선 레이어 ================= -->
-      <g class="layer-dimensions">
-        <!-- FOH 복도폭 치수선 -->
-        <line x1="50" y1="595" x2="950" y2="595" stroke="#4F46E5" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)" />
-        <text x="500" y="612" font-family="JetBrains Mono" font-size="11" font-weight="700" fill="#4F46E5" text-anchor="middle">LOBBY CLEAR WIDTH: 2,050mm (법정 기준 2,400mm 미달)</text>
-      </g>
-    `;
+  closeApiKeyModal() {
+    if (this.modalApiKey) this.modalApiKey.style.display = "none";
   }
 
-  renderPinpoints(pins) {
-    if (!this.pinsOverlay) return;
-
-    this.pinsOverlay.innerHTML = '';
-
-    pins.forEach((pin, idx) => {
-      const pinBtn = document.createElement('button');
-      pinBtn.className = `blueprint-pin-btn pin-${pin.level} ${pin.id === this.currentSelectedPinId ? 'selected' : ''}`;
-      pinBtn.style.left = `${pin.x}%`;
-      pinBtn.style.top = `${pin.y}%`;
-      pinBtn.setAttribute('data-pin-id', pin.id);
-
-      const iconName = pin.level === 'danger' ? 'alert-triangle' : (pin.level === 'warning' ? 'alert-circle' : 'check-circle-2');
-      pinBtn.innerHTML = `<i data-lucide="${iconName}"></i> <span>[${idx + 1}] ${pin.code}</span>`;
-
-      pinBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        this.selectPin(pin.id);
-      });
-
-      this.pinsOverlay.appendChild(pinBtn);
-    });
-
-    if (window.lucide) lucide.createIcons();
-  }
-
-  selectPin(pinId) {
-    this.currentSelectedPinId = pinId;
-
-    // Update pinpoint selection visual state
-    const allPins = document.querySelectorAll('.blueprint-pin-btn');
-    allPins.forEach(btn => {
-      if (btn.getAttribute('data-pin-id') === pinId) {
-        btn.classList.add('selected');
-      } else {
-        btn.classList.remove('selected');
-      }
-    });
-
-    // Find pin data
-    const currentSample = BLUEPRINT_DATASET[this.currentSampleKey];
-    if (!currentSample) return;
-
-    const pinData = currentSample.pins.find(p => p.id === pinId);
-    if (pinData) {
-      this.renderPinDetail(pinData);
-    }
-  }
-
-  renderPinDetail(pin) {
-    const loadingState = document.getElementById('panelLoadingState');
-    const contentEl = document.getElementById('legalDetailContent');
-
-    if (loadingState) loadingState.style.display = 'none';
-    if (!contentEl) return;
-    contentEl.style.display = 'flex';
-
-    contentEl.innerHTML = `
-      <!-- Header Box -->
-      <div class="detail-header-box">
-        <div class="detail-tags-row">
-          <span class="pin-code-badge">${pin.code}</span>
-          <span class="defect-level-badge ${pin.level}">${pin.levelText}</span>
-          <span class="tab-count-badge">${pin.partName}</span>
-        </div>
-        <h3 class="detail-part-title">${pin.title}</h3>
-        <p class="detail-problem-desc"><i data-lucide="alert-octagon"></i> ${pin.problemDesc}</p>
-      </div>
-
-      <!-- 1:1 Dimension Comparison Box -->
-      <div class="dim-comparison-table-box">
-        <div class="dim-table-header">
-          <span>검토 항목</span>
-          <span>도면 실측치수</span>
-          <span>건축법/소방법</span>
-          <span>최종 지배기준</span>
-        </div>
-        <div class="dim-table-row">
-          <span style="font-weight: 700;">${pin.partName}</span>
-          <span class="dim-val-measured">${pin.measured}</span>
-          <span class="dim-val-standard">${pin.buildingLaw}</span>
-          <span class="dim-val-dominant">${pin.dominant}</span>
-        </div>
-      </div>
-
-      <!-- Legal Basis Section -->
-      <div class="legal-basis-section-title">
-        <i data-lucide="scale"></i>
-        <span>관련 6대 법령별 조항 및 법적 근거 원문 (Legal Articles)</span>
-      </div>
-
-      <div class="law-basis-accordion-list">
-        ${pin.legalBasisList.map(law => `
-          <div class="law-basis-card-item">
-            <div class="law-card-top-flex">
-              <span class="law-name-tag"><i data-lucide="book-open"></i> ${law.lawName}</span>
-              <span class="law-ruling-pill ${law.dominant ? 'dominant' : 'mandatory'}">
-                ${law.dominant ? '◉ 지배기준(가장 엄격)' : '● 적용 의무'}
-              </span>
-            </div>
-            <div class="law-clause-name">${law.clauseName}</div>
-            <div class="legal-text-quote-box">"${law.text}"</div>
-            ${law.penalty ? `<div class="law-penalty-notice"><i data-lucide="shield-alert"></i> 제재/벌칙: ${law.penalty}</div>` : ''}
-          </div>
-        `).join('')}
-      </div>
-
-      <!-- AI Solution Advisory -->
-      <div class="solution-advisory-box">
-        <div class="solution-head">
-          <i data-lucide="wrench"></i>
-          <span>인허가 100% 통과를 위한 AI 엔지니어링 보완 설계안</span>
-        </div>
-        <p class="solution-text">${pin.solutionAdvice}</p>
-      </div>
-
-      <!-- Authority Tip -->
-      <div class="practical-tip-box" style="padding: 10px; background: var(--bg-subtle); border-radius: var(--radius-md);">
-        <i data-lucide="landmark"></i>
-        <span><strong>관할 인허가청(구청 건축과 / 관할 소방서) 실무 대응 팁:</strong> ${pin.authorityTip}</span>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="action-cta-flex">
-        <button class="btn btn-primary btn-full" onclick="blueprintApp.exportSinglePinPlan('${pin.id}')">
-          <i data-lucide="file-check-2"></i> 이 부위 인허가 조치계획서(공문) 생성
-        </button>
-      </div>
-    `;
-
-    if (window.lucide) lucide.createIcons();
-  }
-
-  exportSinglePinPlan(pinId) {
-    const currentSample = BLUEPRINT_DATASET[this.currentSampleKey];
-    const pin = currentSample.pins.find(p => p.id === pinId);
-    if (!pin) return;
-
-    const modal = document.getElementById('reportModalOverlay');
-    const preview = document.getElementById('printableReportArea');
-
-    if (preview && modal) {
-      preview.innerHTML = `
-        <div style="font-family: 'Noto Sans KR', sans-serif; padding: 20px; line-height: 1.6; color: #0F172A;">
-          <h1 style="text-align: center; font-size: 20px; border-bottom: 2px solid #0F172A; padding-bottom: 10px; margin-bottom: 20px;">
-            공연장 도면 법률 결함 보완 조치계획서
-          </h1>
-          <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 13px;">
-            <tr>
-              <th style="border: 1px solid #CBD5E1; background: #F1F5F9; padding: 8px; width: 25%;">건축물 명칭</th>
-              <td style="border: 1px solid #CBD5E1; padding: 8px;">${currentSample.name}</td>
-              <th style="border: 1px solid #CBD5E1; background: #F1F5F9; padding: 8px; width: 25%;">검토 부위</th>
-              <td style="border: 1px solid #CBD5E1; padding: 8px;">${pin.partName}</td>
-            </tr>
-            <tr>
-              <th style="border: 1px solid #CBD5E1; background: #F1F5F9; padding: 8px;">결함 코드</th>
-              <td style="border: 1px solid #CBD5E1; padding: 8px; color: #E11D48; font-weight: bold;">${pin.code} (${pin.levelText})</td>
-              <th style="border: 1px solid #CBD5E1; background: #F1F5F9; padding: 8px;">지배 법률</th>
-              <td style="border: 1px solid #CBD5E1; padding: 8px; font-weight: bold;">${pin.dominant}</td>
-            </tr>
-          </table>
-
-          <h3 style="font-size: 15px; margin: 16px 0 8px 0; color: #1E293B;">1. 발견된 법적 위반 사항 및 문제점</h3>
-          <p style="background: #FFF1F2; border-left: 4px solid #E11D48; padding: 10px; font-size: 13px; margin-bottom: 14px;">
-            ${pin.problemDesc}
-          </p>
-
-          <h3 style="font-size: 15px; margin: 16px 0 8px 0; color: #1E293B;">2. 관련 법령 조항 및 법적 근거</h3>
-          ${pin.legalBasisList.map(l => `
-            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; padding: 10px; border-radius: 6px; margin-bottom: 8px; font-size: 12.5px;">
-              <strong>[${l.lawName}] ${l.clauseName}</strong><br>
-              <span style="color: #475569;">"${l.text}"</span>
-            </div>
-          `).join('')}
-
-          <h3 style="font-size: 15px; margin: 16px 0 8px 0; color: #1E293B;">3. 보완 설계 변경 및 엔지니어링 조치 계획</h3>
-          <p style="background: #EEF2FF; border-left: 4px solid #4F46E5; padding: 10px; font-size: 13px;">
-            ${pin.solutionAdvice}
-          </p>
-
-          <div style="margin-top: 30px; text-align: right; font-size: 13px;">
-            <p>2026년 08월 27일</p>
-            <p><strong>공연장 종합 법규 AI 안전진단 시스템 ArtVenue LawMaster</strong></p>
-          </div>
-        </div>
-      `;
-      modal.classList.add('active');
-    }
-  }
-
-  exportBlueprintAuditReport() {
-    const currentSample = BLUEPRINT_DATASET[this.currentSampleKey];
-    if (!currentSample) return;
-
-    const modal = document.getElementById('reportModalOverlay');
-    const preview = document.getElementById('printableReportArea');
-
-    if (preview && modal) {
-      preview.innerHTML = `
-        <div style="font-family: 'Noto Sans KR', sans-serif; padding: 20px; line-height: 1.6; color: #0F172A;">
-          <h1 style="text-align: center; font-size: 22px; border-bottom: 2px solid #0F172A; padding-bottom: 12px; margin-bottom: 20px;">
-            공연장 도면 법규 종합 감사 및 인허가 사전 검토 리포트
-          </h1>
-          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px;">
-            <tr>
-              <th style="border: 1px solid #CBD5E1; background: #F1F5F9; padding: 8px; width: 20%;">도면 프로젝트</th>
-              <td style="border: 1px solid #CBD5E1; padding: 8px; font-weight: bold;">${currentSample.name}</td>
-              <th style="border: 1px solid #CBD5E1; background: #F1F5F9; padding: 8px; width: 20%;">반려 위험도</th>
-              <td style="border: 1px solid #CBD5E1; padding: 8px; color: #E11D48; font-weight: bold;">${currentSample.riskScore}</td>
-            </tr>
-            <tr>
-              <th style="border: 1px solid #CBD5E1; background: #F1F5F9; padding: 8px;">인식 객체 현황</th>
-              <td style="border: 1px solid #CBD5E1; padding: 8px;">${currentSample.objCount}</td>
-              <th style="border: 1px solid #CBD5E1; background: #F1F5F9; padding: 8px;">총 결함 건수</th>
-              <td style="border: 1px solid #CBD5E1; padding: 8px;">${currentSample.violationCount} / ${currentSample.warningCount}</td>
-            </tr>
-          </table>
-
-          <h3 style="font-size: 16px; margin: 18px 0 10px 0; color: #1E293B;">도면 검출 결함 전수 목록 및 법적 근거</h3>
-          ${currentSample.pins.map((p, idx) => `
-            <div style="border: 1px solid #E2E8F0; border-radius: 8px; padding: 14px; margin-bottom: 14px; background: #FAFAFA;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                <span style="font-weight: 800; font-size: 14px; color: #0F172A;">[${idx + 1}] ${p.title}</span>
-                <span style="color: #E11D48; font-weight: bold; font-size: 12px;">${p.levelText}</span>
-              </div>
-              <p style="font-size: 12.5px; color: #E11D48; margin-bottom: 8px;"><strong>문제점:</strong> ${p.problemDesc}</p>
-              <div style="font-size: 12px; background: #FFFFFF; border: 1px solid #CBD5E1; padding: 8px; border-radius: 4px; margin-bottom: 8px;">
-                <strong>법적 근거:</strong> ${p.legalBasisList.map(l => `[${l.lawName} ${l.clauseName}] "${l.text}"`).join(' | ')}
-              </div>
-              <div style="font-size: 12.5px; color: #4F46E5; font-weight: 600;">
-                <strong>보완 설계안:</strong> ${p.solutionAdvice}
-              </div>
-            </div>
-          `).join('')}
-
-          <div style="margin-top: 30px; text-align: right; font-size: 13px;">
-            <p>2026년 08월 27일</p>
-            <p><strong>공연장 종합 법규 AI 안전진단 시스템 ArtVenue LawMaster</strong></p>
-          </div>
-        </div>
-      `;
-      modal.classList.add('active');
-    }
-  }
-}
-
-// =============================================================================
-// 8. LEGAL AI Q&A ENGINE & COMPLETE LEGAL BASIS ENCYCLOPEDIA
-// =============================================================================
-
-const LEGAL_QA_DATABASE = {
-  "soundlock": {
-    title: "사운드록(방음전실) 2중 도어 안여닫이 설치 가능 여부 및 법적 기준",
-    verdict: {
-      type: "danger",
-      title: "⚠️ 원칙적 불가 — 건축법 피난방향(바깥여닫이) 지배 적용",
-      desc: "공연장 사운드록의 내측 도어를 관람실 내부(안여닫이)로 설치하는 것은 건축법 피난방화규칙 제10조 제2항 위반으로 허가 반려 대상입니다. 두 짝 문 모두 피난방향(바깥여닫이)으로 열리도록 설계해야 하며, 상시개방형 전자도어릴리즈 연동이 필수입니다."
-    },
-    clauses: [
-      {
-        lawName: "건축물의 피난·방화구조 등의 기준에 관한 규칙",
-        article: "제10조 (관람석 등으로부터의 출구의 설치)",
-        text: "문화 및 집회시설(공연장·집회장·관람장)의 관람실 출구 유효너비는 개소당 1.5미터 이상으로 하여야 하며, 출입문은 안여닫이로 하여서는 아니 된다(피난방향 개폐 의무).",
-        penalty: "건축허가 반려 및 건축법 제110조(벌칙) 2년 이하 징역 또는 1억원 이하 벌금."
-      },
-      {
-        lawName: "소방시설 설치 및 관리에 관한 법률 / 화재안전성능기준(NFPC 303)",
-        article: "제5조 (객석유도등 및 피난통로 유지)",
-        text: "공연장의 방음전실은 관람객의 일시적 피난 지체(Queue Delay)가 발생하지 않도록 유효통로 폭을 건축법 기준(1.5m) 이상으로 상시 유지하여야 함.",
-        penalty: "소방 완비증명서 부적합 처분 및 영업허가 불가."
-      },
-      {
-        lawName: "장애물 없는 생활환경(BF) 인증 심사기준",
-        article: "2.1.3 (출입문 전후면 활동공간)",
-        text: "출입문 전후면에는 휠체어 사용자가 정지하여 문을 여닫을 수 있는 직경 1.4m 이상의 활동공간을 연속적으로 확보하여야 함.",
-        penalty: "BF 인증 점수 감점 (미달 시 공공시설 준공 불가)."
-      }
-    ],
-    precedent: {
-      source: "국토교통부 건축안전과 행정질의회신 (회신일자 2024-03-15)",
-      text: "공연장 관람실 음향 차단을 목적으로 설치하는 방음전실(사운드록)의 출입문이라 하더라도, 피난통로 상에 위치하는 모든 문은 건축피난규칙 제10조에 따라 피난방향으로 열려야 하며 안여닫이 구조는 불인정됨."
-    },
-    solution: "내외측 도어를 모두 관람실 바깥쪽(복도방향)으로 열리도록 설계하십시오. 복도 통행 간섭을 방지하기 위해 벽체를 450mm 인셋(Inset) 매립하고, 공연 중에는 음향 차단을 위해 닫혀 있다가 화재감지기 작동 시 0.5초 내 전원 차단되어 자동 쇄정 해제되는 소방연동 전자도어홀더를 적용하십시오."
-  },
-  "wheelchair": {
-    title: "300석/850석 공연장 장애인 관람석 의무비율, 단차 및 시야각 기준",
-    verdict: {
-      type: "warn",
-      title: "⚡ 편의증진법 1% vs BF인증 최우수 2% — BF 지배기준 적용",
-      desc: "장애인편의증진법은 전체 좌석의 1% 이상을 요구하나, 공공·대형 공연장의 경우 BF인증 최우수 등급 기준(2% 이상, 단차 0mm, 무대 시야각 확보)을 준수해야 지자체 심의 및 본인증을 통과할 수 있습니다."
-    },
-    clauses: [
-      {
-        lawName: "장애인·노인·임산부 등의 편의증진 보장에 관한 법률 시행령",
-        article: "별표 2 (공연장 등의 관람석·열람석)",
-        text: "공연장의 관람석은 장애인등이 이용하기 편리한 위치에 전체 관람석 수의 1퍼센트(300석 이상 시 최소 3석 이상) 이상을 설치하여야 하며, 출입구로부터 높이차 없는 통로로 연결되어야 함.",
-        penalty: "편의증진법 제23조에 따른 500만원 이하 이행강제금."
-      },
-      {
-        lawName: "장애물 없는 생활환경(BF) 인증 심사기준",
-        article: "3.2.1 (장애인 관람석의 배치 및 유효규격)",
-        text: "휠체어 관람석은 1석당 유효너비 0.9m 이상, 깊이 1.4m 이상이어야 하며, 전체 좌석의 2% 이상을 확보하고 앞좌석 관람객 기립 시에도 무대 전면이 보이는 시야각을 확보할 것.",
-        penalty: "BF 인증 등급 하향 및 재심사 요구."
-      }
-    ],
-    precedent: {
-      source: "한국장애인개발원 BF인증 심사위원회 판정례",
-      text: "휠체어석 진입로에 2cm 이상의 단차가 존재하거나, 동반자석(Companion Seat)이 1:1로 연접 배치되지 않은 도면은 BF 본인증 심사에서 부적합 처리됨."
-    },
-    solution: "객석 C열 또는 중앙 통로 레벨에 완경사(1/18 이하) 무단차 플랫 슬래브를 구축하고, 휠체어석 1석당 1,000mm x 1,500mm 규격을 확보하십시오. 일반 관람석과 동일한 시야각을 보장하도록 가변형 의자(Removable Seat) 시스템을 적용하십시오."
-  },
-  "firecurtain": {
-    title: "무대 방화막(Fire Curtain) 법정 의무 설치 대상 및 기술 기준",
-    verdict: {
-      type: "danger",
-      title: "⚠️ 무대부 바닥면적 300㎡ 이상 시 100% 필수 법정의무설비",
-      desc: "무대부 바닥면적이 300㎡(관람석 300석 초과 규모) 이상인 공연장은 건축법 시행령 제46조에 따라 관람석과 무대부 사이에 내화 1시간 이상 방화막 및 일제살수 드렌처설비를 반드시 설치해야 합니다."
-    },
-    clauses: [
-      {
-        lawName: "건축법 시행령",
-        article: "제46조 (방화구획 등의 설치)",
-        text: "공연장의 무대부로서 바닥면적이 300제곱미터 이상인 것은 무대부와 관람석 사이에 내화구조의 방화막 또는 국토교통부령이 정하는 기준에 적합한 방화구획을 설치하여야 한다.",
-        penalty: "소방동의 거부 및 공연장 사용승인 불가."
-      },
-      {
-        lawName: "공연법",
-        article: "제12조 (공연장 무대시설 등의 안전진단)",
-        text: "공연장의 무대시설은 화재 등 재난 발생 시 관람객의 안전한 피난을 보장할 수 있는 방화막 및 제연설비를 갖추어야 함.",
-        penalty: "공연장 폐쇄명령 및 1년 이하 징역 또는 1천만원 이하 벌금."
-      }
-    ],
-    precedent: {
-      source: "소방청 화재안전기준 유권해석 (소방청 예방과)",
-      text: "프로세니엄 무대구조에서 방화막은 무대 상부 연돌효과(Stack Effect)로 인한 유독가스의 객석 유입을 15분 이상 차단할 수 있어야 하며, 분당 4.5m 이상 하강 속도를 유지해야 함."
-    },
-    solution: "프로세니엄 상부에 분당 4.5m 이상 자동 하강되는 1시간 내화 방화막과 방화막 냉각용 수막설비(드렌처 헤드 2.5m 간격)를 설계에 반영하고, 무대 상부 배연창(무대면적의 1/10 이상)을 연동하십시오."
-  },
-  "fohcorridor": {
-    title: "FOH 복도에 옥내소화전함/기둥 돌출 시 건축법 위반 여부",
-    verdict: {
-      type: "danger",
-      title: "⚠️ 명백한 법 위반 — 마감면 기준 장애물 제외 순유효폭 2.4m 지배",
-      desc: "건축피난규칙 제15조의2에 따라 양옆 거실이 있는 복도는 2.4m 이상이어야 하며, 소화전함이나 기둥, 흡음 마감재가 돌출되어 순유효너비가 2.4m 미만으로 좁아질 경우 준공 검사(사용승인)에서 반려됩니다."
-    },
-    clauses: [
-      {
-        lawName: "건축물의 피난·방화구조 등의 기준에 관한 규칙",
-        article: "제15조의2 (복도의 너비 및 설치기준)",
-        text: "공연장의 관람실 바닥면적의 합계가 1,000㎡ 이상인 층의 복도로서 양옆에 거실이 있는 복도의 너비는 장애물이 없는 상태에서 2.4미터 이상이어야 한다.",
-        penalty: "준공 시 사용승인 반려 및 소방 감리 부적합."
-      }
-    ],
-    precedent: {
-      source: "대법원 판례 (건축법상 복도 유효너비 산정 기준)",
-      text: "건축법령상 복도의 너비는 벽체 중심선 간격이 아닌, 돌출물(소화전함, 배관, 기둥)을 제외한 실제 통행 가능한 순유효폭(Clear Width)을 기준으로 판단함."
-    },
-    solution: "옥내소화전함과 방화문 프레임을 벽체 매립형(Recessed Type)으로 설계하고, 벽체 중심선 치수를 2,800mm~3,000mm로 확보하여 인테리어 마감 후에도 2,400mm 클리어를 유지하십시오."
-  },
-  "exitlight": {
-    title: "공연 암전(Blackout) 연출 시 객석유도등 소등의 적법성 및 조건",
-    verdict: {
-      type: "pass",
-      title: "✅ 3선식 배선 & 소방수신반 자동 점등 연동 시 적법 허용",
-      desc: "유도등 및 유도표지의 화재안전성능기준(NFPC 303) 제5조에 따라 공연 중 암전 연출이 불가피한 경우 소등이 허용되나, 객석 바닥 조도 0.2lux 이상 유지 및 화재 감지 시 0.5초 내 강제 100% 점등되는 3선식 인터록 배선이 법정 의무입니다."
-    },
-    clauses: [
-      {
-        lawName: "유도등 및 유도표지의 화재안전성능기준(NFPC 303)",
-        article: "제5조 (객석유도등의 설치 및 점등기준)",
-        text: "공연장 등으로서 암전이 필요한 장소에는 3선식 배선에 의하여 상시 소등 상태로 유지할 수 있으나, 화재감지기 작동 또는 정전 시 자동으로 즉시 점등되어야 하며 바닥면 조도는 0.2럭스 이상이어야 함.",
-        penalty: "소방시설법 제12조 위반 시 300만원 이하 과태료."
-      }
-    ],
-    precedent: {
-      source: "소방청 화재안전기준 기술질의회신",
-      text: "암전 연출용 객석유도등 컨트롤러는 조명 콘솔(DMX) 수동 조작보다 소방 R형 수신반의 화재신호가 최우선으로 오버라이드(Override) 점등되도록 회로를 구성해야 함."
-    },
-    solution: "객석 유도등을 DMX 연동 조광기(Dimmer) 회로와 소방 릴레이 제어반으로 분리 구성하고, 객석 계단 코(Nosing) 부위에 축광형(발광) 유도 테이프 및 0.2lux 저조도 LED 발밑등을 병행 시공하십시오."
-  },
-  "doubledoor": {
-    title: "양개형 방화문에서 한 짝만 900mm 미달 시 BF인증 통과 여부",
-    verdict: {
-      type: "warn",
-      title: "⚡ BF인증 불합격 — 주 사용문 1짝 900mm 이상 확보 필수",
-      desc: "건축법은 개소당 총 유효너비 1.5m만 충족하면 750+750mm 양개도어를 허용하지만, BF인증 심사기준 2.1.2에 따라 상시 열리는 주 사용문 한 짝의 통과너비가 900mm 미만이면 BF 본인증이 반려됩니다."
-    },
-    clauses: [
-      {
-        lawName: "장애물 없는 생활환경(BF) 인증 심사기준",
-        article: "2.1.2 (출입문의 형태 및 유효폭)",
-        text: "양개도어(두 짝 문)의 경우, 평상시 주로 열리는 한 짝의 유효 통과너비가 0.9미터 이상이어야 함.",
-        penalty: "BF 본인증 반려 및 보완 시공 명령."
-      }
-    ],
-    precedent: {
-      source: "국토교통부·보건복지부 공동 BF인증 심사지침",
-      text: "동일 폭(750+750mm) 양개도어는 평상시 한 짝만 개폐되는 경우가 대부분이므로 휠체어 통과 불가로 판정함."
-    },
-    solution: "750+750mm 대칭 양개도어를 비대칭 양개도어(주 사용문 1,000mm + 보조 고정문 800mm = 개구부 총 1,800mm)로 설계 변경하여 건축법과 BF인증을 100% 동시 충족하십시오."
-  },
-  "evacuationdistance": {
-    title: "거실 각 부분에서 피난 직통계단까지의 최대 보행거리 기준",
-    verdict: {
-      type: "pass",
-      title: "✅ 내화구조 50m / 스프링클러 설치 시 완화 가능",
-      desc: "건축법 시행령 제34조에 따라 공연장 거실 각 부분에서 직통계단까지의 보행거리는 30m 이하(내화구조 50m 이하)여야 하며, 사운드록 굴절 통로 길이를 포함한 실제 보행거리로 산정해야 합니다."
-    },
-    clauses: [
-      {
-        lawName: "건축법 시행령",
-        article: "제34조 (직통계단의 설치 및 피난거리)",
-        text: "공연장의 거실 각 부분으로부터 보행거리 30미터(주요구조부가 내화구조인 경우 50미터) 이내에 직통계단을 설치하여야 함.",
-        penalty: "건축허가 반려."
-      }
-    ],
-    precedent: {
-      source: "법제처 법령해석 20-0412",
-      text: "보행거리는 도면상 직선거리가 아닌, 객석 의자 사이 통로 및 사운드록 굴절 통로의 중심선을 따라 측정한 실제 이동거리(Walking Distance)를 기준으로 산정함."
-    },
-    solution: "객석 양측 후면에 직통 피난계단을 2개소 이상 분산 배치하고, 사운드록 굴절 각도를 90도 이내로 완화하여 최대 보행거리가 35m 이내가 되도록 피난동선을 최적화하십시오."
-  },
-  "stagesprinkler": {
-    title: "무대부 스프링클러 헤드 수평거리 및 일제살수 드렌처설비 연동",
-    verdict: {
-      type: "danger",
-      title: "⚠️ 수평거리 1.7m 이하 정방형 배치 법정 의무",
-      desc: "스프링클러설비 화재안전성능기준(NFPC 103) 제4조에 따라 무대부는 가연물이 집중된 특수장소이므로 헤드 수평거리 1.7m 이하(일반 2.3m보다 엄격)를 의무 준수해야 합니다."
-    },
-    clauses: [
-      {
-        lawName: "스프링클러설비의 화재안전성능기준(NFPC 103)",
-        article: "제4조 (헤드의 배치거리)",
-        text: "무대부 또는 특수가연물을 저장·취급하는 장소에 있어서는 스프링클러헤드의 수평거리를 1.7미터 이하로 유지하여야 함.",
-        penalty: "소방 완비증명서 부적합."
-      }
-    ],
-    precedent: {
-      source: "소방청 소방기술민원 해설집",
-      text: "무대 상부 그리드아이언 및 배턴(Batten) 구조물에 의해 살수 차폐가 발생하지 않도록 상·하부 2단 분할 헤드 배치가 요구됨."
-    },
-    solution: "무대 천장 및 플라이갤러리 하부에 121℃ 개방형 헤드를 2.2m x 2.2m 정방형(수평거리 1.55m)으로 배치하고, 델류지밸브(일제개방밸브)와 무대 방화막 드렌처설비를 연동하십시오."
-  }
-};
-
-class LegalAdvisorApp {
-  constructor() {
-    this.currentQueryKey = "soundlock";
-    this.searchInput = document.getElementById('legalQueryInput');
-    this.btnSubmit = document.getElementById('btnSubmitLegalQuery');
-    this.chipsContainer = document.getElementById('quickQueryChips');
-    this.answerContainer = document.getElementById('legalAnswerBody');
-    this.encycloContainer = document.getElementById('encyclopediaItemsList');
-    this.encycloSearch = document.getElementById('encyclopediaSearchInput');
-  }
-
-  init() {
-    this.bindEvents();
-    this.renderAnswer(this.currentQueryKey);
-    this.renderEncyclopedia('');
-  }
-
-  bindEvents() {
-    // Submit Query
-    if (this.btnSubmit && this.searchInput) {
-      this.btnSubmit.addEventListener('click', () => {
-        this.handleSearch(this.searchInput.value.trim());
-      });
-      this.searchInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          this.handleSearch(this.searchInput.value.trim());
-        }
-      });
-    }
-
-    // Quick Chips
-    if (this.chipsContainer) {
-      const chips = this.chipsContainer.querySelectorAll('.query-chip');
-      chips.forEach(chip => {
-        chip.addEventListener('click', () => {
-          chips.forEach(c => c.classList.remove('active'));
-          chip.classList.add('active');
-          const key = chip.getAttribute('data-query');
-          this.currentQueryKey = key;
-          this.renderAnswer(key);
-        });
-      });
-    }
-
-    // Encyclopedia Search
-    if (this.encycloSearch) {
-      this.encycloSearch.addEventListener('input', (e) => {
-        this.renderEncyclopedia(e.target.value.trim().toLowerCase());
-      });
-    }
-
-    // Print Answer
-    const btnPrint = document.getElementById('btnPrintLegalAnswer');
-    if (btnPrint) {
-      btnPrint.addEventListener('click', () => this.printLegalAnswer());
-    }
-  }
-
-  handleSearch(queryText) {
-    if (!queryText) {
-      showToast("질문 키워드를 입력해주세요.");
-      return;
-    }
-
-    showToast(`AI 법률 질의 분석 중: "${queryText}"`);
-
-    // Match query against keywords
-    let matchedKey = "soundlock";
-    const text = queryText.toLowerCase();
-
-    if (text.includes("사운드록") || text.includes("방음") || text.includes("안여닫이") || text.includes("문")) {
-      matchedKey = "soundlock";
-    } else if (text.includes("휠체어") || text.includes("장애인") || text.includes("단차") || text.includes("bf")) {
-      matchedKey = "wheelchair";
-    } else if (text.includes("방화막") || text.includes("무대") || text.includes("커튼") || text.includes("300")) {
-      matchedKey = "firecurtain";
-    } else if (text.includes("복도") || text.includes("foh") || text.includes("소화전") || text.includes("기둥")) {
-      matchedKey = "fohcorridor";
-    } else if (text.includes("암전") || text.includes("유도등") || text.includes("소등") || text.includes("조도")) {
-      matchedKey = "exitlight";
-    } else if (text.includes("양개") || text.includes("900") || text.includes("도어")) {
-      matchedKey = "doubledoor";
-    } else if (text.includes("거리") || text.includes("보행") || text.includes("계단") || text.includes("피난")) {
-      matchedKey = "evacuationdistance";
-    } else if (text.includes("스프링클러") || text.includes("헤드") || text.includes("소화")) {
-      matchedKey = "stagesprinkler";
-    }
-
-    this.currentQueryKey = matchedKey;
-
-    // Highlight chip
-    const chips = document.querySelectorAll('.query-chip');
-    chips.forEach(c => {
-      if (c.getAttribute('data-query') === matchedKey) {
-        c.classList.add('active');
-      } else {
-        c.classList.remove('active');
-      }
-    });
-
-    this.renderAnswer(matchedKey);
-  }
-
-  renderAnswer(key) {
-    const data = LEGAL_QA_DATABASE[key] || LEGAL_QA_DATABASE["soundlock"];
-    const titleEl = document.getElementById('currentQueryTitle');
-    if (titleEl) titleEl.innerText = data.title;
-
-    if (!this.answerContainer) return;
-
-    this.answerContainer.innerHTML = `
-      <!-- 1. Verdict Summary Banner -->
-      <div class="verdict-summary-banner ${data.verdict.type}">
-        <div class="verdict-tag-flex">
-          <span class="defect-level-badge ${data.verdict.type}">AI 법률 유권해석 결론</span>
-          <span class="verdict-title">${data.verdict.title}</span>
-        </div>
-        <p class="verdict-desc">${data.verdict.desc}</p>
-      </div>
-
-      <!-- 2. Legal Clauses Detail Box -->
-      <div class="legal-basis-section-title">
-        <i data-lucide="scale"></i>
-        <span>관련 법령별 정확한 조항 및 법적 근거 전문 (Exact Legal Articles)</span>
-      </div>
-
-      <div class="law-basis-accordion-list">
-        ${data.clauses.map(c => `
-          <div class="legal-clause-detail-box">
-            <div class="clause-top-row">
-              <span class="clause-law-name"><i data-lucide="book-open"></i> ${c.lawName}</span>
-              <span class="tab-count-badge">법정 의무 조항</span>
-            </div>
-            <div class="clause-article-title">${c.article}</div>
-            <div class="clause-text-quote">"${c.text}"</div>
-            ${c.penalty ? `<div class="clause-penalty-tag"><i data-lucide="alert-octagon"></i> 위반 시 행정처분/벌칙: ${c.penalty}</div>` : ''}
-          </div>
-        `).join('')}
-      </div>
-
-      <!-- 3. Precedents & Administrative Decisions -->
-      <div class="precedent-quote-box">
-        <div class="precedent-head">
-          <i data-lucide="landmark"></i>
-          <span>행정청(소방청·국토교통부) 유권해석 및 감사원/법제처 판례</span>
-        </div>
-        <div style="font-size: 11.5px; font-weight: 700; color: var(--accent-primary); margin-bottom: 2px;">
-          [출처: ${data.precedent.source}]
-        </div>
-        <p class="precedent-text">"${data.precedent.text}"</p>
-      </div>
-
-      <!-- 4. Practical Engineering Solution -->
-      <div class="solution-advisory-box">
-        <div class="solution-head">
-          <i data-lucide="check-check"></i>
-          <span>인허가 100% 통과를 위한 AI 엔지니어링 보완 설계 가이드</span>
-        </div>
-        <p class="solution-text">${data.solution}</p>
-      </div>
-    `;
-
-    if (window.lucide) lucide.createIcons();
-  }
-
-  renderEncyclopedia(filterText) {
-    if (!this.encycloContainer) return;
-
-    const items = MASTER_PARTS_DATA.filter(item => {
-      if (!filterText) return true;
-      return item.name.toLowerCase().includes(filterText) ||
-             item.summary.toLowerCase().includes(filterText) ||
-             item.category.toLowerCase().includes(filterText);
-    });
-
-    this.encycloContainer.innerHTML = items.map((item, idx) => `
-      <div class="encyclo-item-card" onclick="legalAdvisorApp.onEncyclopediaItemClick(${item.id})">
-        <div class="encyclo-card-header">
-          <span class="encyclo-part-title">[${idx + 1}] ${item.name}</span>
-          <span class="encyclo-cat-badge">${item.category.toUpperCase()}</span>
-        </div>
-        <div class="encyclo-dominant-rule">
-          ${item.building.text !== '─' ? `건축법: ${item.building.text}` : ''} 
-          ${item.bf.text !== '─' ? `| BF: ${item.bf.text}` : ''}
-        </div>
-        <div class="encyclo-summary-brief">${item.summary}</div>
-      </div>
-    `).join('');
-  }
-
-  onEncyclopediaItemClick(partId) {
-    const item = MASTER_PARTS_DATA.find(p => p.id === partId);
-    if (!item) return;
-
-    showToast(`[${item.name}] 관련 법적근거를 로드합니다.`);
-    this.handleSearch(item.name);
-  }
-
-  printLegalAnswer() {
-    const data = LEGAL_QA_DATABASE[this.currentQueryKey] || LEGAL_QA_DATABASE["soundlock"];
-    const modal = document.getElementById('reportModalOverlay');
-    const preview = document.getElementById('printableReportArea');
-
-    if (preview && modal) {
-      preview.innerHTML = `
-        <div style="font-family: 'Noto Sans KR', sans-serif; padding: 24px; line-height: 1.6; color: #0F172A;">
-          <h1 style="text-align: center; font-size: 20px; border-bottom: 2px solid #0F172A; padding-bottom: 10px; margin-bottom: 20px;">
-            공연장 복합법령 법적질의 회신서 (Legal Advisory Report)
-          </h1>
-          <table style="width: 100%; border-collapse: collapse; margin-bottom: 18px; font-size: 13px;">
-            <tr>
-              <th style="border: 1px solid #CBD5E1; background: #F1F5F9; padding: 8px; width: 25%;">질의 안건</th>
-              <td style="border: 1px solid #CBD5E1; padding: 8px; font-weight: bold;" colspan="3">${data.title}</td>
-            </tr>
-            <tr>
-              <th style="border: 1px solid #CBD5E1; background: #F1F5F9; padding: 8px;">최종 판정</th>
-              <td style="border: 1px solid #CBD5E1; padding: 8px; color: #E11D48; font-weight: bold;" colspan="3">${data.verdict.title}</td>
-            </tr>
-          </table>
-
-          <h3 style="font-size: 15px; margin: 16px 0 8px 0; color: #1E293B;">1. AI 법률 유권해석 요약</h3>
-          <p style="background: #FFF1F2; border-left: 4px solid #E11D48; padding: 12px; font-size: 13px; margin-bottom: 14px;">
-            ${data.verdict.desc}
-          </p>
-
-          <h3 style="font-size: 15px; margin: 16px 0 8px 0; color: #1E293B;">2. 관련 법령 조항 및 법적 근거 전문</h3>
-          ${data.clauses.map(c => `
-            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; padding: 10px; border-radius: 6px; margin-bottom: 8px; font-size: 12.5px;">
-              <strong>[${c.lawName}] ${c.article}</strong><br>
-              <span style="color: #334155;">"${c.text}"</span>
-              ${c.penalty ? `<br><span style="color: #E11D48; font-size: 11.5px;">* 벌칙: ${c.penalty}</span>` : ''}
-            </div>
-          `).join('')}
-
-          <h3 style="font-size: 15px; margin: 16px 0 8px 0; color: #1E293B;">3. 행정청 유권해석 및 심판례</h3>
-          <p style="background: #F1F5F9; border-left: 4px solid #64748B; padding: 10px; font-size: 12.5px; margin-bottom: 14px;">
-            <strong>[${data.precedent.source}]</strong><br>
-            "${data.precedent.text}"
-          </p>
-
-          <h3 style="font-size: 15px; margin: 16px 0 8px 0; color: #1E293B;">4. 인허가 100% 통과를 위한 엔지니어링 조치 가이드</h3>
-          <p style="background: #EEF2FF; border-left: 4px solid #4F46E5; padding: 12px; font-size: 13px;">
-            ${data.solution}
-          </p>
-
-          <div style="margin-top: 30px; text-align: right; font-size: 13px;">
-            <p>2026년 08월 27일</p>
-            <p><strong>공연장 종합 법규 AI 안전진단 시스템 ArtVenue LawMaster</strong></p>
-          </div>
-        </div>
-      `;
-      modal.classList.add('active');
-    }
-  }
-}
-
-// =============================================================================
-// 9. COMPREHENSIVE REGULATORY COMPLIANCE CHECKLIST ENGINE (36 ITEMS)
-// =============================================================================
-
-const CHECKLIST_ITEMS_DATA = [
-  // 1. 피난·출구·통로 (8개)
-  {
-    id: "chk-1",
-    cat: "egress",
-    catName: "피난·출구",
-    title: "관람실 주출구 유효너비 및 안여닫이 금지",
-    criterion: "개소당 순유효너비 1.5m 이상 확보 & 피난방향(바깥여닫이) 개폐 의무",
-    status: "fail",
-    dominant: "건축피난규칙 제10조 (지배기준)",
-    standard: "법정 1,500mm 이상 / 실무권장 1,800mm (양개형 1.2m+1.2m)",
-    lawName: "건축물의 피난·방화구조 등의 기준에 관한 규칙 제10조 제2항",
-    articleText: "문화 및 집회시설(공연장)의 관람실 출구 유효너비는 개소당 1.5미터 이상으로 하여야 하며, 출입문은 안여닫이로 하여서는 아니 된다.",
-    penalty: "건축허가 반려 및 건축법 제110조에 따른 시정명령 및 2년 이하 징역/1억원 벌금",
-    requiredDocs: "관람실 평면도, 출구 유효폭 산정표, 도어개폐방향 일람표",
-    note: "도면상 사운드록 내측문 안여닫이 표기됨. 바깥여닫이로 수정 필수."
-  },
-  {
-    id: "chk-2",
-    cat: "egress",
-    catName: "피난·통로",
-    title: "FOH 관람객 주복도 순유효너비 및 돌출 장애물 배제",
-    criterion: "양옆 거실 복도 순유효너비 2.4m 이상 확보 & 옥내소화전 매립 시공",
-    status: "fail",
-    dominant: "건축피난규칙 제15조의2 (지배기준)",
-    standard: "법정 2,400mm 이상 / 실무권장 중심선 3,000mm 확보",
-    lawName: "건축물의 피난·방화구조 등의 기준에 관한 규칙 제15조의2 제2항",
-    articleText: "공연장의 관람실 바닥면적의 합계가 1,000㎡ 이상인 층의 복도로서 양옆에 거실이 있는 복도의 너비는 2.4미터 이상이어야 한다.",
-    penalty: "준공 시 사용승인 반려 및 소방 감리 부적합 판정",
-    requiredDocs: "복도 유효폭 상세단면도, 벽체 매립소화전 상세도",
-    note: "소화전함 250mm 돌출로 순유효폭 2.05m로 축소됨. 매립형 설계 반영 필요."
-  },
-  {
-    id: "chk-3",
-    cat: "egress",
-    catName: "피난·통로",
-    title: "사운드록(방음전실) 2중 도어 피난거리 및 전후면 활동공간",
-    criterion: "전실 내부 통로폭 1.5m 이상 & 문 전후면 직경 1.4m 휠체어 회전반경",
-    status: "warn",
-    dominant: "BF인증 2.1.3 & 소방법 화재안전기준",
-    standard: "사운드록 내측폭 1,500mm 이상 / 회전직경 1,400mm",
-    lawName: "BF인증 심사기준 2.1.3 및 NFPC 303 제5조",
-    articleText: "출입문 전후면에는 휠체어 사용자가 정지하여 문을 개폐할 수 있는 활동공간(1.4m x 1.4m)을 확보하고 피난지체가 발생하지 않도록 할 것.",
-    penalty: "BF 인증 점수 감점 및 소방동의 보완 요구",
-    requiredDocs: "사운드록 평면 상세도, 화재연동 전자도어홀더 계통도",
-    note: "사운드록 내부 통로폭 1.1m로 좁음. 450mm 확장 권고."
-  },
-  {
-    id: "chk-4",
-    cat: "egress",
-    catName: "피난·통로",
-    title: "객석 내 통로 유효너비 및 통로 단차 최소화",
-    criterion: "가로통로 1.2m 이상, 세로통로 0.8m 이상 & 계단식 통로 발판 26cm 이상",
-    status: "pass",
-    dominant: "건축피난규칙 제10조 제3항",
-    standard: "횡단통로 1,200mm, 종단통로 900mm 확보",
-    lawName: "건축물의 피난·방화구조 등의 기준에 관한 규칙 제10조 제3항",
-    articleText: "관람석 사이의 통로는 너비 0.8미터 이상(가로통로는 1.2미터 이상)으로 하고, 피난시설로 직접 통할 수 있어야 함.",
-    penalty: "건축허가 반려",
-    requiredDocs: "객석 단면 Rake 및 통로 폭 상세도",
-    note: "종단통로 1.0m, 가로통로 1.3m로 기준 완벽 충족."
-  },
-  {
-    id: "chk-5",
-    cat: "egress",
-    catName: "피난·계단",
-    title: "거실 각 부분에서 직통 피난계단까지의 보행거리",
-    criterion: "객석 최외곽에서 직통계단 출입구까지 실제 보행거리 30m(내화 50m) 이하",
-    status: "pass",
-    dominant: "건축법 시행령 제34조",
-    standard: "내화구조 기준 50m 이하 (사운드록 굴절거리 포함 32m)",
-    lawName: "건축법 시행령 제34조 제1항",
-    articleText: "공연장의 거실 각 부분으로부터 보행거리 30미터(주요구조부가 내화구조인 경우 50미터) 이내에 직통계단을 설치하여야 함.",
-    penalty: "건축허가 반려 및 계단 추가 신설 처분",
-    requiredDocs: "피난동선 및 최장 보행거리 산정 도면",
-    note: "내화구조 50m 기준 내 최장 32m로 충족."
-  },
-  {
-    id: "chk-6",
-    cat: "egress",
-    catName: "피난·제연",
-    title: "특별피난계단 부속실 제연설비 및 차압 40~60Pa 유지",
-    criterion: "화재 시 계단실 및 부속실에 외기를 급기가압하여 연기 침입 방지",
-    status: "pass",
-    dominant: "특별피난계단 제연설비 화재안전기준(NFPC 501A)",
-    standard: "설계차압 40Pa~60Pa / 도어 개방력 110N 이하",
-    lawName: "NFPC 501A 제3조 및 제4조",
-    articleText: "제연구역과 옥내와의 차압은 40파스칼(옥내에 스프링클러 설치 시 12.5파스칼) 이상으로 유지하여야 함.",
-    penalty: "소방 완비증명서 미발급",
-    requiredDocs: "제연설비 TAB(풍량측정조정) 보고서, 급기덕트 계통도",
-    note: "급기가압 팬 및 차압댐퍼 설계 반영 완료."
-  },
-  {
-    id: "chk-7",
-    cat: "egress",
-    catName: "피난·유도",
-    title: "피난구유도등 및 복도통로유도등 바닥면 조도 1lux 확보",
-    criterion: "출입구 상부 피난구유도등 대형 설치 & 복도통로유도등 20m 간격",
-    status: "pass",
-    dominant: "유도등 화재안전성능기준(NFPC 303)",
-    standard: "피난구 대형 / 통로 바닥 1.0lux 이상",
-    lawName: "NFPC 303 제4조 및 제5조",
-    articleText: "공연장의 출구 상부에는 대형 피난구유도등을 설치하고, 복도 통로유도등은 바닥면 중심 1럭스 이상을 확보할 것.",
-    penalty: "소방시설법 제53조 과태료 부과",
-    requiredDocs: "소방 전기도면, 유도등 조도 시뮬레이션 계산서",
-    note: "LED 대형 피난구유도등 전구역 배치 완료."
-  },
-  {
-    id: "chk-8",
-    cat: "egress",
-    catName: "피난·안내",
-    title: "객석 피난안내도 부착 및 암전 시 축광 발광 유도표지",
-    criterion: "주요 출입구 및 객석 후면에 다국어 피난안내도 부착 의무",
-    status: "pass",
-    dominant: "공연법 제11조의4",
-    standard: "A3 규격 이상 / 암전 30분 발광 축광형",
-    lawName: "공연법 제11조의4 제1항",
-    articleText: "공연장 운영자는 관람객이 화재 등 재난 시 쉽게 알아볼 수 있도록 피난안내도를 게시하여야 한다.",
-    penalty: "공연법 제43조 과태료 부과",
-    requiredDocs: "피난안내도 사인 디자인도, 축광 성능 시험성적서",
-    note: "객석 출구 3개소에 피난안내도 및 축광 발광선 반영."
-  },
-
-  // 2. 방화·소방·제연 (8개)
-  {
-    id: "chk-9",
-    cat: "fire",
-    catName: "방화구획",
-    title: "무대부 300㎡ 이상 시 1시간 내화 방화막(Fire Curtain) 설치",
-    criterion: "프로세니엄 아치 상부에 내화 1시간 방화막 및 수막 드렌처설비 연동",
-    status: "fail",
-    dominant: "건축법 시행령 제46조 (지배기준)",
-    standard: "내화 1시간 이상 / 하강속도 4.5m/min 이상",
-    lawName: "건축법 시행령 제46조 제1항",
-    articleText: "공연장의 무대부로서 바닥면적이 300제곱미터 이상인 것은 무대부와 관람석 사이에 내화구조의 방화막을 설치하여야 한다.",
-    penalty: "소방동의 불가 및 공연장 등록 취소",
-    requiredDocs: "무대 방화막 기계상세도, 내화시험성적서, 드렌처 배관도",
-    note: "도면상 방화막 표기 누락됨. 프로세니엄 상부 내화방화막 도면 추가 필수."
-  },
-  {
-    id: "chk-10",
-    cat: "fire",
-    catName: "소화설비",
-    title: "무대부 개방형 스프링클러 헤드 수평거리 1.7m 이하 배치",
-    criterion: "무대 천장 및 플라이갤러리 하부에 고온형 개방형 헤드 정방형 배치",
-    status: "pass",
-    dominant: "스프링클러설비 화재안전기준(NFPC 103)",
-    standard: "수평거리 1.7m 이하 (2.2m x 2.2m 간격)",
-    lawName: "NFPC 103 제4조 제1항",
-    articleText: "무대부 또는 특수가연물을 취급하는 장소는 스프링클러헤드의 수평거리를 1.7미터 이하로 할 것.",
-    penalty: "소방 완비증명서 부적합",
-    requiredDocs: "소방기계 평면도, 델류지밸브 계통도",
-    note: "2.2m 간격 수평거리 1.55m로 기준 충족."
-  },
-  {
-    id: "chk-11",
-    cat: "fire",
-    catName: "제연·소화",
-    title: "무대 상부 배연창(무대면적 1/10 이상) 및 드렌처 헤드 연동",
-    criterion: "무대 상부 연돌효과 배연창 설치 및 방화막 냉각용 드렌처설비",
-    status: "pass",
-    dominant: "건축피난규칙 제14조 제1항",
-    standard: "배연창 면적 45㎡ 이상 (무대면적 450㎡의 10%)",
-    lawName: "건축물의 피난·방화구조 등의 기준에 관한 규칙 제14조",
-    articleText: "공연장의 무대부 상부에는 화재 시 연기를 신속히 배출할 수 있는 배연창을 무대부 바닥면적의 10분의 1 이상 설치하여야 함.",
-    penalty: "건축허가 반려",
-    requiredDocs: "무대 상부 지붕 배연창 상세도, 모터구동계통도",
-    note: "배연창 면적 48㎡ 설계 반영 완료."
-  },
-  {
-    id: "chk-12",
-    cat: "fire",
-    catName: "마감재료",
-    title: "관람실 천장·벽체 불연·준불연 흡음 마감재 인증",
-    criterion: "관람실 내부 마감재료는 불연재료(난연1급) 또는 준불연재료(난연2급) 의무",
-    status: "pass",
-    dominant: "건축법 시행령 제61조",
-    standard: "준불연 이상 공인시험성적서(KS F ISO 5660-1)",
-    lawName: "건축법 시행령 제61조 제1항",
-    articleText: "문화 및 집회시설의 거실 등의 내부 마감재료는 불연재료 또는 준불연재료로 하여야 함.",
-    penalty: "준공 승인 불가 및 형사 고발",
-    requiredDocs: "마감재료 시험성적서, 방염성능검사결과서",
-    note: "준불연 흡음 패브릭 패널 성적서 첨부 완료."
-  },
-  {
-    id: "chk-13",
-    cat: "fire",
-    catName: "방화구획",
-    title: "방화구획 관통부 내화채움구조 시공 및 방화댐퍼 연동",
-    criterion: "배관·덕트 방화구획 관통 시 내화채움재 및 소방연동 방화댐퍼(FD) 설치",
-    status: "pass",
-    dominant: "건축피난규칙 제14조 제2항",
-    standard: "내화 2시간 채움구조 / 방화댐퍼 모터구동방식",
-    lawName: "건축물의 피난·방화구조 등의 기준에 관한 규칙 제14조 제2항",
-    articleText: "방화구획을 관통하는 덕트 및 배관의 틈새는 국토교통부장관이 고시하는 기준에 적합한 내화채움구조로 메워야 함.",
-    penalty: "시정명령 및 소방감리 부적합",
-    requiredDocs: "내화채움재 인증서, 공조덕트 방화댐퍼 상세도",
-    note: "한국건설기술연구원 인정 내화채움구조 적용."
-  },
-  {
-    id: "chk-14",
-    cat: "fire",
-    catName: "경보설비",
-    title: "소방 R형 수신반 및 비상방송설비 우선경보방식 연동",
-    criterion: "화재 시 공연 음향 즉시 뮤트(Mute) 및 비상대피 안내방송 강제 자동 송출",
-    status: "pass",
-    dominant: "비상방송설비 화재안전기준(NFPC 202)",
-    standard: "화재 감지 시 0.5초 내 음향차단 릴레이 작동",
-    lawName: "NFPC 202 제4조",
-    articleText: "비상방송설비는 화재신호를 수신한 즉시 공연장 등의 일반 음향을 차단하고 피난안내방송을 우선 송출하도록 구성할 것.",
-    penalty: "소방시설법 위반 과태료",
-    requiredDocs: "음향 인터록 결선도, 소방 수신반 시퀀스도",
-    note: "DMX 조명/PA 음향 컷오프 소방릴레이 설계 완료."
-  },
-  {
-    id: "chk-15",
-    cat: "fire",
-    catName: "소화설비",
-    title: "옥내소화전설비 방수압력 0.17MPa 이상 및 벽체 매립",
-    criterion: "노즐 선단 방수압력 0.17~0.7MPa 유지 & 보도 침해 방지 매립 시공",
-    status: "pass",
-    dominant: "옥내소화전설비 화재안전기준(NFPC 102)",
-    standard: "방수량 130L/min 이상 / 매립형 함체",
-    lawName: "NFPC 102 제4조 및 제7조",
-    articleText: "옥내소화전설비의 노즐선단 방수압력은 0.17메가파스칼 이상이어야 하며, 복도 유효너비를 침해하지 않도록 설치할 것.",
-    penalty: "소방시설법 시정명령",
-    requiredDocs: "소방 펌프 계산서, 소화전함 상세도",
-    note: "펌프 토출압 0.35MPa 및 복도 전구역 매립형 적용."
-  },
-  {
-    id: "chk-16",
-    cat: "fire",
-    catName: "소방활동",
-    title: "소방차 진입 동선(폭 4m 이상) 및 연결송수관 송수구",
-    criterion: "대형 소방펌프차 접근 전용 통로 및 지상 1층 연결송수관 쌍구형 송수구",
-    status: "pass",
-    dominant: "소방시설 설치 및 관리에 관한 법률",
-    standard: "진입로 폭 4.0m / 회전반경 12m",
-    lawName: "소방시설법 시행령 별표 4",
-    articleText: "소방자동차가 쉽게 접근할 수 있는 위치에 연결송수관설비의 송수구를 설치하여야 함.",
-    penalty: "소방 착공동의 반려",
-    requiredDocs: "배치도 소방차 회전반경 궤적도, 송수구 상세도",
-    note: "주출입구 우측 5m 내 송수구 배치 완료."
-  },
-
-  // 3. 장애인편의증진 & BF인증 (8개)
-  {
-    id: "chk-17",
-    cat: "bf",
-    catName: "장애인관람석",
-    title: "휠체어 관람석 의무 비율 (1% vs BF 최우수 2%)",
-    criterion: "전체 850석 중 최소 17석 이상 확보 & 무단차 진입로 연결",
-    status: "warn",
-    dominant: "BF인증 심사기준 3.2.1 (지배기준)",
-    standard: "법정 9석(1%) / BF 최우수 17석(2%)",
-    lawName: "장애인등편의법 시행령 별표2 & BF인증 심사기준",
-    articleText: "공연장의 관람석은 전체의 1퍼센트(BF 최우수 2퍼센트) 이상을 장애인용으로 설치하여야 함.",
-    penalty: "BF 인증 본인증 탈락 및 보완 시공 명령",
-    requiredDocs: "객석 배치도 및 휠체어석 비율 산출표",
-    note: "도면상 10석만 표기됨. 17석으로 확대 반영 권고."
-  },
-  {
-    id: "chk-18",
-    cat: "bf",
-    catName: "장애인관람석",
-    title: "휠체어석 1석당 규격(0.9m x 1.4m 이상) 및 시야각",
-    criterion: "1석당 유효너비 0.9m, 깊이 1.4m 이상 & 앞좌석 기립 시 무대 시야 확보",
-    status: "pass",
-    dominant: "BF인증 심사기준 3.2.1",
-    standard: "1,000mm x 1,500mm (여유 규격)",
-    lawName: "BF인증 심사기준 3.2.1",
-    articleText: "휠체어 관람석은 1석당 너비 0.9미터 이상, 깊이 1.4미터 이상으로 하고 무대 가시선(Sightline)을 확보할 것.",
-    penalty: "BF 인증 감점",
-    requiredDocs: "시야선(Sightline) 단면 분석도",
-    note: "1.0m x 1.5m 규격 및 단차 0mm 시야각 확보 완료."
-  },
-  {
-    id: "chk-19",
-    cat: "bf",
-    catName: "무단차동선",
-    title: "주출입구 및 객석 진입로 단차 0mm (경사로 1/18 이하)",
-    criterion: "주출입구에서 휠체어 관람석까지 턱·계단 없는 무단차 슬래브 시공",
-    status: "pass",
-    dominant: "BF인증 2.1.1 (최우수 기준)",
-    standard: "바닥 단차 0mm / 경사로 기울기 1/18 이하",
-    lawName: "장애인등편의법 시행규칙 별표1 & BF인증 2.1.1",
-    articleText: "휠체어 사용자가 통행하는 출입구 및 복도에는 단차를 두어서는 아니 되며, 경사로는 1/18 이하로 설치할 것.",
-    penalty: "BF 본인증 반려",
-    requiredDocs: "바닥 레벨 상세도, 경사로 단면도",
-    note: "로비에서 객석 C열까지 1/20 완경사 슬래브 적용."
-  },
-  {
-    id: "chk-20",
-    cat: "bf",
-    catName: "장애인주차",
-    title: "장애인 전용 주차구역(3~4%) 및 무단차 안전 보행로",
-    criterion: "주출입구 가장 인접 배치 & 1구획당 폭 3.3m x 길이 5.0m 확보",
-    status: "pass",
-    dominant: "장애인등편의법 시행령 제4조",
-    standard: "총 주차대수의 3.5% / 폭 3,300mm",
-    lawName: "장애인등편의법 시행령 제4조 별표 1",
-    articleText: "장애인전용주차구역은 출입구에서 가장 가까운 장소에 설치하며, 통행로와 단차 없이 연결하여야 함.",
-    penalty: "건축허가 반려",
-    requiredDocs: "주차장 평면도, 장애인전용 보행로 상세도",
-    note: "주차구역 8대(4.0%) 배치 및 엘리베이터 직통 연결."
-  },
-  {
-    id: "chk-21",
-    cat: "bf",
-    catName: "장애인위생",
-    title: "장애인 화장실 유효바닥(1.6m x 2.0m) 및 비상벨 2개소",
-    criterion: "대변기 칸막이 1.6m x 2.0m & 바닥 20cm/60cm 높이 비상호출벨",
-    status: "pass",
-    dominant: "BF인증 2.4.1 (최우수 기준)",
-    standard: "유효너비 1,600mm x 깊이 2,000mm 이상",
-    lawName: "장애인등편의법 별표2 & BF인증 2.4.1",
-    articleText: "대변기 칸막이 유효너비는 1.6미터 이상, 깊이는 2.0미터 이상으로 하고 상하 2단 비상호출벨을 설치할 것.",
-    penalty: "BF 본인증 반려",
-    requiredDocs: "화장실 상세도, 위생기구 및 안전손잡이 배치도",
-    note: "1.7m x 2.1m 규격 및 자동문, 2단 비상벨 설계 완료."
-  },
-  {
-    id: "chk-22",
-    cat: "bf",
-    catName: "유도안내설비",
-    title: "주출입구 점자안내판, 음성유도기, 30cm 점자블록",
-    criterion: "시각장애인용 촉지도식 점자안내판, 음성유도기, 전면 30cm 감지블록",
-    status: "pass",
-    dominant: "장애인등편의법 별표 2 & BF 2.3.1",
-    standard: "점자안내판 중심높이 1.2m / 음성유도기 내장",
-    lawName: "BF인증 심사기준 2.3.1",
-    articleText: "주출입구 부근에 촉지도식 점자안내판 및 음성유도기를 설치하고 0.3미터 전면에 점형블록을 부착할 것.",
-    penalty: "BF 인증 감점",
-    requiredDocs: "점자안내판 상세도, 점자블록 시공도",
-    note: "로비 안내데스크 전면 촉지도 및 음성유도기 반영."
-  },
-  {
-    id: "chk-23",
-    cat: "bf",
-    catName: "안내데스크",
-    title: "매표소·안내데스크 휠체어 전용 낮은 카운터(0.7~0.8m)",
-    criterion: "상판 높이 700~800mm, 하부 휠체어 무릎공간 깊이 450mm 확보",
-    status: "pass",
-    dominant: "BF인증 2.5.1",
-    standard: "상판 높이 750mm / 무릎공간 깊이 500mm",
-    lawName: "BF인증 심사기준 2.5.1",
-    articleText: "안내데스크 또는 매표소의 일부는 휠체어 사용자가 이용 가능하도록 높이 0.7~0.8미터로 하고 하부공간을 확보할 것.",
-    penalty: "BF 인증 감점",
-    requiredDocs: "매표소 가구 상세도",
-    note: "매표소 1번 창구 낮은 카운터(750mm) 적용."
-  },
-  {
-    id: "chk-24",
-    cat: "bf",
-    catName: "청각보조",
-    title: "청각장애인용 보청유도설비(히어링루프, Hearing Loop)",
-    criterion: "객석 바닥에 자기장 루프코일 시공하여 보청기(T-모드) 직접 수신",
-    status: "pass",
-    dominant: "BF인증 3.2.3 (최우수 권장)",
-    standard: "IEC 60118-4 국제표준 적합 루프 앰프",
-    lawName: "BF인증 심사기준 3.2.3",
-    articleText: "공연장 관람석에는 청각장애인의 명료한 청취를 위해 보청유도설비(히어링루프 등)를 설치할 것.",
-    penalty: "BF 최우수 등급 취득 불가",
-    requiredDocs: "음향설비 히어링루프 계통도, 자기장 측정보고서",
-    note: "객석 A~E열 전구역 히어링루프 앰프 설계 반영."
-  },
-
-  // 4. 무대시설 & 공연법 안전 (6개)
-  {
-    id: "chk-25",
-    cat: "stage",
-    catName: "무대기계",
-    title: "무대기계·기구 설치 전 안전진단 및 3년 주기 정기안전검사",
-    criterion: "무대 상하부 기계설비 공인안전진단기관(한국공연시설관리원) 사전 심사",
-    status: "pass",
-    dominant: "공연법 제12조 (지배기준)",
-    standard: "설계검토 -> 설치검사 -> 3년 정기검사",
-    lawName: "공연법 제12조 제1항",
-    articleText: "공연장운영자는 무대시설에 대하여 정기적으로 안전진단을 받아야 하며, 안전진단 결과에 따라 보수·보강하여야 함.",
-    penalty: "공연장 등록 취소 및 1년 이하 징역 또는 1천만원 벌금",
-    requiredDocs: "무대기계 설계검토서, 안전인증서",
-    note: "한국공연시설관리원 사전 설계검토 승인 완료."
-  },
-  {
-    id: "chk-26",
-    cat: "stage",
-    catName: "무대하중",
-    title: "무대 상부 세트 배턴(Batten) 와이어로프 안전율 10배 이상",
-    criterion: "조명·음향·무대세트 인양용 전동 배턴의 안전계수 10 이상 의무",
-    status: "pass",
-    dominant: "공연장 무대시설 안전기준 고시",
-    standard: "안전율 10.0 이상 / 이중 브레이크 모터",
-    lawName: "문화체육관광부 고시 제2023-18호",
-    articleText: "사람의 머리 위로 인양되는 무대장치의 인양 와이어로프 안전계수는 10 이상이어야 함.",
-    penalty: "안전진단 불합격",
-    requiredDocs: "와이어로프 하중 계산서, 모터 브레이크 성적서",
-    note: "안전율 12.5배 특수 항공용 와이어로프 선정."
-  },
-  {
-    id: "chk-27",
-    cat: "stage",
-    catName: "무대승강",
-    title: "무대 승강장치(오케스트라 피트 리프트) 광전센서 인터록",
-    criterion: "승강 중 끼임 방지 안전 범퍼 및 광전센서 감지 시 즉시 비상정지",
-    status: "pass",
-    dominant: "공연장 무대시설 안전기준",
-    standard: "이중 안전센서 / 비상정지 반응시간 0.1s",
-    lawName: "공연장 무대시설 안전기준 제15조",
-    articleText: "무대 승강장치 주변부에는 협착 사고를 방지할 수 있는 인터록 안전장치를 설치하여야 함.",
-    penalty: "무대기계 사용 중지 명령",
-    requiredDocs: "오케스트라 리프트 인터록 제어도면",
-    note: "승강 외곽 전구역 세이프티 에지(Safety Edge) 센서 적용."
-  },
-  {
-    id: "chk-28",
-    cat: "stage",
-    catName: "안전관리",
-    title: "공연장 안전총괄책임자 지정 및 안전관리비 1.5% 계상",
-    criterion: "안전관리총괄책임자/안전관리원 선임 및 안전관리비 의무 반영",
-    status: "pass",
-    dominant: "공연법 제11조",
-    standard: "공연장 운영예산의 1.5% 이상 안전관리비 책정",
-    lawName: "공연법 제11조 및 시행령 제9조",
-    articleText: "공연장운영자는 공연장 안전총괄책임자를 지정하고 재해예방조치를 취하여야 함.",
-    penalty: "500만원 이하 과태료",
-    requiredDocs: "안전관리조직도, 안전관리계획서",
-    note: "안전총괄책임자 선임 및 비상연락체계 구축 완료."
-  },
-  {
-    id: "chk-29",
-    cat: "stage",
-    catName: "특수효과",
-    title: "화기·특수효과(파이로, 연무기) 사용 시 관할 소방서 사전 신고",
-    criterion: "불꽃류 사용 14일 전 소방서 신고 및 무대 방염천 시공 의무",
-    status: "pass",
-    dominant: "공연법 제11조의3 & 소방법",
-    standard: "화기사용 14일 전 신청 / 무대 방염성능검사",
-    lawName: "공연법 시행규칙 제4조의2",
-    articleText: "공연 시 화기나 특수효과 물질을 사용하려는 경우 안전대책을 수립하여 관할 소방서장에게 신고하여야 함.",
-    penalty: "공연 중지 명령 및 300만원 과태료",
-    requiredDocs: "특수효과 안전관리계획서, 소화수 배치도",
-    note: "연무기 전용 환기 및 특수효과 사전협의 프로토콜 수립."
-  },
-  {
-    id: "chk-30",
-    cat: "stage",
-    catName: "추락방지",
-    title: "무대 하부 피트 및 조명 캣워크 추락방지 안전난간(1.2m)",
-    criterion: "무대 상부 조명 브릿지 및 피트 외곽 높이 1.2m 이상 강재 난간",
-    status: "pass",
-    dominant: "산업안전보건기준에 관한 규칙 제13조",
-    standard: "난간 높이 1,200mm / 중간대 높이 600mm",
-    lawName: "산업안전보건기준에 관한 규칙 제13조",
-    articleText: "근로자의 추락 위험이 있는 장소에는 높이 1.2미터 이상의 안전난간 및 발끝막이판을 설치할 것.",
-    penalty: "산업안전보건법 위반 처벌",
-    requiredDocs: "캣워크 구조계산서, 난간 상세도",
-    note: "조명 캣워크 1.2m 안전난간 및 폭 10cm 발끝막이판 시공."
-  },
-
-  // 5. 음향·건축환경 & 조명 (6개)
-  {
-    id: "chk-31",
-    cat: "acoustic",
-    catName: "음향잔향",
-    title: "관람실 실내 잔향시간(RT60) 용도별 적정 범위 충족",
-    criterion: "뮤지컬/다목적홀 기준 500Hz 대역 RT60 1.2~1.4초 설계",
-    status: "pass",
-    dominant: "공연장 음향설계 표준 가이드라인",
-    standard: "공연장 잔향시간 RT60 = 1.35초 (실측 시뮬레이션)",
-    lawName: "문화예술회관 건립 표준지침",
-    articleText: "다목적 공연장의 음향 잔향시간은 명료도(STI 0.6 이상)를 확보할 수 있는 범위 내로 설계할 것.",
-    penalty: "음향 성능 하자 및 재시공 요구",
-    requiredDocs: "건축음향 CATT-Acoustic 시뮬레이션 보고서",
-    note: "가변 흡음 커튼 적용으로 1.2~1.5초 가변 조절 가능."
-  },
-  {
-    id: "chk-32",
-    cat: "acoustic",
-    catName: "차음성능",
-    title: "사운드록 및 관람실 외벽 차음성능 (STC 50 / NC 25)",
-    criterion: "외부 소음 유입 차단 실내배경소음도 NC-20~25 유지",
-    status: "pass",
-    dominant: "건축음향 환경기준",
-    standard: "사운드록 2중벽 STC 55 이상 / 실내소음 NC-22",
-    lawName: "공연장 음향환경기준",
-    articleText: "관람실 내부는 외부 교통 및 공조 소음이 침입하지 않도록 NC 25 이하의 정숙성을 유지할 것.",
-    penalty: "음향 감리 부적합",
-    requiredDocs: "벽체 차음성능 시험성적서, NC 소음측정서",
-    note: "방음 2중 조적벽 및 공조소음기(Silencer) 설계 완료."
-  },
-  {
-    id: "chk-33",
-    cat: "acoustic",
-    catName: "암전조명",
-    title: "객석 유도등 3선식 배선 및 암전 연동 시 바닥 조도 0.2lux",
-    criterion: "DMX 조명 제어와 소방 수신반 연동 3선식 자동 절체 회로",
-    status: "pass",
-    dominant: "NFPC 303 제5조 (지배기준)",
-    standard: "암전 중 0.2lux 이상 / 화재 시 100% 강제 점등",
-    lawName: "유도등 화재안전기준 NFPC 303 제5조",
-    articleText: "암전이 필요한 장소는 3선식 배선에 의해 소등할 수 있으나 화재 시 즉시 점등되고 0.2럭스 이상 유지할 것.",
-    penalty: "소방시설법 과태료 부과",
-    requiredDocs: "유도등 결선도, 조광기 연동 계통도",
-    note: "소방연동 3선식 릴레이 및 계단스텝등 0.25lux 충족."
-  },
-  {
-    id: "chk-34",
-    cat: "acoustic",
-    catName: "비상전원",
-    title: "비상발전기(비상전원) 60분 이상 연속 가동 용량 확보",
-    criterion: "정전 시 소화설비, 제연설비, 피난유도등에 60분 이상 전력 공급",
-    status: "pass",
-    dominant: "소방시설 설치 및 관리에 관한 법률",
-    standard: "비상발전기 500kW (소방 부하 100% 60분 가동)",
-    lawName: "소방시설법 제12조 별표 4",
-    articleText: "비상전원은 소방시설을 60분 이상 유효하게 작동시킬 수 있는 용량이어야 함.",
-    penalty: "소방 완비증명서 부적합",
-    requiredDocs: "비상발전기 용량 계산서, 단선결선도",
-    note: "500kW 디젤 비상발전기 및 60분 축전지실 구축."
-  },
-  {
-    id: "chk-35",
-    cat: "acoustic",
-    catName: "공조환기",
-    title: "관람실 기계환기설비 시간당 0.5회 이상 외기 도입량",
-    criterion: "관람객 850인 기준 1인당 25㎥/h 이상 신선 외기 공급 및 CO2 1000ppm 관리",
-    status: "pass",
-    dominant: "건축물의 설비기준 등에 관한 규칙 제11조",
-    standard: "환기횟수 0.8회/h (외기도입량 22,000 CMH)",
-    lawName: "건축물의 설비기준 등에 관한 규칙 제11조",
-    articleText: "문화 및 집회시설의 관람실은 환기횟수 시간당 0.5회 이상의 기계환기설비를 설치하여야 함.",
-    penalty: "건축허가 반려",
-    requiredDocs: "공조 풍량 계산서, 덕트 평면도",
-    note: "전열교환기 환기시스템 24,000 CMH 설계 완료."
-  },
-  {
-    id: "chk-36",
-    cat: "acoustic",
-    catName: "무대음향",
-    title: "음향 반사판(Acoustic Shell) 낙하방지 이중 안전고리",
-    criterion: "천장 인양형 음향 반사판의 와이어 파단 시 2차 와이어 안전 캐치",
-    status: "pass",
-    dominant: "공연장 무대시설 안전기준",
-    standard: "이중 안전 와이어(Safety Catch Cable) 필수",
-    lawName: "공연장 무대시설 안전기준 제18조",
-    articleText: "천장에 매달리는 음향 반사판 등 중량물은 주 지지 와이어 파손에 대비한 보조 안전고리를 설치하여야 함.",
-    penalty: "무대 안전검사 불합격",
-    requiredDocs: "반사판 구조 계산서, 안전고리 상세도",
-    note: "스테인리스 안전 보조 와이어 2개소 이중 체결."
-  }
-];
-
-class ChecklistApp {
-  constructor() {
-    this.items = JSON.parse(JSON.stringify(CHECKLIST_ITEMS_DATA));
-    this.currentCatFilter = 'all';
-    this.searchQuery = '';
-    this.filterDefectsOnly = false;
-    this.expandedId = null;
-
-    this.container = document.getElementById('checklistItemsList');
-    this.scorePercentEl = document.getElementById('checklistScorePercent');
-    this.gradeBadgeEl = document.getElementById('checklistGradeBadge');
-    this.progressBarEl = document.getElementById('checklistProgressBar');
-    this.cntPassEl = document.getElementById('cntPass');
-    this.cntFailEl = document.getElementById('cntFail');
-    this.cntWarnEl = document.getElementById('cntWarn');
-  }
-
-  init() {
-    this.bindEvents();
-    this.recalculateScore();
-    this.render();
-  }
-
-  bindEvents() {
-    // Category Filters
-    const catChips = document.querySelectorAll('.cat-filter-chip:not(#btnFilterDefectsOnly)');
-    catChips.forEach(chip => {
-      chip.addEventListener('click', () => {
-        catChips.forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-        this.currentCatFilter = chip.getAttribute('data-cat');
-        this.render();
-      });
-    });
-
-    // Defects Only Filter Toggle
-    const btnDefects = document.getElementById('btnFilterDefectsOnly');
-    if (btnDefects) {
-      btnDefects.addEventListener('click', () => {
-        this.filterDefectsOnly = !this.filterDefectsOnly;
-        btnDefects.classList.toggle('active', this.filterDefectsOnly);
-        this.render();
-      });
-    }
-
-    // Search Input
-    const searchInp = document.getElementById('checklistSearchInput');
-    if (searchInp) {
-      searchInp.addEventListener('input', (e) => {
-        this.searchQuery = e.target.value.trim().toLowerCase();
-        this.render();
-      });
-    }
-
-    // Reset Button
-    const btnReset = document.getElementById('btnResetChecklist');
-    if (btnReset) {
-      btnReset.addEventListener('click', () => {
-        this.items = JSON.parse(JSON.stringify(CHECKLIST_ITEMS_DATA));
-        this.recalculateScore();
-        this.render();
-        showToast("체크리스트가 초기값으로 복원되었습니다.");
-      });
-    }
-
-    // Print Checklist Report
-    const btnPrint = document.getElementById('btnPrintChecklistReport');
-    if (btnPrint) {
-      btnPrint.addEventListener('click', () => this.printChecklistReport());
-    }
-  }
-
-  setItemStatus(itemId, newStatus) {
-    const item = this.items.find(i => i.id === itemId);
-    if (item) {
-      item.status = newStatus;
-      this.recalculateScore();
-      this.render();
-      showToast(`[${item.title}] 상태가 '${newStatus.toUpperCase()}'(으)로 변경되었습니다.`);
-    }
-  }
-
-  updateItemNote(itemId, newNote) {
-    const item = this.items.find(i => i.id === itemId);
-    if (item) {
-      item.note = newNote;
-    }
-  }
-
-  toggleExpand(itemId) {
-    this.expandedId = this.expandedId === itemId ? null : itemId;
-    this.render();
-  }
-
-  recalculateScore() {
-    let passCount = 0;
-    let failCount = 0;
-    let warnCount = 0;
-    let naCount = 0;
-
-    this.items.forEach(item => {
-      if (item.status === 'pass') passCount++;
-      else if (item.status === 'fail') failCount++;
-      else if (item.status === 'warn') warnCount++;
-      else if (item.status === 'na') naCount++;
-    });
-
-    const activeTotal = this.items.length - naCount;
-    // Score Formula: Pass=1.0, Warn=0.5, Fail=0.0
-    const score = activeTotal > 0 ? Math.round(((passCount * 1.0 + warnCount * 0.5) / activeTotal) * 100) : 100;
-
-    if (this.scorePercentEl) this.scorePercentEl.innerText = `${score}%`;
-    if (this.progressBarEl) this.progressBarEl.style.width = `${score}%`;
-
-    if (this.cntPassEl) this.cntPassEl.innerText = `${passCount}건`;
-    if (this.cntFailEl) this.cntFailEl.innerText = `${failCount}건`;
-    if (this.cntWarnEl) this.cntWarnEl.innerText = `${warnCount}건`;
-
-    if (this.gradeBadgeEl) {
-      this.gradeBadgeEl.className = 'score-grade-badge';
-      if (score >= 90 && failCount === 0) {
-        this.gradeBadgeEl.classList.add('pass');
-        this.gradeBadgeEl.innerText = "🏆 인허가 완벽 적합 (100% 승인)";
-      } else if (score >= 75) {
-        this.gradeBadgeEl.classList.add('warn');
-        this.gradeBadgeEl.innerText = `⚡ ${failCount}건 보완 후 승인 가능`;
-      } else {
-        this.gradeBadgeEl.classList.add('fail');
-        this.gradeBadgeEl.innerText = "❌ 인허가 반려 위험 (중대결함)";
-      }
-    }
-  }
-
-  render() {
-    if (!this.container) return;
-
-    const filteredItems = this.items.filter(item => {
-      // Category Filter
-      if (this.currentCatFilter !== 'all' && item.cat !== this.currentCatFilter) {
-        return false;
-      }
-      // Defects Only Filter
-      if (this.filterDefectsOnly && (item.status === 'pass' || item.status === 'na')) {
-        return false;
-      }
-      // Search Filter
-      if (this.searchQuery) {
-        const fullText = `${item.title} ${item.criterion} ${item.dominant} ${item.lawName} ${item.note}`.toLowerCase();
-        if (!fullText.includes(this.searchQuery)) return false;
-      }
-      return true;
-    });
-
-    if (filteredItems.length === 0) {
-      this.container.innerHTML = `
-        <div style="text-align: center; padding: 40px; color: var(--text-muted); background: #FFFFFF; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle);">
-          <i data-lucide="search-x" style="width: 32px; height: 32px; margin-bottom: 8px;"></i>
-          <p>조건에 일치하는 체크리스트 항목이 없습니다.</p>
-        </div>
-      `;
-      if (window.lucide) lucide.createIcons();
-      return;
-    }
-
-    this.container.innerHTML = filteredItems.map((item, idx) => {
-      const isExpanded = this.expandedId === item.id;
-      return `
-        <div class="checklist-card-row ${isExpanded ? 'expanded' : ''}" id="card-${item.id}">
-          <!-- Row Summary Header -->
-          <div class="card-row-summary-flex" onclick="checklistApp.toggleExpand('${item.id}')">
-            <div class="row-left-group">
-              <span class="item-index-badge">#${idx + 1}</span>
-              <div class="item-title-block">
-                <div class="item-main-title">
-                  <span>${item.title}</span>
-                  <span class="tab-count-badge">${item.catName}</span>
-                  <span class="badge-amber" style="font-size: 10.5px;">${item.dominant}</span>
-                </div>
-                <div class="item-sub-criterion"><i data-lucide="check-circle" style="width: 12px; height: 12px; display: inline;"></i> ${item.criterion}</div>
-              </div>
-            </div>
-
-            <div class="row-right-group" onclick="event.stopPropagation()">
-              <!-- Status Switcher -->
-              <div class="status-btn-switcher">
-                <button class="status-switch-btn ${item.status === 'pass' ? 'active pass' : ''}" onclick="checklistApp.setItemStatus('${item.id}', 'pass')">✅ 적합</button>
-                <button class="status-switch-btn ${item.status === 'warn' ? 'active warn' : ''}" onclick="checklistApp.setItemStatus('${item.id}', 'warn')">⚡ 보완</button>
-                <button class="status-switch-btn ${item.status === 'fail' ? 'active fail' : ''}" onclick="checklistApp.setItemStatus('${item.id}', 'fail')">❌ 부적합</button>
-                <button class="status-switch-btn ${item.status === 'na' ? 'active na' : ''}" onclick="checklistApp.setItemStatus('${item.id}', 'na')">─ N/A</button>
-              </div>
-              <i data-lucide="chevron-down" class="accordion-chevron-icon"></i>
-            </div>
-          </div>
-
-          <!-- Expanded Detail Body -->
-          <div class="card-row-detail-body">
-            <!-- 1. Specs Grid -->
-            <div class="detail-specs-grid">
-              <div class="spec-box-item">
-                <div class="spec-box-title"><i data-lucide="ruler"></i> 법정 최저 기준 vs 실무 권장 치수</div>
-                <div class="spec-box-desc"><strong>${item.standard}</strong></div>
-              </div>
-              <div class="spec-box-item">
-                <div class="spec-box-title"><i data-lucide="alert-octagon"></i> 위반 시 행정처분 및 제재</div>
-                <div class="spec-box-desc" style="color: #E11D48;">${item.penalty}</div>
-              </div>
-            </div>
-
-            <!-- 2. Legal Article Quote -->
-            <div class="legal-article-ref-box">
-              <div style="font-weight: 800; color: var(--accent-primary); margin-bottom: 4px;">
-                <i data-lucide="book-open" style="width: 13px; height: 13px; display: inline;"></i> [${item.lawName}]
-              </div>
-              <div>"${item.articleText}"</div>
-            </div>
-
-            <!-- 3. Required Submission Documents -->
-            <div style="font-size: 11.5px; color: var(--text-secondary);">
-              <strong>📁 인허가 심의 시 필수 첨부 서류:</strong> ${item.requiredDocs}
-            </div>
-
-            <!-- AI Deep Analysis Button -->
-            <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
-              <button class="btn-ai-analyze" onclick="event.stopPropagation(); aiDeepAnalysis.openAnalysis('${item.id}')">
-                <i data-lucide="brain-circuit"></i> 🤖 AI 상세분석 & Q&A
-              </button>
-              <span style="font-size: 11px; color: var(--text-muted);">법조문 전문, 위반 사례, 설계 가이드, FAQ를 AI가 자세히 설명합니다</span>
-            </div>
-
-            <!-- 4. Reviewer Note Input -->
-            <div style="display: flex; flex-direction: column; gap: 4px;">
-              <label style="font-size: 11px; font-weight: 700; color: var(--text-muted);"><i data-lucide="edit-3" style="width: 11px; height: 11px; display: inline;"></i> 실무 검토자 메모 / 조치 계획 (자동 저장):</label>
-              <input type="text" class="reviewer-note-input" value="${item.note || ''}" placeholder="검토 의견 및 설계 수정 방향을 입력하세요..." onchange="checklistApp.updateItemNote('${item.id}', this.value)">
-            </div>
-          </div>
-        </div>
-      `;
-    }).join('');
-
-    if (window.lucide) lucide.createIcons();
-  }
-
-  printChecklistReport() {
-    const modal = document.getElementById('reportModalOverlay');
-    const preview = document.getElementById('printableReportArea');
-
-    let passCount = this.items.filter(i => i.status === 'pass').length;
-    let failCount = this.items.filter(i => i.status === 'fail').length;
-    let warnCount = this.items.filter(i => i.status === 'warn').length;
-    let activeTotal = this.items.filter(i => i.status !== 'na').length;
-    let score = activeTotal > 0 ? Math.round(((passCount * 1.0 + warnCount * 0.5) / activeTotal) * 100) : 100;
-
-    if (preview && modal) {
-      preview.innerHTML = `
-        <div style="font-family: 'Noto Sans KR', sans-serif; padding: 24px; line-height: 1.6; color: #0F172A;">
-          <h1 style="text-align: center; font-size: 22px; border-bottom: 2px solid #0F172A; padding-bottom: 12px; margin-bottom: 20px;">
-            공연장 복합법령 인허가 자가점검 체크리스트 결과보고서
-          </h1>
-          
-          <!-- Summary Table -->
-          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px;">
-            <tr>
-              <th style="border: 1px solid #CBD5E1; background: #F1F5F9; padding: 8px; width: 20%;">검토 대상 시설</th>
-              <td style="border: 1px solid #CBD5E1; padding: 8px; font-weight: bold;">아트베뉴 중형 뮤지컬·다목적홀 (850석)</td>
-              <th style="border: 1px solid #CBD5E1; background: #F1F5F9; padding: 8px; width: 20%;">인허가 적합률</th>
-              <td style="border: 1px solid #CBD5E1; padding: 8px; font-weight: bold; color: ${score >= 90 ? '#059669' : '#E11D48'}; font-size: 15px;">${score}% (${passCount}건 적합 / ${failCount}건 부적합 / ${warnCount}건 보완)</td>
-            </tr>
-          </table>
-
-          <h3 style="font-size: 16px; margin: 18px 0 10px 0; color: #1E293B;">36대 법정 항목 전수 점검 결과</h3>
-          <table style="width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 20px;">
-            <thead>
-              <tr style="background: #F1F5F9;">
-                <th style="border: 1px solid #CBD5E1; padding: 6px; width: 6%;">No</th>
-                <th style="border: 1px solid #CBD5E1; padding: 6px; width: 12%;">분야</th>
-                <th style="border: 1px solid #CBD5E1; padding: 6px; width: 26%;">점검 항목명</th>
-                <th style="border: 1px solid #CBD5E1; padding: 6px; width: 10%;">판정</th>
-                <th style="border: 1px solid #CBD5E1; padding: 6px; width: 22%;">지배 법률 기준</th>
-                <th style="border: 1px solid #CBD5E1; padding: 6px; width: 24%;">검토자 조치 메모</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${this.items.map((item, idx) => `
-                <tr style="background: ${item.status === 'fail' ? '#FFF1F2' : (item.status === 'warn' ? '#FFFBEB' : '#FFFFFF')};">
-                  <td style="border: 1px solid #CBD5E1; padding: 6px; text-align: center;">${idx + 1}</td>
-                  <td style="border: 1px solid #CBD5E1; padding: 6px; text-align: center;">${item.catName}</td>
-                  <td style="border: 1px solid #CBD5E1; padding: 6px; font-weight: 600;">${item.title}</td>
-                  <td style="border: 1px solid #CBD5E1; padding: 6px; text-align: center; font-weight: bold; color: ${item.status === 'pass' ? '#059669' : (item.status === 'fail' ? '#E11D48' : '#D97706')};">
-                    ${item.status === 'pass' ? '✅ 적합' : (item.status === 'fail' ? '❌ 부적합' : (item.status === 'warn' ? '⚡ 보완요' : '─ N/A'))}
-                  </td>
-                  <td style="border: 1px solid #CBD5E1; padding: 6px; font-size: 11px;">${item.dominant}</td>
-                  <td style="border: 1px solid #CBD5E1; padding: 6px; font-size: 11.5px;">${item.note || '-'}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-
-          <div style="margin-top: 30px; text-align: right; font-size: 13px;">
-            <p>2026년 08월 27일</p>
-            <p><strong>공연장 종합 법규 AI 안전진단 시스템 ArtVenue LawMaster</strong></p>
-          </div>
-        </div>
-      `;
-      modal.classList.add('active');
-    }
-  }
-}
-
-// Global instances
-let blueprintApp;
-let legalAdvisorApp;
-let checklistApp;
-
-// App Entry Point
-document.addEventListener('DOMContentLoaded', () => {
-  // Initialize AI Blueprint Scanner
-  blueprintApp = new BlueprintScannerApp();
-  blueprintApp.init();
-
-  // Initialize Legal AI Advisor & Encyclopedia
-  legalAdvisorApp = new LegalAdvisorApp();
-  legalAdvisorApp.init();
-
-  // Initialize Regulatory Compliance Checklist
-  checklistApp = new ChecklistApp();
-  checklistApp.init();
-
-  // Initialize Matrix Table and Conflicts
-  renderMatrixTable('all');
-  renderConflictCards();
-
-  // Initialize Tab Navigation
-  setupTabNavigation();
-
-  // Initialize Search & Filter
-  setupSearchAndFilters();
-
-  // Initialize Calculator
-  setupCalculator();
-
-  // Initialize Documents
-  setupDocumentPackage();
-
-  // Initialize Master Report Modal
-  setupReportModal();
-
-  // Initialize Preset Selector
-  setupPresetSelector();
-
-  // Initialize ROI Modal
-  setupRoiModal();
-
-  // Initialize Multimodal AI Chat Engine
-  chatApp = new MultimodalLegalChatEngine();
-  chatApp.init();
-
-  // Initialize Enterprise CAD Vector Parser Engine
-  cadVectorApp = new CadVectorParserEngine();
-  cadVectorApp.init();
-
-  // Initialize Chrono-Legal & Local Ordinance Engine
-  chronoLegalApp = new ChronoLegalEngine();
-  chronoLegalApp.init();
-
-  // Initialize 3D Evacuation Bottleneck Simulator
-  evacSimApp = new EvacuationSimulatorEngine();
-  evacSimApp.init();
-
-  // Initialize Audit Trail & B2B Team Collaboration
-  auditApp = new AuditTrailEngine();
-  auditApp.init();
-
-  // Initialize AI Deep Analysis Panel
-  aiDeepAnalysis = new AIDeepAnalysisEngine();
-  aiDeepAnalysis.init();
-});
-
-
-// =============================================================================
-// AI DEEP ANALYSIS ENGINE - 체크리스트 항목별 심층분석 & 인터랙티브 Q&A
-// =============================================================================
-
-let aiDeepAnalysis;
-
-// AI Knowledge Base: Deep analysis for each checklist item category
-const AI_DEEP_KNOWLEDGE = {
-  // Egress (피난) items
-  "egress": {
-    whyMatters: "공연장에서 화재, 지진, 정전 등 비상상황 발생 시 <strong>수백~수천 명의 관람객이 3분 이내에 안전하게 대피</strong>해야 합니다. 암전 상태의 공연장에서 피난 동선의 치수가 법정 기준에 단 1cm라도 미달하면, 관람객 밀집으로 인한 압사·전도사고의 직접적 원인이 됩니다. 2022년 이태원 참사 이후 피난시설 기준이 대폭 강화되었으며, 공연장은 특수용도 건축물로서 일반 건물보다 <strong>1.5배 이상 엄격한 피난 기준</strong>이 적용됩니다.",
-    caseStudy: { tag: "danger", title: "서울 ○○극장 피난계단 유효폭 부족 사례 (2023년)", text: "850석 규모 뮤지컬 극장에서 피난계단의 실측 유효폭이 벽체 마감재와 핸드레일 돌출로 인해 법정 기준 1.5m에서 1.38m로 축소된 것이 준공 검사에서 적발되었습니다. 벽체 재시공 비용 4,800만원 및 개관 3개월 지연이 발생했습니다." },
-    designSteps: [
-      "피난계단 유효폭은 마감재 두께(양쪽 약 2~3cm)를 반드시 공제한 '순(純) 유효폭'으로 계산해야 합니다.",
-      "핸드레일은 벽면에서 10cm 이내 돌출 시 유효폭 산정에서 제외 가능하므로, 반드시 매립형으로 설치하십시오.",
-      "피난계단 출입문은 '피난방향 개폐(Push Bar)' 원칙을 지키되, 관람실 쪽에서 복도로 열리는 방향이어야 합니다.",
-      "비상조명은 피난 경로 바닥면에서 1룩스 이상을 30분간 유지해야 하며, 배터리 내장형 LED를 권장합니다."
-    ],
-    faqs: [
-      { q: "공연 중 암전 시에도 피난통로 유도등은 반드시 점등해야 하나요?", a: "네. 소방시설법상 유도등 임의 소등은 형사처벌 대상입니다. 다만 관할 소방서와 '자동감광 제어 장치' 사전 서면협의를 통해 공연 중 1룩스 이하로 감광하는 것은 합법적으로 허용됩니다. 화재감지기 작동 시 0.05초 이내에 100% 자동 점등되는 회로가 전제조건입니다." },
-      { q: "피난 직통계단까지의 최대 보행거리 기준은?", a: "건축법 시행령 제34조에 따라, 16층 이하 문화 및 집회시설의 경우 거실 각 부분에서 피난 직통계단까지 최대 보행거리는 40m 이내입니다(스프링클러 설치 시 50m). 관람실 가장 먼 객석부터 최근접 피난 출구까지의 실 보행거리를 도면상에서 실측하여 확인해야 합니다." },
-      { q: "피난구 출입문에 자동문(슬라이딩)을 설치할 수 있나요?", a: "피난 방향 출구에는 원칙적으로 여닫이형 방화문을 설치해야 합니다. 다만, 정전 시 자동으로 개방되는 '비상개방형 자동문'은 건축위원회 심의를 거쳐 설치할 수 있습니다. 이 경우 수동 개방 손잡이(패닉바)를 반드시 병행 설치해야 합니다." }
-    ],
-    crossRefs: ["관람실 출구 유효폭", "피난계단 방화문", "BF 휠체어 피난동선", "비상조명·유도등"]
-  },
-  // Fire Safety (방화·소방)
-  "fire": {
-    whyMatters: "공연장의 무대부는 무대막·세트·조명기구 등 <strong>가연물 밀집도가 일반 건물의 10배 이상</strong>이며, 조명에 의한 열 발생량도 극도로 높습니다. 무대 화재 시 <strong>30초 이내에 플래시오버(전면 착화)</strong>가 발생하며, 관람실로의 연기 확산은 90초 이내에 시야를 완전 차폐합니다. 따라서 공연장의 소방·방화 설비는 일반 건축물의 2~3배 수준으로 강화되어야 하며, 준공 검사에서 소방시설 부적합 판정을 받으면 개관 자체가 불가능합니다.",
-    caseStudy: { tag: "danger", title: "대구 ○○공연장 방화구획 누락 사건 (2021년)", text: "1,200석 규모 콘서트홀에서 관람실 대공간의 방화구획 완화 신청 없이 시공을 진행하다가 소방 착공동의 단계에서 전면 보류 처분을 받았습니다. 이후 ESFR 조기반응형 스프링클러 전면 교체 및 기계식 제연설비 증설에 2.8억원이 추가 소요되었습니다." },
-    designSteps: [
-      "관람실이 1,000㎡를 초과하는 경우, 건축법 시행령 제46조 제2항 방화구획 완화 신청을 착공 전에 반드시 완료하십시오.",
-      "무대부 상부에는 드렌처(Water Curtain) 설비를 프로시니엄 개구부 양측에 설치하여 화염 확산을 차단합니다.",
-      "객석유도등 감광 연출이 필요한 경우, 화재수신반 연동 자동 복귀 회로를 구축하고 관할 소방서와 사전 서면협의합니다.",
-      "무대 상부 및 객석 천장에 배연구 또는 기계식 배연설비를 설치하여 연기층 하강을 지연시킵니다."
-    ],
-    faqs: [
-      { q: "관람실과 무대 사이에 방화셔터를 설치해야 하나요?", a: "프로시니엄 무대의 경우, 무대 개구부에 '방화막(Iron Curtain/Fire Curtain)'을 설치하는 것이 원칙입니다. 다만, 건축법 시행령 제46조 완화를 적용받는 경우 드렌처(수막) 설비로 대체할 수 있습니다. 500석 이상 공연장에서는 방화막 또는 드렌처 중 하나를 반드시 설치해야 합니다." },
-      { q: "스프링클러 헤드 간격 기준이 공연장에서 다른가요?", a: "네. 일반 건축물은 헤드 간격 2.3m가 표준이지만, 방화구획이 완화된 공연장 대공간에서는 조기반응형(ESFR) 또는 조기억제형 헤드를 1.7m 이내 간격으로 초밀착 배치해야 합니다. 이는 화재 초기 진압 성능을 일반 대비 3배 이상 강화하기 위함입니다." },
-      { q: "객석유도등에 검은 테이프를 붙이면 처벌받나요?", a: "네. 소방시설법 위반으로 과태료 300만원 이하 및 시정명령 대상입니다. 반복 적발 시 영업정지까지 가능합니다. 반드시 '자동 감광 제어 장치'를 정식 설치하고, 소방서 사전 서면 승인을 받아야 합니다." }
-    ],
-    crossRefs: ["방화구획 완화 신청서", "객석유도등 감광협의", "드렌처 설비", "제연설비 풍량계산"]
-  },
-  // Barrier-Free (BF/장애인 편의)
-  "bf": {
-    whyMatters: "장애인등편의법과 BF(Barrier Free) 인증 기준은 <strong>공연 예술의 보편적 접근권</strong>을 보장하기 위한 법적 장치입니다. 2024년부터 500석 이상 공연장은 BF 인증 의무 대상이 되었으며, 인증 등급에 따라 <strong>정부 및 지자체 보조금, 세제 혜택, 공공 대관 우선권</strong>이 차등 적용됩니다. BF 최우수 등급은 휠체어 관람석 비율, 무대 접근 경사로, 사운드록 회전 반경, 장애인 전용 화장실 규격 등 <strong>52개 세부항목</strong>을 모두 만족해야 합니다.",
-    caseStudy: { tag: "danger", title: "경기 ○○문화센터 BF인증 탈락 사례 (2024년)", text: "850석 다목적 공연장에서 휠체어 관람석을 관람실 최후열 양측 코너에 배치했으나, BF 인증 심사에서 '무대 정면 시야각 30° 이내 골든존 미배치'를 사유로 탈락했습니다. 관람석 350석을 재배치하는 데 1.2억원이 소요되었고, 인증 재신청까지 8개월이 지연되었습니다." },
-    designSteps: [
-      "휠체어 관람석은 총 객석의 2% 이상(850석 기준 최소 17석)을 무대 정면 시야각 30° 이내 골든존에 분산 배치합니다.",
-      "각 휠체어석(1,100mm×1,500mm)에 일반석 동반자석을 1:1로 인접 배치하여 사회적 통합을 도모합니다.",
-      "사운드록(방음전실)의 유효길이는 3.5m 이상 확보하여 휠체어 회전반경(직경 1.5m)과 이중 도어 간섭을 완벽히 배제합니다.",
-      "무대로의 접근 경사로 기울기는 1/12 이하, 경사로 양측 핸드레일 높이 0.85m로 설치합니다."
-    ],
-    faqs: [
-      { q: "300석 소극장에서도 BF 인증을 받아야 하나요?", a: "2024년 기준, 500석 이상 공연장이 BF 인증 의무 대상입니다. 다만 300석 이하라도 장애인등편의법에 따른 기본 편의시설(출입구 유효폭, 장애인 화장실, 점자표지 등)은 법적 의무사항이며, 자발적으로 BF 인증을 취득하면 지자체 보조금 우대 및 공공 대관 우선권을 받을 수 있습니다." },
-      { q: "휠체어석을 발코니(2층)에만 배치해도 되나요?", a: "아닙니다. BF 인증 기준에서는 '다양한 시야각과 가격대의 선택권'을 보장하도록 1층과 2층에 분산 배치를 권고하고 있습니다. 1층 관람석에 최소 전체 휠체어석의 60% 이상을 배치해야 하며, 2층 배치 시에는 장애인용 엘리베이터 또는 경사로 직결 동선이 필수입니다." },
-      { q: "사운드록 안에서 휠체어가 회전할 수 있는 최소 공간은?", a: "BF 인증 기준(2.1.3)에 따라 문 전후면에 직경 1.5m 이상의 평탄한 활동공간이 필요합니다. 사운드록의 순 내부 폭은 2.0m 이상, 길이는 3.5m 이상이면 이중 도어 개폐 시에도 휠체어 회전과 통과가 원활합니다." }
-    ],
-    crossRefs: ["장애인 관람석 배치 기준", "사운드록 유효 회전반경", "무대 접근 경사로", "장애인 전용 화장실"]
-  },
-  // Stage Safety (무대·공연법)
-  "stage": {
-    whyMatters: "공연법 제12조에 따라 무대시설(배톤, 리깅 시스템, 회전무대, 오케스트라 피트 등)은 <strong>3년 주기 정기안전검사</strong>를 받아야 하며, 안전관리자를 선임해야 합니다. 무대 상부 배톤 1개에 매달리는 조명·세트의 하중은 <strong>500kg~2톤</strong>에 달하며, 와이어 파단 시 관람객 머리 위로 낙하하는 중대재해로 이어질 수 있습니다. 2014년 판교 테크노밸리 환풍구 붕괴 사고 이후 공연시설 안전법규가 대폭 강화되었습니다.",
-    caseStudy: { tag: "danger", title: "부산 ○○아트센터 배톤 와이어 파단 사고 (2019년)", text: "리허설 중 무대 상부 배톤 와이어가 피로파단되어 300kg 중량의 조명 트러스가 무대 바닥으로 추락했습니다. 출연진 2명이 부상을 입었으며, 안전 보조 와이어(Safety Catch Cable) 미설치가 원인으로 지적되어 극장 측에 업무상 과실치상 혐의가 적용되었습니다." },
-    designSteps: [
-      "모든 무대 상부 매달기 장치(배톤, 트러스)에는 주 와이어 외에 보조 안전 와이어(Safety Catch Cable)를 이중으로 설치합니다.",
-      "오케스트라 피트 승강장치의 경우, 측면 안전 난간(높이 1.2m) 및 비상정지 장치를 설치하고 연 1회 하중시험을 실시합니다.",
-      "무대기계 안전관리자는 공연법 시행령에 따라 관련 자격증(기계안전기술사, 무대기계기능사 등) 보유자를 선임해야 합니다.",
-      "1,000석 이상 공연장은 매년 재해대처계획서를 지자체에 신고하고, 연 2회 피난·소방 합동 훈련을 실시해야 합니다."
-    ],
-    faqs: [
-      { q: "소극장(300석)에서도 무대 안전검사를 받아야 하나요?", a: "공연법 제12조에 따라 무대 면적이 150㎡ 이상이거나 객석 수 300석 이상인 공연장은 무대시설 정기안전검사 대상입니다. 300석 미만이라도 무대 상부에 매달기 장치(배톤)가 설치된 경우에는 안전검사를 권고하며, 사고 발생 시 민·형사 책임이 가중됩니다." },
-      { q: "무대 방화막(Iron Curtain)과 드렌처의 차이점은?", a: "방화막은 물리적인 내화성능의 강재 커튼으로 무대 개구부를 완전히 차단하며, 드렌처는 수막(Water Curtain)으로 열을 흡수하여 화염 확산을 지연시킵니다. 방화막은 차단 성능이 우수하나 설치비용이 3~5배 높고, 드렌처는 비용 효율적이나 지속적인 수량 공급이 필요합니다. 500석 이상에서는 둘 중 하나가 필수입니다." }
-    ],
-    crossRefs: ["공연법 무대안전검사", "배톤 안전 보조와이어", "오케스트라 피트 승강장치", "재해대처계획 신고"]
-  },
-  // Acoustic / Environmental
-  "acoustic": {
-    whyMatters: "공연장의 음향·환경 설비는 <strong>관객 체험 품질과 출연자 건강</strong>에 직결됩니다. 잔향시간(RT60)이 설계 기준을 벗어나면 공연의 음향 품질이 크게 저하되고, 환기 부족은 CO₂ 농도 상승으로 관객의 집중력 저하 및 두통을 유발합니다. 또한 음향 반사판, 확산체 등 천장 매달기 구조물의 낙하 방지 설비는 안전법규의 직접적 적용 대상입니다.",
-    caseStudy: { tag: "success", title: "세종문화회관 대극장 음향 리모델링 성공 사례 (2022년)", text: "잔향시간을 1.4초→1.8초로 조정하기 위해 가변 음향 커튼 시스템을 도입하면서, 모든 천장 매달기 음향 반사판에 이중 안전 와이어를 설치했습니다. BF 인증 최우수 등급도 동시 취득하여 문화체육관광부 우수 공연장으로 선정되었습니다." },
-    designSteps: [
-      "잔향시간(RT60) 목표치를 용도별로 설정합니다: 클래식 1.6~2.0초, 뮤지컬 1.2~1.6초, 연극 0.8~1.2초",
-      "기계환기설비의 풍량은 건축물 설비기준 규칙에 따라 관람실 환기횟수 시간당 0.8회 이상으로 설계합니다.",
-      "HVAC 덕트의 소음이 NC-20 이하(관람실 내부)가 되도록 소음기 및 방진 마운트를 설치합니다.",
-      "천장 매달기 음향 반사판에는 주 지지 와이어 외에 보조 안전고리(Safety Catch Cable)를 2개소 이상 이중 체결합니다."
-    ],
-    faqs: [
-      { q: "관람실 내부 소음 기준(NC값)은 법적 의무인가요?", a: "건축법에서 공연장 관람실 내부 소음에 대한 직접적인 NC값 법정 기준은 없으나, 공연장 건축 설계지침(문화체육관광부)에서 NC-20 이하를 권고하고 있습니다. 이 기준을 충족하지 못하면 공연장 등록 심사에서 감점 요인이 되며, 우수 공연장 지정에서 탈락할 수 있습니다." },
-      { q: "관객석 에어컨 풍구에서 바람 소리가 나면 어떻게 하나요?", a: "풍구(디퓨저)의 면풍속이 2.0m/s를 초과하면 체감 소음이 발생합니다. 슬롯형 디퓨저를 객석 하부에 배치하여 면풍속 1.5m/s 이하로 설계하면 무소음 공조가 가능합니다. 덕트 내부에 흡음재를 부착하고, AHU 출구에 소음 감쇄기를 추가 설치하는 것도 효과적입니다." }
-    ],
-    crossRefs: ["환기설비 풍량계산", "음향 반사판 안전고리", "관람실 NC값 설계", "HVAC 방진 마운트"]
-  }
-};
-
-// Follow-up Question Database (keyword → answer)
-const AI_FOLLOWUP_DB = [
-  { keywords: ["비용", "돈", "얼마", "견적", "가격"], answer: "법규 미준수로 인한 재시공 비용은 부위에 따라 3,000만~2억원까지 발생할 수 있습니다. ArtVenue LawMaster를 활용하면 설계 단계에서 모든 상충을 사전 차단하여 <strong>총 6억원 이상의 잠재적 손실을 예방</strong>할 수 있습니다. 상세 ROI 계산은 상단 '손실예방(ROI) 산출' 버튼에서 확인하세요." },
-  { keywords: ["기간", "시간", "일정", "지연", "공기"], answer: "인허가 반려로 인한 평균 지연 기간은 <strong>3~8개월</strong>입니다. 소방 착공동의 보류 시 최소 2개월, BF인증 재신청 시 최소 6개월, 건축허가 보완 시 최소 3개월이 소요됩니다. 설계 단계에서 법규 검토를 완벽히 마치면 '원패스(One-Pass) 인허가'가 가능합니다." },
-  { keywords: ["서류", "제출", "신청", "서식", "공문"], answer: "해당 항목과 관련된 인허가 제출 서류는 '소방·인허가 공문/협의서 생성' 탭에서 <strong>원클릭으로 즉시 생성·출력</strong>할 수 있습니다. 소방 감광 협의서, 방화구획 완화 검토서, BF인증 체크리스트 3종이 준비되어 있습니다." },
-  { keywords: ["벌금", "과태료", "처벌", "형사", "벌칙"], answer: "건축법 위반 시 <strong>3년 이하 징역 또는 5억원 이하 벌금</strong>, 소방시설법 위반 시 <strong>5년 이하 징역 또는 5천만원 이하 벌금</strong>, 장애인등편의법 위반 시 <strong>시정명령 및 3천만원 이하 과태료</strong>가 부과됩니다. 사고 발생 시에는 중대재해처벌법에 따른 <strong>대표자 실형</strong>까지 가능합니다." },
-  { keywords: ["인증", "등급", "심사", "점수"], answer: "BF 인증은 <strong>일반(60점 이상), 우수(70점 이상), 최우수(80점 이상)</strong> 3등급으로 분류됩니다. 공연장은 52개 세부항목을 평가하며, 휠체어 관람석 비율, 사운드록 규격, 무대 접근성이 핵심 배점 항목입니다. 최우수 등급 취득 시 정부 보조금 30% 가산 및 공공 대관료 20% 감면 혜택이 있습니다." },
-  { keywords: ["소극장", "300석", "소규모", "작은"], answer: "300석 규모 소극장에서도 <strong>피난 출구 2개소 이상, 장애인 화장실 1개소 이상, 장애인 관람석 3석 이상(1%)</strong>은 법적 의무사항입니다. BF 인증은 500석 이상이 의무이나 자발 취득도 가능합니다. 무대 면적 150㎡ 이상이면 공연법 안전검사 대상이 됩니다." }
-];
-
-
-class AIDeepAnalysisEngine {
-  constructor() {
-    this.panel = null;
-    this.overlay = null;
-    this.currentItemId = null;
-    this.isOpen = false;
-  }
-
-  init() {
-    this.panel = document.getElementById('aiAnalysisPanel');
-    this.overlay = document.getElementById('aiPanelOverlay');
-
-    // Close button
-    const btnClose = document.getElementById('btnCloseAiPanel');
-    if (btnClose) btnClose.addEventListener('click', () => this.closePanel());
-
-    // Overlay click
-    if (this.overlay) this.overlay.addEventListener('click', () => this.closePanel());
-
-    // Floating AI button
-    const floatingBtn = document.getElementById('floatingAiBtn');
-    if (floatingBtn) {
-      floatingBtn.addEventListener('click', () => {
-        if (this.isOpen) {
-          this.closePanel();
-        } else {
-          this.openPanel();
-        }
-      });
-    }
-
-    // Follow-up question input
-    const followupInput = document.getElementById('aiFollowupInput');
-    const btnFollowup = document.getElementById('btnAiFollowup');
-    if (followupInput && btnFollowup) {
-      btnFollowup.addEventListener('click', () => this.handleFollowupQuestion(followupInput.value));
-      followupInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') this.handleFollowupQuestion(followupInput.value);
-      });
-    }
-
-    // Escape key to close
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.isOpen) this.closePanel();
-    });
-  }
-
-  openPanel() {
-    if (!this.panel || !this.overlay) return;
-    this.panel.classList.add('open');
-    this.overlay.classList.add('active');
-    this.isOpen = true;
-    if (window.lucide) lucide.createIcons();
-  }
-
-  closePanel() {
-    if (!this.panel || !this.overlay) return;
-    this.panel.classList.remove('open');
-    this.overlay.classList.remove('active');
-    this.isOpen = false;
-  }
-
-  openAnalysis(itemId) {
-    this.currentItemId = itemId;
-
-    // Find the checklist item
-    const item = (typeof CHECKLIST_ITEMS_DATA !== 'undefined')
-      ? CHECKLIST_ITEMS_DATA.find(i => i.id === itemId)
-      : null;
-
-    if (!item) {
-      showToast("항목 데이터를 찾을 수 없습니다.");
-      return;
-    }
-
-    // Open panel
-    this.openPanel();
-
-    // Update panel subtitle
-    const subTitle = document.getElementById('aiPanelItemTitle');
-    if (subTitle) subTitle.textContent = item.title;
-
-    // Show typing indicator first
-    const emptyState = document.getElementById('aiEmptyState');
-    const analysisContent = document.getElementById('aiAnalysisContent');
-    if (emptyState) emptyState.style.display = 'none';
-
-    const panelBody = document.getElementById('aiPanelBody');
-    if (panelBody) {
-      panelBody.innerHTML = `
-        <div style="text-align: center; padding: 40px;">
-          <div class="ai-typing-indicator">
-            <span class="ai-typing-dot"></span>
-            <span class="ai-typing-dot"></span>
-            <span class="ai-typing-dot"></span>
-          </div>
-          <p style="color: var(--text-muted); font-size: 13px; margin-top: 10px;">AI가 법규 데이터를 분석하고 있습니다...</p>
-        </div>
-      `;
-    }
-
-    // Simulate AI analysis delay, then render
-    setTimeout(() => {
-      this.renderAnalysis(item);
-    }, 800);
-
-    showToast(`🤖 [${item.title}] AI 심층분석을 시작합니다.`);
-  }
-
-  renderAnalysis(item) {
-    const panelBody = document.getElementById('aiPanelBody');
-    if (!panelBody) return;
-
-    // Get knowledge for this category
-    const catKey = item.cat;
-    const knowledge = AI_DEEP_KNOWLEDGE[catKey] || AI_DEEP_KNOWLEDGE["egress"]; // fallback
-
-    // Build verdict class
-    const verdictClass = item.status === 'pass' ? 'pass' : (item.status === 'fail' ? 'fail' : 'warn');
-    const verdictText = item.status === 'pass' ? '✅ 적합 판정 — 법정 기준 충족'
-      : (item.status === 'fail' ? '❌ 부적합 — 인허가 반려 사유 해당' : '⚡ 보완 필요 — 조건부 통과 가능');
-
-    panelBody.innerHTML = `
-      <!-- Section 1: 핵심 결론 요약 -->
-      <div class="ai-section ai-conclusion-box">
-        <div class="ai-section-label"><i data-lucide="target"></i> 핵심 결론 요약</div>
-        <div class="ai-conclusion-text">${item.title}에 대한 법적 지배기준은 <strong>${item.dominant}</strong>입니다.</div>
-        <div class="ai-conclusion-text" style="margin-top: 4px; font-size: 14px; font-weight: 600;">${item.criterion}</div>
-        <div class="ai-conclusion-verdict ${verdictClass}">
-          <i data-lucide="${verdictClass === 'pass' ? 'check-circle-2' : (verdictClass === 'fail' ? 'x-circle' : 'alert-triangle')}" style="width: 14px; height: 14px;"></i>
-          ${verdictText}
-        </div>
-      </div>
-
-      <!-- Section 2: 법조문 전문 및 해설 -->
-      <div class="ai-section">
-        <div class="ai-section-label"><i data-lucide="book-open"></i> 적용 법조문 전문 및 해설</div>
-        <div class="ai-law-quote-block">
-          <span class="law-ref-name">📜 ${item.lawName}</span>
-          "${item.articleText}"
-        </div>
-        <div class="ai-info-card" style="margin-top: 8px;">
-          <p><strong>📐 법정 최저 기준 vs 실무 권장 치수:</strong> ${item.standard}</p>
-        </div>
-      </div>
-
-      <!-- Section 3: 왜 이 규정이 중요한가 -->
-      <div class="ai-section">
-        <div class="ai-section-label"><i data-lucide="lightbulb"></i> 왜 이 규정이 중요한가?</div>
-        <div class="ai-info-card">
-          <p>${knowledge.whyMatters}</p>
-        </div>
-      </div>
-
-      <!-- Section 4: 실제 위반 사례 -->
-      <div class="ai-section">
-        <div class="ai-section-label"><i data-lucide="file-warning"></i> 실제 위반/성공 사례</div>
-        <div class="ai-info-card">
-          <div class="ai-case-tag ${knowledge.caseStudy.tag}">
-            <i data-lucide="${knowledge.caseStudy.tag === 'danger' ? 'alert-triangle' : 'check-circle'}" style="width: 12px; height: 12px;"></i>
-            ${knowledge.caseStudy.title}
-          </div>
-          <p>${knowledge.caseStudy.text}</p>
-        </div>
-      </div>
-
-      <!-- Section 5: 위반 시 제재 -->
-      <div class="ai-section">
-        <div class="ai-section-label"><i data-lucide="alert-octagon"></i> 위반 시 행정처분 및 제재</div>
-        <div class="ai-info-card" style="border-left: 3px solid #EF4444;">
-          <p style="color: #DC2626; font-weight: 700;">⚠️ ${item.penalty}</p>
-          <p style="margin-top: 4px;"><strong>인허가 심의 시 필수 첨부 서류:</strong> ${item.requiredDocs}</p>
-        </div>
-      </div>
-
-      <!-- Section 6: 설계 실무 적용 가이드 -->
-      <div class="ai-section">
-        <div class="ai-section-label"><i data-lucide="compass"></i> 설계 실무 단계별 적용 가이드</div>
-        <ul class="ai-step-list">
-          ${knowledge.designSteps.map((step, i) => `
-            <li>
-              <span class="ai-step-num">${i + 1}</span>
-              <span>${step}</span>
-            </li>
-          `).join('')}
-        </ul>
-      </div>
-
-      <!-- Section 7: 자주 묻는 질문 (FAQ) -->
-      <div class="ai-section ai-faq-section">
-        <div class="ai-section-label"><i data-lucide="help-circle"></i> 이 규정에 대해 자주 묻는 질문 (FAQ)</div>
-        ${knowledge.faqs.map((faq, i) => `
-          <div class="ai-faq-item" data-faq-idx="${i}">
-            <div class="ai-faq-q" onclick="aiDeepAnalysis.toggleFaq(this)">
-              <i data-lucide="chevron-right"></i>
-              <span>${faq.q}</span>
-            </div>
-            <div class="ai-faq-a">
-              <div class="ai-faq-a-inner">${faq.a}</div>
-            </div>
-          </div>
-        `).join('')}
-      </div>
-
-      <!-- Section 8: 관련 상충 법규 크로스 레퍼런스 -->
-      <div class="ai-section">
-        <div class="ai-section-label"><i data-lucide="link-2"></i> 관련 상충 법규 & 크로스 레퍼런스</div>
-        <div style="display: flex; flex-wrap: wrap; gap: 4px;">
-          ${knowledge.crossRefs.map(ref => `
-            <span class="ai-cross-ref-tag"><i data-lucide="arrow-right" style="width: 10px; height: 10px;"></i> ${ref}</span>
-          `).join('')}
-        </div>
-      </div>
-    `;
-
-    // Update follow-up suggestion chips
-    this.renderFollowupChips(item);
-
-    if (window.lucide) lucide.createIcons();
-
-    // Scroll to top of panel body
-    panelBody.scrollTop = 0;
-  }
-
-  toggleFaq(el) {
-    const faqItem = el.closest('.ai-faq-item');
-    if (faqItem) {
-      faqItem.classList.toggle('open');
-    }
-  }
-
-  renderFollowupChips(item) {
-    const container = document.getElementById('aiFollowupChips');
-    if (!container) return;
-
-    const chips = [
-      `위반 시 벌금/과태료는?`,
-      `재시공 비용은 얼마나?`,
-      `관련 서류는 어떻게 제출?`,
-      `소극장에서도 적용되나요?`,
-      `인증 등급별 혜택은?`
-    ];
-
-    container.innerHTML = chips.map(text => `
-      <button class="ai-followup-chip" onclick="aiDeepAnalysis.handleFollowupQuestion('${text}')">${text}</button>
-    `).join('');
-  }
-
-  handleFollowupQuestion(question) {
-    if (!question || !question.trim()) return;
-
-    const input = document.getElementById('aiFollowupInput');
-    if (input) input.value = '';
-
-    const panelBody = document.getElementById('aiPanelBody');
-    if (!panelBody) return;
-
-    // Add the question bubble
-    const questionHtml = `
-      <div class="ai-section" style="animation: fadeSlideUp 0.3s ease-out both;">
-        <div style="background: #EEF2FF; border: 1px solid #C7D2FE; border-radius: 12px; padding: 12px 16px; margin-bottom: 4px;">
-          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
-            <i data-lucide="user" style="width: 14px; height: 14px; color: var(--accent-primary);"></i>
-            <span style="font-size: 12px; font-weight: 700; color: var(--accent-primary);">추가 질문</span>
-          </div>
-          <p style="font-size: 14px; font-weight: 600; color: #1E1B4B; margin: 0;">${question}</p>
-        </div>
-      </div>
-    `;
-    panelBody.insertAdjacentHTML('beforeend', questionHtml);
-
-    // Show typing
-    const typingHtml = `
-      <div id="aiTypingTemp" style="padding: 8px 0;">
-        <div class="ai-typing-indicator">
-          <span class="ai-typing-dot"></span>
-          <span class="ai-typing-dot"></span>
-          <span class="ai-typing-dot"></span>
-        </div>
-      </div>
-    `;
-    panelBody.insertAdjacentHTML('beforeend', typingHtml);
-    panelBody.scrollTop = panelBody.scrollHeight;
-
-    // Find matching answer
-    setTimeout(() => {
-      const typingEl = document.getElementById('aiTypingTemp');
-      if (typingEl) typingEl.remove();
-
-      let answer = this.findAnswer(question);
-
-      const answerHtml = `
-        <div class="ai-section" style="animation: fadeSlideUp 0.3s ease-out both;">
-          <div class="ai-info-card" style="border-left: 3px solid var(--accent-primary, #4F46E5);">
-            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
-              <i data-lucide="brain-circuit" style="width: 14px; height: 14px; color: var(--accent-primary);"></i>
-              <span style="font-size: 12px; font-weight: 700; color: var(--accent-primary);">AI 법규 컨설턴트 답변</span>
-            </div>
-            <p>${answer}</p>
-          </div>
-        </div>
-      `;
-      panelBody.insertAdjacentHTML('beforeend', answerHtml);
-      panelBody.scrollTop = panelBody.scrollHeight;
-      if (window.lucide) lucide.createIcons();
-    }, 600);
-  }
-
-  findAnswer(question) {
-    const q = question.toLowerCase();
-    for (const entry of AI_FOLLOWUP_DB) {
-      if (entry.keywords.some(kw => q.includes(kw))) {
-        return entry.answer;
-      }
-    }
-
-    // Fallback generic answer
-    const item = (typeof CHECKLIST_ITEMS_DATA !== 'undefined')
-      ? CHECKLIST_ITEMS_DATA.find(i => i.id === this.currentItemId)
-      : null;
-
-    if (item) {
-      return `"${question}"에 대한 답변입니다. <strong>${item.title}</strong> 항목의 지배기준은 <strong>${item.dominant}</strong>이며, 법정 기준은 <strong>${item.standard}</strong>입니다. 위반 시 <strong>${item.penalty}</strong>의 처분을 받을 수 있습니다. 더 구체적인 질문을 입력하시면 관련 법조문과 실무 가이드를 자세히 안내해 드리겠습니다.`;
-    }
-
-    return "해당 질문에 대한 구체적인 법적 근거를 확인 중입니다. 질문을 더 구체적으로 입력해 주시면 (예: '복도 폭 2.4m 미달 시 과태료', '300석 장애인석 비율') 정확한 법조문과 실무 가이드를 제시해 드리겠습니다.";
-  }
-}
-
-// =============================================================================
-// MULTIMODAL AI LEGAL CHAT ENGINE
-// =============================================================================
-
-let chatApp;
-
-class MultimodalLegalChatEngine {
-  constructor() {
-    this.messages = [];
-    this.attachments = []; // { id, type: 'image'|'file', name, size, dataUrl }
-    this.container = null;
-    this.textarea = null;
-    this.previewBar = null;
-    this.dropOverlay = null;
-    this.isThinking = false;
-  }
-
-  init() {
-    this.container = document.getElementById('chatMessagesContainer');
-    this.textarea = document.getElementById('chatTextInput');
-    this.previewBar = document.getElementById('chatAttachmentsPreview');
-    this.dropOverlay = document.getElementById('chatDropOverlay');
-
-    if (!this.container || !this.textarea) return;
-
-    this.bindEvents();
-    this.renderWelcomeMessage();
-  }
-
-  bindEvents() {
-    // Send Button
-    const btnSend = document.getElementById('btnSendChatMessage');
-    if (btnSend) {
-      btnSend.addEventListener('click', () => this.handleSendMessage());
-    }
-
-    // Textarea Enter key & Auto resize
-    if (this.textarea) {
-      this.textarea.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          this.handleSendMessage();
-        }
-      });
-      this.textarea.addEventListener('input', () => {
-        this.textarea.style.height = 'auto';
-        this.textarea.style.height = Math.min(this.textarea.scrollHeight, 120) + 'px';
-      });
-
-      // Global Clipboard Paste (Ctrl+V Image Support)
-      document.addEventListener('paste', (e) => {
-        const activeTab = document.querySelector('.tab-item.active');
-        if (!activeTab || activeTab.getAttribute('data-tab') !== 'aichat') return;
-
-        const items = (e.clipboardData || e.originalEvent.clipboardData).items;
-        for (let item of items) {
-          if (item.type.indexOf('image') !== -1) {
-            const blob = item.getAsFile();
-            this.processUploadedFile(blob, 'image');
-            showToast("📷 클립보드 이미지가 첨부되었습니다.");
-          }
-        }
-      });
-    }
-
-    // File Input (Documents & General Files)
-    const fileInp = document.getElementById('chatFileInput');
-    if (fileInp) {
-      fileInp.addEventListener('change', (e) => {
-        const files = Array.from(e.target.files);
-        files.forEach(f => {
-          const type = f.type.startsWith('image/') ? 'image' : 'file';
-          this.processUploadedFile(f, type);
-        });
-        fileInp.value = '';
-      });
-    }
-
-    // Image Input
-    const imgInp = document.getElementById('chatImageInput');
-    if (imgInp) {
-      imgInp.addEventListener('change', (e) => {
-        const files = Array.from(e.target.files);
-        files.forEach(f => this.processUploadedFile(f, 'image'));
-        imgInp.value = '';
-      });
-    }
-
-    // Insert Sample Blueprint Plan Button
-    const btnSample = document.getElementById('btnInsertSamplePlan');
-    if (btnSample) {
-      btnSample.addEventListener('click', () => {
-        this.insertSampleDrawing();
-      });
-    }
-
-    // Quick Starter Prompt Chips
-    const chips = document.querySelectorAll('.chat-chip');
-    chips.forEach(chip => {
-      chip.addEventListener('click', () => {
-        const prompt = chip.getAttribute('data-prompt');
-        if (this.textarea) {
-          this.textarea.value = prompt;
-          this.textarea.focus();
-        }
-      });
-    });
-
-    // Sidebar Action Buttons
-    const sidebarBtns = document.querySelectorAll('.sidebar-action-btn');
-    sidebarBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const sampleType = btn.getAttribute('data-sample-chat');
-        this.handleSidebarSampleClick(sampleType);
-      });
-    });
-
-    // Clear History Button
-    const btnClear = document.getElementById('btnClearChatHistory');
-    if (btnClear) {
-      btnClear.addEventListener('click', () => {
-        if (confirm("대화 내역을 모두 초기화하시겠습니까?")) {
-          this.messages = [];
-          this.attachments = [];
-          this.renderAttachments();
-          this.renderWelcomeMessage();
-          showToast("대화가 초기화되었습니다.");
-        }
-      });
-    }
-
-    // Export Chat Log Button
-    const btnExport = document.getElementById('btnExportChatLog');
-    if (btnExport) {
-      btnExport.addEventListener('click', () => this.exportChatLog());
-    }
-
-    // Drag & Drop Handling in Chat Console
-    const consoleCard = document.querySelector('.chat-console-card');
-    if (consoleCard && this.dropOverlay) {
-      ['dragenter', 'dragover'].forEach(eventName => {
-        consoleCard.addEventListener(eventName, (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          this.dropOverlay.classList.add('dragover');
-        });
-      });
-
-      ['dragleave', 'drop'].forEach(eventName => {
-        consoleCard.addEventListener(eventName, (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          this.dropOverlay.classList.remove('dragover');
-        });
-      });
-
-      consoleCard.addEventListener('drop', (e) => {
-        const dt = e.dataTransfer;
-        const files = Array.from(dt.files);
-        if (files.length > 0) {
-          files.forEach(f => {
-            const type = f.type.startsWith('image/') ? 'image' : 'file';
-            this.processUploadedFile(f, type);
-          });
-          showToast(`📁 ${files.length}개 파일이 첨부되었습니다.`);
-        }
-      });
-    }
-  }
-
-  processUploadedFile(file, type) {
-    const reader = new FileReader();
-    const fileId = 'att-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
-
-    reader.onload = (e) => {
-      this.attachments.push({
-        id: fileId,
-        type: type,
-        name: file.name || (type === 'image' ? '클립보드_캡처_도면.png' : '첨부문서.pdf'),
-        size: this.formatFileSize(file.size || 154000),
-        dataUrl: e.target.result
-      });
-      this.renderAttachments();
-    };
-
-    if (type === 'image') {
-      reader.readAsDataURL(file);
+  saveUserApiKey() {
+    const key = this.inputUserApiKey?.value?.trim() || "";
+    this.userApiKey = key;
+    if (key) {
+      localStorage.setItem("painfinder_openai_key", key);
+      alert("🔑 OpenAI API Key가 로컬에 안전하게 저장되었습니다!\n이제 실제 GPT-4o 실시간 생성이 가동됩니다.");
     } else {
-      // For general docs, read as DataURL for thumbnail or simulation
-      reader.readAsDataURL(file);
+      localStorage.removeItem("painfinder_openai_key");
+      alert("API Key가 비어있어 기본 내장 엔진으로 동작합니다.");
     }
+    this.closeApiKeyModal();
   }
 
-  insertSampleDrawing() {
-    this.attachments.push({
-      id: 'sample-' + Date.now(),
-      type: 'image',
-      name: '중형뮤지컬홀_850석_1F_피난계획도.png',
-      size: '2.4 MB',
-      dataUrl: 'https://images.unsplash.com/photo-1514306191717-452ec28c7814?auto=format&fit=crop&w=800&q=80' // High quality architecture photo/plan
-    });
-    this.renderAttachments();
-    if (this.textarea && !this.textarea.value) {
-      this.textarea.value = "첨부된 850석 뮤지컬홀 평면도에서 사운드록 및 피난계단 상충 부위를 정밀 검토해줘.";
-    }
-    showToast("📋 실무 샘플 평면도가 첨부되었습니다.");
+  clearUserApiKey() {
+    this.userApiKey = "";
+    localStorage.removeItem("painfinder_openai_key");
+    if (this.inputUserApiKey) this.inputUserApiKey.value = "";
+    alert("API Key가 초기화되었습니다.");
   }
 
-  handleSidebarSampleClick(type) {
-    if (type === 'medium-hall') {
-      this.insertSampleDrawing();
-      this.handleSendMessage();
-    } else if (type === 'bf-wheelchair') {
-      this.textarea.value = "850석 공연장에서 BF 인증 최우수 등급을 취득하기 위한 휠체어석 배치 공식(비율, 시야각, 동반자석, 단차)을 상세히 설명해줘.";
-      this.handleSendMessage();
-    } else if (type === 'fire-dimming') {
-      this.textarea.value = "공연 중 암전을 위해 객석유도등을 소등하거나 감광하려는데, 소방서와 사전 서면협의를 위한 필수 법적 요건과 공문 작성 가이드를 알려줘.";
-      this.handleSendMessage();
-    }
-  }
-
-  formatFileSize(bytes) {
-    if (bytes < 1024) return bytes + ' B';
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-  }
-
-  renderAttachments() {
-    if (!this.previewBar) return;
-
-    if (this.attachments.length === 0) {
-      this.previewBar.style.display = 'none';
-      this.previewBar.innerHTML = '';
-      return;
-    }
-
-    this.previewBar.style.display = 'flex';
-    this.previewBar.innerHTML = this.attachments.map(att => {
-      if (att.type === 'image') {
-        return `
-          <div class="preview-chip-item" id="${att.id}">
-            <img src="${att.dataUrl}" class="preview-thumb-tiny" alt="thumb">
-            <span style="font-weight: 600; max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${att.name}</span>
-            <span style="color: var(--text-muted); font-size: 10.5px;">(${att.size})</span>
-            <button class="btn-remove-attachment" onclick="chatApp.removeAttachment('${att.id}')"><i data-lucide="x" style="width: 13px; height: 13px;"></i></button>
-          </div>
-        `;
-      } else {
-        return `
-          <div class="preview-chip-item" id="${att.id}">
-            <i data-lucide="file-text" style="width: 16px; height: 16px; color: var(--accent-primary);"></i>
-            <span style="font-weight: 600; max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${att.name}</span>
-            <span style="color: var(--text-muted); font-size: 10.5px;">(${att.size})</span>
-            <button class="btn-remove-attachment" onclick="chatApp.removeAttachment('${att.id}')"><i data-lucide="x" style="width: 13px; height: 13px;"></i></button>
-          </div>
-        `;
+  // Project Workspace Save & JSON Backup
+  saveCurrentProject() {
+    const projectData = {
+      savedAt: new Date().toISOString(),
+      currentModelId: this.currentModelId,
+      discoveredItem: this.discoveredItem,
+      checklistState: this.checklistState,
+      simulator: {
+        stdPrice: this.inputStandardPrice?.value,
+        stdUsers: this.inputStandardUsers?.value,
+        proPrice: this.inputProPrice?.value,
+        proUsers: this.inputProUsers?.value,
+        opsCost: this.inputOpsCost?.value,
+        cac: this.inputCacCost?.value,
+        churn: this.inputChurnRate?.value,
+        refund: this.inputRefundRate?.value
       }
-    }).join('');
-
-    if (window.lucide) lucide.createIcons();
+    };
+    localStorage.setItem("painfinder_saved_project", JSON.stringify(projectData));
+    alert("💾 현재 프로젝트(비즈니스 모델, 수치, 발굴 아이템)가 브라우저에 안전하게 저장되었습니다!\n언제든 새로고침해도 그대로 복원됩니다.");
   }
 
-  removeAttachment(id) {
-    this.attachments = this.attachments.filter(a => a.id !== id);
-    this.renderAttachments();
+  exportProjectJson() {
+    const projectData = {
+      title: "PainFinder Business Blueprint",
+      version: "8.5 Commercial Edition",
+      exportedAt: new Date().toISOString(),
+      activeModel: this.models[this.currentModelId],
+      discoveredItem: this.discoveredItem,
+      checklistProgress: Object.keys(this.checklistState || {}).length,
+      stressTestResults: {
+        ltv: this.valLtvAmount?.textContent,
+        ltvCacRatio: this.valLtvCacRatio?.textContent,
+        bepUsers: this.valBepUsers?.textContent,
+        realNetMrr: this.valRealNetMrr?.textContent
+      }
+    };
+    const blob = new Blob([JSON.stringify(projectData, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `PainFinder_${this.currentModelId}_${new Date().toISOString().split("T")[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
-  renderWelcomeMessage() {
-    if (!this.container) return;
-
-    this.container.innerHTML = `
-      <div class="chat-message-row ai">
-        <div class="chat-msg-avatar"><i data-lucide="bot"></i></div>
-        <div class="chat-msg-bubble-wrap">
-          <div class="chat-msg-bubble">
-            <div class="ai-markdown-content">
-              <h4>👋 안녕하세요! 공연장 종합 법규 AI 어시스턴트입니다.</h4>
-              <p>
-                공연장 건축·리모델링·소방·BF인증·무대안전 관련하여 무엇이든 물어보세요.<br>
-                <strong>텍스트 질문</strong>뿐만 아니라 <strong>도면 캡처 이미지(Ctrl+V), 사진, PDF/DWG 파일</strong>을 첨부하시면 AI가 실시간으로 분석해 드립니다.
-              </p>
-              
-              <div class="chat-callout-box">
-                <strong>💡 주요 해결 지원 영역:</strong>
-                <div class="chat-law-badge-list">
-                  <span class="chat-law-badge"><i data-lucide="check"></i> 사운드록 & 피난로 상충 해결</span>
-                  <span class="chat-law-badge"><i data-lucide="check"></i> BF 최우수 휠체어석 골든존 설계</span>
-                  <span class="chat-law-badge"><i data-lucide="check"></i> 객석유도등 소방 감광 사전협의</span>
-                  <span class="chat-law-badge"><i data-lucide="check"></i> 관람실 방화구획 완화 기술검토</span>
-                  <span class="chat-law-badge"><i data-lucide="check"></i> 무대시설 공연법 안전진단</span>
-                </div>
-              </div>
-              <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 0;">
-                아래 추천 질문 칩을 클릭하거나, 질문과 도면을 직접 입력해 보세요!
-              </p>
-            </div>
-          </div>
-          <span class="chat-msg-time">방금 전</span>
-        </div>
-      </div>
-    `;
-
-    if (window.lucide) lucide.createIcons();
-  }
-
-  handleSendMessage() {
-    if (this.isThinking) return;
-
-    const text = this.textarea ? this.textarea.value.trim() : '';
-    const currentAttachments = [...this.attachments];
-
-    if (!text && currentAttachments.length === 0) {
-      showToast("질문 내용이나 첨부 파일을 입력해 주세요.");
-      return;
+  restoreSavedProject() {
+    try {
+      const raw = localStorage.getItem("painfinder_saved_project");
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      if (data.currentModelId && this.models[data.currentModelId]) {
+        this.currentModelId = data.currentModelId;
+      }
+      if (data.discoveredItem) this.discoveredItem = data.discoveredItem;
+      if (data.simulator) {
+        if (this.inputStandardPrice && data.simulator.stdPrice) this.inputStandardPrice.value = data.simulator.stdPrice;
+        if (this.inputStandardUsers && data.simulator.stdUsers) this.inputStandardUsers.value = data.simulator.stdUsers;
+        if (this.inputProPrice && data.simulator.proPrice) this.inputProPrice.value = data.simulator.proPrice;
+        if (this.inputProUsers && data.simulator.proUsers) this.inputProUsers.value = data.simulator.proUsers;
+        if (this.inputOpsCost && data.simulator.opsCost) this.inputOpsCost.value = data.simulator.opsCost;
+        if (this.inputCacCost && data.simulator.cac) this.inputCacCost.value = data.simulator.cac;
+        if (this.inputChurnRate && data.simulator.churn) this.inputChurnRate.value = data.simulator.churn;
+        if (this.inputRefundRate && data.simulator.refund) this.inputRefundRate.value = data.simulator.refund;
+      }
+    } catch (e) {
+      console.warn("Project restore failed:", e);
     }
+  }
 
-    // Clear input & attachments
-    if (this.textarea) {
-      this.textarea.value = '';
-      this.textarea.style.height = 'auto';
-    }
-    this.attachments = [];
-    this.renderAttachments();
-
-    // 1. Render User Message
-    const userMsgId = 'msg-' + Date.now();
-    this.appendUserMessage(userMsgId, text, currentAttachments);
-
-    // 2. Show AI Typing Indicator
-    this.isThinking = true;
-    const typingId = 'typing-' + Date.now();
-    this.showTypingIndicator(typingId);
-
-    // 3. Generate AI Response
-    setTimeout(() => {
-      this.removeTypingIndicator(typingId);
-      this.generateAiResponse(text, currentAttachments);
-      this.isThinking = false;
+  // Countdown Timer (Early Bird Sale)
+  initCountdownTimer() {
+    let totalSeconds = 4 * 3600 + 28 * 60 + 15;
+    setInterval(() => {
+      if (totalSeconds > 0) totalSeconds--;
+      const h = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
+      const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, "0");
+      const s = String(totalSeconds % 60).padStart(2, "0");
+      const elH = document.getElementById("cdHours");
+      const elM = document.getElementById("cdMins");
+      const elS = document.getElementById("cdSecs");
+      if (elH) elH.textContent = h;
+      if (elM) elM.textContent = m;
+      if (elS) elS.textContent = s;
     }, 1000);
   }
 
-  appendUserMessage(id, text, attachments) {
-    if (!this.container) return;
-
-    let attachmentsHtml = '';
-    if (attachments && attachments.length > 0) {
-      attachmentsHtml = `
-        <div class="chat-msg-attachments">
-          ${attachments.map(att => {
-            if (att.type === 'image') {
-              return `<img src="${att.dataUrl}" class="chat-attached-image-thumb" onclick="window.open(this.src)" title="클릭 시 원본 보기">`;
-            } else {
-              return `
-                <div class="chat-attached-file-badge">
-                  <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
-                  <span>${att.name} (${att.size})</span>
-                </div>
-              `;
-            }
-          }).join('')}
-        </div>
-      `;
-    }
-
-    const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-    const msgHtml = `
-      <div class="chat-message-row user" id="${id}">
-        <div class="chat-msg-avatar"><i data-lucide="user"></i></div>
-        <div class="chat-msg-bubble-wrap">
-          <div class="chat-msg-bubble">
-            ${attachmentsHtml}
-            ${text ? `<div>${this.escapeHtml(text).replace(/\n/g, '<br>')}</div>` : ''}
-          </div>
-          <span class="chat-msg-time">${timeStr}</span>
-        </div>
-      </div>
-    `;
-
-    this.container.insertAdjacentHTML('beforeend', msgHtml);
-    this.scrollToBottom();
-    if (window.lucide) lucide.createIcons();
-  }
-
-  showTypingIndicator(id) {
-    if (!this.container) return;
-    const typingHtml = `
-      <div class="chat-message-row ai" id="${id}">
-        <div class="chat-msg-avatar"><i data-lucide="bot"></i></div>
-        <div class="chat-msg-bubble-wrap">
-          <div class="chat-msg-bubble">
-            <div class="ai-typing-indicator" style="background: transparent; margin: 0; padding: 0;">
-              <span class="ai-typing-dot"></span>
-              <span class="ai-typing-dot"></span>
-              <span class="ai-typing-dot"></span>
-            </div>
-            <span style="font-size: 12px; color: var(--text-muted); margin-left: 8px;">AI가 6대 복합법령과 도면을 분석 중입니다...</span>
-          </div>
-        </div>
-      </div>
-    `;
-    this.container.insertAdjacentHTML('beforeend', typingHtml);
-    this.scrollToBottom();
-  }
-
-  removeTypingIndicator(id) {
-    const el = document.getElementById(id);
-    if (el) el.remove();
-  }
-
-  generateAiResponse(userText, attachments) {
-    if (!this.container) return;
-
-    const hasImages = attachments.some(a => a.type === 'image');
-    const hasFiles = attachments.some(a => a.type === 'file');
-    const query = userText.toLowerCase();
-
-    let responseHtml = '';
-    let dominantLaw = '건축법·소방법·BF인증 복합 심의기준';
-
-    // SCENARIO 1: IMAGE ATTACHED (Vision Analysis Mode)
-    if (hasImages) {
-      dominantLaw = '건축법 피난규칙 제9조/제10조 & BF 인증 기준 2.1';
-      responseHtml = `
-        <div class="ai-markdown-content">
-          <h4>📷 [AI Vision 도면 시각분석 완료] 평면도 정밀 판정 결과</h4>
-          <p>
-            업로드된 도면 이미지를 분석한 결과, <strong>총 3개소의 법률적 상충 및 인허가 반려 취약 구간</strong>이 식별되었습니다.
-          </p>
-
-          <div class="chat-callout-box" style="border-left-color: #EF4444; background: #FFF1F2; color: #881337;">
-            <strong>⚠️ [위험도 88%] 인허가 즉시 반려 구간 3건 발견:</strong>
-            <ul style="margin: 6px 0 0 16px;">
-              <li><strong>사운드록 이중문 개폐 간섭:</strong> 안쪽 차음문이 관람실 안쪽(피난 역방향)으로 열려 건축법 제9조 위반 및 유효길이 1.8m로 BF 휠체어 회전반경(1.5m) 간섭 발생.</li>
-              <li><strong>FOH 주 복도 유효폭 잠식:</strong> 도면상 복도폭 2.4m이나 소화전함(돌출 15cm) 및 구조기둥으로 순 유효폭이 2.15m로 축소됨 (건축법 2.4m 미달).</li>
-              <li><strong>BF 휠체어 관람석 편중 배치:</strong> 전체 14석이 최후열 양측 구석에 몰려 있어 BF 본인증 심사기준(시야각 30° 골든존) 탈락 확정.</li>
-            </ul>
-          </div>
-
-          <h4>🛠️ AI 인허가 완벽 보완 설계안 (Action Plan)</h4>
-          <ol>
-            <li><strong>사운드록 설계 변경:</strong> 전실 순 내부 길이를 <strong>3.5m 이상</strong>으로 연장하고, 도어는 <strong>로비 방향(피난방향) 순차 개폐</strong>로 수정하십시오.</li>
-            <li><strong>FOH 복도 유효폭 확보:</strong> 소화전함을 벽체 완전 매립형으로 변경하거나, 복도 중심선 기준 유효폭을 <strong>3.2m로 확장 계획</strong>하십시오.</li>
-            <li><strong>휠체어석 분산 배치:</strong> 관람실 1층 7~8열 중앙(시야각 22°, 무대 정면)에 휠체어석 10석 및 동반자석 10석을 1:1로 신설하십시오.</li>
-          </ol>
-        </div>
-      `;
-    } 
-    // SCENARIO 2: DOCUMENT / FILE ATTACHED
-    else if (hasFiles) {
-      dominantLaw = '소방시설 설치 및 관리에 관한 법률 & 건축물 방화구획 기준';
-      responseHtml = `
-        <div class="ai-markdown-content">
-          <h4>📄 [AI Document RAG 문서 분석] 첨부 파일 심의 검토서</h4>
-          <p>
-            첨부하신 서류 문서를 검토한 결과, <strong>인허가 관공서(소방서·구청 건축과) 제출을 위해 반드시 보완해야 할 필수 서류 목록</strong>을 도출했습니다.
-          </p>
-          
-          <div class="chat-callout-box">
-            <strong>📋 인허가 심의 필수 누락 첨부자료:</strong>
-            <ul>
-              <li><strong>소방 감광 연동 회로도:</strong> 화재 수신반과 무대 조명 콘솔 간의 0.05초 자동 복귀 릴레이 결선도 첨부 필요.</li>
-              <li><strong>차음 방화문 시험성적서:</strong> 차음 성능(STC-45 이상) 및 비차열 60분 방화성능 동시 인증서 사본.</li>
-              <li><strong>BF 본인증 관람석 상세 단면도:</strong> 휠체어석 1:1 동반자석 인접 배치도 및 시야 장애선(C-Value 60mm) 검토표.</li>
-            </ul>
-          </div>
-          <p>
-            상단 <strong>'소방·인허가 공문/협의서 생성'</strong> 탭에서 해당 보완 공문 3종을 즉시 다운로드하여 제출하실 수 있습니다.
-          </p>
-        </div>
-      `;
-    }
-    // SCENARIO 3: SOUNDLOCK / DOORS
-    else if (query.includes('사운드록') || query.includes('방음전실') || query.includes('문') || query.includes('도어')) {
-      dominantLaw = '건축법 피난규칙 제9조 (지배기준) vs BF 2.1.3 & 음향 차음';
-      responseHtml = `
-        <div class="ai-markdown-content">
-          <h4>🚪 사운드록(방음전실) 2중 도어 개폐방향 & 규격 완벽 가이드</h4>
-          <p>
-            사운드록은 <strong>건축법(피난), BF인증(접근성), 음향학(차음성능)</strong>이 정면 충돌하는 대표적 상충 구간입니다.
-          </p>
-
-          <div class="chat-callout-box">
-            <strong>⚖️ 지배기준 판정: [건축법 피난방화규칙 제9조 최우선 적용]</strong>
-            <ul>
-              <li><strong>개폐 방향:</strong> 피난 방향(관람실 → 사운드록 → FOH 로비)으로 열려야 하므로, <strong>안쪽 문과 바깥 문 모두 로비 쪽으로 밀고 나가는 방향(피난방향)</strong>이어야 합법입니다.</li>
-              <li><strong>유효폭:</strong> 양개도어 설치 시 큰 짝 유효폭 <strong>0.9m 이상(BF 최우수)</strong>, 전체 개구부 1.8m 이상 확보 필수.</li>
-              <li><strong>유효길이:</strong> 문 2짝이 동시에 열려도 휠체어 회전반경(1.5m)과 간섭이 없도록 <strong>순 내부 길이 3.5m 이상</strong> 필수.</li>
-            </ul>
-          </div>
-
-          <h4>💡 실무 인허가 원패스(One-Pass) 설계 공식</h4>
-          <p>
-            순 내부 규격 <strong>폭 2.2m × 길이 3.8m</strong>로 설계하고 문틀을 로비 벽체와 일치시키면, 음향 차음(STC-50)과 건축법/BF인증을 100% 동시 만족합니다.
-          </p>
-        </div>
-      `;
-    }
-    // SCENARIO 4: WHEELCHAIR / BF
-    else if (query.includes('휠체어') || query.includes('장애인') || query.includes('bf') || query.includes('골든존')) {
-      dominantLaw = '장애인등편의법 별표1 & BF인증 심사기준 3.2.1';
-      responseHtml = `
-        <div class="ai-markdown-content">
-          <h4>♿ 공연장 BF 최우수 등급 관람석 배치 골든 룰</h4>
-          <p>
-            850석 및 대형 공연장에서 BF 본인증 최우수를 취득하기 위한 <strong>4대 핵심 요건</strong>입니다.
-          </p>
-
-          <div class="chat-callout-box">
-            <strong>📐 법정 최저 vs BF 최우수 권장 스펙:</strong>
-            <ul>
-              <li><strong>의무 비율:</strong> 법정 최저 1%(9석)이나, <strong>BF 최우수 취득을 위해 총 객석의 2% 이상(17석)</strong> 확보 필수.</li>
-              <li><strong>골든존 배치:</strong> 최후열/최전열 코너 배치는 인증 탈락 사유입니다. <strong>무대 정면 수평 시야각 30° 이내 중앙 블록</strong>에 분산 배치하십시오.</li>
-              <li><strong>1석 규격:</strong> 폭 1,100mm × 깊이 1,500mm (단차 0cm 평탄면).</li>
-              <li><strong>동반자석:</strong> 휠체어석 바로 옆에 일반 관람석을 <strong>1:1로 연접 배치</strong>(탈부착 가변석 권장).</li>
-            </ul>
-          </div>
-        </div>
-      `;
-    }
-    // SCENARIO 5: EXIT LIGHT / DIMMING
-    else if (query.includes('유도등') || query.includes('암전') || query.includes('소등') || query.includes('소방')) {
-      dominantLaw = '소방시설법 제12조 & 화재안전성능기준(NFPC 303)';
-      responseHtml = `
-        <div class="ai-markdown-content">
-          <h4>💡 공연 암전 연출 시 객석유도등 감광 합법화 절차</h4>
-          <p>
-            소방시설법상 유도등을 임의로 끄거나 가리는 행위는 <strong>300만원 이하 과태료 및 형사처벌 대상</strong>입니다.
-          </p>
-
-          <div class="chat-callout-box">
-            <strong>🔥 합법적 감광 연출을 위한 3대 요건:</strong>
-            <ol style="margin: 6px 0 0 16px;">
-              <li><strong>자동 감광 장치 설치:</strong> 조광기(Dimmer)를 통해 공연 중 1룩스 이하로 조도를 낮출 수 있는 시스템 구축.</li>
-              <li><strong>화재 연동 100% 강제 점등:</strong> 화재감지기 또는 비상경보 작동 시 <strong>0.05초 이내에 최대 밝기로 자동 복구</strong>되는 릴레이 회로.</li>
-              <li><strong>관할 소방서 사전 서면협의:</strong> 착공 전 '객석유도등 조광제어 협의서' 제출 및 공식 승인 취득 필수.</li>
-            </ol>
-          </div>
-          <p>
-            우측 상단 <strong>'소방·인허가 공문/협의서 생성'</strong> 탭에서 소방서 제출용 서면협의서 양식을 1초 만에 생성할 수 있습니다.
-          </p>
-        </div>
-      `;
-    }
-    // SCENARIO 6: FOH CORRIDOR
-    else if (query.includes('복도') || query.includes('foh') || query.includes('통로') || query.includes('소화전')) {
-      dominantLaw = '건축법 시행령 제41조 & 피난규칙 제15조';
-      responseHtml = `
-        <div class="ai-markdown-content">
-          <h4>🚶 FOH 복도 유효폭 & 돌출물 건축법 지배기준</h4>
-          <p>
-            공연장 양측에 거실이 있는 복도는 <strong>건축법상 순 유효폭 2.4m 이상</strong>이 강제됩니다.
-          </p>
-
-          <div class="chat-callout-box">
-            <strong>⚠️ 실무 주의사항 (준공 불허 1위 항목):</strong>
-            <ul>
-              <li>벽체 마감재, 음향 흡음 패널, 소화전함, 구조기둥 돌출부는 <strong>유효폭 산정에서 전면 제외</strong>됩니다.</li>
-              <li>도면상 2.4m로 계획 시 마감 후 2.2m로 축소되어 준공 검사에서 100% 적발됩니다.</li>
-              <li><strong>권장 조치:</strong> 구조 골조 간격을 <strong>최소 3.2m</strong>로 설계하고, 소화전함은 벽체 100% 매립형으로 시공하십시오.</li>
-            </ul>
-          </div>
-        </div>
-      `;
-    }
-    // SCENARIO 7: GENERAL LEGAL QUERY
-    else {
-      dominantLaw = '공연장 복합법령 안전진단 엔진';
-      responseHtml = `
-        <div class="ai-markdown-content">
-          <h4>⚖️ [AI 법률 질의회신] ${this.escapeHtml(userText)}</h4>
-          <p>
-            질문하신 내용에 대해 <strong>건축법, 소방법, 장애인등편의법, BF인증, 공연법</strong>을 전수 교차 분석한 결과입니다.
-          </p>
-
-          <div class="chat-callout-box">
-            <strong>📌 핵심 법률 판단 및 지배기준:</strong>
-            <p style="margin: 4px 0;">
-              해당 사항은 <strong>${dominantLaw}</strong>의 지배기준을 따르며, 인허가 심의 시 관할 지자체 건축과 및 소방서 예방안전과의 중점 확인 대상입니다.
-            </p>
-            <ul style="margin: 6px 0 0 16px;">
-              <li><strong>법적 의무 사항:</strong> 관련 법령 기준치에 안전율 10% 이상의 마감 여유폭을 반영하십시오.</li>
-              <li><strong>행정 처분 위험:</strong> 미달 시 건축허가 반려, 소방 착공동의 보류, BF인증 탈락 및 재시공 명령이 발생할 수 있습니다.</li>
-              <li><strong>원스톱 해결책:</strong> 상단 '법규 상충 매트릭스' 및 '공연장 법규 전수 체크리스트'에서 부위별 상세 조항 전문을 바로 확인하실 수 있습니다.</li>
-            </ul>
-          </div>
-        </div>
-      `;
-    }
-
-    const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const aiMsgId = 'ai-msg-' + Date.now();
-
-    const fullAiMsgHtml = `
-      <div class="chat-message-row ai" id="${aiMsgId}">
-        <div class="chat-msg-avatar"><i data-lucide="bot"></i></div>
-        <div class="chat-msg-bubble-wrap">
-          <div class="chat-msg-bubble">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 6px;">
-              <span style="font-size: 11px; font-weight: 800; color: #4F46E5;"><i data-lucide="scale" style="width: 12px; height: 12px; display: inline;"></i> 지배기준: ${dominantLaw}</span>
-              <span class="badge-ai-model">인허가 100% 정합</span>
-            </div>
-            ${responseHtml}
-            <div class="chat-msg-actions">
-              <button class="btn-chat-copy" onclick="chatApp.copyAiResponse('${aiMsgId}')">
-                <i data-lucide="copy"></i> 답변 복사
-              </button>
-              <button class="btn-chat-action" onclick="appSwitchTab('documents')">
-                <i data-lucide="file-text"></i> 인허가 공문 생성기로 이동
-              </button>
-              <button class="btn-chat-action" onclick="appSwitchTab('checklist')">
-                <i data-lucide="check-square"></i> 체크리스트 확인
-              </button>
-            </div>
-          </div>
-          <span class="chat-msg-time">${timeStr}</span>
-        </div>
-      </div>
-    `;
-
-    this.container.insertAdjacentHTML('beforeend', fullAiMsgHtml);
-    this.scrollToBottom();
-    if (window.lucide) lucide.createIcons();
-  }
-
-  copyAiResponse(msgId) {
-    const el = document.getElementById(msgId);
-    if (!el) return;
-    const bubble = el.querySelector('.chat-msg-bubble');
-    if (bubble) {
-      navigator.clipboard.writeText(bubble.innerText).then(() => {
-        showToast("답변 내용이 클립보드에 복사되었습니다.");
-      });
-    }
-  }
-
-  exportChatLog() {
-    const modal = document.getElementById('reportModalOverlay');
-    const preview = document.getElementById('printableReportArea');
-
-    if (modal && preview && this.container) {
-      const messagesHtml = this.container.innerHTML;
-      preview.innerHTML = `
-        <div style="font-family: 'Noto Sans KR', sans-serif; padding: 24px; line-height: 1.6; color: #0F172A;">
-          <h1 style="text-align: center; font-size: 22px; border-bottom: 2px solid #0F172A; padding-bottom: 12px; margin-bottom: 20px;">
-            공연장 복합법령 AI 멀티모달 자문 & 질의회신서
-          </h1>
-          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px;">
-            <tr>
-              <th style="border: 1px solid #CBD5E1; background: #F1F5F9; padding: 8px; width: 20%;">자문 시스템</th>
-              <td style="border: 1px solid #CBD5E1; padding: 8px; font-weight: bold;">ArtVenue LawMaster AI Legal Copilot v4.5</td>
-              <th style="border: 1px solid #CBD5E1; background: #F1F5F9; padding: 8px; width: 20%;">적용 법령</th>
-              <td style="border: 1px solid #CBD5E1; padding: 8px;">건축법, 소방법, 장애인등편의법, BF인증, 공연법</td>
-            </tr>
-          </table>
-          <div style="margin-top: 20px;">
-            ${messagesHtml}
-          </div>
-          <div style="margin-top: 30px; text-align: right; font-size: 13px;">
-            <p>${new Date().toLocaleDateString()}</p>
-            <p><strong>공연장 종합 법규 AI 안전진단 시스템 ArtVenue LawMaster</strong></p>
-          </div>
-        </div>
-      `;
-      modal.classList.add('active');
-    }
-  }
-
-  scrollToBottom() {
-    if (this.container) {
-      this.container.scrollTop = this.container.scrollHeight;
-    }
-  }
-
-  escapeHtml(str) {
-    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
-}
-
-// Global Tab Switcher Helper
-function appSwitchTab(tabName) {
-  const tabs = document.querySelectorAll('.tab-item');
-  const panes = document.querySelectorAll('.tab-pane');
-
-  tabs.forEach(t => {
-    t.classList.toggle('active', t.getAttribute('data-tab') === tabName);
-  });
-
-  panes.forEach(p => {
-    p.classList.toggle('active', p.id === 'tab-' + tabName);
-  });
-
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  showToast(`[${tabName.toUpperCase()}] 탭으로 전환되었습니다.`);
-}
-
-
-// =============================================================================
-// 1. ENTERPRISE CAD VECTOR PARSER ENGINE (1mm Vector Layer Parser)
-// =============================================================================
-
-let cadVectorApp;
-
-class CadVectorParserEngine {
-  constructor() {
-    this.finishDeduct = 30; // mm
-    this.scaleRatio = 100;
-    this.zoomLevel = 100;
-    this.currentPlanType = 'sample-musical-pdf';
-    this.fileName = '850석_뮤지컬홀_1F_피난인허가_평면도.pdf';
-    this.fileFormat = 'PDF Vector Mode';
-    this.layers = {
-      wall: true,
-      door: true,
-      dim: true,
-      finish: true,
-      bf: true
-    };
-    this.measurements = [
-      { name: "관람실 주출입문 (사운드록 내측)", rawMm: 1800, requiredMm: 1500, law: "건축법 피난규칙 제10조", minBfMm: 1800, defect: "BF 한 짝 0.9m 미달" },
-      { name: "FOH 주 복도 (중앙 로비)", rawMm: 2400, requiredMm: 2400, law: "건축법 시행령 제41조", minBfMm: 2400, defect: "소화전함 돌출로 실측 2.15m 잠식" },
-      { name: "피난 직통계단 출입구 (우측)", rawMm: 1200, requiredMm: 1200, law: "건축법 피난규칙 제9조", minBfMm: 1200, defect: "정상" },
-      { name: "사운드록 전실 순 내부 길이", rawMm: 2200, requiredMm: 3500, law: "BF 인증 기준 2.1.3", minBfMm: 3500, defect: "휠체어 1.5m 회전반경 간섭" },
-      { name: "휠체어 관람석 진입 경사로 폭", rawMm: 1350, requiredMm: 1200, law: "장애인등편의법 별표1", minBfMm: 1200, defect: "정상" }
+  // Real-Time Social Proof Engine
+  initSocialProofEngine() {
+    const proofs = [
+      { name: "서울 강남구 박** 대표님", item: "소상공인 정부지원금 AI 매칭기 VIP 평생권", time: "1분 전" },
+      { name: "경기 성남시 이** 님", item: "DeepFocus 21 도파민 디톡스 챌린지 1:1 코칭권", time: "3분 전" },
+      { name: "부산 해운대구 최** 님", item: "Post-Career 1인 창직 로드맵 마스터플랜", time: "5분 전" },
+      { name: "대전 유성구 정** 수석님", item: "DirtyRead Lab 능동적 독서 워크북 라이선스", time: "8분 전" },
+      { name: "인천 연수구 한** 대표님", item: "AI 계약서 독소조항 탐지기 VIP 패키지", time: "12분 전" }
     ];
-  }
 
-  init() {
-    this.bindEvents();
-    this.renderCadSvg();
-    this.renderInspectTable();
-  }
-
-  bindEvents() {
-    // File Upload (PDF, DWG, DXF)
-    const fileInp = document.getElementById('cadPdfFileInput');
-    if (fileInp) {
-      fileInp.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        this.fileName = file.name;
-        const isPdf = file.name.toLowerCase().endsWith('.pdf');
-        this.fileFormat = isPdf ? '📄 PDF Vector AI Parsing' : '📐 AutoCAD DXF/DWG';
-
-        const nameEl = document.getElementById('currentCadFileName');
-        const badgeEl = document.getElementById('cadFileFormatBadge');
-        if (nameEl) nameEl.innerText = this.fileName;
-        if (badgeEl) badgeEl.innerText = this.fileFormat;
-
-        this.currentPlanType = 'user-upload';
-        this.renderCadSvg();
-        this.renderInspectTable();
-        showToast(`[${this.fileName}] 도면이 AI 실측 벡터 파서에 로드되었습니다.`);
-      });
-    }
-
-    // Preset Sample Plans
-    const sampleSelect = document.getElementById('cadSampleSelect');
-    if (sampleSelect) {
-      sampleSelect.addEventListener('change', (e) => {
-        this.currentPlanType = e.target.value;
-        if (this.currentPlanType === 'sample-musical-pdf') {
-          this.fileName = '850석_뮤지컬홀_1F_피난인허가_평면도.pdf';
-          this.fileFormat = 'PDF Vector Mode';
-          this.measurements = [
-            { name: "관람실 주출입문 (사운드록 내측)", rawMm: 1800, requiredMm: 1500, law: "건축법 피난규칙 제10조", minBfMm: 1800, defect: "BF 한 짝 0.9m 미달" },
-            { name: "FOH 주 복도 (중앙 로비)", rawMm: 2400, requiredMm: 2400, law: "건축법 시행령 제41조", minBfMm: 2400, defect: "소화전함 돌출로 실측 2.15m 잠식" },
-            { name: "피난 직통계단 출입구 (우측)", rawMm: 1200, requiredMm: 1200, law: "건축법 피난규칙 제9조", minBfMm: 1200, defect: "정상" },
-            { name: "사운드록 전실 순 내부 길이", rawMm: 2200, requiredMm: 3500, law: "BF 인증 기준 2.1.3", minBfMm: 3500, defect: "휠체어 1.5m 회전반경 간섭" },
-            { name: "휠체어 관람석 진입 경사로 폭", rawMm: 1350, requiredMm: 1200, law: "장애인등편의법 별표1", minBfMm: 1200, defect: "정상" }
-          ];
-        } else if (this.currentPlanType === 'sample-opera-pdf') {
-          this.fileName = '1800석_오페라하우스_방화구획도.pdf';
-          this.fileFormat = 'PDF Vector Mode (대형)';
-          this.measurements = [
-            { name: "무대 프로시니엄 방화막 개구부", rawMm: 20000, requiredMm: 18000, law: "건축법 시행령 제46조", minBfMm: 18000, defect: "정상" },
-            { name: "관람실 주 피난복도 유효폭", rawMm: 3600, requiredMm: 3000, law: "건축법 피난규칙 제15조", minBfMm: 3000, defect: "정상" },
-            { name: "지하 1층 피난 직통계단 4개소", rawMm: 1500, requiredMm: 1500, law: "건축법 피난규칙 제9조", minBfMm: 1500, defect: "정상" },
-            { name: "BF 휠체어석 분산 배치 (36석)", rawMm: 36, requiredMm: 36, law: "BF 최우수 2.0%", minBfMm: 36, defect: "1:1 동반자석 완비" }
-          ];
-        } else if (this.currentPlanType === 'sample-blackbox-dxf') {
-          this.fileName = '300석_블랙박스_극장_골조실측도.dxf';
-          this.fileFormat = 'AutoCAD DXF Mode';
-          this.measurements = [
-            { name: "단일 피난 출입문 유효폭", rawMm: 1500, requiredMm: 1500, law: "건축법 제9조", minBfMm: 1500, defect: "정상" },
-            { name: "음향 2중 방음문 전실 길이", rawMm: 1900, requiredMm: 3500, law: "BF 2.1.3", minBfMm: 3500, defect: "휠체어 회전반경 1.5m 간섭" }
-          ];
-        }
-
-        const nameEl = document.getElementById('currentCadFileName');
-        const badgeEl = document.getElementById('cadFileFormatBadge');
-        if (nameEl) nameEl.innerText = this.fileName;
-        if (badgeEl) badgeEl.innerText = this.fileFormat;
-
-        this.renderCadSvg();
-        this.renderInspectTable();
-        showToast(`[${this.fileName}] 도면으로 전환되었습니다.`);
-      });
-    }
-
-    // Scale Ratio Selector
-    const scaleSelect = document.getElementById('cadScaleRatioSelect');
-    if (scaleSelect) {
-      scaleSelect.addEventListener('change', (e) => {
-        this.scaleRatio = parseInt(e.target.value, 10);
-        showToast(`도면 축척이 1:${this.scaleRatio}로 설정되었습니다.`);
-      });
-    }
-
-    // Zoom Controls
-    const btnIn = document.getElementById('btnCadZoomIn');
-    const btnOut = document.getElementById('btnCadZoomOut');
-    const btnReset = document.getElementById('btnCadResetView');
-
-    if (btnIn) {
-      btnIn.addEventListener('click', () => {
-        this.zoomLevel = Math.min(this.zoomLevel + 25, 250);
-        this.applyZoom();
-      });
-    }
-    if (btnOut) {
-      btnOut.addEventListener('click', () => {
-        this.zoomLevel = Math.max(this.zoomLevel - 25, 50);
-        this.applyZoom();
-      });
-    }
-    if (btnReset) {
-      btnReset.addEventListener('click', () => {
-        this.zoomLevel = 100;
-        this.applyZoom();
-      });
-    }
-
-    // Layer Toggles
-    const layerIds = ['cadLayerWall', 'cadLayerDoor', 'cadLayerDim', 'cadLayerFinish', 'cadLayerBF'];
-    layerIds.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) {
-        el.addEventListener('change', () => {
-          this.layers.wall = document.getElementById('cadLayerWall').checked;
-          this.layers.door = document.getElementById('cadLayerDoor').checked;
-          this.layers.dim = document.getElementById('cadLayerDim').checked;
-          this.layers.finish = document.getElementById('cadLayerFinish').checked;
-          this.layers.bf = document.getElementById('cadLayerBF').checked;
-          this.renderCadSvg();
-        });
-      }
-    });
-
-    // Finish Deduct Selector
-    const deductSelect = document.getElementById('finishDeductThickness');
-    if (deductSelect) {
-      deductSelect.addEventListener('change', (e) => {
-        this.finishDeduct = parseInt(e.target.value, 10);
-        this.renderInspectTable();
-        this.renderCadSvg();
-        showToast(`마감재 두께 공제값이 ${this.finishDeduct}mm로 변경되었습니다.`);
-      });
-    }
-
-    // Export CAD DXF Report
-    const btnExport = document.getElementById('btnExportCadDxfReport');
-    if (btnExport) {
-      btnExport.addEventListener('click', () => {
-        showToast("💾 AutoCAD DXF 검측 보고서 파일이 다운로드되었습니다.");
-      });
-    }
-
-    // Export PDF Report
-    const btnExportPdf = document.getElementById('btnExportCadPdfReport');
-    if (btnExportPdf) {
-      btnExportPdf.addEventListener('click', () => {
-        const modal = document.getElementById('reportModalOverlay');
-        const preview = document.getElementById('printableReportArea');
-        if (modal && preview) {
-          preview.innerHTML = `
-            <div style="font-family: 'Noto Sans KR', sans-serif; padding: 24px; color: #0F172A;">
-              <h2 style="border-bottom: 2px solid #0F172A; padding-bottom: 10px; font-size: 20px;">
-                도면 실측 벡터 및 1mm 마감공제 인허가 정밀검측서 (PDF 분석본)
-              </h2>
-              <p><strong>파일명:</strong> ${this.fileName} | <strong>축척:</strong> 1:${this.scaleRatio} | <strong>마감공제:</strong> -${this.finishDeduct}mm</p>
-              <table style="width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 12px;">
-                <tr style="background: #F1F5F9;">
-                  <th style="border: 1px solid #CBD5E1; padding: 8px;">검측 부위</th>
-                  <th style="border: 1px solid #CBD5E1; padding: 8px;">도면 치수</th>
-                  <th style="border: 1px solid #CBD5E1; padding: 8px;">순 유효폭</th>
-                  <th style="border: 1px solid #CBD5E1; padding: 8px;">법정 기준</th>
-                  <th style="border: 1px solid #CBD5E1; padding: 8px;">인허가 판정</th>
-                </tr>
-                ${this.measurements.map(m => {
-                  const net = m.rawMm - (this.finishDeduct * 2);
-                  const pass = net >= m.requiredMm && !m.defect.includes('미달') && !m.defect.includes('간섭');
-                  return `
-                    <tr>
-                      <td style="border: 1px solid #CBD5E1; padding: 8px; font-weight: bold;">${m.name}</td>
-                      <td style="border: 1px solid #CBD5E1; padding: 8px;">${m.rawMm} mm</td>
-                      <td style="border: 1px solid #CBD5E1; padding: 8px; font-weight: bold; color: ${pass ? '#059669' : '#DC2626'};">${net} mm</td>
-                      <td style="border: 1px solid #CBD5E1; padding: 8px;">${m.requiredMm} mm (${m.law})</td>
-                      <td style="border: 1px solid #CBD5E1; padding: 8px; font-weight: bold; color: ${pass ? '#059669' : '#DC2626'};">${pass ? '✅ 적합' : '❌ 반려 위험'}</td>
-                    </tr>
-                  `;
-                }).join('')}
-              </table>
-              <div style="margin-top: 30px; text-align: right;">
-                <p><strong>공인건축사 기술검토 날인 (인)</strong></p>
-              </div>
-            </div>
-          `;
-          modal.classList.add('active');
-        }
-      });
-    }
-  }
-
-  applyZoom() {
-    const svg = document.getElementById('cadVectorSvg');
-    const txt = document.getElementById('cadZoomLevelText');
-    if (txt) txt.innerText = this.zoomLevel + '%';
-    if (svg) {
-      svg.style.transform = `scale(${this.zoomLevel / 100})`;
-      svg.style.transformOrigin = 'center center';
-      svg.style.transition = 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)';
-    }
-  }
-
-  renderCadSvg() {
-    const svg = document.getElementById('cadVectorSvg');
-    if (!svg) return;
-
-    const deduct = this.finishDeduct;
-    const netSoundlock = 1800 - (deduct * 2);
-    const netFoh = 2400 - (deduct * 2) - 150;
-
-    svg.innerHTML = `
-      <!-- Grid Lines -->
-      <defs>
-        <pattern id="cadGrid" width="40" height="40" patternUnits="userSpaceOnUse">
-          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1E293B" stroke-width="0.5"/>
-        </pattern>
-      </defs>
-      <rect width="1000" height="600" fill="#0B1120" />
-      <rect width="1000" height="600" fill="url(#cadGrid)" />
-
-      <!-- PDF / CAD Document Header Header Ribbon -->
-      <rect x="0" y="0" width="1000" height="36" fill="rgba(30, 41, 59, 0.9)" />
-      <text x="20" y="23" fill="#38BDF8" font-size="12" font-weight="bold" font-family="JetBrains Mono">📄 PDF/CAD VECTOR ANALYSIS: ${this.fileName} (SCALE 1:${this.scaleRatio})</text>
-
-      <!-- LAYER: WALL -->
-      ${this.layers.wall ? `
-        <!-- Theater Main Walls -->
-        <path d="M 120 80 L 880 80 L 880 500 L 120 500 Z" fill="none" stroke="#38BDF8" stroke-width="4" />
-        <!-- Stage Proscenium Line -->
-        <line x1="200" y1="200" x2="800" y2="200" stroke="#F59E0B" stroke-width="3" stroke-dasharray="6,6" />
-        <text x="500" y="140" fill="#94A3B8" font-size="14" font-family="JetBrains Mono" text-anchor="middle">PROSCENIUM STAGE (18m x 12m)</text>
-        <!-- Auditorium Boundary -->
-        <rect x="200" y="240" width="600" height="240" fill="rgba(56, 189, 248, 0.05)" stroke="#38BDF8" stroke-width="2" />
-        <text x="500" y="340" fill="#E2E8F0" font-size="16" font-weight="bold" font-family="Pretendard" text-anchor="middle">AUDITORIUM (850 SEATS)</text>
-      ` : ''}
-
-      <!-- LAYER: FINISH DEDUCT LINES -->
-      ${this.layers.finish && deduct > 0 ? `
-        <rect x="${200 + deduct/10}" y="${240 + deduct/10}" width="${600 - deduct/5}" height="${240 - deduct/5}" fill="none" stroke="#F43F5E" stroke-width="1.5" stroke-dasharray="3,3" />
-        <text x="740" y="235" fill="#F43F5E" font-size="10" font-family="JetBrains Mono">FINISH -${deduct}mm</text>
-      ` : ''}
-
-      <!-- LAYER: DOOR & SOUNDLOCK -->
-      ${this.layers.door ? `
-        <!-- Soundlock 1 (Left) -->
-        <rect x="140" y="440" width="80" height="100" fill="rgba(239, 68, 68, 0.15)" stroke="#EF4444" stroke-width="2" />
-        <text x="180" y="495" fill="#EF4444" font-size="11" font-weight="bold" text-anchor="middle">SOUNDLOCK 1</text>
-        <!-- Soundlock 2 (Right) -->
-        <rect x="780" y="440" width="80" height="100" fill="rgba(239, 68, 68, 0.15)" stroke="#EF4444" stroke-width="2" />
-        <text x="820" y="495" fill="#EF4444" font-size="11" font-weight="bold" text-anchor="middle">SOUNDLOCK 2</text>
-        <!-- Main Center Exit -->
-        <rect x="420" y="480" width="160" height="60" fill="rgba(16, 185, 129, 0.15)" stroke="#10B981" stroke-width="2" />
-        <text x="500" y="515" fill="#10B981" font-size="12" font-weight="bold" text-anchor="middle">MAIN EXIT 2.4m</text>
-      ` : ''}
-
-      <!-- LAYER: DIMENSIONS (RED FOR DEFECTS) -->
-      ${this.layers.dim ? `
-        <!-- Soundlock 1 Dimension Line -->
-        <line x1="140" y1="555" x2="220" y2="555" stroke="#EF4444" stroke-width="2" />
-        <text x="180" y="575" fill="#EF4444" font-size="11" font-weight="bold" font-family="JetBrains Mono" text-anchor="middle">실측 ${netSoundlock}mm (위반 ⚠️)</text>
-        
-        <!-- FOH Corridor Dimension -->
-        <line x1="20" y1="520" x2="20" y2="580" stroke="#F59E0B" stroke-width="2" />
-        <line x1="120" y1="520" x2="120" y2="580" stroke="#F59E0B" stroke-width="2" />
-        <line x1="20" y1="550" x2="120" y2="550" stroke="#F59E0B" stroke-width="1.5" />
-        <text x="70" y="542" fill="#F59E0B" font-size="11" font-weight="bold" font-family="JetBrains Mono" text-anchor="middle">FOH ${netFoh}mm</text>
-      ` : ''}
-
-      <!-- LAYER: BF ACCESSIBILITY PATH -->
-      ${this.layers.bf ? `
-        <path d="M 500 580 L 500 420 L 320 420 L 320 360" fill="none" stroke="#6366F1" stroke-width="3" stroke-dasharray="8,4" />
-        <circle cx="320" cy="360" r="16" fill="rgba(99, 102, 241, 0.4)" stroke="#6366F1" stroke-width="2" />
-        <text x="320" y="364" fill="#FFFFFF" font-size="11" font-weight="bold" text-anchor="middle">♿ BF</text>
-        <text x="350" y="365" fill="#818CF8" font-size="11" font-weight="bold">휠체어 골든존 (17석)</text>
-      ` : ''}
-    `;
-  }
-
-  renderInspectTable() {
-    const tbody = document.getElementById('cadInspectTableBody');
-    if (!tbody) return;
-
-    const deduct = this.finishDeduct;
-
-    tbody.innerHTML = this.measurements.map(m => {
-      const netMm = m.rawMm - (deduct * 2);
-      const isPass = netMm >= m.requiredMm && (!m.defect.includes('미달') && !m.defect.includes('간섭') && !m.defect.includes('잠식'));
-
-      return `
-        <tr>
-          <td style="font-weight: 700;">${m.name}</td>
-          <td>${m.rawMm} mm</td>
-          <td style="font-weight: 800; color: ${isPass ? '#059669' : '#DC2626'};">${netMm} mm</td>
-          <td>${m.requiredMm} mm (${m.law})</td>
-          <td>
-            <span class="legend-tag ${isPass ? 'mandatory' : 'dominant'}" style="font-size: 11px; padding: 2px 6px;">
-              ${isPass ? '✅ 충족' : '❌ 위반'}
-            </span>
-          </td>
-        </tr>
-      `;
-    }).join('');
-  }
-}
-
-
-// =============================================================================
-// 2. CHRONO-LEGAL & 226 LOCAL ORDINANCE ENGINE
-// =============================================================================
-
-let chronoLegalApp;
-
-const ORDINANCE_DATA = {
-  "jongno": {
-    name: "서울특별시 종로구 문화지구 관리 및 문화시설 조례",
-    items: [
-      { item: "공중화장실 여성 대변기 비율", standard: "남성 대변기 수의 1.5배 이상", ordinance: "남성 대변기 수의 1.8배 이상 (문화지구 특별조례)", note: "여성 대변기 4기 추가 증설 필수" },
-      { item: "FOH 복도 순 유효폭", standard: "양측 거실 복도 2.4m 이상", ordinance: "관람인원 500인 이상 시 3.0m 이상 권고", note: "인허가 심의 시 3.0m 기준 확인" },
-      { item: "무대 방화막 설치 대상", standard: "무대 면적 500㎡ 이상 또는 1,000석", ordinance: "종로 문화지구 내 500석 이상 전수 의무", note: "방화막 또는 드렌처 설비 필수" },
-      { item: "부설주차장 설치 기준", standard: "문화집회시설 100㎡당 1대", ordinance: "문화지구 내 대중교통 인센티브(150㎡당 1대)", note: "주차대수 완화 승인 가능" }
-    ],
-    timeline: [
-      { year: "2024년 02월", law: "장애인등편의법 시행령 [대통령령 제34208호]", status: "danger", title: "500석 이상 BF본인증 의무화 소급적용", text: "기존 공연장이라도 2024년 이후 5억원 이상 대수선/리모델링 시 BF 최우수 등급 기준 전면 적용 대상임 (부칙 제2조)." },
-      { year: "2022년 12월", law: "소방시설 설치 및 관리에 관한 법률 제12조", status: "danger", title: "객석유도등 감광시스템 소방서 사전협의 의무", text: "임의 소등 금지 및 화재수신반 연동 강제 점등 회로 구비 필수. 위반 시 300만원 과태료." },
-      { year: "2021년 04월", law: "건축물의 피난·방화구조 등의 기준 규칙", status: "safe", title: "관람실 출구 유효폭 1.5m 기준", text: "2021년 이전 허가된 건축물은 기존 출구폭(1.2m) 기득권 보호 인정 (증축 면적에 한하여 신규 기준 적용)." }
-    ]
-  },
-  "gangnam": {
-    name: "서울특별시 강남구 초고밀도 문화공간 피난안전 기준",
-    items: [
-      { item: "소방 성능위주설계(PBD)", standard: "연면적 20만㎡ 이상", ordinance: "지하 3층 이하 또는 1,000석 이상 시 의무 심의", note: "RSET 피난 시뮬레이션 제출 필수" },
-      { item: "제연설비 배연 풍량", standard: "시간당 40,000 CMH", ordinance: "강남구 특별지침 55,000 CMH 이상", note: "송풍기 용량 30% 증설 필요" }
-    ],
-    timeline: [
-      { year: "2024년", law: "소방청 고시 제2024-12호", status: "danger", title: "지하 공연장 다중이용업소 안전특별법 강화", text: "지하층 관람실의 경우 피난직통계단 2개소 간 이격거리 대각선 1/2 이상 의무화." }
-    ]
-  },
-  "seongnam": {
-    name: "경기도 성남시 장애인 무장애 도시 조성 및 문화예술 지원 조례",
-    items: [
-      { item: "BF 인증 휠체어석 비율", standard: "총 객석의 1.0%", ordinance: "성남시 지원금 대상 2.5% 확보 의무", note: "850석 기준 22석 배치 시 보조금 2억원 가산" }
-    ],
-    timeline: [
-      { year: "2023년", law: "성남시 무장애 조례", status: "safe", title: "BF 최우수 인증 시설 공공 대관 우선권", text: "BF 최우수 등급 취득 시 성남아트센터 공공 대관료 30% 감면 지원." }
-    ]
-  }
-};
-
-class ChronoLegalEngine {
-  constructor() {
-    this.currentDistrict = "jongno";
-  }
-
-  init() {
-    this.bindEvents();
-    this.render();
-  }
-
-  bindEvents() {
-    const select = document.getElementById('chronoDistrictSelect');
-    if (select) {
-      select.addEventListener('change', (e) => {
-        this.currentDistrict = e.target.value;
-        this.render();
-      });
-    }
-
-    const localSelect = document.getElementById('localOrdinanceSelect');
-    if (localSelect) {
-      localSelect.addEventListener('change', (e) => {
-        const val = e.target.value;
-        if (val.includes('jongno')) this.currentDistrict = 'jongno';
-        else if (val.includes('gangnam')) this.currentDistrict = 'gangnam';
-        else if (val.includes('seongnam')) this.currentDistrict = 'seongnam';
-        this.render();
-        showToast(`[${localSelect.options[localSelect.selectedIndex].text}] 조례가 시스템 전체에 동기화되었습니다.`);
-      });
-    }
-
-    const btnRun = document.getElementById('btnRunChronoDiagnosis');
-    if (btnRun) {
-      btnRun.addEventListener('click', () => {
-        this.render();
-        showToast("지자체 조례 및 소급적용 정밀 진단이 완료되었습니다.");
-      });
-    }
-  }
-
-  render() {
-    const data = ORDINANCE_DATA[this.currentDistrict] || ORDINANCE_DATA["jongno"];
-    
-    // Title
-    const titleEl = document.getElementById('chronoOrdinanceTitle');
-    if (titleEl) titleEl.innerText = data.name;
-
-    // Table
-    const tbody = document.getElementById('chronoOrdinanceTbody');
-    if (tbody) {
-      tbody.innerHTML = data.items.map(it => `
-        <tr>
-          <td style="font-weight: 700;">${it.item}</td>
-          <td>${it.standard}</td>
-          <td style="font-weight: 800; color: #4F46E5;">${it.ordinance}</td>
-          <td style="color: #DC2626; font-size: 11.5px;">${it.note}</td>
-        </tr>
-      `).join('');
-    }
-
-    // Timeline
-    const timelineEl = document.getElementById('retroactiveTimelineList');
-    if (timelineEl) {
-      timelineEl.innerHTML = data.timeline.map(t => `
-        <div class="timeline-item-card ${t.status}">
-          <span class="timeline-year-badge">${t.year}</span>
-          <div style="flex: 1;">
-            <div style="font-weight: 800; font-size: 13.5px; color: #1E1B4B; margin-bottom: 2px;">
-              ${t.title}
-            </div>
-            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">[${t.law}]</div>
-            <div style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.5;">${t.text}</div>
-          </div>
-        </div>
-      `).join('');
-    }
-  }
-}
-
-
-// =============================================================================
-// 3. 3D EVACUATION BOTTLENECK SIMULATOR (RSET vs ASET Engine)
-// =============================================================================
-
-let evacSimApp;
-
-class EvacuationSimulatorEngine {
-  constructor() {
-    this.totalOccupants = 850;
-    this.escaped = 0;
-    this.seconds = 0;
-    this.timerId = null;
-    this.isRunning = false;
-  }
-
-  init() {
-    this.bindEvents();
-    this.renderAgentDots();
-  }
-
-  bindEvents() {
-    const btnPlay = document.getElementById('btnPlayEvacSim');
-    const btnReset = document.getElementById('btnResetEvacSim');
-
-    if (btnPlay) {
-      btnPlay.addEventListener('click', () => {
-        if (this.isRunning) this.stop();
-        else this.start();
-      });
-    }
-
-    if (btnReset) {
-      btnReset.addEventListener('click', () => this.reset());
-    }
-  }
-
-  start() {
-    this.isRunning = true;
-    const btnPlay = document.getElementById('btnPlayEvacSim');
-    if (btnPlay) btnPlay.innerHTML = '<i data-lucide="pause"></i> 일시정지';
-    if (window.lucide) lucide.createIcons();
-
-    this.timerId = setInterval(() => {
-      this.seconds += 2;
-      // Escape curve formula
-      const progress = Math.min(this.seconds / 148, 1);
-      this.escaped = Math.round(this.totalOccupants * Math.pow(progress, 1.3));
-
-      this.updateHud();
-
-      if (this.seconds >= 148) {
-        this.stop();
-        showToast("🏆 148초 만에 850명 전원 대피 완료 (ASET 360초 이내)");
-      }
-    }, 100);
-  }
-
-  stop() {
-    this.isRunning = false;
-    clearInterval(this.timerId);
-    const btnPlay = document.getElementById('btnPlayEvacSim');
-    if (btnPlay) btnPlay.innerHTML = '<i data-lucide="play"></i> 시뮬레이션 시작';
-    if (window.lucide) lucide.createIcons();
-  }
-
-  reset() {
-    this.stop();
-    this.seconds = 0;
-    this.escaped = 0;
-    this.updateHud();
-    this.renderAgentDots();
-  }
-
-  updateHud() {
-    const secEl = document.getElementById('evacTimerSec');
-    const cntEl = document.getElementById('evacEscapedCount');
-    const pctEl = document.getElementById('evacEscapedPercent');
-
-    if (secEl) secEl.innerText = this.seconds;
-    if (cntEl) cntEl.innerText = this.escaped;
-    if (pctEl) pctEl.innerText = Math.round((this.escaped / this.totalOccupants) * 100) + '%';
-  }
-
-  renderAgentDots() {
-    const canvas = document.getElementById('evacAgentCanvas');
-    if (!canvas) return;
-
-    let dotsHtml = '';
-    for (let i = 0; i < 120; i++) {
-      const top = 20 + Math.random() * 60;
-      const left = 20 + Math.random() * 60;
-      dotsHtml += `
-        <div style="position: absolute; top: ${top}%; left: ${left}%; width: 6px; height: 6px; border-radius: 50%; background: #38BDF8; box-shadow: 0 0 6px #38BDF8;"></div>
-      `;
-    }
-    canvas.innerHTML = dotsHtml;
-  }
-}
-
-
-// =============================================================================
-// 4. AUDIT TRAIL & B2B TEAM COLLABORATION ENGINE
-// =============================================================================
-
-let auditApp;
-
-const AUDIT_LOGS_DATA = [
-  { time: "2026-08-27 07:15:22", user: "김수석 대표건축사", item: "사운드록 2중문 개구부", change: "1.8m ➔ 2.4m 확장", note: "BF 한 짝 0.9m 및 건축법 1.5m 동시 충족을 위해 승인", hash: "9a8f4c2e...b1" },
-  { time: "2026-08-27 06:40:11", user: "박소방 전문기술사", item: "객석유도등 감광장치", change: "임의소등 ➔ 자동복귀 릴레이", note: "소방서 서면협의 조건부 승인 회로 반영 완료", hash: "4d7e1a90...f3" },
-  { time: "2026-08-26 23:10:04", user: "최음향 책임엔지니어", item: "차음방화문 STC-45", change: "단일문 ➔ 이중 차음가스켓", note: "소방법 60분 방화성능 시험성적서 첨부 완료", hash: "1c3b8e72...a9" },
-  { time: "2026-08-26 21:05:49", user: "이장애인 BF인증위원", item: "휠체어 관람석 시야각", change: "후열코너 ➔ 7열 중앙 골든존", note: "시야각 22° 및 1:1 동반자석 배치 확인 승인", hash: "7f5d2e09...c4" }
-];
-
-class AuditTrailEngine {
-  init() {
-    this.render();
-    const btnExport = document.getElementById('btnExportAuditCertificate');
-    if (btnExport) {
-      btnExport.addEventListener('click', () => {
-        showToast("📜 법적 면책 감사 증명서(PDF)가 성공적으로 발급되었습니다.");
-      });
-    }
-  }
-
-  render() {
-    const tbody = document.getElementById('auditTrailTbody');
-    if (!tbody) return;
-
-    tbody.innerHTML = AUDIT_LOGS_DATA.map(log => `
-      <tr>
-        <td style="font-family: JetBrains Mono; font-size: 11px; color: var(--text-muted);">${log.time}</td>
-        <td style="font-weight: 700;">${log.user}</td>
-        <td><strong>${log.item}</strong></td>
-        <td style="color: #4F46E5; font-weight: 700;">${log.change}</td>
-        <td style="font-size: 11.5px;">${log.note}</td>
-        <td style="font-family: JetBrains Mono; font-size: 10.5px; color: #059669;">${log.hash}</td>
-      </tr>
-    `).join('');
-  }
-}
-
-
-// =============================================================================
-// 5. 30P MASTER SUBMISSION REPORT GENERATOR (세움터/소방서 직제출용 도서)
-// =============================================================================
-
-function setupReportModal() {
-  const btnExport = document.getElementById('btnExportFullReport');
-  const modal = document.getElementById('reportModalOverlay');
-  const preview = document.getElementById('printableReportArea');
-
-  if (btnExport && modal && preview) {
-    btnExport.addEventListener('click', () => {
-      preview.innerHTML = `
-        <div style="font-family: 'Noto Sans KR', sans-serif; padding: 32px; line-height: 1.7; color: #0F172A; max-width: 900px; margin: 0 auto;">
-          
-          <!-- COVER PAGE -->
-          <div style="text-align: center; padding: 60px 0; border-bottom: 3px double #0F172A; margin-bottom: 40px;">
-            <div style="font-size: 13px; font-weight: 800; letter-spacing: 0.2em; color: #4F46E5; margin-bottom: 12px;">공연장 6대 복합법령 인허가 마스터 엔지니어링 도서</div>
-            <h1 style="font-size: 28px; font-weight: 900; margin: 0 0 20px 0; color: #0F172A;">
-              아트베뉴 뮤지컬·다목적홀 신축<br>건축·소방·BF 복합법규 상충 해결 기술검토서
-            </h1>
-            <div style="font-size: 14px; color: #475569; margin-top: 30px;">
-              제출처: 서울특별시 종로구청 건축과 / 종로소방서 예방안전과 / 한국장애인개발원
-            </div>
-            <div style="font-size: 13px; color: #64748B; margin-top: 10px;">
-              문서번호: ARTVENUE-2026-ENG-0827 | 검토일자: 2026년 08월 27일
-            </div>
-          </div>
-
-          <!-- EXECUTIVE SUMMARY TABLE -->
-          <h2 style="font-size: 18px; border-left: 4px solid #4F46E5; padding-left: 10px; margin: 24px 0 14px 0;">1. 사업 개요 및 법적 정합성 총괄표</h2>
-          <table style="width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 24px;">
-            <tr>
-              <th style="border: 1px solid #CBD5E1; background: #F1F5F9; padding: 8px; width: 22%;">시설 명칭 / 용도</th>
-              <td style="border: 1px solid #CBD5E1; padding: 8px; font-weight: bold;">아트베뉴 중형 뮤지컬홀 (문화 및 집회시설)</td>
-              <th style="border: 1px solid #CBD5E1; background: #F1F5F9; padding: 8px; width: 22%;">객석수 / 바닥면적</th>
-              <td style="border: 1px solid #CBD5E1; padding: 8px;">850석 / 2,400㎡ (지상 1~2층)</td>
-            </tr>
-            <tr>
-              <th style="border: 1px solid #CBD5E1; background: #F1F5F9; padding: 8px;">인허가 적합률</th>
-              <td style="border: 1px solid #CBD5E1; padding: 8px; font-weight: 800; color: #059669;">100% (9대 상충 전수 완벽 정합)</td>
-              <th style="border: 1px solid #CBD5E1; background: #F1F5F9; padding: 8px;">피난 소요시간(RSET)</th>
-              <td style="border: 1px solid #CBD5E1; padding: 8px; font-weight: 800; color: #059669;">148초 (허용시간 360초 대비 안전)</td>
-            </tr>
-          </table>
-
-          <!-- 9 MAJOR CONFLICT RESOLUTIONS -->
-          <h2 style="font-size: 18px; border-left: 4px solid #4F46E5; padding-left: 10px; margin: 30px 0 14px 0;">2. 9대 핵심 법규 상충 구간별 지배기준 및 승인 설계안</h2>
-          <table style="width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 30px;">
-            <thead>
-              <tr style="background: #F1F5F9;">
-                <th style="border: 1px solid #CBD5E1; padding: 8px; width: 20%;">상충 부위</th>
-                <th style="border: 1px solid #CBD5E1; padding: 8px; width: 25%;">경합 법령</th>
-                <th style="border: 1px solid #CBD5E1; padding: 8px; width: 25%;">법적 지배기준</th>
-                <th style="border: 1px solid #CBD5E1; padding: 8px; width: 30%;">최종 승인 엔지니어링 스펙</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="border: 1px solid #CBD5E1; padding: 8px; font-weight: 700;">1. 사운드록 2중문 개폐</td>
-                <td style="border: 1px solid #CBD5E1; padding: 8px;">건축법 제9조 vs BF 2.1.3 vs 음향차음</td>
-                <td style="border: 1px solid #CBD5E1; padding: 8px; color: #4F46E5; font-weight: 700;">건축법 피난방향 최우선</td>
-                <td style="border: 1px solid #CBD5E1; padding: 8px;">순길이 3.8m 확보 + 로비방향 순차개폐 + STC-50 가스켓</td>
-              </tr>
-              <tr>
-                <td style="border: 1px solid #CBD5E1; padding: 8px; font-weight: 700;">2. FOH 주 복도 유효폭</td>
-                <td style="border: 1px solid #CBD5E1; padding: 8px;">건축법 2.4m vs 소화전함 돌출</td>
-                <td style="border: 1px solid #CBD5E1; padding: 8px; color: #4F46E5; font-weight: 700;">건축법 피난규칙 제15조</td>
-                <td style="border: 1px solid #CBD5E1; padding: 8px;">소화전 100% 매립 + 마감공제 실계획폭 3.2m 확보</td>
-              </tr>
-              <tr>
-                <td style="border: 1px solid #CBD5E1; padding: 8px; font-weight: 700;">3. 객석유도등 감광 연출</td>
-                <td style="border: 1px solid #CBD5E1; padding: 8px;">소방시설법 제12조 vs 연출 암전</td>
-                <td style="border: 1px solid #CBD5E1; padding: 8px; color: #4F46E5; font-weight: 700;">소방청 NFPC 303 협의</td>
-                <td style="border: 1px solid #CBD5E1; padding: 8px;">0.05초 화재연동 강제점등 릴레이 + 소방서 사전서면승인</td>
-              </tr>
-              <tr>
-                <td style="border: 1px solid #CBD5E1; padding: 8px; font-weight: 700;">4. BF 휠체어 관람석</td>
-                <td style="border: 1px solid #CBD5E1; padding: 8px;">장애인등편의법 1% vs BF최우수 2%</td>
-                <td style="border: 1px solid #CBD5E1; padding: 8px; color: #4F46E5; font-weight: 700;">BF인증 심사기준 최우수</td>
-                <td style="border: 1px solid #CBD5E1; padding: 8px;">총 17석(2.0%) + 시야각 22° 7열 골든존 + 1:1 동반자석</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <!-- SIGNATURE AND LEGAL STAMP -->
-          <div style="margin-top: 50px; display: flex; justify-content: space-between; border-top: 2px solid #CBD5E1; padding-top: 24px;">
-            <div>
-              <p style="margin: 2px 0; font-size: 12px; color: var(--text-muted);">검토 총괄 책임자:</p>
-              <p style="margin: 4px 0; font-size: 15px; font-weight: 900;">대표 공인건축사 김 수 석 (인)</p>
-              <p style="margin: 2px 0; font-size: 12px; color: var(--text-muted);">건축사 등록번호: 제 2012-08492 호</p>
-            </div>
-            <div>
-              <p style="margin: 2px 0; font-size: 12px; color: var(--text-muted);">소방방재 전문기술사:</p>
-              <p style="margin: 4px 0; font-size: 15px; font-weight: 900;">소방기술사 박 소 방 (인)</p>
-              <p style="margin: 2px 0; font-size: 12px; color: var(--text-muted);">기술사 등록번호: 제 2015-11029 호</p>
-            </div>
+    let index = 0;
+    const triggerToast = () => {
+      if (!this.socialProofToastContainer) return;
+      const data = proofs[index % proofs.length];
+      index++;
+
+      const toast = document.createElement("div");
+      toast.className = "toast-proof-card";
+      toast.innerHTML = `
+        <div class="toast-avatar-box">⚡</div>
+        <div class="toast-content-box">
+          <div class="toast-title-line">${data.name} 결제 완료</div>
+          <div class="toast-sub-line">
+            [${data.item}] 구매<span class="toast-time-badge">${data.time}</span>
           </div>
         </div>
       `;
-      modal.classList.add('active');
-    });
+
+      this.socialProofToastContainer.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.add("fading");
+        setTimeout(() => toast.remove(), 400);
+      }, 4500);
+    };
+
+    // First toast after 2.5s, then every 9.5s
+    setTimeout(() => {
+      triggerToast();
+      setInterval(triggerToast, 9500);
+    }, 2500);
   }
 }
+
+// DOM 준비 완료 시 초기화
+document.addEventListener("DOMContentLoaded", () => {
+  window.app = new PainFinderApp();
+});

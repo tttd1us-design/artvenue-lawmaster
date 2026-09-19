@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Decision Poker | 포커 확률론 기반 경영 의사결정 소프트웨어</title>
+  <meta name="description" content="경영진의 주관적 에고와 감정을 팩트로 해체하고, 포커의 게임이론·팟 오즈·베이즈 정리로 최적의 자본 배분과 +EV 투자를 결정하는 엔터프라이즈 경영 OS.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  
+  <!-- Lucide Icons & Confetti -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg-main: #070A12;
+      --bg-card: #0E1424;
+      --bg-elevated: #151F36;
+      --bg-glass: rgba(14, 20, 36, 0.78);
+      --border-subtle: #1F2E4D;
+      --border-highlight: #10B981;
+      --text-primary: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      
+      --accent-emerald: #10B981;
+      --felt-green: #064E3B;
+      --accent-gold: #F59E0B;
+      --accent-cyan: #06B6D4;
+      --accent-ruby: #EF4444;
+      --accent-indigo: #6366F1;
+      
+      --font-sans: 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* TOP HEADER */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 10, 18, 0.9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 14px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-badge-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #059669, #10B981);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      color: #fff;
+      box-shadow: 0 0 24px rgba(16, 185, 129, 0.4);
+    }
+
+    .brand-title h1 {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tag-edition {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(245, 158, 11, 0.18);
+      color: var(--accent-gold);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .brand-title p {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .btn-action {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .btn-secondary {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      border-color: var(--border-subtle);
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent-gold);
+      background: #1C2A4A;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #059669, #10B981);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+      transform: translateY(-1px);
+    }
+
+    /* NAVIGATION TABS */
+    .nav-container {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0 32px;
+      display: flex;
+      gap: 24px;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      padding: 16px 4px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-primary);
+    }
+
+    .tab-btn.active {
+      color: var(--accent-emerald);
+      border-bottom-color: var(--accent-emerald);
+    }
+
+    /* MAIN CONTAINER */
+    .app-main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 32px 24px 80px 24px;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* CARDS & GRIDS */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 24px;
+      position: relative;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-primary);
+    }
+
+    /* POKER TABLE STYLES */
+    .poker-table-felt {
+      background: radial-gradient(circle, #064E3B 0%, #032E22 75%, #021C15 100%);
+      border: 12px solid #3E2723;
+      border-radius: 120px;
+      box-shadow: inset 0 0 60px rgba(0,0,0,0.8), 0 10px 40px rgba(0,0,0,0.6);
+      padding: 40px 30px;
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .felt-center {
+      text-align: center;
+    }
+
+    .pot-display {
+      display: inline-block;
+      background: rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      padding: 10px 24px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+
+    .pot-label {
+      font-size: 11px;
+      color: var(--accent-gold);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .pot-amount {
+      font-size: 28px;
+      font-weight: 900;
+      font-family: var(--font-mono);
+      color: #FBBF24;
+    }
+
+    .board-cards {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .poker-card {
+      width: 78px;
+      height: 112px;
+      background: #FFFFFF;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      color: #1E293B;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      position: relative;
+      transition: transform 0.2s;
+    }
+    .poker-card:hover {
+      transform: translateY(-4px);
+    }
+    .poker-card.red {
+      color: #DC2626;
+    }
+    .poker-card .card-val {
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .poker-card .card-center {
+      font-size: 24px;
+      text-align: center;
+    }
+    .poker-card .card-meta {
+      font-size: 9px;
+      font-family: var(--font-sans);
+      color: #64748B;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .player-dock {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 16px 24px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .hand-box {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hero-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+    }
+
+    /* SLIDERS & CONTROLS */
+    .control-group {
+      margin-bottom: 20px;
+    }
+
+    .control-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .control-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .control-val {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text-primary);
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--bg-elevated);
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+    }
+
+    /* METRIC STATS */
+    .metric-hero {
+      padding: 24px;
+      border-radius: 12px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .metric-hero.positive {
+      border-color: rgba(16, 185, 129, 0.5);
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.12) 0%, var(--bg-elevated) 100%);
+    }
+
+    .metric-hero.negative {
+      border-color: rgba(239, 68, 68, 0.5);
+      background: linear-gradient(180deg, rgba(239, 68, 68, 0.12) 0%, var(--bg-elevated) 100%);
+    }
+
+    .decision-banner {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+
+    .decision-sub {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 14px;
+    }
+
+    .stat-row:last-child {
+      border-bottom: none;
+    }
+
+    .stat-name {
+      color: var(--text-secondary);
+    }
+
+    .stat-number {
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+
+    /* CHECKBOXES & EGO FILTER */
+    .ego-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 10px;
+      background: var(--bg-elevated);
+      margin-bottom: 12px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .ego-item:hover {
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+    .ego-item.checked {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: var(--accent-ruby);
+    }
+
+    .ego-item input[type="checkbox"] {
+      margin-top: 4px;
+      accent-color: var(--accent-ruby);
+      width: 18px;
+      height: 18px;
+    }
+
+    .ego-content h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 2px;
+      color: var(--text-primary);
+    }
+
+    .ego-content p {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    /* PRESET CARDS */
+    .preset-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .preset-card:hover {
+      border-color: var(--accent-emerald);
+      transform: translateY(-2px);
+    }
+    .preset-card h3 {
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: var(--text-primary);
+    }
+    .preset-card p {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+    }
+    .preset-stats {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent-gold);
+      background: rgba(0,0,0,0.3);
+      padding: 8px 12px;
+      border-radius: 6px;
+    }
+
+    /* TABLE FOR LOGS */
+    .ledger-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 14px;
+    }
+    .ledger-table th {
+      text-align: left;
+      padding: 12px;
+      background: var(--bg-elevated);
+      color: var(--text-secondary);
+      font-weight: 600;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .ledger-table td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* MODAL */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-backdrop.open {
+      display: flex;
+    }
+    .modal-window {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 580px;
+      padding: 32px;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 14px;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent-emerald);
+    }
+
+    .badge-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .badge-win {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34D399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .badge-loss {
+      background: rgba(239, 68, 68, 0.2);
+      color: #F87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <div class="brand-section">
+      <div class="brand-badge-icon">♠️</div>
+      <div class="brand-title">
+        <h1>Decision Poker <span class="tag-edition">ENTERPRISE v2.5</span></h1>
+        <p>포커 확률론 & 베이즈 정리 기반 경영 의사결정 및 자본 배분 소프트웨어</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-action btn-secondary" onclick="openPresetModal()">
+        <i data-lucide="layers"></i> 딜 프리셋 로드
+      </button>
+      <button class="btn-action btn-primary" onclick="openSubscribeModal()">
+        <i data-lucide="shield-check"></i> SaaS 엔터프라이즈 도입 ($500~)
+      </button>
+    </div>
+  </header>
+
+  <!-- NAVIGATION TABS -->
+  <nav class="nav-container">
+    <button class="tab-btn active" onclick="switchTab('tab-poker')">
+      <i data-lucide="layout"></i> 1. 텍사스 홀덤 경영 테이블 & EV 판정기
+    </button>
+    <button class="tab-btn" onclick="switchTab('tab-ego')">
+      <i data-lucide="filter"></i> 2. 에고 & 틸트(Tilt) 디텍터
+    </button>
+    <button class="tab-btn" onclick="switchTab('tab-bayes')">
+      <i data-lucide="activity"></i> 3. 베이지안 신호 갱신 랩
+    </button>
+    <button class="tab-btn" onclick="switchTab('tab-presets')">
+      <i data-lucide="briefcase"></i> 4. 3대 딜 시나리오 금고
+    </button>
+    <button class="tab-btn" onclick="switchTab('tab-ledger')">
+      <i data-lucide="archive"></i> 5. 사후 백테스팅 & 편향 캘리브레이션
+    </button>
+  </nav>
+
+  <!-- MAIN VIEW -->
+  <main class="app-main">
+
+    <!-- TAB 1: POKER TABLE & EV ENGINE -->
+    <div id="tab-poker" class="tab-content active">
+      
+      <!-- VIRTUAL FELT TABLE -->
+      <div class="poker-table-felt">
+        <div class="felt-center">
+          <div class="pot-display">
+            <div class="pot-label">TOTAL MARKET POT (성공 시 기대 총이익)</div>
+            <div class="pot-amount" id="feltPotText">80.0억 원</div>
+          </div>
+          
+          <div class="board-cards">
+            <div class="poker-card">
+              <span class="card-val">A♠</span>
+              <span class="card-center">♠</span>
+              <span class="card-meta">시장 기회</span>
+            </div>
+            <div class="poker-card red">
+              <span class="card-val">K♥</span>
+              <span class="card-center">♥</span>
+              <span class="card-meta">규제 완화</span>
+            </div>
+            <div class="poker-card">
+              <span class="card-val">Q♣</span>
+              <span class="card-center">♣</span>
+              <span class="card-meta">경쟁자 지체</span>
+            </div>
+            <div class="poker-card red">
+              <span class="card-val">J♦</span>
+              <span class="card-center">♦</span>
+              <span class="card-meta">원천 기술</span>
+            </div>
+            <div class="poker-card">
+              <span class="card-val">10♠</span>
+              <span class="card-center">♠</span>
+              <span class="card-meta">유통 파트너</span>
+            </div>
+          </div>
+
+          <div class="player-dock">
+            <div class="hand-box">
+              <span class="hero-label">🏢 [OUR HAND / 우리 기업의 패]:</span>
+              <div class="poker-card red" style="width: 58px; height: 86px;">
+                <span class="card-val" style="font-size:13px;">A♦</span>
+                <span class="card-center" style="font-size:16px;">♦</span>
+              </div>
+              <div class="poker-card" style="width: 58px; height: 86px;">
+                <span class="card-val" style="font-size:13px;">K♠</span>
+                <span class="card-center" style="font-size:16px;">♠</span>
+              </div>
+            </div>
+
+            <div style="text-align: right;">
+              <span style="font-size: 11px; color: var(--text-secondary); font-weight:700;">REQUIRED CALL COST (투입 자본)</span>
+              <div style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: #38BDF8;" id="feltCallText">
+                10.0억 원
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTROLS & EV METRICS GRID -->
+      <div class="grid-2">
+        
+        <!-- LEFT: INPUT SLIDERS -->
+        <div class="card">
+          <div class="card-title">
+            <i data-lucide="sliders" style="color:var(--accent-emerald);"></i> 
+            의사결정 변수 실시간 제어 (Betting Parameters)
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" style="display:block; margin-bottom:6px;">의사결정 안건명</label>
+            <input type="text" id="inputDealName" class="form-control" value="AI 엔터프라이즈 솔루션 R&D 및 글로벌 GTM 10억 투자" oninput="calculateEV()">
+          </div>
+
+          <div class="control-group">
+            <div class="control-header">
+              <span class="control-label">투입 자본 (Call Cost):</span>
+              <span class="control-val" id="valInvestmentText">10.0억 원</span>
+            </div>
+            <input type="range" id="rangeInvestment" min="1" max="100" step="1" value="10" oninput="updateValues(); calculateEV();">
+          </div>
+
+          <div class="control-group">
+            <div class="control-header">
+              <span class="control-label">성공 시 회수 가능한 총이익 (Market Pot):</span>
+              <span class="control-val" id="valMarketText">80.0억 원</span>
+            </div>
+            <input type="range" id="rangeMarket" min="10" max="500" step="5" value="80" oninput="updateValues(); calculateEV();">
+          </div>
+
+          <div class="control-group">
+            <div class="control-header">
+              <span class="control-label">현재 추정 성공 승률 (Hand Equity):</span>
+              <span class="control-val" id="valEquityText">30.0%</span>
+            </div>
+            <input type="range" id="rangeEquity" min="1" max="99" step="1" value="30" oninput="updateValues(); calculateEV();">
+          </div>
+
+          <div style="display: flex; gap: 10px; margin-top: 14px;">
+            <button class="btn-action btn-secondary" style="flex: 1;" onclick="applyKellyBet()">
+              <i data-lucide="percent"></i> 켈리 기준(Kelly) 최적 베팅
+            </button>
+            <button class="btn-action btn-primary" style="flex: 1;" onclick="saveCurrentDecision()">
+              <i data-lucide="save"></i> 의사결정 장부에 영구 기록
+            </button>
+          </div>
+        </div>
+
+        <!-- RIGHT: MATHEMATICAL EV VERDICT -->
+        <div class="card">
+          <div class="card-title">
+            <i data-lucide="check-circle" style="color:var(--accent-gold);"></i> 
+            포커 확률론적 투자 판정 (Probabilistic Verdict)
+          </div>
+
+          <div class="metric-hero positive" id="decisionBox">
+            <div class="decision-banner" id="decisionTitle">🌟 AGGRESSIVE CALL / RAISE</div>
+            <div class="decision-sub" id="decisionSub">
+              판돈 대비 요구 승률보다 에쿼티가 높습니다. 장기적으로 반복할수록 부를 창출하는 +EV 의사결정입니다.
+            </div>
+          </div>
+
+          <div class="stat-row">
+            <span class="stat-name">수학적 기댓값 (Expected Value, EV)</span>
+            <span class="stat-number" style="color:#10B981; font-size:16px;" id="statEV">+17.0억 원</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-name">투입 자본 대비 EV 수익률 (EV ROI)</span>
+            <span class="stat-number" style="color:#10B981;" id="statEVROI">+170.0%</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-name">손익분기점 최소 요구 승률 (Pot Odds)</span>
+            <span class="stat-number" id="statPotOdds">11.1%</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-name">현재 보유 승률 (Current Equity)</span>
+            <span class="stat-number" id="statCurrentEquity">30.0%</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-name">켈리 기준(Kelly) 권장 뱅크롤 베팅 비율</span>
+            <span class="stat-number" style="color:var(--accent-gold);" id="statKelly">21.3%</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- TAB 2: EGO & BIAS FILTER -->
+    <div id="tab-ego" class="tab-content">
+      <div class="grid-2">
+        
+        <div class="card">
+          <div class="card-title">
+            <i data-lucide="shield-alert" style="color:var(--accent-ruby);"></i>
+            경영진 인지 편향 & 에고 체크리스트 (5대 필터)
+          </div>
+          <p style="font-size: 13px; color:var(--text-secondary); margin-bottom: 16px;">
+            경영진 회의 발언의 80%는 객관적 사실(Fact)이 아닌 체면과 감정(Opinion)입니다. 아래 항목에 해당될 때마다 확률 거품을 차감합니다.
+          </p>
+
+          <label class="ego-item" onclick="toggleEgo(this, 25)">
+            <input type="checkbox">
+            <div class="ego-content">
+              <h4>1. 브랜드 자존심 & 경쟁사 의식 (Ego Bet)</h4>
+              <p>경쟁사에 뒤처지지 않겠다는 체면이나 '업계 1위의 자존심' 때문에 밀어붙이고 있는가?</p>
+            </div>
+          </label>
+
+          <label class="ego-item" onclick="toggleEgo(this, 25)">
+            <input type="checkbox">
+            <div class="ego-content">
+              <h4>2. 과거 실패 및 매몰비용 만회 (Sunk Cost Fallacy)</h4>
+              <p>이미 들어간 수십억 원의 개발비와 시간이 아까워서 추가 투자를 강행하려 하는가?</p>
+            </div>
+          </label>
+
+          <label class="ego-item" onclick="toggleEgo(this, 20)">
+            <input type="checkbox">
+            <div class="ego-content">
+              <h4>3. 검증 데이터 부재 & 직관 과신 (Overconfidence)</h4>
+              <p>예상 승률의 근거가 실측 지표(PoC, 전환율)가 아닌 '팀의 열정'이나 '대표의 촉'인가?</p>
+            </div>
+          </label>
+
+          <label class="ego-item" onclick="toggleEgo(this, 15)">
+            <input type="checkbox">
+            <div class="ego-content">
+              <h4>4. 반대 의견 묵살 & 집단사고 (Groupthink)</h4>
+              <p>리스크를 지적하는 팀원의 비판을 '주인의식 부족'이나 '부정적 태도'로 치부했는가?</p>
+            </div>
+          </label>
+
+          <label class="ego-item" onclick="toggleEgo(this, 15)">
+            <input type="checkbox">
+            <div class="ego-content">
+              <h4>5. 최악의 시나리오 무시 (No Max Drawdown)</h4>
+              <p>이 투자가 100% 전액 손실되었을 때 발생할 런웨이 단축 규모를 수치화하지 않았는가?</p>
+            </div>
+          </label>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <i data-lucide="gauge" style="color:var(--accent-cyan);"></i>
+            에고 오염도 측정 & 보정된 승률(Discounted Equity)
+          </div>
+
+          <div style="text-align: center; padding: 20px 0;">
+            <div style="font-size: 48px; font-weight: 900; font-family: var(--font-mono); color: var(--accent-ruby);" id="egoScoreText">
+              0%
+            </div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--text-secondary);" id="egoStateText">
+              🟢 클린 팩트 존 (Fact-Driven)
+            </div>
+          </div>
+
+          <div class="stat-row">
+            <span class="stat-name">원래 주장한 예상 승률</span>
+            <span class="stat-number" id="egoOriginalEquity">30.0%</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-name">에고 디스카운트 계수 (Penalty Multiplier)</span>
+            <span class="stat-number" style="color:var(--accent-ruby);" id="egoMultiplier">1.00x (감점 없음)</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-name">보정된 순수 팩트 승률 (Calibrated Equity)</span>
+            <span class="stat-number" style="color:var(--accent-cyan); font-size:16px;" id="egoDiscountedEquity">30.0%</span>
+          </div>
+
+          <div style="margin-top: 24px; padding: 16px; border-radius: 8px; background: var(--bg-elevated); border: 1px solid var(--border-subtle); font-size: 13px; color: var(--text-secondary);">
+            💡 <strong>차마스 팔리하피티야의 포커 원칙:</strong> "투자 안건에서 사람의 이름, 직급, 감정을 모두 지워라. 남는 것은 오직 현금 유출과 수학적 기댓값뿐이어야 한다."
+          </div>
+
+          <button class="btn-action btn-secondary" style="width: 100%; margin-top: 16px; justify-content: center;" onclick="applyEgoDiscountToMain()">
+            <i data-lucide="arrow-left-right"></i> 보정된 승률을 메인 테이블에 즉시 반영
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 3: BAYESIAN UPDATER -->
+    <div id="tab-bayes" class="tab-content">
+      <div class="card" style="margin-bottom: 24px;">
+        <div class="card-title">
+          <i data-lucide="refresh-cw" style="color:var(--accent-indigo);"></i>
+          베이즈 정리 기반 사후 확률 갱신 랩 (Bayesian Updating Engine)
+        </div>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">
+          완벽한 정보는 존재하지 않습니다. 포커 플레이어가 플랍(Flop), 턴(Turn), 리버(River) 카드가 열릴 때마다 핸드 승률을 수정하듯, 
+          새로운 시장 신호(신제품 지표, 사전 예약, 경쟁사 반응)가 유입될 때마다 사전 신념(Prior)을 사후 확률(Posterior)로 갱신합니다.
+        </p>
+
+        <div class="grid-3">
+          <div style="background: var(--bg-elevated); padding: 18px; border-radius: 10px; border: 1px solid var(--border-subtle);">
+            <div style="font-size: 11px; color: var(--text-secondary); font-weight:700;">1단계: 사전 믿음 (PRIOR)</div>
+            <div style="font-size: 26px; font-weight: 800; font-family: var(--font-mono); color: #38BDF8; margin: 8px 0;" id="bayesPriorVal">25.0%</div>
+            <input type="range" id="bayesPriorRange" min="5" max="95" step="1" value="25" oninput="runBayesCalc()">
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 6px;">초기 사업 착수 전 기대 승률</div>
+          </div>
+
+          <div style="background: var(--bg-elevated); padding: 18px; border-radius: 10px; border: 1px solid var(--border-subtle);">
+            <div style="font-size: 11px; color: var(--text-secondary); font-weight:700;">2단계: 감지된 신호 (LIKELIHOOD RATIO)</div>
+            <div style="font-size: 26px; font-weight: 800; font-family: var(--font-mono); color: var(--accent-gold); margin: 8px 0;" id="bayesLRVal">3.50x</div>
+            <select id="bayesSignalSelect" class="form-control" style="font-size: 12px; margin-top:4px;" onchange="changeBayesSignal()">
+              <option value="3.5">🔥 유료 사전 예약 100건 돌파 (+3.5x 강한 지지)</option>
+              <option value="2.0">📈 초기 베타 유저 리텐션 40% 유지 (+2.0x 보통 지지)</option>
+              <option value="0.9">⚖️ PoC 검증 유보 및 고객 피드백 미온적 (0.9x 중립)</option>
+              <option value="0.35">🚨 빅테크 경쟁사 유사 기능 무료 출시 (0.35x 강한 반박)</option>
+              <option value="custom">✏️ 직접 우도비(Likelihood Ratio) 입력</option>
+            </select>
+          </div>
+
+          <div style="background: var(--bg-elevated); padding: 18px; border-radius: 10px; border: 1px solid var(--accent-emerald);">
+            <div style="font-size: 11px; color: var(--accent-emerald); font-weight:700;">3단계: 사후 확률 (POSTERIOR)</div>
+            <div style="font-size: 26px; font-weight: 900; font-family: var(--font-mono); color: #10B981; margin: 8px 0;" id="bayesPosteriorVal">53.8%</div>
+            <div style="font-size: 12px; font-weight:700; color: #34D399;" id="bayesDeltaText">변동폭: +28.8%p 갱신</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">P(성공|신호) 수학적 계산 완료</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: PRESETS -->
+    <div id="tab-presets" class="tab-content">
+      <div class="card-title" style="margin-bottom: 16px;">
+        <i data-lucide="layers" style="color:var(--accent-gold);"></i> 
+        실증 코호트 3대 딜 프리셋 금고 (Presets Scenario Vault)
+      </div>
+
+      <div class="grid-3">
+        <div class="preset-card" onclick="loadPreset(10, 80, 30, 'AI SaaS 신제품 글로벌 진출 10억 투자')">
+          <h3>🚀 스타트업 신제품 출시 판정</h3>
+          <p>초기 검증을 마친 AI 버티컬 SaaS의 미국 진출을 위한 10억 원 시드 마케팅/엔지니어링 베팅.</p>
+          <div class="preset-stats">
+            투입: 10억 | 기대 팟: 80억 | 승률: 30%<br>
+            요구 팟 오즈: 11.1% | +EV 판정
+          </div>
+        </div>
+
+        <div class="preset-card" onclick="loadPreset(50, 500, 22, '시리즈 A 50억 리드 투자 심사')">
+          <h3>💼 VC 시리즈 A 50억 리드 투자</h3>
+          <p>ARR 12억 원 달성 딥테크 기업에 50억 원을 베팅하여 기업가치 500억 엑시트를 노리는 VC 심사역 판정.</p>
+          <div class="preset-stats">
+            투입: 50억 | 기대 팟: 500억 | 승률: 22%<br>
+            요구 팟 오즈: 9.1% | +EV 판정
+          </div>
+        </div>
+
+        <div class="preset-card" onclick="loadPreset(200, 1200, 15, '상장 중견기업 200억 프롭테크 M&A 인수')">
+          <h3>🏛️ 상장 기업 200억 M&A 딜 심사</h3>
+          <p>기존 오프라인 사업의 디지털 전환을 위해 물류 프롭테크 스타트업을 200억 원에 인수합병하는 안건.</p>
+          <div class="preset-stats">
+            투입: 200억 | 기대 팟: 1,200억 | 승률: 15%<br>
+            요구 팟 오즈: 14.3% | 조건부 미세 +EV
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: BACKTESTING LEDGER -->
+    <div id="tab-ledger" class="tab-content">
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div class="card-title" style="margin-bottom: 0;">
+            <i data-lucide="database" style="color:var(--accent-cyan);"></i>
+            의사결정 사후 추적 장부 (Decision Calibration Ledger)
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button class="btn-action btn-secondary" onclick="exportLedgerJSON()">
+              <i data-lucide="download"></i> JSON 내보내기
+            </button>
+            <button class="btn-action btn-secondary" onclick="clearLedger()">
+              <i data-lucide="trash-2"></i> 장부 초기화
+            </button>
+          </div>
+        </div>
+
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
+          <strong>결과 편향(Resulting) 차단:</strong> 애니 듀크는 "결과가 나쁘다고 해서 잘못된 결정이었던 것은 아니다"라고 강조합니다.
+          좋은 결정(+EV)을 꾸준히 내렸는지, 사후 실제 결과와 대조하여 브라이어 스코어(Brier Score: 0에 가까울수록 신의 예측)를 측정합니다.
+        </p>
+
+        <table class="ledger-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>일시</th>
+              <th>안건명</th>
+              <th>투입 자본</th>
+              <th>예측 승률</th>
+              <th>기댓값(EV)</th>
+              <th>실제 결과</th>
+              <th>Brier Score</th>
+              <th>관리</th>
+            </tr>
+          </thead>
+          <tbody id="ledgerTableBody">
+            <!-- Dynamic Content -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- SUBSCRIBE / ENTERPRISE MODAL -->
+  <div id="subscribeModal" class="modal-backdrop">
+    <div class="modal-window">
+      <button class="modal-close" onclick="closeModal('subscribeModal')">&times;</button>
+      <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 6px;">♠️ B2B 엔터프라이즈 SaaS 도입 신청</h2>
+      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">
+        감정적 과잉 투자 손실 40% 절감, 의사결정 속도 2배 단축. 전략기획실 및 투자 심사역 전용 워크스페이스를 구축해 드립니다.
+      </p>
+
+      <div class="form-group">
+        <label>도입 기업명 / 펀드명</label>
+        <input type="text" class="form-control" placeholder="예: (주)넥스트캐피탈파트너스">
+      </div>
+      <div class="form-group">
+        <label>구독 플랜 선택</label>
+        <select class="form-control">
+          <option value="starter">스타터 플랜 (월 $500 - 5인 심사역 라이선스)</option>
+          <option value="enterprise" selected>엔터프라이즈 플랜 (월 $2,000 - 전사 무제한 + 맞춤형 API 연동)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>담당자 연락처 (이메일)</label>
+        <input type="email" class="form-control" placeholder="partner@fund.com">
+      </div>
+
+      <button class="btn-action btn-primary" style="width: 100%; justify-content: center; padding: 12px; margin-top: 10px;" onclick="submitEnterpriseOrder()">
+        <i data-lucide="send"></i> 전사 도입 계약 및 PoC 개시 신청
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // CORE STATE
+    let currentDeal = {
+      name: "AI SaaS 신제품 글로벌 진출 10억 투자",
+      investment: 10.0,
+      marketPot: 80.0,
+      equity: 30.0,
+      egoScore: 0,
+      egoDiscountedEquity: 30.0
+    };
+
+    let ledger = [
+      {
+        id: 1,
+        timestamp: "2026-08-15 14:20",
+        name: "동남아 현지화 거점 5억 투자",
+        investment: 5.0,
+        equity: 40.0,
+        ev: 7.0,
+        status: "COMPLETED",
+        outcome: 1,
+        brier: 0.36
+      },
+      {
+        id: 2,
+        timestamp: "2026-08-28 11:00",
+        name: "레거시 솔루션 3억 추가 리팩토링 강행",
+        investment: 3.0,
+        equity: 15.0,
+        ev: -1.2,
+        status: "COMPLETED",
+        outcome: 0,
+        brier: 0.0225
+      }
+    ];
+
+    // INIT
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      loadLedgerFromStorage();
+      updateValues();
+      calculateEV();
+      runBayesCalc();
+      renderLedger();
+    });
+
+    // TAB SWITCHING
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      
+      const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+      if (activeBtn) activeBtn.classList.add('active');
+      
+      const target = document.getElementById(tabId);
+      if (target) target.classList.add('active');
+    }
+
+    // UPDATE UI VALUES FROM SLIDERS
+    function updateValues() {
+      const inv = parseFloat(document.getElementById('rangeInvestment').value);
+      const mkt = parseFloat(document.getElementById('rangeMarket').value);
+      const eq = parseFloat(document.getElementById('rangeEquity').value);
+
+      currentDeal.investment = inv;
+      currentDeal.marketPot = mkt;
+      currentDeal.equity = eq;
+
+      document.getElementById('valInvestmentText').textContent = inv.toFixed(1) + '억 원';
+      document.getElementById('valMarketText').textContent = mkt.toFixed(1) + '억 원';
+      document.getElementById('valEquityText').textContent = eq.toFixed(1) + '%';
+
+      document.getElementById('feltCallText').textContent = inv.toFixed(1) + '억 원';
+      document.getElementById('feltPotText').textContent = mkt.toFixed(1) + '억 원';
+    }
+
+    // MAIN EV & POT ODDS CALCULATION
+    function calculateEV() {
+      const inv = currentDeal.investment;
+      const mkt = currentDeal.marketPot;
+      const eq = currentDeal.equity / 100.0;
+      const lossProb = 1.0 - eq;
+
+      // 팟 오즈 (필요 승률) = Call / (Pot + Call)
+      const potOdds = (inv / (mkt + inv)) * 100.0;
+      
+      // 기댓값 (EV) = (P_win * Gain) - (P_loss * Loss)
+      const ev = (eq * mkt) - (lossProb * inv);
+      const evROI = (ev / inv) * 100.0;
+
+      // 켈리 기준: f* = (bp - q) / b where b = Net Gain / Loss = mkt / inv
+      const b = mkt / inv;
+      const kelly = Math.max(0, ((b * eq) - lossProb) / b) * 100.0;
+
+      // UI Update
+      document.getElementById('statEV').textContent = (ev >= 0 ? '+' : '') + ev.toFixed(2) + '억 원';
+      document.getElementById('statEVROI').textContent = (evROI >= 0 ? '+' : '') + evROI.toFixed(1) + '%';
+      document.getElementById('statPotOdds').textContent = potOdds.toFixed(1) + '%';
+      document.getElementById('statCurrentEquity').textContent = (eq * 100).toFixed(1) + '%';
+      document.getElementById('statKelly').textContent = kelly.toFixed(1) + '%';
+
+      const box = document.getElementById('decisionBox');
+      const title = document.getElementById('decisionTitle');
+      const sub = document.getElementById('decisionSub');
+
+      if (ev > 0 && (eq * 100) >= potOdds) {
+        box.className = "metric-hero positive";
+        title.innerHTML = "🌟 AGGRESSIVE CALL / RAISE";
+        title.style.color = "#10B981";
+        sub.innerHTML = `판돈 대비 요구 승률(${potOdds.toFixed(1)}%)보다 보유 승률(${(eq*100).toFixed(1)}%)이 높습니다. 장기적으로 반복할수록 막대한 부를 누적하는 +EV 베팅입니다.`;
+        document.getElementById('statEV').style.color = "#10B981";
+      } else if (ev > 0 && (eq * 100) < potOdds) {
+        box.className = "metric-hero";
+        title.innerHTML = "⚠️ MARGINAL CALL (주의)";
+        title.style.color = "#F59E0B";
+        sub.innerHTML = `기댓값은 양수이나 요구 승률에 미달합니다. 지출을 절감하거나 핵심 불확실성을 PoC로 먼저 제거하십시오.`;
+        document.getElementById('statEV').style.color = "#F59E0B";
+      } else {
+        box.className = "metric-hero negative";
+        title.innerHTML = "🛑 HARD FOLD (즉각 기각)";
+        title.style.color = "#EF4444";
+        sub.innerHTML = `수학적 기댓값이 음수(-EV)입니다. 경영진의 직관이나 매몰비용에 기댄 자멸적 베팅입니다. 지금 폴드(Fold)하십시오.`;
+        document.getElementById('statEV').style.color = "#EF4444";
+      }
+    }
+
+    // KELLY BET APPLY
+    function applyKellyBet() {
+      const inv = currentDeal.investment;
+      const mkt = currentDeal.marketPot;
+      const eq = currentDeal.equity / 100.0;
+      const b = mkt / inv;
+      const kelly = Math.max(0, ((b * eq) - (1.0 - eq)) / b) * 100.0;
+      alert(`[켈리 기준(Kelly Criterion) 최적 베팅 권고]\n\n현재 승률(${(eq*100).toFixed(1)}%)과 배당(${b.toFixed(1)}x)에서 자산 파산을 방지하고 복리 성장을 극대화하는 1회 최적 베팅 규모는 총 유동 자본의 [${kelly.toFixed(1)}%]입니다.`);
+    }
+
+    // EGO FILTER LOGIC
+    function toggleEgo(labelEl, weight) {
+      const cb = labelEl.querySelector('input[type="checkbox"]');
+      if (cb.checked) {
+        labelEl.classList.add('checked');
+      } else {
+        labelEl.classList.remove('checked');
+      }
+
+      let totalScore = 0;
+      document.querySelectorAll('.ego-item').forEach(item => {
+        if (item.querySelector('input').checked) {
+          totalScore += parseInt(item.getAttribute('onclick').match(/\d+/)[0]);
+        }
+      });
+
+      currentDeal.egoScore = totalScore;
+      document.getElementById('egoScoreText').textContent = totalScore + '%';
+      
+      let multiplier = 1.0;
+      if (totalScore <= 20) {
+        document.getElementById('egoStateText').innerHTML = "🟢 클린 팩트 존 (Fact-Driven)";
+        document.getElementById('egoStateText').style.color = "#10B981";
+        multiplier = 1.0;
+      } else if (totalScore <= 50) {
+        document.getElementById('egoStateText').innerHTML = "🟡 에고 침투 경계 경보 (Ego Creep)";
+        document.getElementById('egoStateText').style.color = "#F59E0B";
+        multiplier = 0.8;
+      } else {
+        document.getElementById('egoStateText').innerHTML = "🔴 고위험 틸트 상태 (Severe Tilt - 48시간 동결 권고)";
+        document.getElementById('egoStateText').style.color = "#EF4444";
+        multiplier = 0.55;
+      }
+
+      const originalEq = currentDeal.equity;
+      const discounted = originalEq * multiplier;
+      currentDeal.egoDiscountedEquity = discounted;
+
+      document.getElementById('egoOriginalEquity').textContent = originalEq.toFixed(1) + '%';
+      document.getElementById('egoMultiplier').textContent = multiplier.toFixed(2) + 'x (' + ((1.0 - multiplier)*100).toFixed(0) + '% 감점)';
+      document.getElementById('egoDiscountedEquity').textContent = discounted.toFixed(1) + '%';
+    }
+
+    function applyEgoDiscountToMain() {
+      document.getElementById('rangeEquity').value = Math.round(currentDeal.egoDiscountedEquity);
+      updateValues();
+      calculateEV();
+      switchTab('tab-poker');
+      alert(`[보정 완료] 에고 및 인지 편향이 차감된 순수 승률(${currentDeal.egoDiscountedEquity.toFixed(1)}%)이 메인 테이블에 적용되었습니다.`);
+    }
+
+    // BAYESIAN UPDATING
+    function runBayesCalc() {
+      const prior = parseFloat(document.getElementById('bayesPriorRange').value) / 100.0;
+      document.getElementById('bayesPriorVal').textContent = (prior * 100).toFixed(1) + '%';
+
+      let lr = parseFloat(document.getElementById('bayesSignalSelect').value);
+      if (isNaN(lr)) lr = 2.0;
+
+      document.getElementById('bayesLRVal').textContent = lr.toFixed(2) + 'x';
+
+      // Odds formulation
+      const priorOdds = prior / (1.0 - prior);
+      const postOdds = priorOdds * lr;
+      const posterior = postOdds / (1.0 + postOdds);
+
+      document.getElementById('bayesPosteriorVal').textContent = (posterior * 100).toFixed(1) + '%';
+      const delta = (posterior - prior) * 100.0;
+      document.getElementById('bayesDeltaText').textContent = `변동폭: ${(delta >= 0 ? '+' : '')}${delta.toFixed(1)}%p 갱신`;
+      document.getElementById('bayesDeltaText').style.color = delta >= 0 ? "#34D399" : "#F87171";
+    }
+
+    function changeBayesSignal() {
+      const sel = document.getElementById('bayesSignalSelect');
+      if (sel.value === 'custom') {
+        const custom = prompt("우도비(Likelihood Ratio)를 입력하세요 (예: 2.5):", "2.5");
+        if (custom && !isNaN(parseFloat(custom))) {
+          const opt = document.createElement('option');
+          opt.value = custom;
+          opt.textContent = `✏️ 커스텀 우도비 (${custom}x)`;
+          opt.selected = true;
+          sel.appendChild(opt);
+        }
+      }
+      runBayesCalc();
+    }
+
+    // PRESET LOADER
+    function loadPreset(inv, pot, eq, name) {
+      document.getElementById('rangeInvestment').value = inv;
+      document.getElementById('rangeMarket').value = pot;
+      document.getElementById('rangeEquity').value = eq;
+      document.getElementById('inputDealName').value = name;
+      updateValues();
+      calculateEV();
+      switchTab('tab-poker');
+    }
+
+    function openPresetModal() {
+      switchTab('tab-presets');
+    }
+
+    // LEDGER FUNCTIONS
+    function saveCurrentDecision() {
+      const name = document.getElementById('inputDealName').value.trim() || "신규 투자 안건";
+      const inv = currentDeal.investment;
+      const eq = currentDeal.equity;
+      const mkt = currentDeal.marketPot;
+      const ev = ( (eq/100.0) * mkt ) - ( (1.0 - eq/100.0) * inv );
+
+      const record = {
+        id: ledger.length + 1,
+        timestamp: new Date().toISOString().replace('T', ' ').substring(0, 16),
+        name: name,
+        investment: inv,
+        equity: eq,
+        ev: parseFloat(ev.toFixed(2)),
+        status: "IN_PROGRESS",
+        outcome: null,
+        brier: null
+      };
+
+      ledger.unshift(record);
+      saveLedgerToStorage();
+      renderLedger();
+      switchTab('tab-ledger');
+      confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
+    }
+
+    function renderLedger() {
+      const tbody = document.getElementById('ledgerTableBody');
+      tbody.innerHTML = '';
+
+      ledger.forEach(item => {
+        const tr = document.createElement('tr');
+        const brierStr = item.brier !== null ? item.brier.toFixed(4) : '<span style="color:var(--text-muted)">진행중</span>';
+        
+        let outcomeBadge = '<span style="color:var(--accent-gold);">진행중</span>';
+        if (item.outcome === 1) outcomeBadge = '<span class="badge-chip badge-win">성공</span>';
+        else if (item.outcome === 0) outcomeBadge = '<span class="badge-chip badge-loss">실패</span>';
+
+        tr.innerHTML = `
+          <td>#${item.id}</td>
+          <td style="font-family:var(--font-mono); font-size:11px;">${item.timestamp}</td>
+          <td style="font-weight:600;">${item.name}</td>
+          <td style="font-family:var(--font-mono);">${item.investment.toFixed(1)}억</td>
+          <td style="font-family:var(--font-mono);">${item.equity.toFixed(1)}%</td>
+          <td style="font-family:var(--font-mono); color:${item.ev>=0?'#10B981':'#EF4444'}">${item.ev>=0?'+':''}${item.ev.toFixed(2)}억</td>
+          <td>${outcomeBadge}</td>
+          <td style="font-family:var(--font-mono);">${brierStr}</td>
+          <td>
+            ${item.status === 'IN_PROGRESS' ? 
+              `<button class="btn-action btn-secondary" style="padding:4px 8px; font-size:11px;" onclick="resolveDecision(${item.id})">결과 등록</button>` :
+              `<span style="font-size:11px; color:var(--text-muted)">검증완료</span>`
+            }
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function resolveDecision(id) {
+      const target = ledger.find(l => l.id === id);
+      if (!target) return;
+
+      const res = confirm(`[사후 백테스팅 결과 등록]\n안건: ${target.name}\n\n이 의사결정이 성공했습니까? (확인: 성공 / 취소: 실패)`);
+      const outcome = res ? 1 : 0;
+      const forecast = target.equity / 100.0;
+      const brier = Math.pow(forecast - outcome, 2);
+
+      target.status = "COMPLETED";
+      target.outcome = outcome;
+      target.brier = brier;
+
+      saveLedgerToStorage();
+      renderLedger();
+      alert(`[결과 등록 완료]\n브라이어 스코어(Brier Score): ${brier.toFixed(4)}\n(0에 가까울수록 정밀 예측, 0.25는 무작위 동전 던지기)`);
+    }
+
+    function saveLedgerToStorage() {
+      try {
+        localStorage.setItem('decision_poker_ledger', JSON.stringify(ledger));
+      } catch (e) {}
+    }
+
+    function loadLedgerFromStorage() {
+      try {
+        const data = localStorage.getItem('decision_poker_ledger');
+        if (data) ledger = JSON.parse(data);
+      } catch (e) {}
+    }
+
+    function clearLedger() {
+      if (confirm("모든 의사결정 장부 데이터를 초기화하시겠습니까?")) {
+        ledger = [];
+        saveLedgerToStorage();
+        renderLedger();
+      }
+    }
+
+    function exportLedgerJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(ledger, null, 2));
+      const dlAnchor = document.createElement('a');
+      dlAnchor.setAttribute("href", dataStr);
+      dlAnchor.setAttribute("download", `decision_poker_ledger_${Date.now()}.json`);
+      dlAnchor.click();
+    }
+
+    // MODAL HANDLERS
+    function openSubscribeModal() {
+      document.getElementById('subscribeModal').classList.add('open');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+    function submitEnterpriseOrder() {
+      alert("✅ B2B 엔터프라이즈 전사 도입 신청이 접수되었습니다. 전담 솔루션 아키텍트가 24시간 이내에 PoC 세팅을 위해 연락드립니다.");
+      closeModal('subscribeModal');
+    }
+  </script>
+</body>
+</html>

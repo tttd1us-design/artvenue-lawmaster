@@ -1,0 +1,2654 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Leap Radar | 패러다임 전환 비대칭 베팅 스크리너</title>
+  <meta name="description" content="글로벌 특허 출원, 탑티어 AI 깃허브 커밋 가속도, 학술 논문 인용 폭증의 3축 교차 분석으로 시대의 패러다임을 바꿀 0.1% 언더독 파괴자를 선제 스크리닝하는 차마스식 비대칭 베팅 인텔리전스 콘솔.">
+  <meta name="keywords" content="비대칭베팅, 패러다임전환, 딥테크스크리너, 차마스, 테슬라, 엔비디아, 특허분석, 깃허브커밋, 논문인용, 켈리공식">
+
+  <!-- Google Fonts & Pretendard -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+  <!-- Lucide Icons & Canvas Confetti -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg-base: #05070E;
+      --bg-panel: #0A0F1D;
+      --bg-card: #0F172A;
+      --bg-card-hover: #141F36;
+      --bg-input: #070B14;
+      --border-subtle: #1E293B;
+      --border-bright: #334155;
+      
+      --neon-emerald: #00FF9D;
+      --neon-cyan: #06B6D4;
+      --neon-violet: #8B5CF6;
+      --neon-amber: #F59E0B;
+      --neon-rose: #F43F5E;
+      
+      --text-main: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --text-dim: #64748B;
+      
+      --font-sans: 'Pretendard', 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      
+      --glow-emerald: 0 0 20px rgba(0, 255, 157, 0.25);
+      --glow-cyan: 0 0 20px rgba(6, 182, 212, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      overflow-x: hidden;
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 255, 157, 0.06) 0%, transparent 40%),
+        linear-gradient(to bottom, rgba(5, 7, 14, 0.8), rgba(5, 7, 14, 0.95));
+      background-attachment: fixed;
+    }
+
+    /* Top Grid Lines Background */
+    .grid-lines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: 50px 50px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Top App Header */
+    header.app-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 15, 29, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .radar-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #064e3b, #00FF9D);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #05070E;
+      box-shadow: var(--glow-emerald);
+      position: relative;
+    }
+
+    .pulse-ping {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      border: 2px solid var(--neon-emerald);
+      animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes ping {
+      75%, 100% {
+        transform: scale(1.4);
+        opacity: 0;
+      }
+    }
+
+    .brand-text h1 {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-text h1 span.tag-vip {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--neon-amber);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .brand-text p {
+      font-size: 11px;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+    }
+
+    .header-center-stats {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 6px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .stat-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .stat-pill .label {
+      color: var(--text-dim);
+    }
+
+    .stat-pill .val {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--neon-cyan);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+    }
+
+    .btn-outline {
+      background: rgba(15, 23, 42, 0.8);
+      border-color: var(--border-bright);
+      color: var(--text-main);
+    }
+
+    .btn-outline:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--neon-cyan);
+      color: #fff;
+    }
+
+    .btn-emerald {
+      background: var(--neon-emerald);
+      color: #05070E;
+      font-weight: 700;
+      box-shadow: 0 0 15px rgba(0, 255, 157, 0.3);
+    }
+
+    .btn-emerald:hover {
+      background: #34d399;
+      transform: translateY(-1px);
+    }
+
+    .btn-amber {
+      background: linear-gradient(135deg, #d97706, #f59e0b);
+      color: #fff;
+      font-weight: 700;
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+    }
+
+    .btn-amber:hover {
+      background: linear-gradient(135deg, #b45309, #d97706);
+      transform: translateY(-1px);
+    }
+
+    /* Main Container */
+    main.main-layout {
+      position: relative;
+      z-index: 1;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    /* Hero Banner: Chamath's Asymmetry Quote */
+    .hero-banner {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(6, 78, 59, 0.3) 100%);
+      border: 1px solid var(--border-subtle);
+      border-left: 4px solid var(--neon-emerald);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .quote-content {
+      max-width: 860px;
+    }
+
+    .quote-content .quote-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--neon-emerald);
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .quote-content h2 {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 6px;
+    }
+
+    .quote-content p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .hero-quick-action {
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    .hero-quick-action .price-tag {
+      font-size: 11px;
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      margin-top: 4px;
+    }
+
+    /* Tab Navigation */
+    .nav-tabs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 24px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .nav-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      transition: all 0.2s;
+    }
+
+    .nav-tab-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .nav-tab-btn.active {
+      color: var(--neon-emerald);
+      background: rgba(0, 255, 157, 0.06);
+    }
+
+    .nav-tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--neon-emerald);
+      box-shadow: 0 0 10px var(--neon-emerald);
+    }
+
+    .tab-badge-num {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-family: var(--font-mono);
+    }
+
+    .nav-tab-btn.active .tab-badge-num {
+      background: rgba(0, 255, 157, 0.2);
+      color: var(--neon-emerald);
+    }
+
+    /* TAB 1: RADAR SCANNER GRID LAYOUT */
+    .scanner-layout {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .scanner-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Left Control Sidebar */
+    .sidebar-panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .panel-section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    /* Mini Live Radar Canvas in Sidebar */
+    .radar-canvas-card {
+      background: #020408;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+      position: relative;
+    }
+
+    #radarSweepCanvas {
+      width: 100%;
+      max-width: 280px;
+      height: 280px;
+      display: block;
+      margin: 0 auto;
+      border-radius: 50%;
+      background: radial-gradient(circle, #071510 0%, #020605 100%);
+      box-shadow: inset 0 0 20px rgba(0, 255, 157, 0.1);
+    }
+
+    .radar-canvas-card .radar-status {
+      margin-top: 10px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--neon-emerald);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Filter Sliders */
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .slider-box {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .slider-header span.val-display {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--neon-cyan);
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      background: #1E293B;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--neon-emerald);
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--neon-emerald);
+    }
+
+    /* Sector Chips */
+    .sector-chips-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip-btn {
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .chip-btn:hover {
+      border-color: var(--border-bright);
+      color: #fff;
+    }
+
+    .chip-btn.active {
+      background: rgba(6, 182, 212, 0.15);
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+      font-weight: 600;
+    }
+
+    /* Right Main Scanner View */
+    .scanner-main {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .scanner-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 12px 18px;
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .toolbar-count {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .toolbar-count strong {
+      color: var(--neon-emerald);
+      font-family: var(--font-mono);
+    }
+
+    .view-toggle-btns {
+      display: flex;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 3px;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .view-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .view-btn.active {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+
+    /* Cards Grid View */
+    .disruptor-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 18px;
+    }
+
+    .disruptor-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .disruptor-card:hover {
+      border-color: var(--neon-emerald);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 255, 157, 0.1);
+      background: var(--bg-card-hover);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .card-id-tag {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      color: var(--text-dim);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .card-title-group h3 {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-top: 4px;
+    }
+
+    .card-title-group .sector-tag {
+      font-size: 11px;
+      color: var(--neon-cyan);
+      font-family: var(--font-mono);
+      margin-top: 2px;
+      display: block;
+    }
+
+    /* Score Badge on Card */
+    .leap-score-badge {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .score-circle {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: conic-gradient(var(--neon-emerald) calc(var(--score-pct) * 1%), #1E293B 0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      position: relative;
+      box-shadow: var(--glow-emerald);
+    }
+
+    .score-circle-inner {
+      width: 100%;
+      height: 100%;
+      background: var(--bg-card);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .score-circle-inner .num {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--neon-emerald);
+      line-height: 1;
+    }
+
+    .score-circle-inner .lbl {
+      font-size: 8px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-top: 1px;
+    }
+
+    .card-summary {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* 3-Pillars Metric Bars */
+    .card-metrics {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .metric-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+    }
+
+    .metric-row .name {
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .metric-row .val {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .metric-bar-bg {
+      width: 100%;
+      height: 4px;
+      background: #1E293B;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 2px;
+    }
+
+    .metric-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+    }
+
+    /* Card Footer */
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .ridicule-pill {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(244, 63, 94, 0.12);
+      color: #fb7185;
+      border: 1px solid rgba(244, 63, 94, 0.25);
+    }
+
+    .multiple-pill {
+      font-size: 12px;
+      font-family: var(--font-mono);
+      font-weight: 800;
+      color: var(--neon-amber);
+    }
+
+    /* Bubble Matrix Canvas View (Alternate) */
+    .matrix-canvas-container {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 20px;
+      position: relative;
+    }
+
+    #bubbleMatrixCanvas {
+      width: 100%;
+      height: 520px;
+      display: block;
+      background: #060913;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* TAB 2: ASYMMETRIC SIMULATOR */
+    .simulator-layout {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .simulator-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .sim-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sim-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .sim-input-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .sim-input-group label span.highlight {
+      font-family: var(--font-mono);
+      color: var(--neon-cyan);
+    }
+
+    .sim-input {
+      background: var(--bg-input);
+      border: 1px solid var(--border-bright);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    .sim-input:focus {
+      border-color: var(--neon-emerald);
+      box-shadow: var(--glow-emerald);
+    }
+
+    /* Output Results Grid */
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .res-box {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .res-box.glow {
+      border-color: var(--neon-emerald);
+      background: rgba(0, 255, 157, 0.04);
+    }
+
+    .res-box .title {
+      font-size: 11px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .res-box .big-val {
+      font-size: 22px;
+      font-family: var(--font-mono);
+      font-weight: 800;
+      color: var(--neon-emerald);
+    }
+
+    .res-box .sub-val {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    #monteCarloCanvas {
+      width: 100%;
+      height: 320px;
+      background: #04060C;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      display: block;
+    }
+
+    /* TAB 3: TIME MACHINE BACKTEST */
+    .timeline-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .case-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 180px 1fr 240px;
+      gap: 24px;
+      align-items: center;
+      transition: all 0.2s;
+    }
+
+    .case-card:hover {
+      border-color: var(--neon-cyan);
+      background: var(--bg-card-hover);
+    }
+
+    @media (max-width: 900px) {
+      .case-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .case-era {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .case-era .year-tag {
+      font-size: 28px;
+      font-weight: 900;
+      font-family: var(--font-mono);
+      color: var(--neon-cyan);
+      line-height: 1;
+    }
+
+    .case-era .company-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .case-era .badge-category {
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .case-story h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--neon-amber);
+      margin-bottom: 6px;
+    }
+
+    .case-story p {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .case-signal-box {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--neon-emerald);
+    }
+
+    .case-stats {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      justify-content: center;
+    }
+
+    .case-stats .alpha-multiplier {
+      font-size: 32px;
+      font-weight: 900;
+      font-family: var(--font-mono);
+      color: var(--neon-emerald);
+      line-height: 1;
+    }
+
+    .case-stats .alpha-label {
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    /* TAB 4: DOSSIER & REPORT */
+    .dossier-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .dossier-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .report-paper {
+      background: #0A0F1D;
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 36px;
+      font-family: var(--font-sans);
+      color: #E2E8F0;
+      line-height: 1.7;
+    }
+
+    .report-paper h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .report-paper h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--neon-emerald);
+      margin: 20px 0 8px 0;
+    }
+
+    .report-paper blockquote {
+      border-left: 3px solid var(--neon-cyan);
+      padding-left: 14px;
+      margin: 14px 0;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    .report-paper table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 12px;
+    }
+
+    .report-paper th, .report-paper td {
+      padding: 10px 14px;
+      border: 1px solid var(--border-subtle);
+      text-align: left;
+    }
+
+    .report-paper th {
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    /* Modal System */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(5, 7, 14, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-bright);
+      border-radius: 16px;
+      max-width: 680px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 28px;
+      position: relative;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+      animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 14px;
+    }
+
+    .modal-close-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    .modal-close-btn:hover {
+      color: #fff;
+    }
+
+    /* Detail Modal Specifics */
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .detail-box {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+      font-size: 12px;
+    }
+
+    .detail-box .lbl {
+      color: var(--text-dim);
+      font-size: 11px;
+    }
+
+    .detail-box .val {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--neon-cyan);
+      margin-top: 2px;
+    }
+
+    /* VIP Pricing Cards inside Modal */
+    .pricing-tier-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .tier-box {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+    }
+
+    .tier-box.featured {
+      border-color: var(--neon-amber);
+      background: rgba(245, 158, 11, 0.05);
+    }
+
+    .tier-box .price {
+      font-size: 24px;
+      font-weight: 900;
+      font-family: var(--font-mono);
+      color: #fff;
+    }
+
+    .tier-box ul {
+      list-style: none;
+      font-size: 12px;
+      color: var(--text-secondary);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tier-box ul li {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tier-box ul li i {
+      color: var(--neon-emerald);
+      width: 14px;
+      height: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="grid-lines"></div>
+
+  <!-- TOP HEADER -->
+  <header class="app-header">
+    <div class="brand-group">
+      <div class="radar-icon-box">
+        <i data-lucide="radar" style="width: 24px; height: 24px;"></i>
+        <div class="pulse-ping"></div>
+      </div>
+      <div class="brand-text">
+        <h1>
+          THE LEAP RADAR
+          <span class="tag-vip">CHAMATH ASYMMETRY V2.6</span>
+        </h1>
+        <p>패러다임 전환 비대칭 베팅 스크리너 · 3축 선행 데이터 분석</p>
+      </div>
+    </div>
+
+    <!-- Center Live Stats -->
+    <div class="header-center-stats">
+      <div class="stat-pill">
+        <i data-lucide="crosshair" style="width: 14px; color: var(--neon-emerald);"></i>
+        <span class="label">선별 파괴자:</span>
+        <span class="val" id="topStatsCount">8개사</span>
+      </div>
+      <div class="stat-pill">
+        <i data-lucide="trending-up" style="width: 14px; color: var(--neon-cyan);"></i>
+        <span class="label">평균 선행 폭증:</span>
+        <span class="val">+348%</span>
+      </div>
+      <div class="stat-pill">
+        <i data-lucide="scale" style="width: 14px; color: var(--neon-amber);"></i>
+        <span class="label">비대칭 손익비:</span>
+        <span class="val">92 : 1</span>
+      </div>
+    </div>
+
+    <!-- Right Actions -->
+    <div class="header-actions">
+      <button class="btn btn-outline" id="btnExportJson">
+        <i data-lucide="file-json" style="width: 14px;"></i>
+        <span>JSON 내보내기</span>
+      </button>
+      <button class="btn btn-amber" id="btnOpenVipModal">
+        <i data-lucide="crown" style="width: 14px;"></i>
+        <span>VIP 라이선스 구독</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN VIEW -->
+  <main class="main-layout">
+
+    <!-- Hero Asymmetry Callout -->
+    <div class="hero-banner">
+      <div class="quote-content">
+        <div class="quote-tag">
+          <i data-lucide="shield-alert" style="width: 13px;"></i>
+          The Chamath Contrarian Thesis (차마스의 비대칭 원칙)
+        </div>
+        <h2>"대중은 유행의 상투를 잡지만, 자본은 5,000명의 비웃음 속에서 도약(The Leap)을 시작한다."</h2>
+        <p>2015년 테슬라가 파산 직전이라 손가락질받을 때, 배터리 특허 출원과 오토파일럿 깃허브 커밋은 이미 기하급수적으로 폭증하고 있었습니다. 선행 데이터(특허·AI커밋·학술인용) 3축의 교차점을 선점하여 시장 평균을 압도하는 0.1% 비대칭 알파를 확보하십시오.</p>
+      </div>
+      <div class="hero-quick-action">
+        <button class="btn btn-emerald" id="btnQuickScan">
+          <i data-lucide="scan" style="width: 14px;"></i>
+          <span>실시간 0.1% 재스캔</span>
+        </button>
+        <div class="price-tag">Private Intelligence License</div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+      <button class="nav-tab-btn active" data-tab="scanner">
+        <i data-lucide="radar" style="width: 15px;"></i>
+        <span>레이더 스크리너</span>
+        <span class="tab-badge-num" id="tabBadgeCount">8</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="simulator">
+        <i data-lucide="calculator" style="width: 15px;"></i>
+        <span>비대칭 알파 시뮬레이터</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="timemachine">
+        <i data-lucide="history" style="width: 15px;"></i>
+        <span>패러다임 백테스트 타임머신</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="dossier">
+        <i data-lucide="file-text" style="width: 15px;"></i>
+        <span>주간 언더독 파괴자 리포트</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: RADAR SCANNER CONTENT -->
+    <div id="tab-scanner" class="tab-content">
+      <div class="scanner-layout">
+
+        <!-- Left Controls -->
+        <aside class="sidebar-panel">
+          <!-- Canvas Sweep Radar -->
+          <div class="radar-canvas-card">
+            <canvas id="radarSweepCanvas" width="280" height="280"></canvas>
+            <div class="radar-status">
+              <span>● LIVE SWEEP ACTIVE</span>
+              <span id="liveTargetDetected">8 Targets Acquired</span>
+            </div>
+          </div>
+
+          <!-- Filter Section -->
+          <div>
+            <div class="panel-section-title">
+              <i data-lucide="sliders" style="width: 14px;"></i>
+              3축 선행 신호 필터 임계값
+            </div>
+            
+            <div class="filter-group">
+              <!-- Slider 1: 특허 출원 증가율 -->
+              <div class="slider-box">
+                <div class="slider-header">
+                  <span>특허 출원 급증률 (YoY)</span>
+                  <span class="val-display" id="valPatent">200% 이상</span>
+                </div>
+                <input type="range" id="rangePatent" min="150" max="450" step="10" value="200">
+              </div>
+
+              <!-- Slider 2: GitHub AI 커밋 가속도 -->
+              <div class="slider-box">
+                <div class="slider-header">
+                  <span>AI GitHub 커밋 가속도</span>
+                  <span class="val-display" id="valGithub">100% 이상</span>
+                </div>
+                <input type="range" id="rangeGithub" min="80" max="600" step="20" value="100">
+              </div>
+
+              <!-- Slider 3: 논문 인용 배수 -->
+              <div class="slider-box">
+                <div class="slider-header">
+                  <span>학술 논문 피인용 배수</span>
+                  <span class="val-display" id="valCitation">5.0배 이상</span>
+                </div>
+                <input type="range" id="rangeCitation" min="3.0" max="18.0" step="0.5" value="5.0">
+              </div>
+
+              <!-- Slider 4: 대중 비웃음 역발상 지수 -->
+              <div class="slider-box">
+                <div class="slider-header">
+                  <span>대중 회의론/비웃음 지수</span>
+                  <span class="val-display" id="valRidicule">70점 이상</span>
+                </div>
+                <input type="range" id="rangeRidicule" min="50" max="95" step="5" value="70">
+              </div>
+            </div>
+          </div>
+
+          <!-- Sector Filter -->
+          <div>
+            <div class="panel-section-title">
+              <i data-lucide="layers" style="width: 14px;"></i>
+              프론티어 딥테크 산업군
+            </div>
+            <div class="sector-chips-grid" id="sectorChips">
+              <button class="chip-btn active" data-sector="ALL">전체 (All)</button>
+              <button class="chip-btn" data-sector="뉴로모픽">뉴로모픽 반도체</button>
+              <button class="chip-btn" data-sector="공간지능">공간지능 월드모델</button>
+              <button class="chip-btn" data-sector="양자">상온 양자</button>
+              <button class="chip-btn" data-sector="역노화">역노화 바이오</button>
+              <button class="chip-btn" data-sector="휴머노이드">휴머노이드 로봇</button>
+              <button class="chip-btn" data-sector="핵융합">소형 핵융합</button>
+            </div>
+          </div>
+
+          <button class="btn btn-outline" id="btnOpenAddCompanyModal" style="width: 100%; justify-content: center;">
+            <i data-lucide="plus-circle" style="width: 14px;"></i>
+            <span>신규 파괴자 기업 직접 등록</span>
+          </button>
+        </aside>
+
+        <!-- Right Main View -->
+        <section class="scanner-main">
+          
+          <!-- Toolbar -->
+          <div class="scanner-toolbar">
+            <div class="toolbar-left">
+              <span class="toolbar-count">
+                포착된 0.1% 언더독: <strong id="filteredCount">8개사</strong>
+              </span>
+            </div>
+            <div class="view-toggle-btns">
+              <button class="view-btn active" id="btnViewGrid">
+                <i data-lucide="layout-grid" style="width: 13px;"></i>
+                <span>카드 그리드</span>
+              </button>
+              <button class="view-btn" id="btnViewMatrix">
+                <i data-lucide="scatter-chart" style="width: 13px;"></i>
+                <span>2D 버블 매트릭스</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Cards Grid Container -->
+          <div class="disruptor-cards-grid" id="disruptorCardsContainer">
+            <!-- Dynamically Rendered -->
+          </div>
+
+          <!-- Bubble Matrix View (Hidden by default) -->
+          <div class="matrix-canvas-container" id="matrixContainer" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <div style="font-size: 13px; font-weight: 700; color: var(--neon-cyan);">
+                ⚡ 3축 교차 포지셔닝 매트릭스 (X: 개발자 중력 | Y: 학술 인용 폭증 | 버블 크기: 특허 포트폴리오)
+              </div>
+              <div style="font-size: 11px; font-family: var(--font-mono); color: var(--text-dim);">
+                우상단 영역 = Apex Leap (최상위 기하급수 도약 구역)
+              </div>
+            </div>
+            <canvas id="bubbleMatrixCanvas" width="900" height="520"></canvas>
+          </div>
+
+        </section>
+
+      </div>
+    </div>
+
+    <!-- TAB 2: ASYMMETRIC SIMULATOR CONTENT -->
+    <div id="tab-simulator" class="tab-content" style="display: none;">
+      <div class="simulator-layout">
+        
+        <!-- Controls -->
+        <div class="sim-card">
+          <div class="panel-section-title">
+            <i data-lucide="scale" style="width: 15px; color: var(--neon-emerald);"></i>
+            차마스식 비대칭 자본 배분 파라미터
+          </div>
+
+          <div class="sim-input-group">
+            <label>
+              <span>총 가용 투자 자본 (KRW)</span>
+              <span class="highlight" id="lblSimCapital">₩50,000,000</span>
+            </label>
+            <input type="number" id="simCapital" class="sim-input" value="50000000" step="5000000">
+          </div>
+
+          <div class="sim-input-group">
+            <label>
+              <span>실패(원금 전액 손실) 예상 확률</span>
+              <span class="highlight" id="lblSimFailure">85% (승률 15%)</span>
+            </label>
+            <input type="range" id="simFailureRate" min="70" max="95" step="1" value="85">
+          </div>
+
+          <div class="sim-input-group">
+            <label>
+              <span>성공 시 기대 배수 (Multiple)</span>
+              <span class="highlight" id="lblSimMultiple">75배</span>
+            </label>
+            <input type="range" id="simMultiple" min="20" max="150" step="5" value="75">
+          </div>
+
+          <div class="sim-input-group">
+            <label>
+              <span>포트폴리오 분산 슬롯 개수</span>
+              <span class="highlight" id="lblSimSlots">10개 슬롯</span>
+            </label>
+            <input type="range" id="simSlots" min="5" max="20" step="1" value="10">
+          </div>
+
+          <div style="background: rgba(0,0,0,0.3); padding: 14px; border-radius: 8px; font-size: 11px; color: var(--text-secondary); line-height: 1.6; border: 1px solid var(--border-subtle);">
+            💡 <strong>켈리 공식(Kelly Criterion)의 법칙</strong>: 85%의 확률로 실패하더라도 성공 시 75배의 대박이 보장된다면, 수학적 기댓값(EV)은 압도적으로 플러스입니다. 단, 감정적 오버베팅을 방지하기 위해 <strong>Half-Kelly (하프 켈리)</strong> 원칙으로 포지션 크기를 엄격히 제어합니다.
+          </div>
+        </div>
+
+        <!-- Simulation Outputs -->
+        <div class="sim-card">
+          <div class="panel-section-title">
+            <i data-lucide="cpu" style="width: 15px; color: var(--neon-cyan);"></i>
+            수학적 기댓값(EV) 및 몬테카를로 1,000회 시뮬레이션
+          </div>
+
+          <div class="results-grid">
+            <div class="res-box glow">
+              <span class="title">1회 베팅당 수학적 기댓값 (EV)</span>
+              <span class="big-val" id="resEVPercent">+1,010%</span>
+              <span class="sub-val" id="resEVMoney">+₩50,500,000 예상 순이익</span>
+            </div>
+
+            <div class="res-box">
+              <span class="title">권장 하프 켈리(Half-Kelly) 포지션</span>
+              <span class="big-val" id="resKellyPct" style="color: var(--neon-cyan);">7.4%</span>
+              <span class="sub-val" id="resKellyMoney">슬롯당 ₩3,700,000 배분</span>
+            </div>
+
+            <div class="res-box">
+              <span class="title">10개 분산 시 1건 이상 성공 확률</span>
+              <span class="big-val" id="resSuccessAtLeastOne" style="color: var(--neon-amber);">80.3%</span>
+              <span class="sub-val">10슬롯 중 단 1개만 터져도 퀀텀점프</span>
+            </div>
+
+            <div class="res-box">
+              <span class="title">1건 성공 시 총 회수액</span>
+              <span class="big-val" id="resOneHitReturn">₩277,500,000</span>
+              <span class="sub-val">초기 원금 5천만원 대비 5.5배 순증</span>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px;">
+              📊 몬테카를로 1,000회 포트폴리오 자산 분포도 시뮬레이션
+            </div>
+            <canvas id="monteCarloCanvas" width="700" height="300"></canvas>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 3: TIME MACHINE BACKTEST CONTENT -->
+    <div id="tab-timemachine" class="tab-content" style="display: none;">
+      <div class="timeline-container">
+        
+        <div style="background: rgba(15, 23, 42, 0.6); padding: 18px 24px; border-radius: 12px; border: 1px solid var(--border-subtle); margin-bottom: 8px;">
+          <h3 style="font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 4px;">
+            ⏳ 역사상 가장 극적인 4대 비대칭 도약(The Leap) 검증 기록
+          </h3>
+          <p style="font-size: 12px; color: var(--text-secondary);">
+            위대한 기회는 언제나 "대중의 압도적 조롱"과 "선행 데이터의 폭증"이 교차하는 지점에서 탄생했습니다. The Leap Radar가 10년 전 가동되었다면 포착했을 실제 신호들입니다.
+          </p>
+        </div>
+
+        <!-- Case 1: Tesla 2015 -->
+        <div class="case-card">
+          <div class="case-era">
+            <span class="year-tag">2015</span>
+            <span class="company-name">테슬라 (Tesla)</span>
+            <span class="badge-category">전기차 & 자율주행</span>
+          </div>
+          <div class="case-story">
+            <h4>"생산 지옥과 파산설로 월가의 85%가 공매도 베팅"</h4>
+            <p>차마스 팔리하피티야는 5,000명의 투자자 모임에서 비웃음을 사면서도 전환사채와 주식에 대규모 베팅했습니다. 당시 대중은 매달 발생하는 적자에 공포를 느꼈지만, 데이터는 기가팩토리 배터리 특허와 오토파일럿 신경망 깃허브 커밋이 전년 대비 420% 폭증하고 있음을 증명했습니다.</p>
+            <div class="case-signal-box">
+              🛰️ 레이더 신호: 특허 +420% | 깃허브 커밋 +380% | 회의론 지수: 94점 ➔ 결과: 8년 후 +4,500% (45배)
+            </div>
+          </div>
+          <div class="case-stats">
+            <span class="alpha-multiplier">45.0x</span>
+            <span class="alpha-label">비대칭 알파 실현 배수</span>
+          </div>
+        </div>
+
+        <!-- Case 2: Nvidia 2012 -->
+        <div class="case-card">
+          <div class="case-era">
+            <span class="year-tag">2012</span>
+            <span class="company-name">엔비디아 (NVIDIA)</span>
+            <span class="badge-category">가속 컴퓨팅 & CUDA</span>
+          </div>
+          <div class="case-story">
+            <h4>"게임용 그래픽카드 제조사가 왜 무모한 수조 원의 CUDA 연구를 하는가?"</h4>
+            <p>AlexNet 논문이 발표되며 딥러닝 혁명이 태동하던 순간. 월가는 엔비디아의 CUDA 투자를 비용 낭비로 치부했으나, 전 세계 컴퓨터 비전 학술 논문의 CUDA 피인용 속도는 2년 만에 24배로 치솟았고 깃허브의 머신러닝 라이브러리 커밋의 90%가 CUDA를 타깃으로 삼았습니다.</p>
+            <div class="case-signal-box">
+              🛰️ 레이더 신호: 논문 인용 24.2배 | 깃허브 커밋 +650% | 회의론 지수: 88점 ➔ 결과: 12년 후 +25,000% (250배)
+            </div>
+          </div>
+          <div class="case-stats">
+            <span class="alpha-multiplier">250.0x</span>
+            <span class="alpha-label">비대칭 알파 실현 배수</span>
+          </div>
+        </div>
+
+        <!-- Case 3: Ethereum 2017 -->
+        <div class="case-card">
+          <div class="case-era">
+            <span class="year-tag">2017</span>
+            <span class="company-name">이더리움 (Ethereum)</span>
+            <span class="badge-category">스마트 컨트랙트 인프라</span>
+          </div>
+          <div class="case-story">
+            <h4>"허상에 불과한 가상 컴퓨터 토큰에 왜 열광하는가?"</h4>
+            <p>가격 급등락의 소음 속에서 전 세계 천재 개발자들의 오픈소스 레포지토리 커밋 수가 비트코인의 7배를 추월했습니다. ERC-20 표준 제안 논문 인용과 Solidity 개발자 중력(Gravity)이 임계 질량을 돌파한 순간이었습니다.</p>
+            <div class="case-signal-box">
+              🛰️ 레이더 신호: 개발자 커밋 +820% | 스마트컨트랙트 배포 18배 ➔ 결과: 5년 후 +8,000% (80배)
+            </div>
+          </div>
+          <div class="case-stats">
+            <span class="alpha-multiplier">80.0x</span>
+            <span class="alpha-label">비대칭 알파 실현 배수</span>
+          </div>
+        </div>
+
+        <!-- Case 4: OpenAI 2020 -->
+        <div class="case-card">
+          <div class="case-era">
+            <span class="year-tag">2020</span>
+            <span class="company-name">오픈AI (OpenAI)</span>
+            <span class="badge-category">파운데이션 LLM</span>
+          </div>
+          <div class="case-story">
+            <h4>"수천억 원을 태워 다음 단어를 맞추는 통계 모델일 뿐이다"</h4>
+            <p>GPT-3 논문 발표 당시 비즈니스 모델 부재를 조롱받았지만, 언어 모델 스케일링 법칙(Scaling Law) 논문 인용 폭증과 수천 명의 개발자가 비공개 API를 역공학하는 커밋 활동은 이미 차세대 산업 혁명의 지진파를 예고했습니다.</p>
+            <div class="case-signal-box">
+              🛰️ 레이더 신호: ArXiv 인용 31배 | API 수요 폭증 ➔ 결과: 4년 만에 기업가치 60배 도약
+            </div>
+          </div>
+          <div class="case-stats">
+            <span class="alpha-multiplier">60.0x</span>
+            <span class="alpha-label">기업가치 퀀텀점프 배수</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 4: DOSSIER & REPORT CONTENT -->
+    <div id="tab-dossier" class="tab-content" style="display: none;">
+      <div class="dossier-layout">
+        
+        <!-- Report Paper View -->
+        <article class="report-paper" id="reportPaperContent">
+          <h2>
+            <span>🛰️ THE LEAP RADAR WEEKLY BRIEF</span>
+            <span style="font-size: 12px; font-family: var(--font-mono); color: var(--neon-cyan); font-weight: 500;">
+              ISSUE #2026-W37
+            </span>
+          </h2>
+
+          <div style="display: flex; gap: 16px; font-size: 11px; font-family: var(--font-mono); color: var(--text-dim); margin-bottom: 24px;">
+            <span>DATE: 2026.09.11</span>
+            <span>CLASSIFICATION: HIGH-CONVICTION ASYMMETRY</span>
+            <span>SUBSCRIBER TIER: VIP PRIVATE INTELLIGENCE</span>
+          </div>
+
+          <h3>1. 이번 주 최상위 패러다임 도약 기업 (Apex Leap Pick)</h3>
+          <blockquote>
+            "대중은 LLM의 텍스트 생성 기능에 머물러 있지만, 지능의 다음 지평은 물리 세계의 역학을 직접 시뮬레이션하는 공간지능(Spatial AI)입니다."
+          </blockquote>
+          
+          <p>
+            <strong>SpatialMind Dynamics (스페이셜마인드 다이내믹스)</strong>는 텍스트를 생성하는 기존 생성형 AI의 한계를 돌파하여, 중력·마찰력·유체 역학을 100% 내재화한 파운데이션 월드모델(World Model)을 구축하고 있습니다.
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>핵심 선행 지표</th>
+                <th>측정 수치</th>
+                <th>산업군 평균</th>
+                <th>비대칭 모멘텀</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>글로벌 특허 출원 가속도</td>
+                <td><strong>+410.0% YoY</strong></td>
+                <td>+35.2%</td>
+                <td style="color: var(--neon-emerald);">상위 0.05%</td>
+              </tr>
+              <tr>
+                <td>탑티어 AI GitHub 커밋 속도</td>
+                <td><strong>+620.0%</strong></td>
+                <td>+48.0%</td>
+                <td style="color: var(--neon-emerald);">상위 0.02%</td>
+              </tr>
+              <tr>
+                <td>SOTA 논문 인용 폭증 배수</td>
+                <td><strong>18.2배</strong></td>
+                <td>1.8배</td>
+                <td style="color: var(--neon-emerald);">초임계 질량 돌파</td>
+              </tr>
+              <tr>
+                <td>대중 및 레거시 업계 회의론</td>
+                <td><strong>82 / 100</strong></td>
+                <td>40.0</td>
+                <td style="color: var(--neon-rose);">극단적 역발상 구간</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>2. 0.1% 언더독 파괴자 레이더 전수 순위</h3>
+          <div id="dossierTableList">
+            <!-- Dynamically populated -->
+          </div>
+
+          <h3 style="margin-top: 30px;">3. 투자 집행 가이드라인 (The Leap Execution Rules)</h3>
+          <p>
+            1. <strong>단일 기업에 몰빵하지 않는다</strong>: 아무리 기댓값이 높아도 딥테크는 80% 이상의 전액 손실 위험을 수반합니다. 반드시 10개 이상의 파괴자 슬롯으로 분산 배분하십시오.<br>
+            2. <strong>반드시 '비웃음'이 존재하는지 확인한다</strong>: 모든 사람이 동의하는 테제에는 이미 비대칭 알파가 존재하지 않습니다. 기존 전문가들이 "그건 경제성이 없다"고 비판하는 지점이 가장 강력한 해자입니다.<br>
+            3. <strong>데이터 신선도를 매주 추적한다</strong>: 깃허브 커밋이 2분기 연속 둔화되거나 특허 패밀리가 거절 결정되면 가차 없이 슬롯을 교체합니다.
+          </p>
+        </article>
+
+        <!-- Right Action Sidebar for Report -->
+        <aside class="sidebar-panel">
+          <div class="panel-section-title">
+            <i data-lucide="download-cloud" style="width: 14px;"></i>
+            보고서 및 원시 데이터 내보내기
+          </div>
+
+          <button class="btn btn-emerald" id="btnDownloadMdReport" style="width: 100%; justify-content: center;">
+            <i data-lucide="file-text" style="width: 14px;"></i>
+            <span>마크다운 보고서 다운로드 (.md)</span>
+          </button>
+
+          <button class="btn btn-outline" id="btnPrintReport" style="width: 100%; justify-content: center;">
+            <i data-lucide="printer" style="width: 14px;"></i>
+            <span>인쇄 / PDF 저장</span>
+          </button>
+
+          <button class="btn btn-outline" id="btnExportJsonSide" style="width: 100%; justify-content: center;">
+            <i data-lucide="database" style="width: 14px;"></i>
+            <span>JSON 원시 데이터셋 백업</span>
+          </button>
+
+          <div style="margin-top: 14px; border-top: 1px solid var(--border-subtle); padding-top: 16px;">
+            <div class="panel-section-title">
+              <i data-lucide="mail" style="width: 14px;"></i>
+              주간 리서치 자동 구독
+            </div>
+            <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 10px;">
+              매주 월요일 08:00 AM, 알고리즘이 발굴한 0.1% 언더독 심층 도시에가 등록된 이메일로 전송됩니다.
+            </p>
+            <input type="email" placeholder="investor@fund.com" class="sim-input" style="font-size: 12px; margin-bottom: 8px;">
+            <button class="btn btn-amber" style="width: 100%; justify-content: center;" onclick="alert('VIP 프라이빗 리서치 알림 등록이 완료되었습니다.')">
+              뉴스레터 알림 신청 (무료 체험)
+            </button>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL 1: COMPANY DETAIL MODAL -->
+  <div class="modal-backdrop" id="modalCompanyDetail">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="card-id-tag" id="modalCompId">LR-01</span>
+          <h2 id="modalCompName" style="font-size: 18px; margin-top: 4px;">NeuroMorphix Labs</h2>
+          <span id="modalCompSector" style="font-size: 12px; color: var(--neon-cyan); font-family: var(--font-mono);"></span>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modalCompanyDetail')">&times;</button>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-box">
+          <div class="lbl">The Leap Score</div>
+          <div class="val" id="modalCompScore" style="color: var(--neon-emerald); font-size: 18px;">94.8점</div>
+        </div>
+        <div class="detail-box">
+          <div class="lbl">성공 시 기대 회수 배수</div>
+          <div class="val" id="modalCompMultiple" style="color: var(--neon-amber); font-size: 18px;">110x Multiple</div>
+        </div>
+        <div class="detail-box">
+          <div class="lbl">특허 출원 급증률 & 패밀리</div>
+          <div class="val" id="modalCompPatent">+410% (62건)</div>
+        </div>
+        <div class="detail-box">
+          <div class="lbl">GitHub 커밋 가속도 & 스타</div>
+          <div class="val" id="modalCompGithub">+620% (28,400★)</div>
+        </div>
+        <div class="detail-box">
+          <div class="lbl">학술 논문 피인용 폭증 배수</div>
+          <div class="val" id="modalCompCitation">18.2배 (H-Index 41)</div>
+        </div>
+        <div class="detail-box">
+          <div class="lbl">대중 및 월가 비웃음 지수</div>
+          <div class="val" id="modalCompRidicule" style="color: var(--neon-rose);">82 / 100 (극단적 역발상)</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <h4 style="font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 6px;">기술 개요 및 시장 파괴 시나리오</h4>
+        <p id="modalCompSummary" style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;"></p>
+      </div>
+
+      <div style="background: rgba(0, 0, 0, 0.3); padding: 14px; border-radius: 8px; border-left: 3px solid var(--neon-emerald); margin-bottom: 20px;">
+        <h4 style="font-size: 12px; font-weight: 700; color: var(--neon-emerald); margin-bottom: 4px;">독점적 기술 해자 (Moat)</h4>
+        <p id="modalCompMoat" style="font-size: 12px; color: var(--text-main);"></p>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button class="btn btn-outline" onclick="closeModal('modalCompanyDetail')">닫기</button>
+        <button class="btn btn-emerald" onclick="simulateWithCompany()">
+          <i data-lucide="calculator" style="width: 14px;"></i>
+          <span>이 기업으로 비대칭 시뮬레이션</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: ADD NEW COMPANY MODAL -->
+  <div class="modal-backdrop" id="modalAddCompany">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 style="font-size: 18px;">🛰️ 신규 파괴자 기업 등록</h2>
+        <button class="modal-close-btn" onclick="closeModal('modalAddCompany')">&times;</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div class="sim-input-group">
+          <label>기업명 (영문 / 한글)</label>
+          <input type="text" id="newCompName" class="sim-input" placeholder="예: ChronoFusion Inc. (크로노퓨전)">
+        </div>
+
+        <div class="sim-input-group">
+          <label>딥테크 세부 분야</label>
+          <input type="text" id="newCompSector" class="sim-input" placeholder="예: 레이저 유도 관성 가둠 핵융합">
+        </div>
+
+        <div class="sim-input-group">
+          <label>파괴적 기술 한 줄 요약</label>
+          <input type="text" id="newCompSummary" class="sim-input" placeholder="예: 페타와트 레이저로 넷 에너지 양수 달성 초소형 펠릿 점화">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="sim-input-group">
+            <label>특허 출원 증가율 (%)</label>
+            <input type="number" id="newCompPatentGrowth" class="sim-input" value="320">
+          </div>
+          <div class="sim-input-group">
+            <label>GitHub 커밋 증가율 (%)</label>
+            <input type="number" id="newCompGithubGrowth" class="sim-input" value="450">
+          </div>
+          <div class="sim-input-group">
+            <label>논문 인용 폭증 배수 (배)</label>
+            <input type="number" id="newCompCitationSurge" class="sim-input" value="12.5" step="0.5">
+          </div>
+          <div class="sim-input-group">
+            <label>대중 비웃음 지수 (0~100)</label>
+            <input type="number" id="newCompRidicule" class="sim-input" value="85">
+          </div>
+        </div>
+
+        <div class="sim-input-group">
+          <label>성공 시 기대 회수 배수 (Multiple)</label>
+          <input type="number" id="newCompMultiple" class="sim-input" value="80">
+        </div>
+
+        <div class="sim-input-group">
+          <label>독점적 기술 해자 설명</label>
+          <textarea id="newCompMoat" class="sim-input" rows="2" placeholder="핵심 원천 특허 등록 번호 및 글로벌 탑티어 연구진 보유 현황"></textarea>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+        <button class="btn btn-outline" onclick="closeModal('modalAddCompany')">취소</button>
+        <button class="btn btn-emerald" id="btnSaveNewCompany">
+          <i data-lucide="check" style="width: 14px;"></i>
+          <span>데이터베이스 추가 & 스코어링</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: VIP COMMERCIALIZATION MODAL -->
+  <div class="modal-backdrop" id="modalVip">
+    <div class="modal-card" style="max-width: 740px;">
+      <div class="modal-header">
+        <div>
+          <h2 style="font-size: 20px; color: var(--neon-amber);">💎 THE LEAP RADAR 인텔리전스 라이선스</h2>
+          <p style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">
+            시장 평균을 압도하는 비대칭 알파를 위한 프라이빗 데이터 파이프라인
+          </p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modalVip')">&times;</button>
+      </div>
+
+      <div class="pricing-tier-grid">
+        <!-- Tier 1: Private Newsletter -->
+        <div class="tier-box">
+          <div>
+            <span style="font-size: 11px; font-family: var(--font-mono); color: var(--neon-cyan); font-weight: 700;">FOR ANGEL INVESTORS</span>
+            <h3 style="font-size: 18px; margin-top: 4px;">프라이빗 인텔리전스</h3>
+          </div>
+          <div class="price">
+            $1,200 <span style="font-size: 13px; color: var(--text-dim); font-weight: 400;">/ 년 (연간 청구)</span>
+          </div>
+          <ul>
+            <li><i data-lucide="check"></i> 매주 월요일 '언더독 파괴자' 심층 분석 PDF 발행</li>
+            <li><i data-lucide="check"></i> 0.1% 선별 기업 3축 원시 데이터 전수 열람</li>
+            <li><i data-lucide="check"></i> 분기별 비대칭 베팅 포트폴리오 리밸런싱 가이드</li>
+            <li><i data-lucide="check"></i> 회원 전용 프라이빗 텔레그램 실시간 신호 채널</li>
+          </ul>
+          <button class="btn btn-outline" style="width: 100%; justify-content: center; margin-top: auto;" onclick="alert('뉴스레터 구독 결제 페이지로 이동합니다.')">
+            구독 시작하기
+          </button>
+        </div>
+
+        <!-- Tier 2: Institutional API -->
+        <div class="tier-box featured">
+          <div style="position: absolute; top: -10px; right: 20px; background: var(--neon-amber); color: #000; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 999px;">
+            MOST VALUABLE
+          </div>
+          <div>
+            <span style="font-size: 11px; font-family: var(--font-mono); color: var(--neon-amber); font-weight: 700;">FOR VC & FUNDS</span>
+            <h3 style="font-size: 18px; margin-top: 4px;">기관용 딥테크 딜소싱 API</h3>
+          </div>
+          <div class="price">
+            $3,000 <span style="font-size: 13px; color: var(--text-dim); font-weight: 400;">/ 월 (API 풀 액세스)</span>
+          </div>
+          <ul>
+            <li><i data-lucide="check"></i> 글로벌 특허청(USPTO/EPO/KIPO) 실시간 웹훅 연동</li>
+            <li><i data-lucide="check"></i> GitHub AI 레포지토리 커밋 24시간 감시 엔진</li>
+            <li><i data-lucide="check"></i> ArXiv 인용 폭증 SOTA 논문 자동 파싱 API</li>
+            <li><i data-lucide="check"></i> 맞춤형 딜 소싱 필터링 및 전담 애널리스트 핫라인</li>
+            <li><i data-lucide="check"></i> 무제한 엔터프라이즈 팀 시트 지원</li>
+          </ul>
+          <button class="btn btn-amber" style="width: 100%; justify-content: center; margin-top: auto;" onclick="alert('기관용 라이선스 영업팀 상담 신청이 접수되었습니다.')">
+            기관용 데모 및 라이선스 문의
+          </button>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 20px; font-size: 11px; color: var(--text-dim);">
+        안전한 256비트 암호화 결제 · 결제 후 7일 이내 100% 무조건 환불 보장
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // 1. Initial State & Dataset
+    let disruptors = [
+      {
+        id: "LR-01",
+        name: "NeuroMorphix Labs (뉴로모픽스 랩스)",
+        sector: "차세대 뉴로모픽 AI 가속기",
+        category: "뉴로모픽",
+        summary: "폰 노이만 병목을 파괴하는 100% 아날로그 이벤트 구동형 시냅스 칩 설계",
+        patent_growth: 340.5,
+        patent_count: 48,
+        github_velocity: 480.2,
+        github_stars: 14200,
+        citation_surge: 12.4,
+        h_index_lead: 34,
+        consensus_ridicule: 88,
+        upside_multiple: 75.0,
+        moat: "시냅스 스파이킹 특허 48건 독점 보유 및 초저전력(1/100W) 엣지 구동 입증"
+      },
+      {
+        id: "LR-02",
+        name: "SpatialMind Dynamics (스페이셜마인드)",
+        sector: "공간지능 및 물리 AI 월드모델",
+        category: "공간지능",
+        summary: "텍스트 생성을 넘어 물리 법칙(중력·마찰·충돌)을 내재화한 시뮬레이션 엔진",
+        patent_growth: 410.0,
+        patent_count: 62,
+        github_velocity: 620.0,
+        github_stars: 28400,
+        citation_surge: 18.2,
+        h_index_lead: 41,
+        consensus_ridicule: 82,
+        upside_multiple: 110.0,
+        moat: "로봇 자율주행 및 파운데이션 월드모델(World Model) 핵심 오픈소스 지배력"
+      },
+      {
+        id: "LR-03",
+        name: "QuantIgnite Systems (퀀트이그나이트)",
+        sector: "상온 양자 어닐링 & 분자 시뮬레이션",
+        category: "양자",
+        summary: "희토류 배제 초전도 큐비트 안정화 알고리즘 기반 신약 후보 물질 발굴기",
+        patent_growth: 280.0,
+        patent_count: 39,
+        github_velocity: 210.0,
+        github_stars: 7800,
+        citation_surge: 9.8,
+        h_index_lead: 38,
+        consensus_ridicule: 94,
+        upside_multiple: 125.0,
+        moat: "네이처 피직스 커버 논문 게재 및 양자 결맞음 시간 100배 연장 특허"
+      },
+      {
+        id: "LR-04",
+        name: "SynthoRejuven Biotech (신소리주번)",
+        sector: "후성유전체 리프로그래밍 역노화",
+        category: "역노화",
+        summary: "야마나카 인자 표적 전달 지질나노입자(LNP)로 혈관 조직 생체 나이 30% 역전",
+        patent_growth: 315.0,
+        patent_count: 33,
+        github_velocity: 130.0,
+        github_stars: 3200,
+        citation_surge: 14.7,
+        h_index_lead: 45,
+        consensus_ridicule: 91,
+        upside_multiple: 90.0,
+        moat: "비가역적 세포 역전 원천 PCT 특허 등록 및 영장류 전임상 유효성 확보"
+      },
+      {
+        id: "LR-05",
+        name: "HyperActuator Robotics (하이퍼액추에이터)",
+        sector: "휴머노이드 정밀 유압/준직접구동 액추에이터",
+        category: "휴머노이드",
+        summary: "모터 코일 중량 40% 절감, 토크 밀도 2.5배 달성 인간형 관절 모듈",
+        patent_growth: 260.0,
+        patent_count: 41,
+        github_velocity: 380.0,
+        github_stars: 9800,
+        citation_surge: 7.3,
+        h_index_lead: 29,
+        consensus_ridicule: 75,
+        upside_multiple: 50.0,
+        moat: "글로벌 상위 3대 휴머노이드 제조사 독점 샘플 공급 협약 체결"
+      },
+      {
+        id: "LR-06",
+        name: "HeliosStellar Fusion (헬리오스텔라)",
+        sector: "소형 고온초전도 마그넷 핵융합로",
+        category: "핵융합",
+        summary: "토카막 대비 크기 1/20 축소, 순에너지 생산(Q>2.0) 도달 고밀도 플라즈마 제어",
+        patent_growth: 450.0,
+        patent_count: 55,
+        github_velocity: 190.0,
+        github_stars: 6100,
+        citation_surge: 16.5,
+        h_index_lead: 52,
+        consensus_ridicule: 96,
+        upside_multiple: 200.0,
+        moat: "30테슬라 고온초전도 자석 권선 기술 특허 및 MIT/프린스턴 연계 연구진"
+      },
+      {
+        id: "LR-07",
+        name: "VortexBio Agritech (보텍스바이오)",
+        sector: "공기 중 질소 고정 미생물 유전자 편집",
+        category: "역노화",
+        summary: "화학 질소 비료 없이 곡물 수확량 35% 증대시키는 내생균 스프레이 제형",
+        patent_growth: 230.0,
+        patent_count: 27,
+        github_velocity: 95.0,
+        github_stars: 1800,
+        citation_surge: 8.1,
+        h_index_lead: 31,
+        consensus_ridicule: 79,
+        upside_multiple: 45.0,
+        moat: "글로벌 곡물 메이저 2곳과 다년 독점 라이선싱 계약 체결"
+      },
+      {
+        id: "LR-08",
+        name: "AetherCarbon Materials (에테르카본)",
+        sector: "초고강도 매크로 탄소나노튜브 방적 섬유",
+        category: "뉴로모픽",
+        summary: "우주 엘리베이터 및 항공기 경량화용 연속 섬유 고속 대량 합성 촉매",
+        patent_growth: 380.0,
+        patent_count: 49,
+        github_velocity: 140.0,
+        github_stars: 2400,
+        citation_surge: 11.2,
+        h_index_lead: 37,
+        consensus_ridicule: 85,
+        upside_multiple: 65.0,
+        moat: "미국 방위고등연구계획국(DARPA) Phase 2 수주 및 인장강도 세계 신기록"
+      }
+    ];
+
+    let currentSectorFilter = "ALL";
+    let selectedCompanyForSim = null;
+
+    // 2. The Leap Score Calculator
+    function scoreDisruptor(d) {
+      const p_norm = Math.min(d.patent_growth / 400.0, 1.0) * 18.0 + Math.min(d.patent_count / 60.0, 1.0) * 12.0;
+      const gh_norm = Math.min(d.github_velocity / 500.0, 1.0) * 15.0 + Math.min(d.github_stars / 25000.0, 1.0) * 10.0;
+      const cit_norm = Math.min(d.citation_surge / 15.0, 1.0) * 16.0 + Math.min(d.h_index_lead / 50.0, 1.0) * 9.0;
+      const rid_norm = (d.consensus_ridicule / 100.0) * 20.0;
+      
+      const total = Math.round((p_norm + gh_norm + cit_norm + rid_norm) * 10) / 10;
+      return total;
+    }
+
+    // 3. Render Cards
+    function renderDisruptors() {
+      const pMin = parseFloat(document.getElementById('rangePatent').value);
+      const ghMin = parseFloat(document.getElementById('rangeGithub').value);
+      const citMin = parseFloat(document.getElementById('rangeCitation').value);
+      const ridMin = parseFloat(document.getElementById('rangeRidicule').value);
+
+      const filtered = disruptors.filter(d => {
+        const matchSector = (currentSectorFilter === "ALL" || d.category === currentSectorFilter || d.sector.includes(currentSectorFilter));
+        const matchP = d.patent_growth >= pMin;
+        const matchGH = d.github_velocity >= ghMin;
+        const matchCit = d.citation_surge >= citMin;
+        const matchRid = d.consensus_ridicule >= ridMin;
+        return matchSector && matchP && matchGH && matchCit && matchRid;
+      });
+
+      // Sort by Leap Score descending
+      filtered.sort((a, b) => scoreDisruptor(b) - scoreDisruptor(a));
+
+      document.getElementById('filteredCount').innerText = `${filtered.length}개사`;
+      document.getElementById('tabBadgeCount').innerText = `${filtered.length}`;
+      document.getElementById('topStatsCount').innerText = `${filtered.length}개사`;
+      document.getElementById('liveTargetDetected').innerText = `${filtered.length} Targets Acquired`;
+
+      const container = document.getElementById('disruptorCardsContainer');
+      container.innerHTML = '';
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 48px; background: var(--bg-card); border-radius: 12px; border: 1px dashed var(--border-bright);">
+            <i data-lucide="radar-off" style="width: 36px; height: 36px; color: var(--text-dim); margin-bottom: 10px;"></i>
+            <h4 style="font-size: 15px; color: var(--text-secondary);">현재 필터 조건에 부합하는 극단적 비대칭 기업이 없습니다.</h4>
+            <p style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">임계값 슬라이더를 조정하여 더 넓은 레이더 범위를 탐색하세요.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      filtered.forEach(d => {
+        const score = scoreDisruptor(d);
+        const card = document.createElement('div');
+        card.className = 'disruptor-card';
+        card.onclick = () => openCompanyDetailModal(d.id);
+
+        card.innerHTML = `
+          <div class="card-top">
+            <div class="card-title-group">
+              <span class="card-id-tag">${d.id}</span>
+              <h3>${d.name}</h3>
+              <span class="sector-tag">${d.sector}</span>
+            </div>
+            <div class="leap-score-badge">
+              <div class="score-circle" style="--score-pct: ${score};">
+                <div class="score-circle-inner">
+                  <span class="num">${score}</span>
+                  <span class="lbl">LEAP</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="card-summary">${d.summary}</p>
+
+          <div class="card-metrics">
+            <div>
+              <div class="metric-row">
+                <span class="name"><i data-lucide="award" style="width: 12px;"></i> 특허 출원 가속도</span>
+                <span class="val">+${d.patent_growth.toFixed(0)}% (${d.patent_count}건)</span>
+              </div>
+              <div class="metric-bar-bg">
+                <div class="metric-bar-fill" style="width: ${Math.min((d.patent_growth / 450) * 100, 100)}%; background: var(--neon-cyan);"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="metric-row">
+                <span class="name"><i data-lucide="git-commit" style="width: 12px;"></i> AI 깃허브 커밋 속도</span>
+                <span class="val">+${d.github_velocity.toFixed(0)}% (${d.github_stars.toLocaleString()}★)</span>
+              </div>
+              <div class="metric-bar-bg">
+                <div class="metric-bar-fill" style="width: ${Math.min((d.github_velocity / 650) * 100, 100)}%; background: var(--neon-emerald);"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="metric-row">
+                <span class="name"><i data-lucide="book-open" style="width: 12px;"></i> 논문 인용 폭증</span>
+                <span class="val">${d.citation_surge.toFixed(1)}배 (H-${d.h_index_lead})</span>
+              </div>
+              <div class="metric-bar-bg">
+                <div class="metric-bar-fill" style="width: ${Math.min((d.citation_surge / 20) * 100, 100)}%; background: var(--neon-violet);"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <span class="ridicule-pill">
+              <i data-lucide="frown" style="width: 10px; display: inline-block; vertical-align: middle;"></i>
+              회의론 ${d.consensus_ridicule}점 (역발상)
+            </span>
+            <span class="multiple-pill">${d.upside_multiple.toFixed(0)}x MULTIPLE</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      renderDossierTable(filtered);
+      lucide.createIcons();
+    }
+
+    function renderDossierTable(list) {
+      const el = document.getElementById('dossierTableList');
+      if (!el) return;
+      let html = `<table>
+        <thead>
+          <tr>
+            <th>순위</th>
+            <th>기업명</th>
+            <th>분야</th>
+            <th>The Leap 점수</th>
+            <th>기대배수</th>
+            <th>선행 신호 요약</th>
+          </tr>
+        </thead>
+        <tbody>`;
+      
+      list.forEach((item, idx) => {
+        const s = scoreDisruptor(item);
+        html += `
+          <tr>
+            <td style="font-family: var(--font-mono); font-weight: 700;">#0${idx + 1}</td>
+            <td><strong>${item.name}</strong></td>
+            <td>${item.sector}</td>
+            <td style="color: var(--neon-emerald); font-family: var(--font-mono); font-weight: 700;">${s}점</td>
+            <td style="color: var(--neon-amber); font-family: var(--font-mono); font-weight: 700;">${item.upside_multiple}x</td>
+            <td style="font-size: 11px; font-family: var(--font-mono);">특허+${item.patent_growth.toFixed(0)}% | GH+${item.github_velocity.toFixed(0)}% | 인용${item.citation_surge.toFixed(1)}x</td>
+          </tr>
+        `;
+      });
+      html += `</tbody></table>`;
+      el.innerHTML = html;
+    }
+
+    // 4. Radar Sweep Animation Canvas
+    const radarCanvas = document.getElementById('radarSweepCanvas');
+    const radarCtx = radarCanvas.getContext('2d');
+    let sweepAngle = 0;
+
+    function drawRadarSweep() {
+      const w = radarCanvas.width;
+      const h = radarCanvas.height;
+      const cx = w / 2;
+      const cy = h / 2;
+      const r = w / 2 - 8;
+
+      radarCtx.clearRect(0, 0, w, h);
+
+      // Concentric circles
+      radarCtx.strokeStyle = 'rgba(0, 255, 157, 0.2)';
+      radarCtx.lineWidth = 1;
+      for (let i = 1; i <= 4; i++) {
+        radarCtx.beginPath();
+        radarCtx.arc(cx, cy, (r / 4) * i, 0, Math.PI * 2);
+        radarCtx.stroke();
+      }
+
+      // Crosshairs
+      radarCtx.beginPath();
+      radarCtx.moveTo(cx, cy - r);
+      radarCtx.lineTo(cx, cy + r);
+      radarCtx.moveTo(cx - r, cy);
+      radarCtx.lineTo(cx + r, cy);
+      radarCtx.stroke();
+
+      // Rotating Sweep Beam
+      radarCtx.save();
+      radarCtx.translate(cx, cy);
+      radarCtx.rotate(sweepAngle);
+
+      const grad = radarCtx.createRadialGradient(0, 0, 0, 0, 0, r);
+      grad.addColorStop(0, 'rgba(0, 255, 157, 0.4)');
+      grad.addColorStop(1, 'rgba(0, 255, 157, 0.0)');
+
+      radarCtx.beginPath();
+      radarCtx.moveTo(0, 0);
+      radarCtx.arc(0, 0, r, -0.2, 0);
+      radarCtx.closePath();
+      radarCtx.fillStyle = grad;
+      radarCtx.fill();
+      radarCtx.restore();
+
+      // Draw Blips for Companies
+      disruptors.forEach((d, idx) => {
+        const score = scoreDisruptor(d);
+        // Map score to distance from center (higher score = closer to core apex)
+        const dist = r * (1.0 - (score / 120));
+        const angle = (idx * 0.78) + 0.3; // fixed angle per item
+
+        const bx = cx + Math.cos(angle) * dist;
+        const by = cy + Math.sin(angle) * dist;
+
+        // Pulse effect
+        radarCtx.fillStyle = '#00FF9D';
+        radarCtx.shadowColor = '#00FF9D';
+        radarCtx.shadowBlur = 10;
+        radarCtx.beginPath();
+        radarCtx.arc(bx, by, 3.5, 0, Math.PI * 2);
+        radarCtx.fill();
+        radarCtx.shadowBlur = 0;
+      });
+
+      sweepAngle += 0.035;
+      requestAnimationFrame(drawRadarSweep);
+    }
+
+    // 5. Bubble Matrix 2D Canvas View
+    const matrixCanvas = document.getElementById('bubbleMatrixCanvas');
+    const matrixCtx = matrixCanvas.getContext('2d');
+
+    function drawBubbleMatrix() {
+      const w = matrixCanvas.width;
+      const h = matrixCanvas.height;
+      const pad = 60;
+
+      matrixCtx.clearRect(0, 0, w, h);
+
+      // Grid Lines & Axes
+      matrixCtx.strokeStyle = '#1E293B';
+      matrixCtx.lineWidth = 1;
+      for (let x = pad; x <= w - pad; x += (w - 2 * pad) / 6) {
+        matrixCtx.beginPath();
+        matrixCtx.moveTo(x, pad);
+        matrixCtx.lineTo(x, h - pad);
+        matrixCtx.stroke();
+      }
+      for (let y = pad; y <= h - pad; y += (h - 2 * pad) / 5) {
+        matrixCtx.beginPath();
+        matrixCtx.moveTo(pad, y);
+        matrixCtx.lineTo(w - pad, y);
+        matrixCtx.stroke();
+      }
+
+      // Labels
+      matrixCtx.fillStyle = '#64748B';
+      matrixCtx.font = '11px JetBrains Mono';
+      matrixCtx.fillText('AI GITHUB COMMIT VELOCITY (%) ➔', w - pad - 200, h - pad + 35);
+      matrixCtx.save();
+      matrixCtx.translate(pad - 35, pad + 180);
+      matrixCtx.rotate(-Math.PI / 2);
+      matrixCtx.fillText('ACADEMIC CITATION SURGE (x) ➔', 0, 0);
+      matrixCtx.restore();
+
+      // Apex Quadrant Highlight (Top Right)
+      matrixCtx.fillStyle = 'rgba(0, 255, 157, 0.04)';
+      matrixCtx.fillRect(w / 2, pad, w / 2 - pad, (h - 2 * pad) / 2);
+      matrixCtx.strokeStyle = 'rgba(0, 255, 157, 0.3)';
+      matrixCtx.strokeRect(w / 2, pad, w / 2 - pad, (h - 2 * pad) / 2);
+
+      matrixCtx.fillStyle = 'rgba(0, 255, 157, 0.7)';
+      matrixCtx.font = '10px JetBrains Mono';
+      matrixCtx.fillText('★ APEX DISRUPTIVE ZONE', w / 2 + 10, pad + 20);
+
+      // Draw Bubbles
+      disruptors.forEach(d => {
+        const score = scoreDisruptor(d);
+        // X: GitHub (0 to 700%)
+        const nx = pad + (d.github_velocity / 700) * (w - 2 * pad);
+        // Y: Citation (0 to 20x)
+        const ny = (h - pad) - (d.citation_surge / 20) * (h - 2 * pad);
+        // Size: Patent count (20 to 70)
+        const bRadius = Math.max(10, (d.patent_count / 70) * 26);
+
+        // Color based on Leap score
+        matrixCtx.beginPath();
+        matrixCtx.arc(nx, ny, bRadius, 0, Math.PI * 2);
+        matrixCtx.fillStyle = score >= 88 ? 'rgba(0, 255, 157, 0.45)' : 'rgba(6, 182, 212, 0.4)';
+        matrixCtx.fill();
+        matrixCtx.strokeStyle = score >= 88 ? '#00FF9D' : '#06B6D4';
+        matrixCtx.lineWidth = 2;
+        matrixCtx.stroke();
+
+        // Label
+        matrixCtx.fillStyle = '#F8FAFC';
+        matrixCtx.font = '10px Pretendard';
+        matrixCtx.fillText(d.name.split(' ')[0], nx - 20, ny + bRadius + 14);
+      });
+    }
+
+    // 6. Asymmetric Simulator Logic
+    function runSimulationCalc() {
+      const capital = parseFloat(document.getElementById('simCapital').value) || 50000000;
+      const failurePct = parseFloat(document.getElementById('simFailureRate').value);
+      const multiple = parseFloat(document.getElementById('simMultiple').value);
+      const slots = parseInt(document.getElementById('simSlots').value);
+
+      document.getElementById('lblSimCapital').innerText = `₩${capital.toLocaleString()}`;
+      document.getElementById('lblSimFailure').innerText = `${failurePct}% (승률 ${(100 - failurePct)}%)`;
+      document.getElementById('lblSimMultiple').innerText = `${multiple}배`;
+      document.getElementById('lblSimSlots').innerText = `${slots}개 슬롯`;
+
+      const pWin = (100 - failurePct) / 100;
+      const pLoss = failurePct / 100;
+      const netWin = multiple - 1;
+
+      // Expected Value
+      const evMultiplier = (pWin * netWin) - (pLoss * 1.0);
+      const evROI = evMultiplier * 100;
+      const evMoney = capital * evMultiplier;
+
+      document.getElementById('resEVPercent').innerText = `${evROI >= 0 ? '+' : ''}${evROI.toFixed(0)}%`;
+      document.getElementById('resEVMoney').innerText = `${evMoney >= 0 ? '+' : ''}₩${Math.round(evMoney).toLocaleString()} 예상 순이익`;
+
+      // Kelly Fraction
+      let kelly = 0;
+      if (netWin > 0) {
+        kelly = Math.max(0, (pWin * netWin - pLoss) / netWin);
+      }
+      const halfKelly = kelly * 0.5;
+      const slotBet = capital * (halfKelly / slots);
+
+      document.getElementById('resKellyPct').innerText = `${(halfKelly * 100).toFixed(1)}%`;
+      document.getElementById('resKellyMoney').innerText = `슬롯당 ₩${Math.round(slotBet).toLocaleString()} 배분`;
+
+      // 1 hit probability across slots: 1 - (pLoss ^ slots)
+      const pAtLeastOne = (1 - Math.pow(pLoss, slots)) * 100;
+      document.getElementById('resSuccessAtLeastOne').innerText = `${pAtLeastOne.toFixed(1)}%`;
+
+      // 1 hit return
+      const betPerSlot = capital / slots;
+      const oneHitTotal = betPerSlot * multiple;
+      document.getElementById('resOneHitReturn').innerText = `₩${Math.round(oneHitTotal).toLocaleString()}`;
+
+      drawMonteCarlo(capital, pWin, multiple, slots);
+    }
+
+    function drawMonteCarlo(capital, pWin, multiple, slots) {
+      const canvas = document.getElementById('monteCarloCanvas');
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Run 1,000 trials
+      const trials = 1000;
+      const results = [];
+      const betPerSlot = capital / slots;
+
+      for (let i = 0; i < trials; i++) {
+        let finalWealth = 0;
+        for (let s = 0; s < slots; s++) {
+          if (Math.random() < pWin) {
+            finalWealth += betPerSlot * multiple;
+          }
+        }
+        results.push(finalWealth);
+      }
+
+      // Group into bins
+      const maxWealth = capital * 6;
+      const bins = 30;
+      const counts = new Array(bins).fill(0);
+
+      results.forEach(val => {
+        const idx = Math.min(bins - 1, Math.floor((val / maxWealth) * bins));
+        counts[idx]++;
+      });
+
+      const maxCount = Math.max(...counts);
+      const binWidth = (w - 60) / bins;
+
+      // Draw Histogram
+      for (let b = 0; b < bins; b++) {
+        const barHeight = (counts[b] / maxCount) * (h - 60);
+        const x = 30 + b * binWidth;
+        const y = h - 30 - barHeight;
+
+        ctx.fillStyle = b === 0 ? 'rgba(244, 63, 94, 0.5)' : 'rgba(0, 255, 157, 0.6)';
+        ctx.fillRect(x, y, binWidth - 2, barHeight);
+      }
+
+      // Base Capital Line
+      const capitalX = 30 + (capital / maxWealth) * (w - 60);
+      ctx.strokeStyle = '#F59E0B';
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(capitalX, 20);
+      ctx.lineTo(capitalX, h - 30);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.fillStyle = '#F59E0B';
+      ctx.font = '10px JetBrains Mono';
+      ctx.fillText('초기 원금 1.0x', capitalX + 6, 30);
+    }
+
+    // 7. Modal Handlers
+    function openCompanyDetailModal(id) {
+      const comp = disruptors.find(x => x.id === id);
+      if (!comp) return;
+
+      selectedCompanyForSim = comp;
+      document.getElementById('modalCompId').innerText = comp.id;
+      document.getElementById('modalCompName').innerText = comp.name;
+      document.getElementById('modalCompSector').innerText = comp.sector;
+      document.getElementById('modalCompScore').innerText = `${scoreDisruptor(comp)}점`;
+      document.getElementById('modalCompMultiple').innerText = `${comp.upside_multiple}x Multiple`;
+      document.getElementById('modalCompPatent').innerText = `+${comp.patent_growth}% (${comp.patent_count}건)`;
+      document.getElementById('modalCompGithub').innerText = `+${comp.github_velocity}% (${comp.github_stars.toLocaleString()}★)`;
+      document.getElementById('modalCompCitation').innerText = `${comp.citation_surge}배 (H-${comp.h_index_lead})`;
+      document.getElementById('modalCompRidicule').innerText = `${comp.consensus_ridicule} / 100 (극단적 역발상)`;
+      document.getElementById('modalCompSummary').innerText = comp.summary;
+      document.getElementById('modalCompMoat').innerText = comp.moat;
+
+      document.getElementById('modalCompanyDetail').classList.add('open');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+
+    function simulateWithCompany() {
+      if (!selectedCompanyForSim) return;
+      closeModal('modalCompanyDetail');
+      
+      // Switch tab to simulator
+      switchTab('simulator');
+      document.getElementById('simMultiple').value = selectedCompanyForSim.upside_multiple;
+      document.getElementById('simFailureRate').value = Math.min(92, Math.max(75, selectedCompanyForSim.consensus_ridicule));
+      runSimulationCalc();
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tabId);
+      });
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.style.display = content.id === `tab-${tabId}` ? 'block' : 'none';
+      });
+
+      if (tabId === 'simulator') {
+        runSimulationCalc();
+      }
+    }
+
+    // 8. Event Listeners
+    document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    });
+
+    // Filter Sliders
+    ['rangePatent', 'rangeGithub', 'rangeCitation', 'rangeRidicule'].forEach(id => {
+      const el = document.getElementById(id);
+      el.addEventListener('input', () => {
+        if (id === 'rangePatent') document.getElementById('valPatent').innerText = `${el.value}% 이상`;
+        if (id === 'rangeGithub') document.getElementById('valGithub').innerText = `${el.value}% 이상`;
+        if (id === 'rangeCitation') document.getElementById('valCitation').innerText = `${parseFloat(el.value).toFixed(1)}배 이상`;
+        if (id === 'rangeRidicule') document.getElementById('valRidicule').innerText = `${el.value}점 이상`;
+        renderDisruptors();
+      });
+    });
+
+    // Sector Chips
+    document.getElementById('sectorChips').addEventListener('click', (e) => {
+      if (e.target.classList.contains('chip-btn')) {
+        document.querySelectorAll('#sectorChips .chip-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        currentSectorFilter = e.target.dataset.sector;
+        renderDisruptors();
+      }
+    });
+
+    // View Toggle
+    document.getElementById('btnViewGrid').addEventListener('click', () => {
+      document.getElementById('btnViewGrid').classList.add('active');
+      document.getElementById('btnViewMatrix').classList.remove('active');
+      document.getElementById('disruptorCardsContainer').style.display = 'grid';
+      document.getElementById('matrixContainer').style.display = 'none';
+    });
+
+    document.getElementById('btnViewMatrix').addEventListener('click', () => {
+      document.getElementById('btnViewMatrix').classList.add('active');
+      document.getElementById('btnViewGrid').classList.remove('active');
+      document.getElementById('disruptorCardsContainer').style.display = 'none';
+      document.getElementById('matrixContainer').style.display = 'block';
+      drawBubbleMatrix();
+    });
+
+    // Simulation Sliders
+    ['simCapital', 'simFailureRate', 'simMultiple', 'simSlots'].forEach(id => {
+      document.getElementById(id).addEventListener('input', runSimulationCalc);
+    });
+
+    // Quick Scan Effect
+    document.getElementById('btnQuickScan').addEventListener('click', () => {
+      confetti({ particleCount: 50, spread: 60, origin: { y: 0.2 } });
+      renderDisruptors();
+    });
+
+    // Modals
+    document.getElementById('btnOpenVipModal').addEventListener('click', () => {
+      document.getElementById('modalVip').classList.add('open');
+    });
+
+    document.getElementById('btnOpenAddCompanyModal').addEventListener('click', () => {
+      document.getElementById('modalAddCompany').classList.add('open');
+    });
+
+    // Add Company Form
+    document.getElementById('btnSaveNewCompany').addEventListener('click', () => {
+      const name = document.getElementById('newCompName').value.trim();
+      const sector = document.getElementById('newCompSector').value.trim();
+      const summary = document.getElementById('newCompSummary').value.trim();
+      const pg = parseFloat(document.getElementById('newCompPatentGrowth').value) || 200;
+      const gh = parseFloat(document.getElementById('newCompGithubGrowth').value) || 200;
+      const cit = parseFloat(document.getElementById('newCompCitationSurge').value) || 5;
+      const rid = parseFloat(document.getElementById('newCompRidicule').value) || 75;
+      const mul = parseFloat(document.getElementById('newCompMultiple').value) || 50;
+      const moat = document.getElementById('newCompMoat').value.trim();
+
+      if (!name || !sector) {
+        alert('기업명과 세부 분야를 입력해주세요.');
+        return;
+      }
+
+      const newId = `LR-0${disruptors.length + 1}`;
+      const newObj = {
+        id: newId,
+        name: name,
+        sector: sector,
+        category: "기타",
+        summary: summary || "차세대 기술 패러다임 개척",
+        patent_growth: pg,
+        patent_count: 35,
+        github_velocity: gh,
+        github_stars: 5000,
+        citation_surge: cit,
+        h_index_lead: 30,
+        consensus_ridicule: rid,
+        upside_multiple: mul,
+        moat: moat || "원천 기술 특허 및 독점적 개발자 커뮤니티"
+      };
+
+      disruptors.unshift(newObj);
+      closeModal('modalAddCompany');
+      renderDisruptors();
+      confetti({ particleCount: 80, spread: 70, origin: { y: 0.5 } });
+      alert(`[${name}] 기업이 레이더 스크리너에 성공적으로 등록되었습니다!`);
+    });
+
+    // Export JSON
+    function exportJsonFile() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(disruptors, null, 2));
+      const dlAnchor = document.createElement('a');
+      dlAnchor.setAttribute("href", dataStr);
+      dlAnchor.setAttribute("download", `leap_radar_disruptors_${Date.now()}.json`);
+      dlAnchor.click();
+    }
+    document.getElementById('btnExportJson').addEventListener('click', exportJsonFile);
+    document.getElementById('btnExportJsonSide').addEventListener('click', exportJsonFile);
+
+    // Download MD Report
+    document.getElementById('btnDownloadMdReport').addEventListener('click', () => {
+      let md = `# 🛰️ THE LEAP RADAR WEEKLY INTELLIGENCE BRIEF\n\n`;
+      md += `**발행일**: ${new Date().toISOString().split('T')[0]}\n`;
+      md += `**분석 기준**: 3축 선행 데이터(특허 출원 YoY × AI GitHub 커밋 가속도 × 학술 인용 폭증)\n\n---\n\n`;
+      md += `## 0.1% 언더독 파괴자 순위표\n\n`;
+      disruptors.forEach((d, i) => {
+        md += `### ${i+1}. ${d.name} (${d.sector})\n`;
+        md += `- **The Leap Score**: ${scoreDisruptor(d)}점\n`;
+        md += `- **기대 회수 배수**: ${d.upside_multiple}x Multiple\n`;
+        md += `- **3대 지표**: 특허 +${d.patent_growth}% | GH 커밋 +${d.github_velocity}% | 논문 인용 ${d.citation_surge}배\n`;
+        md += `- **대중 회의론 지수**: ${d.consensus_ridicule} / 100\n`;
+        md += `- **해자(Moat)**: ${d.moat}\n\n`;
+      });
+      const dataStr = "data:text/markdown;charset=utf-8," + encodeURIComponent(md);
+      const dlAnchor = document.createElement('a');
+      dlAnchor.setAttribute("href", dataStr);
+      dlAnchor.setAttribute("download", `Leap_Radar_Weekly_Brief_${Date.now()}.md`);
+      dlAnchor.click();
+    });
+
+    // Print
+    document.getElementById('btnPrintReport').addEventListener('click', () => {
+      window.print();
+    });
+
+    // Init
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      renderDisruptors();
+      drawRadarSweep();
+      runSimulationCalc();
+    });
+  </script>
+</body>
+</html>
