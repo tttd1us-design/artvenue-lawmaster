@@ -100,66 +100,189 @@
       transition: background-color 0.4s ease, color 0.4s ease;
     }
 
-    /* 1. STUDENT (중고생: 프레시 민트 & 영 아쿠아 - 산뜻하고 맑은 호감형) */
+    /* -------------------------------------------------------------------------
+       1. STUDENT (중고생: 영 비비드 팝 & 소프트 민트 - 동글동글하고 산뜻한 캐주얼)
+       ------------------------------------------------------------------------- */
     body.persona-theme-student {
       --apple-blue: #059669;
       --apple-blue-hover: #10B981;
       --apple-blue-soft: #ECFDF5;
+      --card-radius: 24px;
+      background-color: #F6FCF9;
+    }
+    body.persona-theme-student .apple-studio-window,
+    body.persona-theme-student .elenctic-tree-card,
+    body.persona-theme-student .mind-journal-card,
+    body.persona-theme-student .decision-compass-card,
+    body.persona-theme-student .habit-rewiring-card {
+      border-radius: 26px !important;
+      border: 2px solid rgba(16, 185, 129, 0.25) !important;
+      box-shadow: 0 12px 32px rgba(5, 150, 105, 0.08) !important;
+    }
+    body.persona-theme-student .chat-bubble {
+      border-radius: 22px 22px 22px 4px !important;
+      border: 1.5px solid #D1FAE5 !important;
+    }
+    body.persona-theme-student .chat-bubble.user {
+      border-radius: 22px 22px 4px 22px !important;
+      background: linear-gradient(135deg, #10B981, #059669) !important;
     }
     body.persona-theme-student .ambient-orb.orb-blue {
-      background: radial-gradient(circle, rgba(16, 185, 129, 0.4) 0%, rgba(16, 185, 129, 0) 70%);
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.45) 0%, rgba(16, 185, 129, 0) 70%);
     }
 
-    /* 2. UNDERGRAD (대학생/취준생: 테크 네오 미니멀 & 일렉트릭 인디고 - 힙하고 스마트함) */
+    /* -------------------------------------------------------------------------
+       2. UNDERGRAD (대학생: 사이버 인디고 & 네오 글래스모피즘 - 트렌디하고 날렵한 미래형)
+       ------------------------------------------------------------------------- */
     body.persona-theme-undergrad {
       --apple-blue: #4F46E5;
       --apple-blue-hover: #6366F1;
       --apple-blue-soft: #EEF2FF;
+      --card-radius: 18px;
+      background-color: #F8F9FE;
+    }
+    body.persona-theme-undergrad .apple-studio-window,
+    body.persona-theme-undergrad .elenctic-tree-card,
+    body.persona-theme-undergrad .mind-journal-card,
+    body.persona-theme-undergrad .decision-compass-card,
+    body.persona-theme-undergrad .habit-rewiring-card {
+      border-radius: 18px !important;
+      border: 1px solid rgba(99, 102, 241, 0.35) !important;
+      box-shadow: 0 8px 32px rgba(79, 70, 229, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.6) !important;
+      backdrop-filter: blur(20px) !important;
+    }
+    body.persona-theme-undergrad .chat-bubble {
+      border-radius: 14px 14px 14px 2px !important;
+      border: 1px solid #E0E7FF !important;
+      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.06) !important;
+    }
+    body.persona-theme-undergrad .chat-bubble.user {
+      border-radius: 14px 14px 2px 14px !important;
+      background: linear-gradient(135deg, #6366F1, #4F46E5) !important;
     }
     body.persona-theme-undergrad .ambient-orb.orb-blue {
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.42) 0%, rgba(99, 102, 241, 0) 70%);
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.5) 0%, rgba(99, 102, 241, 0) 70%);
     }
 
-    /* 3. WORKER (직장인: 슬레이트 네이비 & 프로페셔널 차콜 - 군더더기 없는 신뢰감) */
+    /* -------------------------------------------------------------------------
+       3. WORKER (직장인: 이그제큐티브 슬레이트 차콜 & 메탈릭 네이비 - 고밀도 프로페셔널)
+       ------------------------------------------------------------------------- */
     body.persona-theme-worker {
       --apple-blue: #0071E3;
       --apple-blue-hover: #0077ED;
       --apple-blue-soft: #F0F6FF;
+      --card-radius: 12px;
+      background-color: #F8FAFC;
+    }
+    body.persona-theme-worker .apple-studio-window,
+    body.persona-theme-worker .elenctic-tree-card,
+    body.persona-theme-worker .mind-journal-card,
+    body.persona-theme-worker .decision-compass-card,
+    body.persona-theme-worker .habit-rewiring-card {
+      border-radius: 12px !important;
+      border: 1px solid #CBD5E1 !important;
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.07) !important;
+    }
+    body.persona-theme-worker .chat-bubble {
+      border-radius: 10px 10px 10px 2px !important;
+      border: 1px solid #E2E8F0 !important;
+    }
+    body.persona-theme-worker .chat-bubble.user {
+      border-radius: 10px 10px 2px 10px !important;
+      background: linear-gradient(135deg, #0F172A, #1E293B) !important;
     }
     body.persona-theme-worker .ambient-orb.orb-blue {
       background: radial-gradient(circle, rgba(0, 113, 227, 0.45) 0%, rgba(0, 113, 227, 0) 70%);
     }
 
-    /* 4. FOUNDER (창업가/프리랜서: 옵시디언 럭셔리 & 앰버 골드 - 대담하고 날렵한 카리스마) */
+    /* -------------------------------------------------------------------------
+       4. FOUNDER (창업가: 딥 다크 옵시디언 & 앰버 골드 - 대담한 벤처 터미널 룩)
+       ------------------------------------------------------------------------- */
     body.persona-theme-founder {
-      --apple-blue: #D97706;
-      --apple-blue-hover: #F59E0B;
-      --apple-blue-soft: #FFFBEB;
+      --apple-bg: #090D16;
+      --apple-surface: #111827;
+      --apple-surface-secondary: #1F2937;
+      --apple-text-primary: #F8FAFC;
+      --apple-text-secondary: #94A3B8;
+      --apple-blue: #F59E0B;
+      --apple-blue-hover: #D97706;
+      --apple-blue-soft: #281F10;
+      --card-radius: 14px;
+      background-color: #090D16 !important;
+      color: #F8FAFC !important;
+    }
+    body.persona-theme-founder .apple-studio-window,
+    body.persona-theme-founder .elenctic-tree-card,
+    body.persona-theme-founder .mind-journal-card,
+    body.persona-theme-founder .decision-compass-card,
+    body.persona-theme-founder .habit-rewiring-card,
+    body.persona-theme-founder .persona-scenario-card {
+      background: #111827 !important;
+      color: #F8FAFC !important;
+      border-radius: 14px !important;
+      border: 1px solid rgba(245, 158, 11, 0.35) !important;
+      box-shadow: 0 10px 36px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.1) !important;
+    }
+    body.persona-theme-founder .chat-bubble {
+      background: #1F2937 !important;
+      color: #E2E8F0 !important;
+      border: 1px solid #374151 !important;
+    }
+    body.persona-theme-founder .chat-bubble strong {
+      color: #FBBF24 !important;
+    }
+    body.persona-theme-founder .chat-bubble.user {
+      background: linear-gradient(135deg, #D97706, #B45309) !important;
+      color: #FFFFFF !important;
+      border: none !important;
     }
     body.persona-theme-founder .ambient-orb.orb-blue {
-      background: radial-gradient(circle, rgba(245, 158, 11, 0.42) 0%, rgba(245, 158, 11, 0) 70%);
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.5) 0%, rgba(245, 158, 11, 0) 70%);
     }
 
-    /* 5. SENIOR (은퇴준비/신중년: 웜 알라바스터 서재 & 포레스트 그린 - 눈 편한 여유와 품격) */
+    /* -------------------------------------------------------------------------
+       5. SENIOR (은퇴/신중년: 클래식 인문 서재 & 웜 세이지 미색지 - 넉넉한 글자 크기와 고서적 여유)
+       ------------------------------------------------------------------------- */
     body.persona-theme-senior {
-      --apple-bg: #FBF9F5;
+      --apple-bg: #FCFBF7;
       --apple-surface: #FFFFFF;
-      --apple-surface-secondary: #F5EFEB;
+      --apple-surface-secondary: #F6F3EC;
       --apple-text-primary: #1C1917;
       --apple-blue: #047857;
       --apple-blue-hover: #059669;
       --apple-blue-soft: #ECFDF5;
-      font-size: 16.5px;
+      font-size: 17.5px;
+      line-height: 1.85;
+      font-family: 'MaruBuri', 'Batang', serif, -apple-system;
+      background-color: #FCFBF7 !important;
     }
-    body.persona-theme-senior .ambient-orb.orb-blue {
-      background: radial-gradient(circle, rgba(5, 150, 105, 0.38) 0%, rgba(5, 150, 105, 0) 70%);
-    }
-    body.persona-theme-senior .ambient-orb.orb-emerald {
-      background: radial-gradient(circle, rgba(217, 119, 6, 0.28) 0%, rgba(217, 119, 6, 0) 70%);
+    body.persona-theme-senior .apple-studio-window,
+    body.persona-theme-senior .elenctic-tree-card,
+    body.persona-theme-senior .mind-journal-card,
+    body.persona-theme-senior .decision-compass-card,
+    body.persona-theme-senior .habit-rewiring-card,
+    body.persona-theme-senior .persona-scenario-card {
+      border-radius: 16px !important;
+      border: 1.5px solid #E7E0D3 !important;
+      box-shadow: 0 8px 24px rgba(68, 64, 60, 0.08) !important;
+      background: #FFFFFF !important;
     }
     body.persona-theme-senior .chat-bubble {
-      font-size: 0.98rem;
-      line-height: 1.8;
+      font-size: 1.05rem !important;
+      line-height: 1.9 !important;
+      border-radius: 16px !important;
+      border: 1.5px solid #E7E0D3 !important;
+      padding: 16px 22px !important;
+    }
+    body.persona-theme-senior .chat-bubble.user {
+      background: linear-gradient(135deg, #065F46, #047857) !important;
+      color: #FFFFFF !important;
+    }
+    body.persona-theme-senior .ambient-orb.orb-blue {
+      background: radial-gradient(circle, rgba(5, 150, 105, 0.4) 0%, rgba(5, 150, 105, 0) 70%);
+    }
+    body.persona-theme-senior .ambient-orb.orb-emerald {
+      background: radial-gradient(circle, rgba(217, 119, 6, 0.3) 0%, rgba(217, 119, 6, 0) 70%);
     }
 
     /* PERSONA MOOD BAR IN HERO */
@@ -186,6 +309,95 @@
     }
     .persona-mood-bar i {
       color: var(--apple-blue);
+    }
+
+    /* =========================================================================
+       PERSONA SCENARIO DOCK & SPECIALIZED INTERACTIVE TOOL CARD
+       ========================================================================= */
+    .persona-scenario-card {
+      background: var(--apple-surface);
+      border: 1px solid var(--apple-border);
+      border-radius: var(--apple-radius-lg);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--apple-shadow-md);
+      transition: all 0.35s ease;
+      animation: fadeIn 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .scenario-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .scenario-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: var(--apple-blue-soft);
+      color: var(--apple-blue);
+      border: 1px solid var(--apple-blue);
+      margin-bottom: 6px;
+    }
+    .scenario-roadmap-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .scenario-step-box {
+      background: rgba(0, 0, 0, 0.02);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      padding: 10px 12px;
+      transition: all 0.25s ease;
+    }
+    .scenario-step-box.active {
+      background: var(--apple-blue-soft);
+      border-color: var(--apple-blue);
+      box-shadow: 0 4px 12px rgba(0, 113, 227, 0.12);
+    }
+    .scenario-step-box .step-num {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: var(--apple-blue);
+      text-transform: uppercase;
+    }
+    .scenario-step-box .step-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--apple-text-primary);
+      margin: 2px 0;
+    }
+    .scenario-step-box .step-desc {
+      font-size: 0.72rem;
+      color: var(--apple-text-secondary);
+      line-height: 1.35;
+    }
+    .persona-tool-workspace {
+      margin-top: 16px;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.025);
+      border: 1px dashed rgba(0, 0, 0, 0.12);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    @media (max-width: 768px) {
+      .scenario-roadmap-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -3288,6 +3500,38 @@
          ===================================================================== -->
     <div id="view-chamber" class="tab-view active">
       
+      <!-- DYNAMIC PERSONA SCENARIO & SPECIALIZED TOOL DOCK -->
+      <div class="persona-scenario-card" id="personaScenarioCard">
+        <div class="scenario-header-row">
+          <div>
+            <div class="scenario-badge" id="scenarioBadge">
+              <i data-lucide="compass" style="width: 13px; height: 13px;"></i>
+              <span id="scenarioBadgeText">10대 진로 해방 시나리오</span>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--apple-text-primary); margin: 4px 0 2px;" id="scenarioTitle">
+              부모님 기대 탈피 & 진짜 호기심 해방 4단계 시나리오
+            </h3>
+            <p style="font-size: 0.82rem; color: var(--apple-text-secondary);" id="scenarioSubtitle">
+              남들의 성적 채점표 대신, 밤새워도 재미있는 나만의 순수 몰입 영역을 소크라테스 산파술로 규명합니다.
+            </p>
+          </div>
+          <button class="apple-pill-btn primary" onclick="startScenarioDialog()" style="font-size: 0.8rem; padding: 7px 16px;">
+            <i data-lucide="play" style="width: 12px; height: 12px;"></i>
+            <span>이 시나리오 산파술 가동</span>
+          </button>
+        </div>
+
+        <!-- SCENARIO 4 STAGES ROADMAP -->
+        <div class="scenario-roadmap-grid" id="scenarioRoadmapGrid">
+          <!-- Dynamically populated via JS -->
+        </div>
+
+        <!-- SPECIALIZED INTERACTIVE TOOL WORKSPACE -->
+        <div class="persona-tool-workspace" id="personaToolWorkspace">
+          <!-- Dynamically populated tool via JS -->
+        </div>
+      </div>
+
       <!-- APPLE STUDIO PRO WINDOW -->
       <div class="apple-studio-window">
         <div class="studio-window-header">
@@ -6173,6 +6417,199 @@
       updateTrajectoryProgress(stageNum);
     }
 
+    /* =========================================================================
+       DYNAMIC PERSONA SCENARIOS & INTERACTIVE SPECIALIZED TOOLS ENGINE
+       ========================================================================= */
+    const PERSONA_SCENARIOS = {
+      student: {
+        badge: '🎒 10대 진로 해방 시나리오',
+        title: '부모님 기대 탈피 & 진짜 호기심 해방 4단계 시나리오',
+        subtitle: '성적 채점표와 부모님 눈치에서 벗어나, 밤새워도 재미있는 나만의 순수 몰입 영역을 소크라테스 산파술로 규명합니다.',
+        steps: [
+          { num: 'STEP 1', title: '부모님 기대 vs 내 갈망', desc: '안정적인 진로와 내 고유 관심사 사이의 간극 직면' },
+          { num: 'STEP 2', title: '비교와 실패 공포 분해', desc: '성적 줄세우기 압박과 주변의 시선 해체' },
+          { num: 'STEP 3', title: '순수 흥미 채취', desc: '누가 시키지 않아도 시간 가는 줄 모르는 몰입 찾기' },
+          { num: 'STEP 4', title: '10대 주권적 진로 선언', desc: '나만의 독창적 진로 항로 확립' }
+        ],
+        toolHtml: `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div style="font-size: 0.82rem; font-weight: 800; color: #059669; display: flex; align-items: center; gap: 6px;">
+              <i data-lucide="activity" style="width: 14px; height: 14px;"></i> 10대 학업 스트레스 vs 순수 호기심 디톡스 미터
+            </div>
+            <span style="font-size: 0.72rem; color: #059669; font-weight: 700;" id="studentMeterLabel">호기심 우세 (78%)</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label style="font-size: 0.74rem; color: #64748B; font-weight: 600;">부모님/성적 눈치 압박 (0~100)</label>
+              <input type="range" min="0" max="100" value="65" style="width: 100%; accent-color: #EF4444;" oninput="updateStudentMeter()">
+            </div>
+            <div>
+              <label style="font-size: 0.74rem; color: #64748B; font-weight: 600;">내가 밤새워 몰입하는 열정 (0~100)</label>
+              <input type="range" min="0" max="100" value="85" style="width: 100%; accent-color: #10B981;" oninput="updateStudentMeter()">
+            </div>
+          </div>
+          <div style="background: #ECFDF5; border-radius: 8px; padding: 8px 12px; font-size: 0.76rem; color: #065F46; margin-top: 6px;" id="studentMeterAdvice">
+            💡 <strong>진단 결과:</strong> 성적 압박(65점)보다 내면의 호기심(85점)이 더 큽니다. 부모님의 불안을 안심시킬 최소한의 성의를 보이되, 에너지는 나만의 창작/탐구에 집중할 시점입니다.
+          </div>
+        `
+      },
+      undergrad: {
+        badge: '🚀 취업 스펙 탈출 & 차별화 시나리오',
+        title: '스펙 레이스 탈출 & 나만의 차별화 1인치 발견 시나리오',
+        subtitle: '남들과 똑같은 학점·자격증 뒤에 숨지 않고, 내 독보적 강점으로 시장을 뚫는 첫 커리어 항로를 설계합니다.',
+        steps: [
+          { num: 'STEP 1', title: '스펙 피로도 진단', desc: '이력서 칸 채우기식 불안과 취업 압박 직면' },
+          { num: 'STEP 2', title: '대기업 간판 허상 깨기', desc: '조직 타이틀보다 내가 매일 할 실무 경험 규명' },
+          { num: 'STEP 3', title: '직무 무기 1인치 추출', desc: '동기들과 차별화되는 나만의 문제해결 강점 발견' },
+          { num: 'STEP 4', title: '90일 실전 프로젝트 설계', desc: '시장과 채용 담당자를 설득할 실전 증명' }
+        ],
+        toolHtml: `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div style="font-size: 0.82rem; font-weight: 800; color: #4F46E5; display: flex; align-items: center; gap: 6px;">
+              <i data-lucide="zap" style="width: 14px; height: 14px;"></i> 나만의 취업 무기 1인치 시뮬레이터
+            </div>
+            <span style="font-size: 0.72rem; color: #4F46E5; font-weight: 700;">차별화 역량 지수 91점</span>
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <span style="padding: 4px 10px; background: #EEF2FF; border: 1px solid #C7D2FE; border-radius: 6px; font-size: 0.74rem; font-weight: 700; color: #4338CA;">✦ 복잡한 데이터 구조화</span>
+            <span style="padding: 4px 10px; background: #EEF2FF; border: 1px solid #C7D2FE; border-radius: 6px; font-size: 0.74rem; font-weight: 700; color: #4338CA;">✦ 빠른 프로토타입 실행력</span>
+            <span style="padding: 4px 10px; background: #EEF2FF; border: 1px solid #C7D2FE; border-radius: 6px; font-size: 0.74rem; font-weight: 700; color: #4338CA;">✦ 설득력 있는 스토리텔링</span>
+          </div>
+          <div style="background: #EEF2FF; border-radius: 8px; padding: 8px 12px; font-size: 0.76rem; color: #3730A3; margin-top: 6px;">
+            💡 <strong>커리어 가이드:</strong> 범용 자격증 1개 더 취득하는 것보다, 위 3가지 강점이 녹아든 90일 실전 프로젝트 포트폴리오를 제작하는 것이 합격률을 3.4배 높입니다.
+          </div>
+        `
+      },
+      worker: {
+        badge: '💼 시간 주권 & 독립적 전문가 시나리오',
+        title: '회사 밖 홀로서기 & 시간 주권 회복 시나리오',
+        subtitle: '월급이라는 마약과 조직의 부품 생활에서 벗어나, 내 이름 석 자로 시장에서 돈을 버는 독립적 전문가가 될 수 있는가?',
+        steps: [
+          { num: 'STEP 1', title: '번아웃 & 소진 진단', desc: '사내 정치와 무의미한 보고서로 낭비되는 생명력 확인' },
+          { num: 'STEP 2', title: '월급 안정성의 착각 분해', desc: '언제든 대체될 수 있는 직함의 취약성 직면' },
+          { num: 'STEP 3', title: '독보적 전문성 정의', desc: '조직 울타리 밖 시장에서 고객이 돈을 낼 실질 가치' },
+          { num: 'STEP 4', title: '2-Way Door 안전망 구축', desc: '퇴사 전 90일 사이드 프로젝트로 생존 가능성 검증' }
+        ],
+        toolHtml: `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div style="font-size: 0.82rem; font-weight: 800; color: #0071E3; display: flex; align-items: center; gap: 6px;">
+              <i data-lucide="clock" style="width: 14px; height: 14px;"></i> 커리어 시간 주권 & 퇴사 안전망 계산기
+            </div>
+            <span style="font-size: 0.72rem; color: #0071E3; font-weight: 700;">주권 시간 확보율 28% ➔ 목표 65%</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center;">
+            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; padding: 6px; border-radius: 8px;">
+              <div style="font-size: 0.68rem; color: #64748B;">회사 종속 시간</div>
+              <div style="font-weight: 800; color: #EF4444; font-size: 0.95rem;">9.5 시간/일</div>
+            </div>
+            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; padding: 6px; border-radius: 8px;">
+              <div style="font-size: 0.68rem; color: #64748B;">자율 사이드 시간</div>
+              <div style="font-weight: 800; color: #0071E3; font-size: 0.95rem;">1.5 시간/일</div>
+            </div>
+            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; padding: 6px; border-radius: 8px;">
+              <div style="font-size: 0.68rem; color: #64748B;">독립 생존 런웨이</div>
+              <div style="font-weight: 800; color: #10B981; font-size: 0.95rem;">14 개월</div>
+            </div>
+          </div>
+        `
+      },
+      founder: {
+        badge: '⚡ 벤처 생존 & PMF 정렬 시나리오',
+        title: '생존 압박 속 PMF 정렬 & 창업자의 고독 분해 시나리오',
+        subtitle: '자금 고갈과 시장의 무반응 속에서 어떻게 미션을 지키며, 고객 1명이 진정으로 돈을 내는 본질 가치를 증명할 것인가?',
+        steps: [
+          { num: 'STEP 1', title: '런웨이 & 고객 절박성 진단', desc: '창업자의 고독과 생존 자금의 유한성 직면' },
+          { num: 'STEP 2', title: '외형 지표의 허상 제거', desc: '투자자용 뻥튀기 지표 대신 진짜 유료 전환 본질 점검' },
+          { num: 'STEP 3', title: '10배 나은 본질 솔루션', desc: '경쟁사 대비 대체 불가능한 핵심 결핍 해결책 집약' },
+          { num: 'STEP 4', title: '독점적 비즈니스 원칙 수립', desc: '타협 없는 생존과 PMF(제품-시장 적합성) 달성' }
+        ],
+        toolHtml: `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div style="font-size: 0.82rem; font-weight: 800; color: #F59E0B; display: flex; align-items: center; gap: 6px;">
+              <i data-lucide="flame" style="width: 14px; height: 14px;"></i> 파운더 멘탈 런웨이 & PMF 신호등
+            </div>
+            <span style="font-size: 0.72rem; color: #F59E0B; font-weight: 700;">PMF 달성 신호: GREEN</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 8px; padding: 8px;">
+              <div style="font-size: 0.7rem; color: #94A3B8;">고객 절박성 지수</div>
+              <div style="font-size: 1.1rem; font-weight: 800; color: #F59E0B;">89점 / 100점</div>
+            </div>
+            <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 8px; padding: 8px;">
+              <div style="font-size: 0.7rem; color: #94A3B8;">창업자 멘탈 체력</div>
+              <div style="font-size: 1.1rem; font-weight: 800; color: #10B981;">안정 (자문단 동조)</div>
+            </div>
+          </div>
+        `
+      },
+      senior: {
+        badge: '🌅 인생 2막 지혜 완성 시나리오',
+        title: '명함이 사라진 후, 인생 후반전 고유 지혜 완성 시나리오',
+        subtitle: '30년 사회적 직함을 내려놓았을 때, 내 존재 가치는 무엇인가? 남은 40년의 세월을 어떻게 사회에 기여하고 존경받으며 살 것인가?',
+        steps: [
+          { num: 'STEP 1', title: '상실감 & 공허함 진단', desc: '매일 아침 갈 곳이 없다는 두려움과 명함 상실감 수용' },
+          { num: 'STEP 2', title: '체면과 계급장 분리', desc: '조직의 울타리를 벗어나 오롯한 한 인간으로 서기' },
+          { num: 'STEP 3', title: '평생 암묵지 자산화', desc: '30년간 축적한 전문성을 다음 세대를 위한 지혜로 전환' },
+          { num: 'STEP 4', title: '라이프 멘토 프로젝트', desc: '존경받는 원로이자 평생 현역으로서의 삶 시작' }
+        ],
+        toolHtml: `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div style="font-size: 0.85rem; font-weight: 800; color: #047857; display: flex; align-items: center; gap: 6px;">
+              <i data-lucide="trees" style="width: 15px; height: 15px;"></i> 인생 2막 지혜 아카이빙 & 내면 평온 미터
+            </div>
+            <span style="font-size: 0.76rem; color: #047857; font-weight: 700;">평온 지수 94% 달성</span>
+          </div>
+          <div style="background: #F4FDF8; border: 1.5px solid #D1FAE5; border-radius: 10px; padding: 10px 14px; font-size: 0.82rem; color: #065F46; line-height: 1.7;">
+            📜 <strong>인생 2막 선언:</strong> "명함은 과거의 영광이었을 뿐, 이제는 내 경험과 깊은 경청으로 청년 세대를 밝히는 따뜻한 지혜의 등대가 되겠습니다."
+          </div>
+        `
+      }
+    };
+
+    function renderPersonaScenario(key) {
+      const scenario = PERSONA_SCENARIOS[key] || PERSONA_SCENARIOS.student;
+      const badgeEl = document.getElementById('scenarioBadgeText');
+      const titleEl = document.getElementById('scenarioTitle');
+      const subtitleEl = document.getElementById('scenarioSubtitle');
+      const roadmapGrid = document.getElementById('scenarioRoadmapGrid');
+      const workspace = document.getElementById('personaToolWorkspace');
+
+      if (badgeEl) badgeEl.innerText = scenario.badge;
+      if (titleEl) titleEl.innerText = scenario.title;
+      if (subtitleEl) subtitleEl.innerText = scenario.subtitle;
+
+      if (roadmapGrid) {
+        roadmapGrid.innerHTML = scenario.steps.map((s, idx) => `
+          <div class="scenario-step-box ${idx === 0 ? 'active' : ''}">
+            <div class="step-num">${s.num}</div>
+            <div class="step-title">${s.title}</div>
+            <div class="step-desc">${s.desc}</div>
+          </div>
+        `).join('');
+      }
+
+      if (workspace) {
+        workspace.innerHTML = scenario.toolHtml;
+      }
+      lucide.createIcons();
+    }
+
+    function startScenarioDialog() {
+      const scenario = PERSONA_SCENARIOS[currentPersonaKey] || PERSONA_SCENARIOS.student;
+      playAppleSound('pop');
+      showAppleToast(`🎯 [${scenario.badge}] 맞춤형 산파술 대화를 시작합니다.`);
+
+      const studioWin = document.querySelector('.apple-studio-window');
+      if (studioWin) studioWin.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      restartSession();
+    }
+
+    function updateStudentMeter() {
+      const meterLabel = document.getElementById('studentMeterLabel');
+      if (meterLabel) meterLabel.innerText = '실시간 스트레스 디톡스 조정됨';
+    }
+
     function setPersona(key) {
       currentPersonaKey = key;
       document.querySelectorAll('.persona-chip').forEach(c => c.classList.remove('active'));
@@ -6181,6 +6618,9 @@
 
       // 1. Dynamic Aesthetic Theme Switch
       document.body.className = `persona-theme-${key}`;
+
+      // 2. Render Persona Specialized Scenario & Interactive Tool
+      renderPersonaScenario(key);
 
       // 2. Persona Specific Aesthetic Mood Texts & Subtitle
       const personaMoods = {
@@ -8616,9 +9056,10 @@
       }
     }
 
-    // Auto-init animal SVG on DOM ready
+    // Auto-init animal SVG and persona scenario on DOM ready
     setTimeout(() => {
       renderAnimalProfile();
+      renderPersonaScenario(currentPersonaKey);
     }, 200);
   </script>
 </body>
