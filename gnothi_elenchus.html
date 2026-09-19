@@ -1178,36 +1178,153 @@
   </div>
 
   <!-- =========================================================================
-       HOSPITAL CHECKUP MODAL
+       HOSPITAL CHECKUP & LIFE DIRECTION COMPASS REPORT MODAL
        ========================================================================= -->
   <div class="modal-overlay" id="reportModal">
-    <div class="report-modal-card">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0F172A; padding-bottom: 12px; margin-bottom: 20px;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <div style="width: 36px; height: 36px; background: #2563EB; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 1.2rem;">Σ</div>
+    <div class="report-modal-card" style="max-width: 960px;">
+      <!-- REPORT HEADER -->
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0F172A; padding-bottom: 14px; margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 44px; height: 44px; background: #2563EB; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.4rem;">Σ</div>
           <div>
-            <h2 style="font-size: 1.35rem; font-weight: 800; color: #0F172A; margin: 0; line-height: 1.2;">소크라테스 인생 종합 건강검진 결과표</h2>
-            <div style="font-size: 0.74rem; color: #64748B; font-family: var(--font-mono);">GNŌTHI COMPREHENSIVE COGNITIVE & LIFE HEALTH ASSESSMENT</div>
+            <h2 style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 0; line-height: 1.2;">소크라테스 인생 종합 건강검진 & 라이프 나침반 결과표</h2>
+            <div style="font-size: 0.74rem; color: #64748B; font-family: var(--font-mono);">GNŌTHI COMPREHENSIVE COGNITIVE ASSESSMENT & LIFE DIRECTION COMPASS</div>
           </div>
         </div>
-        <button class="close-btn" onclick="closeModal('reportModal')">&times;</button>
-      </div>
-
-      <div style="background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 8px; padding: 14px; font-size: 0.88rem; line-height: 1.6;">
-        <strong>수검 페르소나</strong>: <span id="reportPersonaCell" style="color: #2563EB; font-weight: 700;">중고등학생</span> | <strong>종합 판정</strong>: <span style="color: #D97706; font-weight: 700;">C 등급 (인지적 질식 주의)</span>
-      </div>
-
-      <div style="margin-top: 18px;">
-        <h3 style="font-size: 1.05rem; color: #0F172A; margin-bottom: 8px;">2. 소크라테스 임상 처방전 (Rx)</h3>
-        <div style="background: #FFF; border: 2px dashed #CBD5E1; border-radius: 10px; padding: 16px; font-size: 0.9rem; line-height: 1.7;">
-          • [처방 1] 14일간 타인의 SNS 및 성과 피드를 보지 않는 인지 격리 시간을 가질 것.<br>
-          • [처방 2] 내가 진짜 좋아하는 활동(#창작과탐구)에 매일 45분간 몰입할 것.<br>
-          • [처방 3] 남의 채점표가 아닌 내 이름으로 완성되는 마이크로 프로젝트를 90일 안에 마칠 것.
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <button class="pill-btn" onclick="window.print()" style="background: #F1F5F9; border: 1px solid #CBD5E1;">
+            <i data-lucide="printer" style="width: 14px; height: 14px;"></i> 인쇄
+          </button>
+          <button class="close-btn" onclick="closeModal('reportModal')">&times;</button>
         </div>
       </div>
 
-      <!-- KILLER 5: STAKEHOLDER BRIEFING SHEET BUTTONS -->
-      <div style="margin-top: 20px; background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 14px; display: flex; align-items: center; justify-content: space-between;">
+      <!-- PATIENT / PERSONA META -->
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px; font-size: 0.82rem; margin-bottom: 20px;">
+        <div><span style="color: #64748B;">수검 번호:</span> <strong style="color: #0F172A;" id="reportSerialId">GN-2026-0919-88</strong></div>
+        <div><span style="color: #64748B;">검진 페르소나:</span> <strong style="color: #2563EB;" id="reportPersonaCell">중고생 (진로·전공)</strong></div>
+        <div><span style="color: #64748B;">문답 심층도:</span> <strong style="color: #059669;" id="reportDepthLevel">5단계 완결 (Level 5)</strong></div>
+        <div><span style="color: #64748B;">종합 판정:</span> <strong style="color: #2563EB;" id="reportOverallGrade">A 등급 (자기 주권 회복)</strong></div>
+      </div>
+
+      <!-- CORE HIGHLIGHT: 3 LIFE AXES & DIRECTION MANIFESTO -->
+      <div style="background: linear-gradient(135deg, #EFF6FF, #F8FAFC); border: 2px solid #2563EB; border-radius: 14px; padding: 22px; margin-bottom: 22px; position: relative; overflow: hidden;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+          <h3 style="font-size: 1.12rem; font-weight: 800; color: #1E40AF; display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="compass" style="width: 20px; height: 20px; color: #2563EB;"></i>
+            질문 문답을 통해 확립된 수검자의 '3대 인생 축 (Life Compass)'
+          </h3>
+          <span style="font-size: 0.74rem; background: #DBEAFE; color: #1D4ED8; padding: 3px 10px; border-radius: 20px; font-weight: 700;">소크라테스 산파술 검증필</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px;">
+          <!-- AXIS 1 -->
+          <div style="background: #FFF; border: 1px solid #FECDD3; border-radius: 10px; padding: 14px;">
+            <div style="font-size: 0.74rem; font-weight: 800; color: #E11D48; display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
+              <i data-lucide="shield-x" style="width: 14px; height: 14px;"></i> 제1축: 절대 회피 축 (알레르기)
+            </div>
+            <div style="font-size: 0.86rem; color: #334155; font-weight: 600; line-height: 1.5;" id="reportAxisHate">
+              "타인의 평가와 눈치를 보느라 억지로 견뎌야 하는 수동적 서류 작업 및 감정 노동"
+            </div>
+          </div>
+
+          <!-- AXIS 2 -->
+          <div style="background: #FFF; border: 1px solid #A7F3D0; border-radius: 10px; padding: 14px;">
+            <div style="font-size: 0.74rem; font-weight: 800; color: #059669; display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
+              <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i> 제2축: 절대 몰입 축 (북극성)
+            </div>
+            <div style="font-size: 0.86rem; color: #334155; font-weight: 600; line-height: 1.5;" id="reportAxisLove">
+              "내 고유한 창의력과 무기로 세상의 구체적인 문제를 해결하고 피드백받는 자율적 몰입"
+            </div>
+          </div>
+
+          <!-- AXIS 3 -->
+          <div style="background: #FFF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 14px;">
+            <div style="font-size: 0.74rem; font-weight: 800; color: #2563EB; display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
+              <i data-lucide="rocket" style="width: 14px; height: 14px;"></i> 제3축: 90일 행동 실천 축
+            </div>
+            <div style="font-size: 0.86rem; color: #334155; font-weight: 600; line-height: 1.5;" id="reportAxisAction">
+              "남들의 채점표를 완전히 지우고 내 이름으로 완성되는 마이크로 프로젝트 1개를 90일 내 출시하기"
+            </div>
+          </div>
+        </div>
+
+        <!-- MANIFESTO DECLARATION -->
+        <div style="background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 10px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <div style="font-size: 0.74rem; color: #64748B; font-weight: 700;">📜 공식 인생 방향성 선언문 (Manifesto)</div>
+            <div style="font-size: 0.95rem; font-weight: 800; color: #0F172A; font-family: var(--font-serif); margin-top: 2px;" id="reportManifestoText">
+              "나는 타인의 기대에 휘둘리던 가짜 욕망을 버리고, 오직 나의 3대 축에 따라 내 삶의 온전한 주권자로 전진한다."
+            </div>
+          </div>
+          <div style="width: 48px; height: 48px; border: 2px solid #E11D48; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #E11D48; font-weight: 900; font-size: 0.75rem; transform: rotate(-10deg); flex-shrink: 0; box-shadow: 0 2px 6px rgba(225, 29, 72, 0.15);">
+            소크라테스<br>인증필
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 BIOMARKERS ASSESSMENT -->
+      <div style="margin-bottom: 20px;">
+        <h3 style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+          <i data-lucide="activity" style="width: 16px; height: 16px; color: #2563EB;"></i>
+          5대 인지 바이오마커 측정치 (Cognitive Biomarkers)
+        </h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">
+          <thead>
+            <tr style="background: #F1F5F9; border-bottom: 1px solid #CBD5E1;">
+              <th style="padding: 8px 12px;">지표 항목</th>
+              <th style="padding: 8px 12px;">측정 점수</th>
+              <th style="padding: 8px 12px;">판정 상태</th>
+              <th style="padding: 8px 12px;">임상 소견</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #E2E8F0;">
+              <td style="padding: 8px 12px; font-weight: 700;">① 자기결정성 (Autonomy)</td>
+              <td style="padding: 8px 12px; color: #059669; font-weight: 800;" id="cellAutonomy">92점</td>
+              <td style="padding: 8px 12px;"><span style="background: #D1FAE5; color: #065F46; padding: 2px 8px; border-radius: 4px; font-weight: 700;">최상</span></td>
+              <td style="padding: 8px 12px; color: #64748B;">외부 시선보다 내면의 진실을 우선하는 상태 확립</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #E2E8F0;">
+              <td style="padding: 8px 12px; font-weight: 700;">② 인지적 모순 (Aporia)</td>
+              <td style="padding: 8px 12px; color: #2563EB; font-weight: 800;" id="cellAporia">14점</td>
+              <td style="padding: 8px 12px;"><span style="background: #DBEAFE; color: #1E40AF; padding: 2px 8px; border-radius: 4px; font-weight: 700;">정상</span></td>
+              <td style="padding: 8px 12px; color: #64748B;">가짜 전제(Aporia)가 해체되어 인지 갈등 소멸</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #E2E8F0;">
+              <td style="padding: 8px 12px; font-weight: 700;">③ 호불호 명확도 (Clarity)</td>
+              <td style="padding: 8px 12px; color: #059669; font-weight: 800;" id="cellClarity">95점</td>
+              <td style="padding: 8px 12px;"><span style="background: #D1FAE5; color: #065F46; padding: 2px 8px; border-radius: 4px; font-weight: 700;">완벽</span></td>
+              <td style="padding: 8px 12px; color: #64748B;">내가 싫어하는 것과 좋아하는 것의 경계가 선명함</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #E2E8F0;">
+              <td style="padding: 8px 12px; font-weight: 700;">④ 인지적 번아웃도 (Drain)</td>
+              <td style="padding: 8px 12px; color: #059669; font-weight: 800;" id="cellDrain">24점</td>
+              <td style="padding: 8px 12px;"><span style="background: #D1FAE5; color: #065F46; padding: 2px 8px; border-radius: 4px; font-weight: 700;">안정</span></td>
+              <td style="padding: 8px 12px; color: #64748B;">불필요한 비교와 질식 에너지가 제거됨</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 12px; font-weight: 700;">⑤ 실행 복원력 (Praxis)</td>
+              <td style="padding: 8px 12px; color: #059669; font-weight: 800;" id="cellPraxis">88점</td>
+              <td style="padding: 8px 12px;"><span style="background: #D1FAE5; color: #065F46; padding: 2px 8px; border-radius: 4px; font-weight: 700;">우수</span></td>
+              <td style="padding: 8px 12px; color: #64748B;">90일 마이크로 프로젝트 즉시 착수 가능한 회복 탄력성</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- RX PRESCRIPTION -->
+      <div style="margin-bottom: 20px;">
+        <h3 style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin-bottom: 8px;">2. 소크라테스 임상 처방전 (Rx)</h3>
+        <div style="background: #FFF; border: 2px dashed #CBD5E1; border-radius: 10px; padding: 14px 18px; font-size: 0.88rem; line-height: 1.7; color: #334155;">
+          • [처방 1] 14일간 타인의 SNS 성과 피드를 보지 않는 인지 격리 시간을 가질 것.<br>
+          • [처방 2] 내가 정립한 제2축(절대 몰입 환경)에 매일 45분간 타협 없이 몰입할 것.<br>
+          • [처방 3] 남의 채점표가 아닌 내 이름으로 완성되는 마이크로 프로젝트를 90일 안에 1개 출시할 것.
+        </div>
+      </div>
+
+      <!-- KILLER 5: STAKEHOLDER BRIEFING SHEET -->
+      <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 14px; display: flex; align-items: center; justify-content: space-between;">
         <div>
           <div style="font-weight: 800; color: #1E40AF; font-size: 0.9rem;">📜 공식 이해관계자 설득용 브리핑 시트 원클릭 변환</div>
           <div style="font-size: 0.76rem; color: #3B82F6;">학부모, 배우자/가족, 투자자에게 내 결단을 합리적으로 설득할 수 있는 공식 문서입니다.</div>
@@ -1335,6 +1452,12 @@
 
     let currentPersonaKey = 'student';
     let conversationTurn = 1;
+    let userDirectionSession = {
+      thesis: '부모님이 원하는 의대와 내가 진짜 원하는 창작 사이의 갈등',
+      motive: '남들의 인정보다 내 손으로 무언가를 만들어낼 때의 순수한 전율',
+      likesAndHates: '단순 서류작업과 눈치 보기는 혐오하며, 나만의 창의적 몰입을 갈망함',
+      manifesto: '남들의 채점표를 찢고, 내 고유한 콘텐츠와 프로덕트로 세상과 직접 승부한다.'
+    };
 
     window.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
@@ -1373,6 +1496,7 @@
     function restartSession() {
       conversationTurn = 1;
       document.getElementById('turnCountDisplay').innerText = 'Turn 1/5';
+      updateBiomarkers(48, 76, 42, 82, 65);
       const container = document.getElementById('chatMessages');
       container.innerHTML = '';
       addMessage('socrates', PERSONA_CONFIGS[currentPersonaKey].firstQuestion);
@@ -1388,6 +1512,7 @@
       `;
       container.appendChild(row);
       container.scrollTop = container.scrollHeight;
+      lucide.createIcons();
     }
 
     function handleInputKey(e) {
@@ -1402,23 +1527,82 @@
       document.getElementById('chatInput').focus();
     }
 
+    function updateBiomarkers(autonomy, aporia, clarity, drain, praxis) {
+      document.getElementById('valAutonomy').innerText = `${autonomy}점 (${autonomy > 70 ? '우수' : '주의'})`;
+      document.getElementById('barAutonomy').style.width = `${autonomy}%`;
+      document.getElementById('barAutonomy').style.background = autonomy > 70 ? '#059669' : '#D97706';
+
+      document.getElementById('valAporia').innerText = `${aporia}점 (${aporia < 30 ? '해소' : '과다'})`;
+      document.getElementById('barAporia').style.width = `${aporia}%`;
+      document.getElementById('barAporia').style.background = aporia < 30 ? '#2563EB' : '#E11D48';
+
+      document.getElementById('valClarity').innerText = `${clarity}점 (${clarity > 70 ? '명확' : '미흡'})`;
+      document.getElementById('barClarity').style.width = `${clarity}%`;
+      document.getElementById('barClarity').style.background = clarity > 70 ? '#059669' : '#D97706';
+
+      document.getElementById('valDrain').innerText = `${drain}점 (${drain < 40 ? '안정' : '위험'})`;
+      document.getElementById('barDrain').style.width = `${drain}%`;
+      document.getElementById('barDrain').style.background = drain < 40 ? '#059669' : '#E11D48';
+
+      document.getElementById('valPraxis').innerText = `${praxis}점 (${praxis > 70 ? '극상' : '보통'})`;
+      document.getElementById('barPraxis').style.width = `${praxis}%`;
+      document.getElementById('barPraxis').style.background = praxis > 70 ? '#059669' : '#D97706';
+    }
+
     function sendUserMessage() {
       const input = document.getElementById('chatInput');
       const text = input.value.trim();
       if (!text) return;
       input.value = '';
       addMessage('user', text);
-      conversationTurn++;
-      document.getElementById('turnCountDisplay').innerText = `Turn ${conversationTurn}/5`;
 
       setTimeout(() => {
-        if (conversationTurn === 3) {
-          // Trigger Killer 1: Aporia Shatter Engine!
-          triggerAporiaShatter();
+        if (conversationTurn === 1) {
+          userDirectionSession.thesis = text;
+          conversationTurn = 2;
+          document.getElementById('turnCountDisplay').innerText = `Turn 2/5`;
+          updateBiomarkers(60, 68, 55, 68, 70);
+          addMessage('socrates', `
+            [문항 GN-BIO-02 타자의 욕망 분리]<br>
+            자네의 고백: <em>"${text}"</em>... 진지하게 묻겠네.<br>
+            만약 세상 모든 사람들의 기억이 지워져서 자네가 어떤 간판을 달든 <strong>아무도 칭찬하거나 부러워하지 않는다면</strong>, 그래도 그 길을 걷겠는가? 아니면 남들의 인정과 박수가 고파서 매달리는 허상인가?
+          `);
         } else if (conversationTurn === 2) {
-          addMessage('socrates', `[문항 GN-BIO-02 전제 검증]<br>그렇다면 묻겠네. 자네가 방금 말한 생각은 <strong>온전히 자네의 내면에서 피어난 것인가, 아니면 세상의 기대가 덧씌운 두려움인가?</strong>`);
+          userDirectionSession.motive = text;
+          conversationTurn = 3;
+          document.getElementById('turnCountDisplay').innerText = `Turn 3/5`;
+          updateBiomarkers(72, 58, 68, 52, 75);
+          addMessage('socrates', `
+            [문항 GN-BIO-03 절대 혐오와 환희의 분리]<br>
+            정직한 성찰이네. 머리의 계산은 거짓말을 하지만, 몸의 본능은 결코 거짓말을 하지 않네.<br>
+            자네 인생의 나침반을 세우기 위해 다음 두 가지를 말해보게나.<br>
+            <strong>1) 평생 100억을 준대도 견딜 수 없는 '절대 혐오 환경(내 알레르기)'은 무엇인가?</strong><br>
+            <strong>2) 반대로 돈을 내고서라도 밤을 새우며 몰입할 수 있는 '절대 환희의 순간'은 언제인가?</strong>
+          `);
+        } else if (conversationTurn === 3) {
+          userDirectionSession.likesAndHates = text;
+          conversationTurn = 4;
+          document.getElementById('turnCountDisplay').innerText = `Turn 4/5`;
+          updateBiomarkers(84, 35, 85, 38, 82);
+          // Trigger Killer 1: Aporia Shatter with dynamic conflict
+          triggerAporiaShatterDynamic(userDirectionSession.thesis, userDirectionSession.likesAndHates);
         } else {
-          addMessage('socrates', `[검진 완료]<br>훌륭하네! 껍질을 깨고 마침내 자네 자신의 목소리를 길어 올렸군. 상단의 <strong>[종합 검진서]</strong>를 눌러 공식 결과표를 확인해보게나!`);
+          userDirectionSession.manifesto = text;
+          conversationTurn = 5;
+          document.getElementById('turnCountDisplay').innerText = `Turn 5/5 (완결)`;
+          updateBiomarkers(95, 12, 96, 22, 92);
+          updateReportData();
+          addMessage('socrates', `
+            [방향성 탐색 완결 & 공식 라이프 나침반 발급]<br>
+            경이롭군! 방금 자네는 남들이 쥐어준 가짜 지도를 찢어버리고, 자네만의 북극성을 새겼네.<br>
+            <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 14px; margin: 10px 0; line-height: 1.7;">
+              🧭 <strong>${PERSONA_CONFIGS[currentPersonaKey].badge} 맞춤형 나침반 요약:</strong><br>
+              • <strong>탈피한 전제</strong>: ${userDirectionSession.thesis}<br>
+              • <strong>도출된 나의 북극성</strong>: <strong>"${userDirectionSession.manifesto}"</strong><br>
+              • <strong>행동 행동 강령</strong>: 남의 시선을 차단하고 90일 마이크로 프로젝트 즉시 실행
+            </div>
+            지금 상단의 <strong>[종합 검진서]</strong> 버튼을 눌러 자네 이름으로 날인된 <strong>'공식 인생 방향성 나침반 선언서'</strong>를 수령하게나!
+          `);
         }
       }, 700);
     }
@@ -1426,11 +1610,20 @@
     // =========================================================================
     // KILLER 1: APORIA SHATTER TRIGGER
     // =========================================================================
-    function triggerAporiaShatter() {
+    function triggerAporiaShatterDynamic(thesis, likesHates) {
       const overlay = document.getElementById('shatterOverlay');
       const card = document.getElementById('shatterCard');
       const truth = document.getElementById('truthRevealedBox');
-      
+      const conflictText = document.getElementById('shatterConflictText');
+      const truthText = document.getElementById('shatterTruthText');
+
+      conflictText.innerHTML = `
+        [표면적 껍질: "${thesis.slice(0, 30)}..."]<br>
+        ⚡ 정면충돌 ⚡<br>
+        [내면의 진짜 본능: "${likesHates.slice(0, 35)}..."]
+      `;
+      truthText.innerText = `"남들의 채점표를 쥐고 달리는 한 1등을 해도 남의 인생이다! 내 본능이 가리키는 고유한 축으로 방향을 틀어라!"`;
+
       card.classList.remove('broken');
       truth.style.display = 'none';
       overlay.classList.add('active');
@@ -1445,7 +1638,19 @@
 
     function closeShatterOverlay() {
       document.getElementById('shatterOverlay').classList.remove('active');
-      addMessage('socrates', `[Aporia 격파 완료]<br>방금 보았는가? 자네를 옭아매던 거짓 전제가 산산조각 났네. 이제 자네가 평생을 바쳐 지켜야 할 진짜 실존적 가치는 무엇인가?`);
+      addMessage('socrates', `
+        [Aporia 격파 완료]<br>
+        방금 가짜 전제가 깨졌네! 자네가 무엇을 혐오하고 무엇에 미치도록 반응하는지 확인했군.<br>
+        이제 자네가 평생 결코 타협하지 않고 지켜낼 <strong>'나만의 3대 인생 축(1. 절대 회피 / 2. 절대 몰입 / 3. 90일 첫걸음)'</strong>을 한 문장으로 선언해보게나!
+      `);
+    }
+
+    function updateReportData() {
+      document.getElementById('reportPersonaCell').innerText = PERSONA_CONFIGS[currentPersonaKey].badge;
+      document.getElementById('reportAxisHate').innerText = `"${userDirectionSession.likesAndHates || '타인의 시선과 수동적 통제에 종속되는 모든 환경'}"`;
+      document.getElementById('reportAxisLove').innerText = `"${userDirectionSession.motive || '내 고유한 창의성과 열정으로 가치를 창조하는 몰입'}"`;
+      document.getElementById('reportAxisAction').innerText = `"남들의 채점표를 완전히 지우고 내 이름으로 완성되는 90일 마이크로 프로젝트 착수"`;
+      document.getElementById('reportManifestoText').innerText = `"${userDirectionSession.manifesto || '나는 타인의 기대를 버리고, 오직 나의 3대 축에 따라 내 삶의 온전한 주권자로 전진한다.'}"`;
     }
 
     // =========================================================================
