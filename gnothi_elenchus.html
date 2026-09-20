@@ -698,6 +698,195 @@
       border: 1px solid rgba(13, 148, 136, 0.15);
     }
 
+    /* =========================================================================
+       GITHUB PRIMER & APPLE LIGHT CLEAN DESIGN SYSTEM (새로 적용)
+       ========================================================================= */
+    .persona-gateway-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      z-index: 9999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .persona-gateway-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .persona-gateway-modal {
+      width: 100%;
+      max-width: 1040px;
+      max-height: 92vh;
+      background: #FFFFFF;
+      border: 1px solid #D0D7DE;
+      border-radius: 28px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 35px 80px -15px rgba(15, 23, 42, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.2);
+      transform: scale(0.95) translateY(16px);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .persona-gateway-overlay.active .persona-gateway-modal {
+      transform: scale(1) translateY(0);
+    }
+    .gateway-header {
+      background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+      color: #FFFFFF;
+      padding: 28px 32px;
+      text-align: center;
+      position: relative;
+    }
+    .gateway-body {
+      padding: 28px 32px;
+      overflow-y: auto;
+      background: #F6F8FA;
+      flex: 1;
+    }
+    .gateway-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+    .gateway-card {
+      background: #FFFFFF;
+      border: 2px solid #E1E4E8;
+      border-radius: 18px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .gateway-card:hover {
+      border-color: #0969DA;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(9, 105, 218, 0.12);
+    }
+    .gateway-card.selected {
+      border-color: #0969DA;
+      background: #F0F6FF;
+      box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.25);
+    }
+    .gateway-check-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #0969DA;
+      color: #FFFFFF;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+    .gateway-card.selected .gateway-check-badge {
+      display: flex;
+    }
+
+    /* HEADER CONFIRMED PERSONA BADGE */
+    .header-persona-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFFFFF;
+      border: 1px solid #D0D7DE;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #1F2328;
+      box-shadow: 0 1px 3px rgba(31, 35, 40, 0.08);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .header-persona-badge:hover {
+      background: #F6F8FA;
+      border-color: #0969DA;
+      color: #0969DA;
+    }
+
+    /* 5-STAGE THOUGHT FLOW NAVIGATION (사고의 흐름 가이드 바) */
+    .thought-flow-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: #FFFFFF;
+      border: 1px solid #D0D7DE;
+      border-radius: 16px;
+      padding: 12px 18px;
+      margin: 16px 0 24px;
+      box-shadow: 0 1px 3px rgba(31, 35, 40, 0.06);
+      overflow-x: auto;
+    }
+    .thought-flow-stage {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .thought-flow-stage:hover {
+      background: #F6F8FA;
+    }
+    .thought-flow-stage.active {
+      background: #EFF6FF;
+      border: 1px solid rgba(9, 105, 218, 0.3);
+    }
+    .thought-flow-stage .step-badge {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #EAEEF2;
+      color: #656D76;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 800;
+      font-family: var(--font-mono);
+    }
+    .thought-flow-stage.active .step-badge {
+      background: #0969DA;
+      color: #FFFFFF;
+    }
+    .thought-flow-stage .step-text strong {
+      display: block;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #1F2328;
+      line-height: 1.2;
+    }
+    .thought-flow-stage.active .step-text strong {
+      color: #0969DA;
+    }
+    .thought-flow-stage .step-text small {
+      font-size: 0.7rem;
+      color: #656D76;
+    }
+    .thought-flow-arrow {
+      color: #AFB8C1;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
     /* 3. MENTOR WELCOME OVERLAY MODAL */
     .mentor-welcome-overlay {
       position: fixed;
@@ -5023,6 +5212,180 @@
   </div>
 
   <!-- =========================================================================
+       0.0 PERSONA ONBOARDING GATEWAY MODAL (최초 로그인 페르소나 지정 & 확정 게이트웨이)
+       ========================================================================= -->
+  <div class="persona-gateway-overlay" id="personaGatewayModal">
+    <div class="persona-gateway-modal" role="dialog" aria-modal="true">
+      <div class="gateway-header">
+        <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); padding: 4px 14px; border-radius: 20px; font-size: 0.76rem; font-weight: 800; color: #38BDF8; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px;">
+          🧭 GNŌTHI ONBOARDING GATEWAY
+        </div>
+        <h2 style="font-size: 1.85rem; font-weight: 850; margin: 0 0 8px; line-height: 1.3;" id="gatewayMainTitle">
+          당신이 서 있는 <span style="background: linear-gradient(90deg, #38BDF8, #818CF8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">인생의 자리(페르소나)</span>를 선택해 주세요.
+        </h2>
+        <p style="font-size: 0.92rem; color: #CBD5E1; margin: 0 auto; max-width: 680px; line-height: 1.6;" id="gatewaySubTitle">
+          선택하신 단 하나의 페르소나를 기준으로 모든 1:1 대화 코칭, 4단계 시나리오 챕터, 습관 루틴 및 의사결정 오라클이 100% 맞춤 재구성됩니다.
+        </p>
+      </div>
+
+      <div class="gateway-body">
+        <div class="gateway-grid" id="gatewayCardGrid">
+          <!-- CARD 1: STUDENT -->
+          <div class="gateway-card selected" id="gatewayCard-student" onclick="selectGatewayPersona('student')">
+            <div class="gateway-check-badge">✓</div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                <div style="width: 42px; height: 42px; border-radius: 12px; background: #EFF6FF; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+                  🎒
+                </div>
+                <div>
+                  <div style="font-size: 0.7rem; font-weight: 800; color: #0071E3; letter-spacing: 0.05em;">10대 진로 해방</div>
+                  <h4 style="font-size: 1.1rem; font-weight: 800; color: #0F172A; margin: 0;">중고생 진로</h4>
+                </div>
+              </div>
+              <p style="font-size: 0.82rem; color: #475569; line-height: 1.6; margin: 0 0 12px;">
+                부모님의 기대와 입시 성적 압박에서 벗어나, 밤새워도 가슴 뛰는 나만의 진짜 적성과 호기심 영역을 규명합니다.
+              </p>
+              <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.74rem; color: #64748B;">
+                <span>• 부모님 기대 탈피 & 내 진짜 관심사 분리</span>
+                <span>• 문·이과 및 전공 선택의 본질 해체</span>
+                <span>• 시험 스트레스 디톡스 & 528Hz 마인드셋</span>
+              </div>
+            </div>
+            <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed #E2E8F0; font-size: 0.72rem; color: #0071E3; font-weight: 700;">
+              ✨ 4단계 전용 시나리오: 부모 기대 탈피 로드맵
+            </div>
+          </div>
+
+          <!-- CARD 2: UNDERGRAD -->
+          <div class="gateway-card" id="gatewayCard-undergrad" onclick="selectGatewayPersona('undergrad')">
+            <div class="gateway-check-badge">✓</div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                <div style="width: 42px; height: 42px; border-radius: 12px; background: #EEF2FF; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+                  🚀
+                </div>
+                <div>
+                  <div style="font-size: 0.7rem; font-weight: 800; color: #6366F1; letter-spacing: 0.05em;">취업 스펙 탈피</div>
+                  <h4 style="font-size: 1.1rem; font-weight: 800; color: #0F172A; margin: 0;">대학생 취업</h4>
+                </div>
+              </div>
+              <p style="font-size: 0.82rem; color: #475569; line-height: 1.6; margin: 0 0 12px;">
+                맹목적인 스펙 경쟁과 비교를 멈추고, 나만의 직무 강점과 포트폴리오로 시장을 돌파하는 첫 커리어 설계.
+              </p>
+              <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.74rem; color: #64748B;">
+                <span>• 스펙 불안 디톡스 & 대체 불가 직무 역량</span>
+                <span>• 간판이 아닌 실전 프로젝트 포트폴리오</span>
+                <span>• 90일 취업 스프린트 자율 주권 회복</span>
+              </div>
+            </div>
+            <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed #E2E8F0; font-size: 0.72rem; color: #6366F1; font-weight: 700;">
+              ✨ 4단계 전용 시나리오: 첫 커리어 독자성 로드맵
+            </div>
+          </div>
+
+          <!-- CARD 3: WORKER -->
+          <div class="gateway-card" id="gatewayCard-worker" onclick="selectGatewayPersona('worker')">
+            <div class="gateway-check-badge">✓</div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                <div style="width: 42px; height: 42px; border-radius: 12px; background: #F0FDF4; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+                  💼
+                </div>
+                <div>
+                  <div style="font-size: 0.7rem; font-weight: 800; color: #16A34A; letter-spacing: 0.05em;">커리어 자율성</div>
+                  <h4 style="font-size: 1.1rem; font-weight: 800; color: #0F172A; margin: 0;">직장인 이직</h4>
+                </div>
+              </div>
+              <p style="font-size: 0.82rem; color: #475569; line-height: 1.6; margin: 0 0 12px;">
+                안정적인 월급에 안주하는 타성을 깨고, 회사 타이틀 없이도 독립적으로 시장에서 승부하는 1인 전문가로의 도약.
+              </p>
+              <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.74rem; color: #64748B;">
+                <span>• 회사 의존도 탈피 & 연차별 대체 불가 전문성</span>
+                <span>• 이직 vs 퇴사 vs 사이드 프로젝트 갈림길 심의</span>
+                <span>• 퇴근 후 1시간 주권적 시간 확보 루틴</span>
+              </div>
+            </div>
+            <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed #E2E8F0; font-size: 0.72rem; color: #16A34A; font-weight: 700;">
+              ✨ 4단계 전용 시나리오: 1인 프로 도약 로드맵
+            </div>
+          </div>
+
+          <!-- CARD 4: FOUNDER -->
+          <div class="gateway-card" id="gatewayCard-founder" onclick="selectGatewayPersona('founder')">
+            <div class="gateway-check-badge">✓</div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                <div style="width: 42px; height: 42px; border-radius: 12px; background: #FFFBEB; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+                  ⚡
+                </div>
+                <div>
+                  <div style="font-size: 0.7rem; font-weight: 800; color: #D97706; letter-spacing: 0.05em;">시장 생존 & PMF</div>
+                  <h4 style="font-size: 1.1rem; font-weight: 800; color: #0F172A; margin: 0;">창업가·파운더</h4>
+                </div>
+              </div>
+              <p style="font-size: 0.82rem; color: #475569; line-height: 1.6; margin: 0 0 12px;">
+                고독한 자금과 생존의 압박 속에서, 고객의 가장 절박한 '불편의 값'을 해결하고 시장을 독점하는 비즈니스 비전 검증.
+              </p>
+              <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.74rem; color: #64748B;">
+                <span>• 고객 결핍 검증 & 킬러 프로덕트 정의</span>
+                <span>• 런웨이 방어 & 감정적 번아웃 회복</span>
+                <span>• C-Level 의사결정 스트레스 테스트</span>
+              </div>
+            </div>
+            <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed #E2E8F0; font-size: 0.72rem; color: #D97706; font-weight: 700;">
+              ✨ 4단계 전용 시나리오: 시장 독점 생존 로드맵
+            </div>
+          </div>
+
+          <!-- CARD 5: SENIOR -->
+          <div class="gateway-card" id="gatewayCard-senior" onclick="selectGatewayPersona('senior')">
+            <div class="gateway-check-badge">✓</div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                <div style="width: 42px; height: 42px; border-radius: 12px; background: #FFF7ED; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+                  🌅
+                </div>
+                <div>
+                  <div style="font-size: 0.7rem; font-weight: 800; color: #EA580C; letter-spacing: 0.05em;">인생 2막 & 지혜</div>
+                  <h4 style="font-size: 1.1rem; font-weight: 800; color: #0F172A; margin: 0;">은퇴준비·신중년</h4>
+                </div>
+              </div>
+              <p style="font-size: 0.82rem; color: #475569; line-height: 1.6; margin: 0 0 12px;">
+                30년 명함이 사라진 후 찾아오는 공허함을 극복하고, 평생 쌓은 경험으로 청년 세대를 돕는 라이프 멘토로의 전환.
+              </p>
+              <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.74rem; color: #64748B;">
+                <span>• 명함 없는 나 자신의 고유한 존재가치 확립</span>
+                <span>• 하루 3블록 시간 주권 및 건강·사색 루틴</span>
+                <span>• 지혜 자산화 및 사회적 기여 프로젝트</span>
+              </div>
+            </div>
+            <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed #E2E8F0; font-size: 0.72rem; color: #EA580C; font-weight: 700;">
+              ✨ 4단계 전용 시나리오: 인생 2막 지혜 헌정 로드맵
+            </div>
+          </div>
+        </div>
+
+        <!-- CONFIRMATION ACTION ROW -->
+        <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid #E2E8F0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <div style="font-size: 0.84rem; color: #475569;">
+            선택된 페르소나: <strong style="color: #0969DA;" id="gatewaySelectedName">중고생 진로 (입시·전공 고민)</strong>
+            <span style="font-size: 0.74rem; color: #656D76; margin-left: 6px;">(상단에서 언제든 전환 가능)</span>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="apple-pill-btn subtle" id="btnGatewayCancel" onclick="closePersonaGatewayModal()" style="display: none;">
+              닫기
+            </button>
+            <button class="apple-pill-btn primary" onclick="confirmPersonaSelection()" style="background: #0969DA; border-color: #0969DA; padding: 10px 24px; font-weight: 800; font-size: 0.88rem;">
+              ✨ 이 페르소나로 확정하고 나만의 성소 입장하기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
        0.5 LIFELONG COMPANION CARE & DECISION SANCTUARY MODAL (평생의 동반자 성소)
        ========================================================================= -->
   <div class="companion-modal-overlay" id="lifelongCompanionModal" onclick="if(event.target===this)closeLifelongCompanionModal()">
@@ -5555,6 +5918,14 @@
 
     <!-- RIGHT ACTION & PROFILE ZONE -->
     <div class="header-right-zone">
+      <!-- CONFIRMED PERSONA BADGE (GITHUB PRIMER STYLE) -->
+      <div class="header-persona-badge" id="headerPersonaBadge" onclick="openPersonaGatewayModal(true)" title="현재 확정된 페르소나 (클릭하여 전환/재지정)">
+        <span class="badge-dot"></span>
+        <span id="headerPersonaIcon">🎓</span>
+        <span id="headerPersonaName">중고생 진로</span>
+        <button class="persona-change-link" onclick="event.stopPropagation(); openPersonaGatewayModal(true);">변경</button>
+      </div>
+
       <!-- CUTE ANIMAL AVATAR MINI PROFILE -->
       <button class="apple-pill-btn subtle" onclick="switchTab('sanctuary')" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 700; background: rgba(245, 158, 11, 0.08); border: 1.5px solid rgba(245, 158, 11, 0.28); color: #B45309;" title="내 동물 캐릭터 및 시크릿 룸 바로가기">
         <span id="headerAvatarEmoji" style="font-size: 1.1rem;">🦊</span>
@@ -5637,6 +6008,49 @@
         <span id="personaMoodText">🌱 틴 진로 탐험가 모드: 부모님·성적 눈치에서 벗어나 내 진짜 관심사에 솔직해지는 맑은 시간</span>
       </div>
     </section>
+
+    <!-- 5-STAGE THOUGHT FLOW NAVIGATION (사고의 흐름 안내 바) -->
+    <div class="thought-flow-nav" id="thoughtFlowNav">
+      <div class="thought-flow-stage active" id="flowStage-1" onclick="switchTab('chamber'); window.scrollTo({top: 0, behavior: 'smooth'});">
+        <div class="flow-stage-num">1</div>
+        <div class="flow-stage-info">
+          <div class="flow-stage-title">내면 산파술 대화</div>
+          <div class="flow-stage-desc">가치관 및 혼란 해체</div>
+        </div>
+      </div>
+      <div class="thought-flow-arrow">➔</div>
+      <div class="thought-flow-stage" id="flowStage-2" onclick="switchTab('chamber'); document.getElementById('personaScenarioCard').scrollIntoView({behavior:'smooth'});">
+        <div class="flow-stage-num">2</div>
+        <div class="flow-stage-info">
+          <div class="flow-stage-title" id="flowStage2Title">중고생 맞춤 챕터</div>
+          <div class="flow-stage-desc">페르소나 4단계 로드맵</div>
+        </div>
+      </div>
+      <div class="thought-flow-arrow">➔</div>
+      <div class="thought-flow-stage" id="flowStage-3" onclick="switchTab('board')">
+        <div class="flow-stage-num">3</div>
+        <div class="flow-stage-info">
+          <div class="flow-stage-title">4인 멘토 의사결정</div>
+          <div class="flow-stage-desc">소크라테스·잡스·칸트·아들러</div>
+        </div>
+      </div>
+      <div class="thought-flow-arrow">➔</div>
+      <div class="thought-flow-stage" id="flowStage-4" onclick="switchTab('tracker')">
+        <div class="flow-stage-num">4</div>
+        <div class="flow-stage-info">
+          <div class="flow-stage-title">신경망 습관 루틴</div>
+          <div class="flow-stage-desc">행동 패턴 재설계</div>
+        </div>
+      </div>
+      <div class="thought-flow-arrow">➔</div>
+      <div class="thought-flow-stage" id="flowStage-5" onclick="switchTab('parallel')">
+        <div class="flow-stage-num">5</div>
+        <div class="flow-stage-info">
+          <div class="flow-stage-title">10년 북극성 시나리오</div>
+          <div class="flow-stage-desc">미래 분기점 3대 경로</div>
+        </div>
+      </div>
+    </div>
 
     <!-- =====================================================================
          TAB 1: ELENCHUS SESSION CHAMBER (APPLE PRO STUDIO)
@@ -9263,6 +9677,25 @@
       }
     };
 
+    var SOUL_ANIMALS = null;
+    var LIFETIME_MEMORY_LAKE = [];
+    var currentAnimalKey = 'fox';
+    var currentAnimalLevel = 3;
+    var currentAnimalExp = 350;
+    var MENTOR_BRAIN = {
+      firstMetDate: '2026. 09. 14.',
+      lastVisitDate: null,
+      visitCount: 7,
+      userNickname: '소중한 탐구자',
+      currentPersona: 'student',
+      totalChatMessages: 18,
+      chatArchive: [],
+      dailyEmotions: [],
+      decisions: [],
+      lifeGoals: [],
+      habits: []
+    };
+
     let currentPersonaKey = 'student';
     let conversationTurn = 1;
     let userDirectionSession = {
@@ -9271,17 +9704,6 @@
       likesAndHates: '단순 서류작업과 눈치 보기는 스트레스이며, 나만의 창의적 몰입과 성취를 갈망함',
       manifesto: '남들의 채점표를 내려놓고, 나만의 고유한 강점과 프로덕트로 세상과 직접 승부한다.'
     };
-
-    window.addEventListener('DOMContentLoaded', () => {
-      lucide.createIcons();
-      setPersona('student');
-      checkMembershipStatus();
-      initKeyboardNavigation();
-      init3DTiltEngine();
-      init3DCompassGyroscope();
-      updateCompassAlignment(1);
-      initSoulAvatar();
-    });
 
     /* =========================================================================
        3D TILT CARD ENGINE (SPATIAL PERSPECTIVE & DYNAMIC GLARE)
@@ -9597,19 +10019,219 @@
       if (meterLabel) meterLabel.innerText = '실시간 스트레스 디톡스 조정됨';
     }
 
-    function setPersona(key) {
+    /* =========================================================================
+       PERSONA GATEWAY & STRICT PERSONA SCOPING ENGINE (GITHUB PRIMER STYLE)
+       ========================================================================= */
+    const PERSONA_META = {
+      student: { name: '중고생 진로', icon: '🎓', sub: '성적·부모님 기대 탈피 & 호기심 해방' },
+      undergrad: { name: '대학생 취업', icon: '🏛️', sub: '스펙 경쟁 탈출 & 직무 무기 1인치' },
+      worker: { name: '직장인 이직', icon: '💼', sub: '회사 타이틀 독립 & 커리어 재설계' },
+      founder: { name: '창업가·파운더', icon: '🚀', sub: 'PMF 검증 & 지속 가능한 생존' },
+      senior: { name: '은퇴준비·신중년', icon: '🌅', sub: '명함 없는 삶 & 인생 2막 지혜 완성' }
+    };
+
+    let selectedGatewayPersonaKey = 'student';
+
+    function selectGatewayPersona(key) {
+      selectedGatewayPersonaKey = key;
+      document.querySelectorAll('.gateway-card').forEach(card => {
+        card.classList.remove('active');
+      });
+      const targetCard = document.getElementById(`gatewayCard-${key}`);
+      if (targetCard) targetCard.classList.add('active');
+
+      const meta = PERSONA_META[key] || PERSONA_META.student;
+      const previewEl = document.getElementById('gatewaySelectionPreview');
+      if (previewEl) {
+        previewEl.innerHTML = `선택됨: <strong>${meta.icon} ${meta.name}</strong> (${meta.sub})`;
+      }
+
+      const confirmBtn = document.getElementById('gatewayConfirmBtn');
+      if (confirmBtn) {
+        confirmBtn.disabled = false;
+        confirmBtn.innerHTML = `<span>${meta.name} 맞춤 시작하기</span> <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>`;
+        lucide.createIcons();
+      }
+      playAppleSound('tap');
+    }
+
+    function confirmPersonaSelection() {
+      const key = selectedGatewayPersonaKey || 'student';
+      localStorage.setItem('GNOTHI_CONFIRMED_PERSONA', key);
+      applyStrictPersonaScoping(key);
+      closePersonaGatewayModal();
+
+      const meta = PERSONA_META[key] || PERSONA_META.student;
+      showAppleToast(`🎯 [${meta.name}] 페르소나가 확정 저장되었습니다. 전용 서비스 환경으로 진입합니다.`);
+      playAppleSound('pop');
+    }
+
+    function openPersonaGatewayModal(isChangeMode = false) {
+      const modal = document.getElementById('personaGatewayModal');
+      if (!modal) return;
+
+      const titleEl = document.getElementById('gatewayModalTitle');
+      const subtitleEl = document.getElementById('gatewayModalSubtitle');
+      const cancelBtn = document.getElementById('gatewayCancelBtn');
+
+      const current = localStorage.getItem('GNOTHI_CONFIRMED_PERSONA') || currentPersonaKey || 'student';
+      selectedGatewayPersonaKey = current;
+
+      if (isChangeMode) {
+        if (titleEl) titleEl.innerHTML = '기준 페르소나 <span class="gateway-gradient-text">전환 및 재설정</span>';
+        if (subtitleEl) subtitleEl.innerHTML = '현재 설정된 페르소나를 변경합니다. 선택 즉시 모든 대화와 시나리오, 추천 도구가 해당 페르소나 전용으로 재편성됩니다.';
+        if (cancelBtn) cancelBtn.style.display = 'inline-flex';
+      } else {
+        if (titleEl) titleEl.innerHTML = '나만의 인생 나침반을 세울 <span class="gateway-gradient-text">첫 페르소나</span>를 확정하세요';
+        if (subtitleEl) subtitleEl.innerHTML = '현재 가장 절박한 인생 고민 단계에 맞는 페르소나를 선택해 주세요. 한 번 지정되면 해당 기준에 맞춰 전용 챕터와 질문이 맞춤 전개됩니다.';
+        if (cancelBtn) cancelBtn.style.display = 'none';
+      }
+
+      // Highlight current card
+      document.querySelectorAll('.gateway-card').forEach(c => c.classList.remove('active'));
+      const activeCard = document.getElementById(`gatewayCard-${current}`);
+      if (activeCard) activeCard.classList.add('active');
+
+      const meta = PERSONA_META[current] || PERSONA_META.student;
+      const previewEl = document.getElementById('gatewaySelectionPreview');
+      if (previewEl) {
+        previewEl.innerHTML = `현재 선택: <strong>${meta.icon} ${meta.name}</strong> (${meta.sub})`;
+      }
+
+      const confirmBtn = document.getElementById('gatewayConfirmBtn');
+      if (confirmBtn) {
+        confirmBtn.disabled = false;
+        confirmBtn.innerHTML = `<span>${meta.name} 맞춤 시작하기</span> <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>`;
+      }
+
+      modal.style.display = 'flex';
+      requestAnimationFrame(() => {
+        modal.classList.add('active');
+      });
+      lucide.createIcons();
+    }
+
+    function closePersonaGatewayModal() {
+      const modal = document.getElementById('personaGatewayModal');
+      if (!modal) return;
+      modal.classList.remove('active');
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 250);
+    }
+
+    function checkPersonaOnboarding() {
+      const savedPersona = localStorage.getItem('GNOTHI_CONFIRMED_PERSONA');
+      if (savedPersona && PERSONA_CONFIGS[savedPersona]) {
+        applyStrictPersonaScoping(savedPersona);
+      } else {
+        // First visit: show onboarding gateway modal
+        applyStrictPersonaScoping('student');
+        openPersonaGatewayModal(false);
+      }
+    }
+
+    function scopeHabitsToPersona(key) {
+      if (!MENTOR_BRAIN) return;
+      const HABIT_PRESETS = {
+        student: {
+          goals: [
+            { id: 'g_student_1', title: '부모님·성적 눈치 탈피 & 순수 호기심 영역 탐구', category: 'identity', progress: 75, habitIds: ['h_st_1', 'h_st_2'] },
+            { id: 'g_student_2', title: '심리적 안정감 & 규칙적인 몰입 수면 리듬', category: 'vitality', progress: 80, habitIds: ['h_st_3'] }
+          ],
+          habits: [
+            { id: 'h_st_1', goalId: 'g_student_1', name: '매일 30분 나만의 순수 관심분야 탐독/창작', type: 'yang', currentStreak: 6, longestStreak: 12, chain: [1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+            { id: 'h_st_2', goalId: 'g_student_1', name: '성적 비교와 주변 시선 내려놓기 알아차림 일기', type: 'yin', currentStreak: 5, longestStreak: 9, chain: [1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+            { id: 'h_st_3', goalId: 'g_student_2', name: '자정 전 취침 & 취침 전 스마트폰 거리두기', type: 'yang', currentStreak: 7, longestStreak: 14, chain: [1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0] }
+          ]
+        },
+        undergrad: {
+          goals: [
+            { id: 'g_undergrad_1', title: '스펙 경쟁 탈출 & 독보적 직무 무기 1인치 연마', category: 'identity', progress: 68, habitIds: ['h_ug_1', 'h_ug_2'] },
+            { id: 'g_undergrad_2', title: '동기들과 비교하지 않는 내면의 회복탄력성', category: 'vitality', progress: 72, habitIds: ['h_ug_3'] }
+          ],
+          habits: [
+            { id: 'h_ug_1', goalId: 'g_undergrad_1', name: '매일 1시간 90일 실전 프로젝트 빌딩', type: 'yang', currentStreak: 5, longestStreak: 10, chain: [1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+            { id: 'h_ug_2', goalId: 'g_undergrad_1', name: '산업 트렌드 & 희망 직무 문제해결 사례 분석', type: 'yin', currentStreak: 4, longestStreak: 8, chain: [1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+            { id: 'h_ug_3', goalId: 'g_undergrad_2', name: '타인의 합격 소식에 흔들리지 않는 내면 감사일기', type: 'yin', currentStreak: 6, longestStreak: 11, chain: [1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] }
+          ]
+        },
+        worker: {
+          goals: [
+            { id: 'g_worker_1', title: '회사 명함 독립 & 시장에서 통하는 독보적 전문성 확립', category: 'identity', progress: 74, habitIds: ['h_wk_1', 'h_wk_2'] },
+            { id: 'g_worker_2', title: '번아웃 예방 & 사내 정치 소음으로부터 경계선 수호', category: 'vitality', progress: 85, habitIds: ['h_wk_3'] }
+          ],
+          habits: [
+            { id: 'h_wk_1', goalId: 'g_worker_1', name: '퇴근 후 주 3회 사이드 프로젝트 & 지식 아카이빙', type: 'yang', currentStreak: 4, longestStreak: 8, chain: [1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+            { id: 'h_wk_2', goalId: 'g_worker_1', name: '충동적 이직 욕구 분해 & 3분 쿨다운 성찰', type: 'yin', currentStreak: 7, longestStreak: 15, chain: [1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+            { id: 'h_wk_3', goalId: 'g_worker_2', name: '점심 20분 침묵 산책 & 심리적 디톡스', type: 'yin', currentStreak: 6, longestStreak: 12, chain: [1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] }
+          ]
+        },
+        founder: {
+          goals: [
+            { id: 'g_founder_1', title: '고객 절박성 PMF 검증 & 지속 가능한 비즈니스 생존', category: 'identity', progress: 82, habitIds: ['h_fd_1', 'h_fd_2'] },
+            { id: 'g_founder_2', title: '창업가 멘탈 회복탄력성 & 압박 속 평정심 유지', category: 'vitality', progress: 78, habitIds: ['h_fd_3'] }
+          ],
+          habits: [
+            { id: 'h_fd_1', goalId: 'g_founder_1', name: '주 2회 고객 심층 인터뷰 및 불편 가설 검증', type: 'yang', currentStreak: 5, longestStreak: 11, chain: [1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+            { id: 'h_fd_2', goalId: 'g_founder_1', name: '매일 아침 북극성 핵심 지표 및 런웨이 점검', type: 'yin', currentStreak: 7, longestStreak: 14, chain: [1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+            { id: 'h_fd_3', goalId: 'g_founder_2', name: '극심한 스트레스 상황 시 3분 스토아 철학 묵상', type: 'yin', currentStreak: 6, longestStreak: 10, chain: [1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] }
+          ]
+        },
+        senior: {
+          goals: [
+            { id: 'g_senior_1', title: '명함 없는 삶 & 인생 2막 고유 지혜 완성 아카이빙', category: 'identity', progress: 91, habitIds: ['h_sn_1', 'h_sn_2'] },
+            { id: 'g_senior_2', title: '심신 평온 유지 & 청년 세대 따뜻한 멘토링 나눔', category: 'vitality', progress: 88, habitIds: ['h_sn_3'] }
+          ],
+          habits: [
+            { id: 'h_sn_1', goalId: 'g_senior_1', name: '매일 아침 30분 인생 회고록 및 지혜 에세이 집필', type: 'yin', currentStreak: 8, longestStreak: 21, chain: [1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+            { id: 'h_sn_2', goalId: 'g_senior_1', name: '청년 세대 고민 경청 및 1:1 지혜 나눔 세션', type: 'yang', currentStreak: 4, longestStreak: 7, chain: [1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+            { id: 'h_sn_3', goalId: 'g_senior_2', name: '매일 8,000보 숲길 걷기 및 심호흡 명상', type: 'yang', currentStreak: 7, longestStreak: 18, chain: [1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0] }
+          ]
+        }
+      };
+
+      const preset = HABIT_PRESETS[key] || HABIT_PRESETS.student;
+      MENTOR_BRAIN.lifeGoals = preset.goals;
+      MENTOR_BRAIN.habits = preset.habits;
+      if (typeof renderHabitSystem === 'function') {
+        renderHabitSystem();
+      }
+    }
+
+    function applyStrictPersonaScoping(key) {
+      if (!PERSONA_CONFIGS[key]) key = 'student';
       currentPersonaKey = key;
+
+      // 1. Dynamic Theme Switch
+      document.body.className = `persona-theme-${key}`;
+
+      // 2. Top Header Confirmed Badge Sync
+      const meta = PERSONA_META[key] || PERSONA_META.student;
+      const badgeIcon = document.getElementById('headerPersonaIcon');
+      const badgeName = document.getElementById('headerPersonaName');
+      if (badgeIcon) badgeIcon.innerText = meta.icon;
+      if (badgeName) badgeName.innerText = meta.name;
+
+      // 3. Thought Flow Step 2 Title
+      const flowStage2 = document.getElementById('flowStage2Title');
+      if (flowStage2) {
+        flowStage2.innerText = `${meta.name} 맞춤 챕터`;
+      }
+
+      // 4. Hero Selector & Left Dock Sync
       document.querySelectorAll('.persona-chip').forEach(c => c.classList.remove('active'));
       const chip = document.getElementById(`chip-${key}`);
       if (chip) chip.classList.add('active');
 
-      // 1. Dynamic Aesthetic Theme Switch
-      document.body.className = `persona-theme-${key}`;
+      document.querySelectorAll('[id^="dockPersona-"]').forEach(c => c.classList.remove('active'));
+      const dockChip = document.getElementById(`dockPersona-${key}`);
+      if (dockChip) dockChip.classList.add('active');
 
-      // 2. Render Persona Specialized Scenario & Interactive Tool
+      // 5. Render Persona Specialized Scenario & Interactive Tool
       renderPersonaScenario(key);
 
-      // 2. Persona Specific Aesthetic Mood Texts & Subtitle
+      // 6. Mood text
       const personaMoods = {
         student: {
           icon: 'graduation-cap',
@@ -9644,20 +10266,27 @@
         moodTextEl.innerText = curMood.text;
       }
 
+      // 7. Chamber Titles
       const config = PERSONA_CONFIGS[key];
-      document.getElementById('currentPersonaBadge').innerText = config.badge;
-      document.getElementById('chamberPersonaTitle').innerText = config.title;
+      const curBadge = document.getElementById('currentPersonaBadge');
+      const chamberTitle = document.getElementById('chamberPersonaTitle');
+      if (curBadge) curBadge.innerText = config.badge;
+      if (chamberTitle) chamberTitle.innerText = config.title;
 
-      showAppleToast(curMood.toast);
-      playAppleSound('tap');
+      // 8. Strict Habit Scoping
+      scopeHabitsToPersona(key);
 
-      // Sync Left Dock Persona Rail
-      document.querySelectorAll('[id^="dockPersona-"]').forEach(c => c.classList.remove('active'));
-      const dockChip = document.getElementById(`dockPersona-${key}`);
-      if (dockChip) dockChip.classList.add('active');
-
+      // 9. Restart Session
       restartSession();
       lucide.createIcons();
+    }
+
+    function setPersona(key) {
+      localStorage.setItem('GNOTHI_CONFIRMED_PERSONA', key);
+      applyStrictPersonaScoping(key);
+      const meta = PERSONA_META[key] || PERSONA_META.student;
+      showAppleToast(`🎯 [${meta.name}] 전용 서비스 환경으로 전환되었습니다.`);
+      playAppleSound('tap');
     }
 
     function switchTab(tabId) {
@@ -9756,7 +10385,7 @@
       lucide.createIcons();
 
       // Lifelong Companion Archive & Memory Hook
-      if (typeof MENTOR_BRAIN !== 'undefined') {
+      if (MENTOR_BRAIN && MENTOR_BRAIN.chatArchive) {
         MENTOR_BRAIN.chatArchive.push({
           sender: sender,
           text: htmlText.replace(/<[^>]*>?/gm, '').trim(),
@@ -11532,7 +12161,7 @@
     /* =========================================================================
        NEW JS 3: 10-LEVEL CUTE ANIMAL AVATAR EVOLUTION ENGINE
        ========================================================================= */
-    const SOUL_ANIMALS = {
+    SOUL_ANIMALS = {
       fox: {
         name: '여우 (Fox)',
         emoji: '🦊',
@@ -11620,9 +12249,9 @@
       }
     };
 
-    let currentAnimalKey = 'fox';
-    let currentAnimalLevel = 3;
-    let currentAnimalExp = 350;
+    currentAnimalKey = 'fox';
+    currentAnimalLevel = 3;
+    currentAnimalExp = 350;
     const EXP_PER_LEVEL = 500;
 
     function selectSoulAnimal(key) {
@@ -11992,12 +12621,12 @@
        NEW JS 5: SOUL MIND JOURNAL & LIFETIME MEMORY LAKE
        ========================================================================= */
     let currentJournalMood = '☀️ 맑고 확신';
-    let LIFETIME_MEMORY_LAKE = [];
+    LIFETIME_MEMORY_LAKE = [];
 
     /* =========================================================================
        NEW JS: LIFELONG COMPANION MENTOR BRAIN & NEURAL MEMORY SYSTEM
        ========================================================================= */
-    let MENTOR_BRAIN = {
+    MENTOR_BRAIN = {
       firstMetDate: '2026. 09. 14.',
       lastVisitDate: null,
       visitCount: 7,
@@ -13022,6 +13651,7 @@
       if (!canvas) return;
 
       const wrap = canvas.parentElement;
+      if (!wrap) return;
       const dpr = window.devicePixelRatio || 1;
       const width = wrap.clientWidth || 800;
       const height = wrap.clientHeight || 240;
@@ -13964,6 +14594,17 @@
       }
     }
 
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      checkPersonaOnboarding();
+      checkMembershipStatus();
+      initKeyboardNavigation();
+      init3DTiltEngine();
+      init3DCompassGyroscope();
+      updateCompassAlignment(1);
+      initSoulAvatar();
+    });
+
     // Auto-init on DOM ready: Storage, Animal SVG, Persona Scenario, Soul Calendar, and Mentor Brain System
     setTimeout(() => {
       loadFromLocalStorage();
@@ -13977,10 +14618,13 @@
       if (typeof initRoutineDiagnostic === 'function') initRoutineDiagnostic();
       lucide.createIcons();
 
-      // Greet user with time-aware lifelong companion welcome
-      setTimeout(() => {
-        showMentorWelcome();
-      }, 600);
+      // Greet user with time-aware lifelong companion welcome only if persona is already confirmed
+      const hasConfirmedPersona = localStorage.getItem('GNOTHI_CONFIRMED_PERSONA');
+      if (hasConfirmedPersona) {
+        setTimeout(() => {
+          showMentorWelcome();
+        }, 600);
+      }
     }, 200);
   </script>
 </body>
