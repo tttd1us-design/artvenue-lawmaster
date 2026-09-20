@@ -4,3 +4,9 @@
 - Autonomously execute required terminal commands, implement code, fix any errors, and report the final result only.
 - Proceed through the entire lifecycle (analysis, implementation, verification, self-debugging, and deployment/git sync) without intermediate confirmation pauses.
 - Proactively fix any build, lint, or runtime errors autonomously and verify the solution before presenting the final result.
+
+# Direct File Overwrite & No-Diff Directives
+- Do not call editor-embedded diff inspection or modification tools.
+- Directly overwrite target files using terminal commands (Node.js fs.writeFileSync or Python scripts).
+- Do not prompt user confirmation or trigger diff review UI during task execution. Complete work autonomously and report only the final result.
+
