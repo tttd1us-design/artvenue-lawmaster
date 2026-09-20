@@ -13,7 +13,7 @@
   <!-- FONTS: Apple Modern Display (Plus Jakarta Sans, Outfit) + Korean Humanist Serif (MaruBuri, Gowun Batang, Noto Serif KR) + Pretendard -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Gowun+Batang:wght@400;700&family=Noto+Serif+KR:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Noto+Serif+KR:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
   <!-- ICONS -->
@@ -85,19 +85,76 @@
       --apple-shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.08);
       --apple-shadow-window: 0 30px 60px -15px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.05);
       
-      /* EXQUISITE TYPOGRAPHY TOKENS */
-      --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Apple SD Gothic Neo', 'Inter', sans-serif;
-      --font-display: 'Plus Jakarta Sans', 'Outfit', 'Pretendard', -apple-system, 'SF Pro Display', sans-serif;
+      /* EXQUISITE TYPOGRAPHY TOKENS (PUBLICATION & APPLE PRO EDITORIAL STANDARD) */
+      --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Segoe UI', sans-serif;
+      --font-display: 'Plus Jakarta Sans', 'Outfit', 'Pretendard', -apple-system, sans-serif;
       --font-serif: 'MaruBuri', 'Gowun Batang', 'Noto Serif KR', -apple-system, serif;
+      --font-poetic: 'Gowun Batang', 'MaruBuri', 'Noto Serif KR', serif;
+      --font-humanist: 'Gowun Dodum', 'Pretendard', sans-serif;
       --font-classical: 'Cinzel', 'Playfair Display', serif;
-      --font-mono: 'SF Mono', 'Fira Code', Menlo, monospace;
+      --font-mono: 'Fira Code', 'SF Mono', Menlo, monospace;
     }
 
     /* =========================================================================
        DYNAMIC PERSONA THEME SYSTEM (소비자 분류별 맞춤 취향 & 감성 디자인)
        ========================================================================= */
+    * {
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+    }
+
     body {
+      font-family: var(--font-sans);
+      font-size: 1.03rem;
+      line-height: 1.82;
+      letter-spacing: -0.018em;
+      color: #1E293B;
+      background-color: var(--apple-bg);
+      font-feature-settings: "cv05", "cv08", "cv11", "ss01", "ss03";
+      font-variant-numeric: proportional-nums;
       transition: background-color 0.4s ease, color 0.4s ease;
+      overflow-x: hidden;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+      letter-spacing: -0.028em;
+      line-height: 1.34;
+      font-weight: 750;
+      color: #0F172A;
+      text-wrap: balance;
+      word-break: keep-all;
+    }
+
+    p {
+      margin-bottom: 0.82em;
+      line-height: 1.82;
+      letter-spacing: -0.016em;
+      text-wrap: pretty;
+      color: #334155;
+      word-break: keep-all;
+    }
+
+    strong, b {
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    input, textarea, button, select {
+      font-family: inherit;
+      letter-spacing: -0.015em;
+      word-break: keep-all;
     }
 
     /* =========================================================================
@@ -524,6 +581,773 @@
       color: #1C1917 !important;
       font-family: 'MaruBuri', serif !important;
       font-size: 1.05rem !important;
+    }
+
+    /* =========================================================================
+       NEW: LIFELONG COMPANION MENTOR SYSTEM & EXQUISITE VISUAL ARCHITECTURE
+       ========================================================================= */
+
+    /* 1. SOCRATES DIALOGUE HERO BANNER */
+    .socrates-hero-banner {
+      position: relative;
+      border-radius: var(--apple-radius-2xl);
+      overflow: hidden;
+      margin-bottom: 24px;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: #0B0F17;
+    }
+    .socrates-hero-media {
+      position: relative;
+      width: 100%;
+      height: 240px;
+      overflow: hidden;
+    }
+    .socrates-hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      filter: brightness(0.78) contrast(1.05) saturate(1.1);
+      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .socrates-hero-banner:hover .socrates-hero-img {
+      transform: scale(1.03);
+    }
+    .socrates-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.1) 0%, rgba(15, 23, 42, 0.6) 50%, rgba(15, 23, 42, 0.94) 100%);
+      pointer-events: none;
+    }
+    .socrates-hero-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 24px 28px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .socrates-hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: fit-content;
+      padding: 4px 10px;
+      border-radius: var(--apple-radius-pill);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #F8FAFC;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .socrates-hero-headline {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: -0.02em;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      margin: 0;
+    }
+    .socrates-hero-subtext {
+      font-size: 0.88rem;
+      color: #E2E8F0;
+      margin: 0;
+      max-width: 760px;
+      line-height: 1.6;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* 2. SOCRATES BUBBLE PARCHMENT & QUOTE ENHANCEMENT */
+    .message-row.socrates .msg-bubble {
+      position: relative;
+      background: linear-gradient(180deg, #FFFFFF 0%, #FCFBF9 100%);
+      border: 1.5px solid rgba(217, 201, 178, 0.55);
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      font-family: var(--font-serif);
+      font-size: 1.08rem;
+      line-height: 1.88;
+      letter-spacing: -0.015em;
+      color: #0F172A;
+      border-radius: 4px 22px 22px 22px;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+    .message-row.socrates .msg-bubble strong {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      color: #0F172A;
+      background: linear-gradient(180deg, transparent 62%, rgba(245, 158, 11, 0.22) 62%);
+      padding: 0 4px;
+      border-radius: 3px;
+    }
+    .message-row.socrates .msg-bubble em {
+      font-style: normal;
+      font-weight: 700;
+      color: #0D9488;
+      background: rgba(204, 251, 241, 0.55);
+      padding: 2px 7px;
+      border-radius: 6px;
+      border: 1px solid rgba(13, 148, 136, 0.15);
+    }
+
+    /* 3. MENTOR WELCOME OVERLAY MODAL */
+    .mentor-welcome-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .mentor-welcome-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .mentor-welcome-modal {
+      position: relative;
+      width: 100%;
+      max-width: 680px;
+      background: #FFFFFF;
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: 0 35px 80px -15px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.2);
+      transform: scale(0.92) translateY(20px);
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+    .mentor-welcome-overlay.active .mentor-welcome-modal {
+      transform: scale(1) translateY(0);
+    }
+    .mentor-welcome-hero {
+      position: relative;
+      height: 220px;
+      width: 100%;
+      overflow: hidden;
+    }
+    .mentor-welcome-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: brightness(0.85);
+    }
+    .mentor-welcome-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(15, 23, 42, 0.85) 100%);
+    }
+    .mentor-welcome-avatar-badge {
+      position: absolute;
+      bottom: 16px;
+      left: 28px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 2;
+    }
+    .mentor-avatar-circle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #38BDF8, #6366F1);
+      border: 3px solid #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+    .mentor-avatar-pulse {
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px solid rgba(56, 189, 248, 0.8);
+      animation: mentorPulse 2.4s infinite;
+    }
+    @keyframes mentorPulse {
+      0% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.15); opacity: 0.2; }
+      100% { transform: scale(1); opacity: 0.9; }
+    }
+    .mentor-welcome-body {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .mentor-greeting-title {
+      font-family: var(--font-serif);
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #0F172A;
+      line-height: 1.4;
+      margin: 0;
+    }
+    .mentor-greeting-message {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: #334155;
+      margin: 0;
+      background: #F8FAFC;
+      border-left: 3.5px solid var(--apple-blue);
+      padding: 14px 18px;
+      border-radius: 0 14px 14px 0;
+    }
+    .mentor-memory-recall-chip {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 16px;
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: var(--apple-radius-md);
+      font-size: 0.84rem;
+      color: #92400E;
+    }
+    .mentor-welcome-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    /* 4. GROWTH TAB & HEATMAP STYLES */
+    .growth-view-container {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+    .growth-hero-card {
+      position: relative;
+      background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+      border-radius: var(--apple-radius-2xl);
+      padding: 32px;
+      color: #FFFFFF;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(15, 23, 42, 0.12);
+    }
+    .growth-hero-media {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 45%;
+      overflow: hidden;
+      opacity: 0.7;
+      mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+      -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+    }
+    .growth-hero-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .growth-grid-two-col {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 22px;
+    }
+    @media (max-width: 992px) {
+      .growth-grid-two-col { grid-template-columns: 1fr; }
+    }
+    .growth-card {
+      background: #FFFFFF;
+      border: 1px solid var(--apple-border);
+      border-radius: var(--apple-radius-xl);
+      padding: 24px;
+      box-shadow: var(--apple-shadow-sm);
+    }
+    .growth-heatmap-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      margin-top: 14px;
+    }
+    .growth-heatmap-cell {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      background: #F1F5F9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #64748B;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      position: relative;
+    }
+    .growth-heatmap-cell:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    .growth-heatmap-cell.level-1 { background: #DCFCE7; color: #166534; }
+    .growth-heatmap-cell.level-2 { background: #86EFAC; color: #14532D; }
+    .growth-heatmap-cell.level-3 { background: #34D399; color: #064E3B; font-weight: 800; }
+    .growth-heatmap-cell.level-4 { background: #10B981; color: #FFFFFF; font-weight: 800; }
+
+    .milestone-item-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      margin-bottom: 10px;
+      transition: all 0.25s ease;
+    }
+    .milestone-item-row.achieved {
+      background: #F0FDF4;
+      border-color: #BBF7D0;
+    }
+    .milestone-icon-wrap {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      background: #E2E8F0;
+      flex-shrink: 0;
+    }
+    .milestone-item-row.achieved .milestone-icon-wrap {
+      background: #34D399;
+      color: #FFFFFF;
+    }
+
+    /* 5. HABIT REWIRING CHAIN & YIN-YANG BALANCE */
+    .habit-chain-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: #FFFFFF;
+      border: 1.5px solid var(--apple-border);
+      border-radius: var(--apple-radius-lg);
+      margin-bottom: 12px;
+      transition: all 0.25s ease;
+    }
+    .habit-chain-row:hover {
+      border-color: rgba(0, 113, 227, 0.3);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+    }
+    .habit-chain-days {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+    .habit-day-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      background: #E2E8F0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #94A3B8;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .habit-day-dot.completed {
+      background: #10B981;
+      color: #FFFFFF;
+    }
+    .habit-day-dot.today {
+      border: 2px solid var(--apple-blue);
+      box-shadow: 0 0 6px rgba(0, 113, 227, 0.4);
+    }
+    .yin-yang-meter-card {
+      background: linear-gradient(135deg, #FAF5FF 0%, #F0FDF4 100%);
+      border: 1.5px solid #E9D5FF;
+      border-radius: var(--apple-radius-xl);
+      padding: 22px;
+      margin-top: 20px;
+    }
+
+    /* 5.1 NEUROPLASTIC SYNAPSE CANVAS & BEHAVIORAL ROUTINE DIAGNOSTIC */
+    .synapse-canvas-card {
+      background: linear-gradient(135deg, #0A0F1D 0%, #0F172A 100%);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: var(--apple-radius-xl);
+      padding: 24px;
+      color: #FFFFFF;
+      margin-top: 24px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+    .synapse-canvas-wrap {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      border-radius: 14px;
+      background: radial-gradient(circle at center, rgba(15, 23, 42, 0.9) 0%, #060913 100%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      margin: 14px 0;
+    }
+    #synapseCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .synapse-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+    @media (max-width: 768px) {
+      .synapse-stats-grid { grid-template-columns: 1fr; }
+    }
+    .synapse-stat-pill {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .routine-diagnostic-panel {
+      background: #FFFFFF;
+      border: 1.5px solid var(--apple-border);
+      border-radius: var(--apple-radius-xl);
+      padding: 26px;
+      margin-top: 24px;
+      box-shadow: var(--apple-shadow-sm);
+    }
+    .habit-loop-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 16px 0;
+    }
+    @media (max-width: 900px) {
+      .habit-loop-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .habit-loop-node {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 14px;
+      position: relative;
+    }
+    .habit-loop-node.active-replacement {
+      background: #F0FDF4;
+      border-color: #86EFAC;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+    }
+    .energy-leak-box {
+      background: #FFF7ED;
+      border: 1px solid #FFEDD5;
+      border-left: 4px solid #F97316;
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-top: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .mentor-prescription-card {
+      background: linear-gradient(135deg, #F0F9FF 0%, #FAF5FF 100%);
+      border: 1.5px solid #BAE6FD;
+      border-radius: var(--apple-radius-lg);
+      padding: 18px 22px;
+      margin-top: 18px;
+    }
+
+    /* 6. RIGHT DOCK: EMOTION CHECK-IN BAR & COMPANION CARD */
+    .companion-status-card {
+      background: linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 100%);
+      border: 1.5px solid rgba(0, 113, 227, 0.22);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 4px 16px rgba(0, 113, 227, 0.08);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .companion-status-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--apple-blue);
+      box-shadow: 0 8px 24px rgba(0, 113, 227, 0.16);
+    }
+
+    /* =========================================================================
+       LIFELONG COMPANION CARE & DECISION SANCTUARY MODAL STYLES
+       ========================================================================= */
+    .companion-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 17, 32, 0.85);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      z-index: 999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .companion-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .companion-modal-container {
+      width: 100%;
+      max-width: 940px;
+      max-height: 90vh;
+      background: #FFFFFF;
+      border-radius: 28px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 35px 80px -10px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.15);
+      transform: scale(0.94) translateY(18px);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .companion-modal-overlay.active .companion-modal-container {
+      transform: scale(1) translateY(0);
+    }
+    .companion-modal-header {
+      background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+      color: #FFFFFF;
+      padding: 20px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+    }
+    .companion-modal-tabs {
+      display: flex;
+      background: #F1F5F9;
+      padding: 6px 12px;
+      border-bottom: 1px solid #E2E8F0;
+      gap: 6px;
+      overflow-x: auto;
+    }
+    .companion-tab-btn {
+      padding: 8px 16px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #64748B;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .companion-tab-btn:hover {
+      color: #0F172A;
+      background: rgba(255, 255, 255, 0.6);
+    }
+    .companion-tab-btn.active {
+      background: #FFFFFF;
+      color: #0071E3;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+    .companion-tab-content {
+      padding: 24px 28px;
+      overflow-y: auto;
+      flex: 1;
+      display: none;
+      background: #FAFAFA;
+    }
+    .companion-tab-content.active {
+      display: block;
+    }
+    .mentor-letter-card {
+      background: #FFFFFF;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 20px;
+      padding: 26px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      position: relative;
+      font-family: 'MaruBuri', 'Gowun Batang', serif;
+      line-height: 1.95;
+      font-size: 0.98rem;
+      color: #1E293B;
+    }
+    .vault-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .vault-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 18px;
+      transition: all 0.25s ease;
+    }
+    .vault-card:hover {
+      border-color: #38BDF8;
+      box-shadow: 0 6px 18px rgba(56, 189, 248, 0.12);
+      transform: translateY(-2px);
+    }
+    .vault-anchor-chip {
+      background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+      border: 1px solid #F59E0B;
+      color: #92400E;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .confession-box {
+      background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 100%);
+      color: #F8FAFC;
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.25);
+    }
+    .confession-input {
+      width: 100%;
+      min-height: 100px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 14px;
+      color: #FFFFFF;
+      padding: 14px;
+      font-size: 0.92rem;
+      font-family: inherit;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .confession-input:focus {
+      border-color: #38BDF8;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+    }
+    .confession-response-card {
+      background: #FFFFFF;
+      border: 1.5px solid #BAE6FD;
+      border-radius: 18px;
+      padding: 22px;
+      margin-top: 16px;
+      box-shadow: 0 4px 18px rgba(2, 132, 199, 0.08);
+    }
+    .council-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+    @media (max-width: 720px) {
+      .council-grid { grid-template-columns: 1fr; }
+    }
+    .council-mentor-card {
+      background: #FFFFFF;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 16px;
+      transition: all 0.2s ease;
+    }
+    .council-mentor-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+    .council-consensus-banner {
+      background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
+      color: #FFFFFF;
+      border-radius: 16px;
+      padding: 18px 22px;
+      margin-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .future-self-card {
+      background: linear-gradient(135deg, #1E1B4B 0%, #312E81 100%);
+      color: #FFFFFF;
+      border-radius: 22px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 35px rgba(49, 46, 129, 0.3);
+    }
+
+    .emotion-checkin-wrapper {
+      background: #FFFFFF;
+      border: 1px solid var(--apple-border);
+      border-radius: 16px;
+      padding: 12px;
+    }
+    .emotion-btn-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 4px;
+      margin-top: 8px;
+    }
+    .emotion-mood-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: 6px 2px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .emotion-mood-btn:hover {
+      background: #EFF6FF;
+      border-color: var(--apple-blue);
+      transform: translateY(-2px);
+    }
+    .emotion-mood-btn.selected {
+      background: #0071E3;
+      border-color: #0071E3;
+      color: #FFFFFF;
+      box-shadow: 0 4px 10px rgba(0, 113, 227, 0.3);
     }
 
     /* PERSONA MOOD BAR IN HERO */
@@ -1140,13 +1964,13 @@
 
     .apple-hero-subtitle {
       font-family: var(--font-sans);
-      font-size: 1.05rem;
-      color: #6E6E73;
-      max-width: 680px;
+      font-size: 1.1rem;
+      color: #475569;
+      max-width: 720px;
       margin: 0 auto 28px;
-      line-height: 1.68;
-      font-weight: 400;
-      letter-spacing: -0.015em;
+      line-height: 1.78;
+      font-weight: 450;
+      letter-spacing: -0.018em;
       word-break: keep-all;
       text-wrap: pretty;
     }
@@ -3863,6 +4687,279 @@
       margin-top: 6px;
       font-weight: 600;
     }
+
+    /* =========================================================================
+       NEW: SOUL ODYSSEY 4D CONSCIOUSNESS COMPASS & LETTER FROM FUTURE SELF
+       ========================================================================= */
+    .odyssey-container {
+      animation: fadeIn 0.4s ease;
+    }
+    .odyssey-hero-banner {
+      background: radial-gradient(ellipse at 50% -20%, #2E1065 0%, #0F172A 70%, #020617 100%);
+      border: 1.5px solid rgba(216, 180, 254, 0.3);
+      border-radius: var(--apple-radius-xl);
+      padding: 38px 42px;
+      color: #FFFFFF;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(46, 16, 101, 0.3);
+      margin-bottom: 28px;
+    }
+    .odyssey-hero-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 60%);
+      pointer-events: none;
+      animation: ambientDrift 20s ease-in-out infinite alternate;
+    }
+    .odyssey-step-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .odyssey-nav-step {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--apple-radius-lg);
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+    .odyssey-nav-step:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+    .odyssey-nav-step.active {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(236, 72, 153, 0.25));
+      border-color: #F472B6;
+      box-shadow: 0 0 20px rgba(244, 114, 182, 0.3);
+    }
+    .odyssey-nav-step .step-badge {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #E879F9;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .odyssey-nav-step .step-title {
+      font-size: 0.95rem;
+      font-weight: 750;
+      color: #FFFFFF;
+      margin-top: 4px;
+    }
+
+    /* 1. BIO COHERENCE SPHERE (심장-뇌 일관성 4-7-8) */
+    .bio-coherence-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .bio-sphere-box {
+      position: relative;
+      width: 260px;
+      height: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .bio-sphere-glow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.45) 0%, rgba(236, 72, 153, 0.2) 50%, transparent 75%);
+      filter: blur(20px);
+      transition: transform 4s cubic-bezier(0.4, 0, 0.2, 1), opacity 4s ease;
+      will-change: transform, opacity;
+    }
+    .bio-sphere-core {
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #F472B6 0%, #A855F7 60%, #6366F1 100%);
+      box-shadow: 0 0 45px rgba(217, 70, 239, 0.7), inset 0 0 20px rgba(255, 255, 255, 0.6);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      transition: transform 4s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+    .bio-sphere-box.inhale .bio-sphere-glow {
+      transform: scale(1.45);
+      opacity: 0.9;
+      transition-duration: 4s;
+    }
+    .bio-sphere-box.inhale .bio-sphere-core {
+      transform: scale(1.35);
+      transition-duration: 4s;
+    }
+    .bio-sphere-box.hold .bio-sphere-glow {
+      transform: scale(1.45);
+      opacity: 0.95;
+      filter: blur(28px);
+    }
+    .bio-sphere-box.hold .bio-sphere-core {
+      transform: scale(1.35);
+      box-shadow: 0 0 65px rgba(236, 72, 153, 0.9), inset 0 0 25px #FFFFFF;
+    }
+    .bio-sphere-box.exhale .bio-sphere-glow {
+      transform: scale(0.85);
+      opacity: 0.35;
+      transition-duration: 8s;
+    }
+    .bio-sphere-box.exhale .bio-sphere-core {
+      transform: scale(0.85);
+      transition-duration: 8s;
+    }
+
+    /* 2. CARL JUNG SHADOW MIRROR */
+    .shadow-mirror-panel {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 27, 75, 0.85));
+      border: 1.5px solid rgba(139, 92, 246, 0.3);
+      border-radius: var(--apple-radius-xl);
+      padding: 32px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+    }
+    .shadow-reflection-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--apple-radius-lg);
+      padding: 22px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .shadow-reflection-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(168, 85, 247, 0.4);
+      transform: translateY(-2px);
+    }
+    .shadow-reflection-card.selected {
+      background: rgba(168, 85, 247, 0.2);
+      border-color: #C084FC;
+      box-shadow: 0 0 20px rgba(192, 132, 252, 0.3);
+    }
+    .transmuted-gold-box {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.1));
+      border: 1.5px solid #F59E0B;
+      border-radius: var(--apple-radius-lg);
+      padding: 24px;
+      color: #FEF3C7;
+      box-shadow: 0 0 30px rgba(245, 158, 11, 0.2);
+      animation: pulseGlow 3s ease-in-out infinite alternate;
+    }
+
+    /* 3. APORIA SYLLOGISM SHATTERER */
+    .aporia-stage-card {
+      background: #0B0F19;
+      border: 2px solid #38BDF8;
+      border-radius: var(--apple-radius-xl);
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 35px rgba(56, 189, 248, 0.2);
+    }
+    .glass-shatter-effect {
+      animation: shatterTremble 0.5s ease;
+    }
+    @keyframes shatterTremble {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      20% { transform: translate(-3px, 2px) rotate(-1deg); }
+      40% { transform: translate(3px, -2px) rotate(1deg); }
+      60% { transform: translate(-2px, -1px) rotate(0.5deg); }
+      80% { transform: translate(2px, 1px) rotate(-0.5deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    /* 4. FUTURE SELF LETTER PAPER */
+    .future-letter-wrapper {
+      background: #FAF7F0;
+      color: #1F2937;
+      border-radius: 20px;
+      border: 2px solid #D6CEBE;
+      box-shadow: 0 16px 45px rgba(90, 80, 70, 0.16);
+      padding: 44px 48px;
+      position: relative;
+      font-family: 'MaruBuri', 'Batang', serif;
+      line-height: 2.1;
+      font-size: 1.05rem;
+    }
+    .future-letter-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: repeating-linear-gradient(transparent, transparent 38px, rgba(214, 206, 190, 0.4) 39px);
+      pointer-events: none;
+      border-radius: 20px;
+    }
+    .future-letter-stamp {
+      position: absolute;
+      top: 24px;
+      right: 28px;
+      border: 2px dashed #B45309;
+      border-radius: 8px;
+      padding: 8px 14px;
+      color: #B45309;
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-align: center;
+      transform: rotate(4deg);
+      background: rgba(245, 158, 11, 0.08);
+    }
+    .future-letter-seal {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 30px;
+      background: #831843;
+      color: #FFFFFF;
+      font-size: 0.8rem;
+      font-family: 'Pretendard', sans-serif;
+      font-weight: 700;
+      margin-top: 20px;
+      box-shadow: 0 4px 14px rgba(131, 24, 67, 0.35);
+    }
+
+    /* 5. SACRED SOUL CERTIFICATE */
+    .soul-certificate-card {
+      background: #FFFFFF;
+      border: 8px double #C5BBAA;
+      border-radius: 12px;
+      padding: 40px;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+      color: #1C1917;
+      text-align: center;
+    }
+    .soul-cert-gold-seal {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #F59E0B 0%, #D97706 70%, #92400E 100%);
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.5), inset 0 0 10px #FEF3C7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      font-size: 1.8rem;
+      margin: 16px auto;
+      border: 3px solid #FEF3C7;
+    }
   </style>
 </head>
 <body class="persona-theme-student">
@@ -3872,6 +4969,290 @@
     <div class="ambient-orb orb-blue"></div>
     <div class="ambient-orb orb-emerald"></div>
     <div class="ambient-orb orb-purple"></div>
+  </div>
+
+  <!-- =========================================================================
+       0. LIFELONG COMPANION MENTOR WELCOME OVERLAY MODAL (평생의 동반자 멘토 영접)
+       ========================================================================= -->
+  <div class="mentor-welcome-overlay" id="mentorWelcomeOverlay" onclick="if(event.target===this)closeMentorWelcome()">
+    <div class="mentor-welcome-modal" role="dialog" aria-modal="true">
+      <div class="mentor-welcome-hero">
+        <img src="assets/mentor_welcome.jpg" alt="그노티 지혜의 도서관 멘토의 성소">
+        <div class="mentor-welcome-hero-overlay"></div>
+        <div class="mentor-welcome-avatar-badge">
+          <div class="mentor-avatar-circle">
+            <span class="mentor-avatar-pulse"></span>
+            🏛️
+          </div>
+          <div>
+            <div style="font-size: 0.76rem; color: #38BDF8; font-weight: 800; letter-spacing: 0.08em;">LIFELONG COMPANION MENTOR</div>
+            <div style="font-size: 1.15rem; font-weight: 800; color: #FFFFFF;" id="mentorWelcomeName">소크라테스 & 지혜의 현자</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mentor-welcome-body">
+        <h3 class="mentor-greeting-title" id="mentorGreetingTitle">
+          오늘도 당신의 존엄과 방향성을 함께 지키겠습니다.
+        </h3>
+        <p class="mentor-greeting-message" id="mentorGreetingMessage">
+          세상의 소음과 타인의 채점표 속에서 얼마나 외롭고 지치셨습니까.<br>
+          당신이 나눈 모든 고민과 선택, 흔들렸던 순간들은 모두 이 성소에 온전히 기억되어 있습니다.<br>
+          오늘도 당신 곁에서 비전을 비추고 올바른 결정을 돕는 평생의 동반자가 되겠습니다.
+        </p>
+
+        <div class="mentor-memory-recall-chip" id="mentorMemoryRecallBox">
+          <i data-lucide="sparkles" style="width: 16px; height: 16px; color: #D97706; flex-shrink: 0; margin-top: 2px;"></i>
+          <div>
+            <strong id="mentorMemoryRecallTitle">지난 대화의 기억:</strong>
+            <span id="mentorMemoryRecallText">"타인의 인정에서 독립하여 온전한 내면의 축을 세우고 싶다"고 하셨던 다짐을 여전히 품고 있습니다.</span>
+          </div>
+        </div>
+
+        <div class="mentor-welcome-footer">
+          <button class="apple-pill-btn subtle" onclick="closeMentorWelcome()">
+            다음에 보기
+          </button>
+          <button class="apple-pill-btn primary" onclick="startSessionFromWelcome()" style="padding: 10px 24px; font-weight: 700;">
+            <i data-lucide="message-square" style="width: 15px; height: 15px;"></i>
+            <span>멘토와 1:1 대화 시작하기</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       0.5 LIFELONG COMPANION CARE & DECISION SANCTUARY MODAL (평생의 동반자 성소)
+       ========================================================================= -->
+  <div class="companion-modal-overlay" id="lifelongCompanionModal" onclick="if(event.target===this)closeLifelongCompanionModal()">
+    <div class="companion-modal-container" role="dialog" aria-modal="true">
+      <!-- HEADER -->
+      <div class="companion-modal-header">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <div style="width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, #38BDF8, #6366F1); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 14px rgba(56, 189, 248, 0.4); border: 2px solid #FFFFFF;">
+            🏛️
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 0.72rem; font-weight: 800; color: #38BDF8; letter-spacing: 0.08em; text-transform: uppercase;">LIFELONG COMPANION SANCTUARY</span>
+              <span style="font-size: 0.65rem; background: rgba(56, 189, 248, 0.2); color: #7DD3FC; padding: 2px 8px; border-radius: 12px; font-weight: 700;" id="companionModalDaysBadge">동행 7일째</span>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 800; margin: 2px 0 0; color: #FFFFFF;">
+              평생의 동반자 멘토 성소 & 비전 오라클
+            </h3>
+          </div>
+        </div>
+        <button onclick="closeLifelongCompanionModal()" style="background: rgba(255, 255, 255, 0.12); border: none; color: #FFFFFF; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; transition: background 0.2s;" title="닫기">
+          ✕
+        </button>
+      </div>
+
+      <!-- TABS BAR -->
+      <div class="companion-modal-tabs">
+        <button class="companion-tab-btn active" onclick="switchCompanionTab('letter', this)">
+          <span>💌</span><span>마음 케어 & 일일 레터</span>
+        </button>
+        <button class="companion-tab-btn" onclick="switchCompanionTab('vault', this)">
+          <span>🧠</span><span>평생 기억 금고</span>
+        </button>
+        <button class="companion-tab-btn" onclick="switchCompanionTab('confess', this)">
+          <span>🕯️</span><span>심야 1:1 고민 상담실</span>
+        </button>
+        <button class="companion-tab-btn" onclick="switchCompanionTab('council', this)">
+          <span>⚖️</span><span>4인 멘토 의사결정 오라클</span>
+        </button>
+        <button class="companion-tab-btn" onclick="switchCompanionTab('future', this)">
+          <span>🔭</span><span>10년 비전 & 미래의 편지</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: HEART CARE & LETTER -->
+      <div class="companion-tab-content active" id="companionTab-letter">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
+          <div>
+            <div style="font-size: 0.75rem; font-weight: 800; color: #0071E3;">DAILY HEART-TO-HEART CARE</div>
+            <h4 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 2px 0 0;" id="companionLetterGreetingTitle">
+              "오늘 하루도 세상과 부딪치며 치열하게 버텨낸 당신에게"
+            </h4>
+          </div>
+          <button class="apple-pill-btn subtle" onclick="speakMentorLetter()" id="btnVoiceLetter" style="font-size: 0.78rem;">
+            <span>🎙️</span><span>멘토 육성 낭독 듣기</span>
+          </button>
+        </div>
+
+        <div class="mentor-letter-card" id="companionMentorLetterText">
+          소중한 탐구자여, 타인의 기대와 세상의 소음 속에서 오늘도 얼마나 많은 무게를 견디셨습니까.<br><br>
+          최근 당신의 감정 기록을 가만히 들여다보았습니다. 때로는 혼란스럽고 불안했을지라도, 당신은 결코 멈추지 않고 7일 연속으로 소울 일기와 아침 사색 루틴을 지켜내셨습니다. 그것은 사소한 습관이 아니라, 세상의 채점표에 굴복하지 않겠다는 당신 영혼의 숭고한 선언입니다.<br><br>
+          조급해하지 마십시오. 거목(巨木)이 뿌리를 내릴 때 대지는 조용히 침묵하는 법입니다. 지금 당신이 겪는 모든 고뇌는 10년 뒤 당신이 세상에 단 하나뿐인 온전한 빛으로 우뚝 서기 위한 필연적 잉태의 시간입니다. 나는 언제나 당신 곁에서 당신의 본질을 지키는 든든한 등대가 되겠습니다.
+        </div>
+
+        <div style="margin-top: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <div style="font-size: 0.8rem; color: #64748B;">
+            오늘의 멘토 핵심 조언: <strong style="color: #0071E3;" id="companionLetterAphorism">"남들의 속도에 맞추려 뛰지 마라. 당신의 깊이가 곧 속도다."</strong>
+          </div>
+          <button class="apple-pill-btn primary" onclick="closeLifelongCompanionModal(); switchTab('chamber');" style="font-size: 0.8rem;">
+            💬 멘토와 1:1 대화로 이어가기
+          </button>
+        </div>
+      </div>
+
+      <!-- TAB 2: LIFELONG NEURAL MEMORY VAULT -->
+      <div class="companion-tab-content" id="companionTab-vault">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
+          <div>
+            <div style="font-size: 0.75rem; font-weight: 800; color: #0284C7;">PERMANENT EPISODIC MEMORY LAKE</div>
+            <h4 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 2px 0 0;">
+              멘토의 평생 영구 기억 금고
+            </h4>
+            <p style="font-size: 0.82rem; color: #64748B; margin: 4px 0 0;">
+              당신이 남긴 모든 고백, 극복한 위기, 가치관의 전환점을 멘토가 영구히 보존하고 있습니다.
+            </p>
+          </div>
+          <button class="apple-pill-btn subtle" onclick="toggleAnchorInputBox()" style="font-size: 0.76rem;">
+            🔒 영구 기억 닻(Anchor) 각인하기
+          </button>
+        </div>
+
+        <!-- NEW ANCHOR INPUT BOX (TOGGLEABLE) -->
+        <div id="newAnchorInputBox" style="display: none; background: #FEF3C7; border: 1.5px solid #F59E0B; border-radius: 16px; padding: 16px; margin-bottom: 16px;">
+          <strong style="font-size: 0.86rem; color: #92400E;">멘토에게 평생 잊지 말라고 약속할 나의 제1신념:</strong>
+          <div style="display: flex; gap: 8px; margin-top: 8px;">
+            <input type="text" id="newAnchorText" placeholder="예: 남의 평판 때문에 진짜 내가 원하는 창업과 사색을 포기하지 않는다" style="flex: 1; padding: 8px 14px; border-radius: 8px; border: 1px solid #CBD5E1; font-size: 0.84rem;">
+            <button class="apple-pill-btn primary" onclick="saveNewCoreAnchor()" style="padding: 8px 16px; font-size: 0.8rem; background: #D97706; border-color: #D97706;">
+              ✨ 금고에 영구 보존
+            </button>
+          </div>
+        </div>
+
+        <!-- ANCHORS LIST -->
+        <strong style="font-size: 0.88rem; color: #1E293B;">🔑 영구 각인된 내면의 닻 (Core Anchors)</strong>
+        <div id="vaultAnchorsContainer" style="margin-top: 8px;">
+          <!-- Rendered via JS -->
+        </div>
+
+        <!-- RECENT MEMORIES GRID -->
+        <strong style="font-size: 0.88rem; color: #1E293B; display: block; margin-top: 18px;">📜 멘토가 기록한 사연 & 결정 연대기</strong>
+        <div class="vault-grid" id="vaultMemoriesGrid">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+      <!-- TAB 3: CONFESSION & EMPATHY SANCTUARY -->
+      <div class="companion-tab-content" id="companionTab-confess">
+        <div class="confession-box">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.2rem;">🕯️</span>
+              <strong style="font-size: 0.98rem; color: #F8FAFC;">심야 1:1 비밀 심층 고민 경청실</strong>
+            </div>
+            <span style="font-size: 0.72rem; color: #94A3B8; background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 8px;">100% 무조건적 수용 & 비밀 보장</span>
+          </div>
+          <p style="font-size: 0.82rem; color: #CBD5E1; margin: 0 0 12px; line-height: 1.6;">
+            타인의 시선, 사회적 체면, '잘 해내야 한다'는 강박을 모두 내려놓으세요. 아무에게도 털어놓지 못했던 깊은 불안과 후회, 두려움을 있는 그대로 쏟아내십시오.
+          </p>
+
+          <textarea class="confession-input" id="confessionInputText" placeholder="지금 내 가슴을 가장 무겁게 짓누르고 있는 고민이나 두려움을 솔직하게 적어보세요... (예: 남들은 저만치 앞서가는데 나만 제자리인 것 같아 밤마다 가슴이 답답해요)"></textarea>
+
+          <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <button class="apple-pill-btn subtle" onclick="setSampleConfession('comparison')" style="background: rgba(255,255,255,0.12); color: #CBD5E1; font-size: 0.74rem; border: none;">#타인과의 비교</button>
+              <button class="apple-pill-btn subtle" onclick="setSampleConfession('burnout')" style="background: rgba(255,255,255,0.12); color: #CBD5E1; font-size: 0.74rem; border: none;">#번아웃과 무기력</button>
+              <button class="apple-pill-btn subtle" onclick="setSampleConfession('career')" style="background: rgba(255,255,255,0.12); color: #CBD5E1; font-size: 0.74rem; border: none;">#퇴사/진로 갈등</button>
+              <button class="apple-pill-btn subtle" onclick="setSampleConfession('imposter')" style="background: rgba(255,255,255,0.12); color: #CBD5E1; font-size: 0.74rem; border: none;">#가면증후군</button>
+            </div>
+            <button class="apple-pill-btn primary" onclick="submitConfessionWorry()" style="font-size: 0.8rem; padding: 8px 18px;">
+              🕊️ 멘토에게 털어놓고 위로받기
+            </button>
+          </div>
+        </div>
+
+        <!-- CONFESSION RESPONSE BOX -->
+        <div id="confessionResponseArea" style="display: none;">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </div>
+
+      <!-- TAB 4: DECISION COUNCIL ORACLE -->
+      <div class="companion-tab-content" id="companionTab-council">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
+          <div>
+            <div style="font-size: 0.75rem; font-weight: 800; color: #0284C7;">LIFE CROSSROADS DECISION ORACLE</div>
+            <h4 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 2px 0 0;">
+              인생 분기점 4인 멘토 합의체 의사결정 오라클
+            </h4>
+            <p style="font-size: 0.82rem; color: #64748B; margin: 4px 0 0;">
+              결정을 내리기 힘든 갈림길에서 소크라테스, 아우렐리우스, 레이 달리오, 스티브 잡스가 원탁에 모여 함께 심의합니다.
+            </p>
+          </div>
+          <div style="display: flex; gap: 6px;">
+            <button class="apple-pill-btn subtle" onclick="loadSampleDecision('career')" style="font-size: 0.74rem;">샘플: 이직/창업</button>
+            <button class="apple-pill-btn subtle" onclick="loadSampleDecision('study')" style="font-size: 0.74rem;">샘플: 진로 전공</button>
+          </div>
+        </div>
+
+        <!-- INPUT FIELDS FOR OPTIONS -->
+        <div style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 18px; padding: 18px; margin-bottom: 16px;">
+          <div style="margin-bottom: 12px;">
+            <label style="font-size: 0.78rem; font-weight: 700; color: #475569; display: block; margin-bottom: 4px;">어떤 인생의 갈림길에 서 계십니까?</label>
+            <input type="text" id="decisionDilemmaTitle" placeholder="예: 안정된 대기업 잔류 vs 내 가슴이 뛰는 AI 스타트업 창업 도전" style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #CBD5E1; font-size: 0.85rem;">
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label style="font-size: 0.75rem; font-weight: 700; color: #0284C7; display: block; margin-bottom: 4px;">선택지 A (현상유지 / 안전망)</label>
+              <input type="text" id="decisionOptionA" placeholder="예: 현재 직장에 머물며 리스크 회피" style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #CBD5E1; font-size: 0.84rem;">
+            </div>
+            <div>
+              <label style="font-size: 0.75rem; font-weight: 700; color: #10B981; display: block; margin-bottom: 4px;">선택지 B (도전 / 내면의 갈망)</label>
+              <input type="text" id="decisionOptionB" placeholder="예: 1인 AI 지식 창업에 뛰어들어 자율성 확보" style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #CBD5E1; font-size: 0.84rem;">
+            </div>
+          </div>
+          <div style="margin-top: 14px; text-align: right;">
+            <button class="apple-pill-btn primary" onclick="runDecisionCouncil()" style="padding: 8px 20px; font-size: 0.82rem;">
+              ⚖️ 4대 멘토 원탁 심의(Deliberation) 소환
+            </button>
+          </div>
+        </div>
+
+        <!-- COUNCIL RESULTS AREA -->
+        <div id="councilResultsArea" style="display: none;">
+          <div class="council-grid" id="councilMentorsGrid">
+            <!-- Populated via JS -->
+          </div>
+          <div class="council-consensus-banner" id="councilConsensusBanner">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 5: 10-YEAR HORIZON & FUTURE SELF LETTER -->
+      <div class="companion-tab-content" id="companionTab-future">
+        <div class="future-self-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.3rem;">✨</span>
+              <strong style="font-size: 1.05rem; letter-spacing: -0.02em;">2036년의 당신이 오늘의 나에게 보내는 편지</strong>
+            </div>
+            <span style="font-size: 0.72rem; background: rgba(255,255,255,0.15); padding: 3px 10px; border-radius: 12px; color: #DDD6FE;">10-YEAR HORIZON PROJECTION</span>
+          </div>
+
+          <div style="font-family: 'MaruBuri', 'Gowun Batang', serif; font-size: 0.95rem; line-height: 1.9; color: #F1F5F9;" id="futureSelfLetterText">
+            "안녕, 10년 전 2026년 9월, 밤늦게까지 인생의 방향성을 찾기 위해 고뇌하던 나의 과거여.<br><br>
+            그때 너는 참 많이 불안했지. 남들은 다 앞서가는 것 같고, 나만 늦은 것은 아닐까 밤잠을 설쳤던 그 시절의 네 모습이 여전히 눈에 선해. 하지만 기억해줘. 그때 네가 남들의 채점표를 과감히 던져버리고, 매일 아침 소울 일기를 쓰며 나만의 축을 세우기로 결심했던 그 날이 내 인생의 모든 것을 바꾸었어.<br><br>
+            지금 2036년의 나는 온전히 내 시간의 주인이 되어, 내가 사랑하는 사람들과 함께 세상에 없던 고유한 가치를 창조하며 더없이 평온하고 충만한 삶을 누리고 있어. 포기하지 않고 그 작은 루틴들을 지켜내 주어서, 나를 믿어주어서 진심으로 고마워."
+          </div>
+
+          <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 16px;">
+            <div style="font-size: 0.8rem; color: #DDD6FE;">
+              10년 뒤 도달할 인생 북극성 일치율: <strong style="color: #6EE7B7;">94.8% 순항 중</strong>
+            </div>
+            <button class="apple-pill-btn primary" onclick="regenerateFutureLetter()" style="font-size: 0.78rem; background: #6366F1; border-color: #6366F1;">
+              🔄 오늘의 상태를 반영해 미래 편지 갱신
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- TOP HEADER (APPLE MINIMAL GLOBAL NAV) -->
@@ -3902,6 +5283,10 @@
           <i data-lucide="message-square" style="width: 15px; height: 15px; color: var(--apple-blue);"></i>
           <span>1:1 대화 코칭</span>
         </button>
+        <button class="dock-nav-item" id="dockBtn-growth" onclick="switchTab('growth')">
+          <i data-lucide="sprout" style="width: 15px; height: 15px; color: #10B981;"></i>
+          <span>🌱 인생 성장 & 감정 맵</span>
+        </button>
         <button class="dock-nav-item" id="dockBtn-sanctuary" onclick="switchTab('sanctuary')">
           <i data-lucide="sparkles" style="width: 15px; height: 15px; color: #F59E0B;"></i>
           <span>시크릿 룸 & 캐릭터</span>
@@ -3909,6 +5294,14 @@
         <button class="dock-nav-item" id="dockBtn-board" onclick="switchTab('board')">
           <i data-lucide="users" style="width: 15px; height: 15px; color: #8B5CF6;"></i>
           <span>멘토단 & 결정 나침반</span>
+        </button>
+        <button class="dock-nav-item" id="dockBtn-odyssey" onclick="switchTab('odyssey')">
+          <i data-lucide="infinity" style="width: 15px; height: 15px; color: #EC4899;"></i>
+          <span>🌌 영혼 나침반 & 미래 편지</span>
+        </button>
+        <button class="dock-nav-item" id="dockBtn-companion" onclick="openLifelongCompanionModal()" style="background: rgba(0, 113, 227, 0.08); border-color: rgba(0, 113, 227, 0.25);">
+          <i data-lucide="heart-handshake" style="width: 15px; height: 15px; color: var(--apple-blue);"></i>
+          <span style="color: var(--apple-blue); font-weight: 800;">🤝 평생 동반자 멘토</span>
         </button>
       </div>
     </div>
@@ -3969,6 +5362,57 @@
 
   <!-- 2. RIGHT COMPANION & QUICK ACTION DOCK (우측 독: 아바타, 일기장, 528Hz, 유틸리티) -->
   <aside class="right-companion-dock" id="rightCompanionDock">
+    <!-- WIDGET 0: LIFELONG COMPANION MENTOR STATUS -->
+    <div class="companion-status-card" onclick="openLifelongCompanionModal()" title="클릭 시 평생 동반자 멘토 성소 & 의사결정 오라클 열기">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <div style="font-size: 0.7rem; font-weight: 800; color: var(--apple-blue); letter-spacing: 0.05em; display: flex; align-items: center; gap: 4px;">
+          <span style="display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #10B981; box-shadow: 0 0 8px #10B981;"></span>
+          평생의 동반자 멘토
+        </div>
+        <span style="font-size: 0.65rem; background: rgba(0, 113, 227, 0.1); color: var(--apple-blue); padding: 1px 6px; border-radius: 6px; font-weight: 700;" id="companionDaysTogether">동행 1일째</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 9px;">
+        <div style="width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #1E293B, #0F172A); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+          🏛️
+        </div>
+        <div>
+          <div style="font-size: 0.82rem; font-weight: 800; color: #0F172A;">소크라테스 멘토</div>
+          <div style="font-size: 0.68rem; color: #64748B;" id="companionLastSeen">"언제나 당신 곁에 있습니다"</div>
+        </div>
+      </div>
+      <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgba(0, 113, 227, 0.2); display: flex; justify-content: space-between; align-items: center; font-size: 0.68rem; color: #0071E3; font-weight: 700;">
+        <span>🤝 평생 케어 & 의사결정 성소</span>
+        <i data-lucide="chevron-right" style="width: 12px; height: 12px;"></i>
+      </div>
+    </div>
+
+    <!-- WIDGET 0.5: DAILY EMOTION QUICK CHECK-IN -->
+    <div class="emotion-checkin-wrapper">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-size: 0.68rem; font-weight: 800; color: #475569; letter-spacing: 0.04em;">
+          오늘의 마음 상태 체크인
+        </div>
+        <span style="font-size: 0.65rem; color: #94A3B8;" id="todayEmotionRecorded">기록 전</span>
+      </div>
+      <div class="emotion-btn-row">
+        <button class="emotion-mood-btn" onclick="quickCheckinMood('calm', this)">
+          <span>😊</span><span>평온</span>
+        </button>
+        <button class="emotion-mood-btn" onclick="quickCheckinMood('inspired', this)">
+          <span>💡</span><span>영감</span>
+        </button>
+        <button class="emotion-mood-btn" onclick="quickCheckinMood('passion', this)">
+          <span>⚡</span><span>열정</span>
+        </button>
+        <button class="emotion-mood-btn" onclick="quickCheckinMood('confused', this)">
+          <span>🌧️</span><span>혼란</span>
+        </button>
+        <button class="emotion-mood-btn" onclick="quickCheckinMood('anxious', this)">
+          <span>🌪️</span><span>불안</span>
+        </button>
+      </div>
+    </div>
+
     <!-- WIDGET 1: SOUL AVATAR MINI PROFILE -->
     <div class="dock-widget-card" onclick="switchTab('sanctuary')" style="cursor: pointer;" title="클릭 시 시크릿 룸 & 캐릭터 스튜디오로 이동">
       <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -4199,6 +5643,19 @@
          ===================================================================== -->
     <div id="view-chamber" class="tab-view active">
       
+      <!-- SOCRATES DIALOGUE INSPIRATIONAL HERO BANNER -->
+      <div class="socrates-hero-banner">
+        <div class="socrates-hero-media">
+          <img src="assets/socrates_dialogue.jpg" alt="소크라테스와의 대화 산파술" class="socrates-hero-img">
+          <div class="socrates-hero-overlay"></div>
+          <div class="socrates-hero-caption">
+            <div class="socrates-hero-tag"><i data-lucide="scroll" style="width: 12px; height: 12px;"></i> 소크라테스의 산파술 (Elenchus)</div>
+            <h2 class="socrates-hero-headline">"성찰하지 않는 삶은 살 가치가 없다."</h2>
+            <p class="socrates-hero-subtext">남들의 정답을 복제하지 않고, 내면의 모순을 걷어내어 가장 단단한 나만의 축을 벼려내는 1:1 영혼의 대화</p>
+          </div>
+        </div>
+      </div>
+
       <!-- DYNAMIC PERSONA SCENARIO & SPECIALIZED TOOL DOCK -->
       <div class="persona-scenario-card" id="personaScenarioCard">
         <div class="scenario-header-row">
@@ -4850,11 +6307,343 @@
           </button>
         </div>
       </div>
+
+      <!-- =====================================================================
+           NEW: 인생 목표 연동 21일 습관 신경 재배선 매트릭스 (ATOMIC GOAL-HABIT MATRIX)
+           ===================================================================== -->
+      <div style="max-width: 1100px; margin: 28px auto 0; background: #FFFFFF; border: 1.5px solid var(--apple-border); border-radius: var(--apple-radius-xl); padding: 28px; box-shadow: var(--apple-shadow-sm);">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <div style="font-size: 0.76rem; font-weight: 800; color: var(--apple-blue); letter-spacing: 0.08em; text-transform: uppercase; display: flex; align-items: center; gap: 6px;">
+              <i data-lucide="git-merge" style="width: 14px; height: 14px;"></i>
+              NEUROPLASTICITY HABIT ENGINE
+            </div>
+            <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--apple-text-primary); margin: 4px 0 2px;">
+              인생 핵심 목표 연동 21일 습관 체인
+            </h3>
+            <p style="font-size: 0.84rem; color: var(--apple-text-secondary); margin: 0;">
+              목표와 연결되지 않은 습관은 쉽게 무너집니다. 뇌신경 회로가 영구 재배선되는 21일간 매일 점을 이어가세요.
+            </p>
+          </div>
+          <button class="apple-pill-btn primary" onclick="openNewHabitModal()" style="font-size: 0.8rem; padding: 8px 18px;">
+            <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
+            <span>새 목표 & 습관 등록</span>
+          </button>
+        </div>
+
+        <!-- DYNAMIC HABIT CHAINS CONTAINER -->
+        <div id="habitChainsContainer">
+          <!-- Populated dynamically via JS -->
+        </div>
+
+        <!-- YIN-YANG BALANCE ANALYZER -->
+        <div class="yin-yang-meter-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+            <div>
+              <div style="font-size: 0.74rem; font-weight: 800; color: #7C3AED; text-transform: uppercase;">
+                ⚖️ 뇌과학 음양(陰陽) 균형 분석기
+              </div>
+              <h4 style="font-size: 1.05rem; font-weight: 800; color: #1E293B; margin: 2px 0;">
+                내면 성찰(陰: 사색·비움) vs 외부 실행(陽: 돌파·구현)
+              </h4>
+            </div>
+            <span style="font-size: 0.8rem; background: #FFFFFF; padding: 4px 12px; border-radius: 20px; font-weight: 700; color: #6D28D9; border: 1px solid #DDD6FE;" id="yinYangStatusBadge">
+              황금 균형 상태 (陰 52% : 陽 48%)
+            </span>
+          </div>
+
+          <div style="width: 100%; height: 12px; background: rgba(0,0,0,0.06); border-radius: 8px; overflow: hidden; display: flex;">
+            <div id="yinMeterBar" style="width: 52%; background: linear-gradient(90deg, #8B5CF6, #6366F1); transition: width 0.4s ease;" title="음(陰): 사색·명상·일기·회복"></div>
+            <div id="yangMeterBar" style="width: 48%; background: linear-gradient(90deg, #10B981, #059669); transition: width 0.4s ease;" title="양(陽): 거절·결단·실행·창작"></div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748B; margin-top: 6px;">
+            <span>🟣 <strong>음(陰) 루틴</strong>: 모닝 사색, 528Hz 호흡, 소울 일기</span>
+            <span>🟢 <strong>양(陽) 루틴</strong>: 단호한 거절, 실행 돌파, 10년 시나리오</span>
+          </div>
+        </div>
+
+        <!-- =====================================================================
+             1. 🔬 신경 가소성 뇌 시냅스 성장 비주얼라이저 (NEUROPLASTIC SYNAPSE CANVAS)
+             ===================================================================== -->
+        <div class="synapse-canvas-card">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <div style="font-size: 0.74rem; font-weight: 800; color: #38BDF8; letter-spacing: 0.08em; text-transform: uppercase; display: flex; align-items: center; gap: 6px;">
+                <i data-lucide="activity" style="width: 13px; height: 13px;"></i>
+                REAL-TIME NEUROPLASTICITY LAB
+              </div>
+              <h3 style="font-size: 1.25rem; font-weight: 800; color: #FFFFFF; margin: 4px 0 2px;">
+                신경 가소성 뇌 시냅스 성장 비주얼라이저
+              </h3>
+              <p style="font-size: 0.82rem; color: #94A3B8; margin: 0;">
+                루틴을 실천할 때마다 뇌세포(뉴런)가 물리적으로 연결되고 축삭돌기 미엘린 수초가 두꺼워집니다.
+              </p>
+            </div>
+            <button class="apple-pill-btn subtle" onclick="fireSynapsePulse(1.5)" style="background: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.4); color: #38BDF8; font-size: 0.76rem;">
+              ⚡ 활동 전위(Action Potential) 펄스 발화
+            </button>
+          </div>
+
+          <!-- REAL-TIME SYNAPSE CANVAS -->
+          <div class="synapse-canvas-wrap">
+            <canvas id="synapseCanvas"></canvas>
+          </div>
+
+          <!-- QUANTITATIVE NEUROLOGY STATS -->
+          <div class="synapse-stats-grid">
+            <div class="synapse-stat-pill">
+              <span style="font-size: 0.7rem; color: #94A3B8;">헵의 학습 법칙 (Hebbian Rewiring)</span>
+              <strong style="font-size: 1.2rem; color: #38BDF8;" id="statHebbianRate">88.4% 점화</strong>
+              <span style="font-size: 0.68rem; color: #34D399;">신호와 반응 회로 영구 결합 중</span>
+            </div>
+            <div class="synapse-stat-pill">
+              <span style="font-size: 0.7rem; color: #94A3B8;">미엘린 수초화 배수 (Myelination)</span>
+              <strong style="font-size: 1.2rem; color: #A855F7;" id="statMyelinIndex">1.48x 강화</strong>
+              <span style="font-size: 0.68rem; color: #DDD6FE;">루틴 자동화 저항감 62% 감소</span>
+            </div>
+            <div class="synapse-stat-pill">
+              <span style="font-size: 0.7rem; color: #94A3B8;">나쁜 습관 가지치기 (Synaptic Pruning)</span>
+              <strong style="font-size: 1.2rem; color: #34D399;" id="statPruningRate">64.0% 소멸</strong>
+              <span style="font-size: 0.68rem; color: #BBF7D0;">기존 충동 회로 약화 및 퇴화</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- =====================================================================
+             2. 🧭 행동 루틴 & 인생 목표 정합성 AI 심층 분석 패널 (ALIGNMENT DIAGNOSTIC)
+             ===================================================================== -->
+        <div class="routine-diagnostic-panel">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+            <div>
+              <div style="font-size: 0.75rem; font-weight: 800; color: #0284C7; letter-spacing: 0.08em; text-transform: uppercase;">
+                GOAL-ROUTINE ALIGNMENT MATRIX
+              </div>
+              <h3 style="font-size: 1.28rem; font-weight: 800; color: #0F172A; margin: 4px 0 2px;">
+                인생 목표 달성을 위한 행동 루틴 AI 정밀 진단
+              </h3>
+              <p style="font-size: 0.84rem; color: #64748B; margin: 0;">
+                현재 당신의 일상 행동이 인생 10년 북극성 목표로 수렴하고 있는지 4단계로 분석합니다.
+              </p>
+            </div>
+            <div style="text-align: right;">
+              <span style="font-size: 0.72rem; color: #64748B;">목표-습관 일치율</span>
+              <div style="font-size: 1.45rem; font-weight: 850; color: #0071E3;" id="goalAlignmentScore">92.4%</div>
+            </div>
+          </div>
+
+          <!-- HABIT LOOP 4-STAGE REWIRING SIMULATOR -->
+          <div style="margin-top: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <strong style="font-size: 0.92rem; color: #1E293B;">찰스 두히그 4단계 습관 루프 해부 및 대체 반응</strong>
+              <select id="badHabitSelector" onchange="switchBadHabitDiagnosis(this.value)" style="padding: 6px 12px; border-radius: 8px; border: 1px solid #CBD5E1; font-size: 0.8rem; background: #FFF;">
+                <option value="phoneBed">📱 침대 속 무의식 숏폼 시청 (도파민 도피)</option>
+                <option value="pleasing">😣 남의 부탁을 거절 못하고 끌려다님 (착한아이 콤플렉스)</option>
+                <option value="procrastinate">⏳ 완벽주의 때문에 시작을 미룸 (실패 공포)</option>
+                <option value="impulse">💸 스트레스성 야식 및 충동 결제 (즉각 위안)</option>
+              </select>
+            </div>
+
+            <div class="habit-loop-grid" id="habitLoopGrid">
+              <!-- Dynamically populated via JS -->
+            </div>
+          </div>
+
+          <!-- ENERGY LEAK ALERT BOX -->
+          <div class="energy-leak-box" id="energyLeakBox">
+            <i data-lucide="alert-triangle" style="width: 20px; height: 20px; color: #EA580C; flex-shrink: 0; margin-top: 2px;"></i>
+            <div>
+              <strong style="font-size: 0.88rem; color: #9A3412;" id="energyLeakTitle">인생 에너지 누수 경고: 침대 숏폼 40분</strong>
+              <p style="font-size: 0.82rem; color: #C2410C; margin: 4px 0 0; line-height: 1.6;" id="energyLeakDesc">
+                매일 밤 40분의 무의식 도파민 도피는 연간 <strong>243시간</strong>(온전한 업무일 기준 30일)에 달하는 인생 기회비용을 침식합니다.
+                대체 마이크로 루틴(스마트폰 거실 충전 + 3분 528Hz 호흡)으로 전환 시 집중력이 3.8배 상승합니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- AI MENTORS ACTIONABLE PRESCRIPTION RX -->
+          <div class="mentor-prescription-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1.1rem;">🏛️</span>
+                <strong style="font-size: 0.94rem; color: #0369A1;">소크라테스 & 레이 달리오의 행동 루틴 처방전 (Actionable Rx)</strong>
+              </div>
+              <span style="font-size: 0.72rem; color: #0284C7; font-weight: 700;">맞춤 행동 가이드</span>
+            </div>
+            <div style="font-size: 0.86rem; color: #334155; line-height: 1.7;" id="mentorPrescriptionText">
+              "목표를 이루지 못하는 원인은 의지의 박약이 아니라, 신호(Cue)를 마주했을 때 뇌가 자동으로 실행할 <strong>'대체 반응의 부재'</strong> 때문입니다. 
+              오늘부터 퇴근 즉시 침대로 향하는 대신, 책상 위 펜을 잡는 <strong>'2분 모닝/이브닝 소울 일기'</strong>를 인생 목표 #1에 고정시키십시오."
+            </div>
+            <div style="margin-top: 12px; display: flex; justify-content: flex-end;">
+              <button class="apple-pill-btn primary" onclick="applyPrescribedRoutine()" style="font-size: 0.78rem; padding: 7px 16px;">
+                ✨ 이 처방 루틴을 21일 체인에 1-클릭 등록하기
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- =========================================================================
-         TAB: 멘토 4인의 관점 (소크라테스·잡스·달리오·아우렐리우스)
+         NEW TAB: 🌱 인생 성장 맵 & 감정 오디세이 (GROWTH JOURNEY & RESONANCE MAP)
          ========================================================================= -->
+    <div id="view-growth" class="tab-view">
+      <div class="growth-view-container">
+        
+        <!-- 1. KEYNOTE HERO CARD (GROWTH TREE) -->
+        <div class="growth-hero-card">
+          <div class="growth-hero-media">
+            <img src="assets/growth_tree.jpg" alt="사계절 생명의 나무 수채화">
+          </div>
+          <div style="position: relative; z-index: 2; max-width: 650px;">
+            <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(52, 211, 153, 0.2); border: 1px solid rgba(52, 211, 153, 0.4); color: #6EE7B7; padding: 4px 12px; border-radius: var(--apple-radius-pill); font-size: 0.76rem; font-weight: 700; margin-bottom: 12px;">
+              <i data-lucide="sprout" style="width: 14px; height: 14px;"></i>
+              LIFELONG SOUL EVOLUTION
+            </div>
+            <h2 style="font-size: 2.1rem; font-weight: 850; letter-spacing: -0.03em; margin: 0 0 10px; line-height: 1.25;">
+              나만의 생명의 나무,<br>
+              <span style="background: linear-gradient(90deg, #34D399, #38BDF8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">사계절을 지나 단단히 뿌리내리다.</span>
+            </h2>
+            <p style="font-size: 0.95rem; color: #CBD5E1; line-height: 1.7; margin: 0 0 20px;">
+              혼란의 겨울과 싹트는 봄, 치열한 여름을 지나온 당신의 성찰 기록은 결코 사라지지 않습니다.<br>
+              당신이 매일 남긴 감정과 결정들이 모여 흔들리지 않는 굳건한 인생의 나무를 키워냅니다.
+            </p>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+              <div>
+                <div style="font-size: 1.5rem; font-weight: 800; color: #34D399;" id="growthStatDays">7일</div>
+                <div style="font-size: 0.74rem; color: #94A3B8;">멘토와의 누적 동행</div>
+              </div>
+              <div style="border-left: 1px solid rgba(255,255,255,0.15); padding-left: 20px;">
+                <div style="font-size: 1.5rem; font-weight: 800; color: #38BDF8;" id="growthStatDecisions">3건</div>
+                <div style="font-size: 0.74rem; color: #94A3B8;">주권적 결단 기록</div>
+              </div>
+              <div style="border-left: 1px solid rgba(255,255,255,0.15); padding-left: 20px;">
+                <div style="font-size: 1.5rem; font-weight: 800; color: #F59E0B;" id="growthStatHabitRate">84%</div>
+                <div style="font-size: 0.74rem; color: #94A3B8;">21일 루틴 완수율</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. TWO-COLUMN GRID: EMOTION HEATMAP & MILESTONES -->
+        <div class="growth-grid-two-col">
+          
+          <!-- LEFT: 30-DAY EMOTION RESONANCE HEATMAP -->
+          <div class="growth-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div>
+                <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--apple-text-primary); margin: 0;">
+                  30일간의 감정 공명 히트맵
+                </h3>
+                <p style="font-size: 0.78rem; color: var(--apple-text-secondary); margin: 2px 0 0;">
+                  색이 짙을수록 내면의 몰입도와 평온 주권이 높았던 날입니다.
+                </p>
+              </div>
+              <span style="font-size: 0.72rem; color: #10B981; font-weight: 700;">최근 30일 데이터</span>
+            </div>
+
+            <!-- HEATMAP WEEKDAY LABELS -->
+            <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; text-align: center; font-size: 0.7rem; font-weight: 700; color: #94A3B8; margin-top: 14px;">
+              <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+            </div>
+
+            <!-- HEATMAP CELLS GRID (35 cells) -->
+            <div class="growth-heatmap-grid" id="growthHeatmapGrid">
+              <!-- Dynamically generated via JS -->
+            </div>
+
+            <!-- HEATMAP LEGEND -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid #F1F5F9; font-size: 0.72rem; color: #64748B;">
+              <span>감정 충만도:</span>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <span>낮음</span>
+                <span style="display:inline-block; width:12px; height:12px; border-radius:3px; background:#F1F5F9;"></span>
+                <span style="display:inline-block; width:12px; height:12px; border-radius:3px; background:#DCFCE7;"></span>
+                <span style="display:inline-block; width:12px; height:12px; border-radius:3px; background:#86EFAC;"></span>
+                <span style="display:inline-block; width:12px; height:12px; border-radius:3px; background:#34D399;"></span>
+                <span style="display:inline-block; width:12px; height:12px; border-radius:3px; background:#10B981;"></span>
+                <span>최고조</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: LIFE MILESTONES UNLOCKED -->
+          <div class="growth-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <div>
+                <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--apple-text-primary); margin: 0;">
+                  영혼의 성장 마일스톤
+                </h3>
+                <p style="font-size: 0.78rem; color: var(--apple-text-secondary); margin: 2px 0 0;">
+                  삶의 기준이 바로 설 때마다 잠금 해제되는 내면의 훈장
+                </p>
+              </div>
+              <span style="font-size: 0.72rem; color: #8B5CF6; font-weight: 700;" id="milestoneProgressText">3 / 5 달성</span>
+            </div>
+
+            <div id="growthMilestonesContainer">
+              <!-- Populated via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. DECISION JOURNAL ARCHIVE & TIMELESS WISDOM -->
+        <div class="growth-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <div>
+              <div style="font-size: 0.74rem; font-weight: 800; color: #0284C7; letter-spacing: 0.06em; text-transform: uppercase;">
+                DECISION COMPASS ARCHIVE
+              </div>
+              <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--apple-text-primary); margin: 2px 0;">
+                내가 내린 주권적 결단 아카이브 & 사후 검토
+              </h3>
+              <p style="font-size: 0.82rem; color: var(--apple-text-secondary); margin: 0;">
+                결정 당시의 두려움과 선택의 이유를 기록하고, 30일/90일 후 결과를 되돌아보며 의사결정 근육을 키웁니다.
+              </p>
+            </div>
+            <button class="apple-pill-btn subtle" onclick="switchTab('board')">
+              <i data-lucide="compass" style="width: 14px; height: 14px;"></i>
+              새 결정 분석하기
+            </button>
+          </div>
+
+          <div id="decisionArchiveContainer" style="display: flex; flex-direction: column; gap: 10px;">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HABIT REGISTRATION MODAL -->
+    <div id="newHabitModal" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.6); backdrop-filter:blur(10px); z-index:99999; align-items:center; justify-content:center; padding:20px;">
+      <div style="background:#FFF; border-radius:24px; padding:28px; width:100%; max-width:500px; box-shadow:0 25px 60px rgba(0,0,0,0.3);">
+        <h3 style="font-size:1.25rem; font-weight:800; margin:0 0 6px; color:#0F172A;">새 인생 목표 & 21일 습관 등록</h3>
+        <p style="font-size:0.82rem; color:#64748B; margin:0 0 16px;">목표를 설정하고 이를 달성하기 위한 매일의 원자적 루틴을 연결하세요.</p>
+        
+        <div style="margin-bottom:12px;">
+          <label style="font-size:0.78rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">연계할 인생 목표</label>
+          <input type="text" id="newGoalInput" placeholder="예: 타인의 시선에서 독립된 나만의 일 확립" style="width:100%; padding:10px 14px; border:1.5px solid #CBD5E1; border-radius:10px; font-size:0.86rem; outline:none;">
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <label style="font-size:0.78rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">매일 실천할 2분 습관</label>
+          <input type="text" id="newHabitInput" placeholder="예: 아침 10분 모닝 소울 일기 쓰기" style="width:100%; padding:10px 14px; border:1.5px solid #CBD5E1; border-radius:10px; font-size:0.86rem; outline:none;">
+        </div>
+
+        <div style="margin-bottom:18px;">
+          <label style="font-size:0.78rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">습관의 성격 (음양 분류)</label>
+          <select id="newHabitType" style="width:100%; padding:10px 14px; border:1.5px solid #CBD5E1; border-radius:10px; font-size:0.86rem; background:#FFF;">
+            <option value="yin">🟣 음(陰): 내면 성찰·사색·회복·비움</option>
+            <option value="yang">🟢 양(陽): 외부 실행·돌파·결단·창작</option>
+          </select>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:8px;">
+          <button class="apple-pill-btn subtle" onclick="closeNewHabitModal()">취소</button>
+          <button class="apple-pill-btn primary" onclick="submitNewHabitAndGoal()">✨ 습관 매트릭스 등록</button>
+        </div>
+      </div>
+    </div>
     <div id="view-board" class="tab-view">
       <div style="text-align: center; margin-bottom: 24px;">
         <h2 style="font-size: 1.8rem; font-weight: 700; color: var(--apple-text-primary); letter-spacing: -0.03em;">멘토 4인의 관점 (소크라테스·잡스·달리오·아우렐리우스)</h2>
@@ -5828,6 +7617,438 @@
             </div>
           </div>
         </div>
+      </div> <!-- END VIEW SANCTUARY -->
+
+    <!-- =========================================================================
+         TAB 9: 🌌 영혼 나침반 & 10년 후 미래 편지 (SOUL ODYSSEY 4D CONSCIOUSNESS)
+         신경과학(HRV) + 분석심리학(융) + 논리학(소크라테스) + 감동의 미래 자아 편지
+         ========================================================================= -->
+    <div id="view-odyssey" class="tab-view">
+      <div class="odyssey-container">
+
+        <!-- 1. ODYSSEY HERO KEYNOTE BANNER -->
+        <div class="odyssey-hero-banner" style="position: relative; overflow: hidden;">
+          <img src="assets/soul_odyssey_cosmos.jpg" alt="영혼 오디세이 우주" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.38; filter: saturate(1.3) brightness(0.8); pointer-events: none;">
+          <div style="position: relative; z-index: 1;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px;">
+              <div>
+                <span class="apple-eyebrow-badge" style="background: rgba(236, 72, 153, 0.2); border-color: rgba(236, 72, 153, 0.4); color: #F472B6;">
+                  🌌 THE TRANSCENDENTAL SOUL ODYSSEY
+                </span>
+                <h2 style="font-size: 2.1rem; font-weight: 850; letter-spacing: -0.03em; margin: 10px 0 6px; color: #FFFFFF; font-family: 'Cinzel', 'Pretendard', serif;">
+                  세상에 없던 단 하나의 영혼 나침반
+                </h2>
+                <p style="font-size: 0.98rem; color: #E9D5FF; max-width: 780px; line-height: 1.7; margin: 0;">
+                  신경과학의 <strong>생체 일관성(HRV)</strong>, 칼 융의 <strong>그림자 연금술</strong>, 소크라테스의 <strong>인지 모순 분쇄</strong>를 거쳐<br>
+                  10년 후 온전해진 <strong>미래의 나로부터 도착한 눈물겨운 타임캡슐 육필 편지</strong>를 마주하는 4차원 영혼의 여정입니다.
+                </p>
+              </div>
+
+              <div style="text-align: right; display: flex; flex-direction: column; gap: 8px;">
+                <div style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.2); padding: 8px 18px; border-radius: 30px; font-size: 0.8rem; color: #FDF4FF; display: inline-flex; align-items: center; gap: 8px;">
+                  <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #34D399; box-shadow: 0 0 10px #34D399;"></span>
+                  <span>신경생리·심층분석 리얼타임 엔진 가동 중</span>
+                </div>
+                <button class="apple-pill-btn primary" onclick="startOdysseyJourney()" style="background: linear-gradient(135deg, #EC4899, #8B5CF6); border: none; font-weight: 800; padding: 12px 24px; box-shadow: 0 0 25px rgba(236, 72, 153, 0.5);">
+                  <i data-lucide="play" style="width: 16px; height: 16px;"></i>
+                  <span>영혼 오디세이 시작하기</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. 4-STAGE ODYSSEY NAVIGATION STEPPER -->
+        <div class="odyssey-step-grid">
+          <div class="odyssey-nav-step active" id="odysseyStepBtn-1" onclick="switchOdysseyStage(1)">
+            <div class="step-badge">STAGE 1 · NEUROSCIENCE</div>
+            <div class="step-title">🫀 심장-뇌 일관성 호흡</div>
+            <div style="font-size: 0.72rem; color: #94A3B8; margin-top: 4px;">4-7-8 바이오 오라 구체 & 편도체 쿨다운</div>
+          </div>
+          <div class="odyssey-nav-step" id="odysseyStepBtn-2" onclick="switchOdysseyStage(2)">
+            <div class="step-badge">STAGE 2 · JUNG PSYCHOLOGY</div>
+            <div class="step-title">🪞 융의 그림자 거울</div>
+            <div style="font-size: 0.72rem; color: #94A3B8; margin-top: 4px;">투사의 해체 & 억압된 황금 슈퍼파워 복원</div>
+          </div>
+          <div class="odyssey-nav-step" id="odysseyStepBtn-3" onclick="switchOdysseyStage(3)">
+            <div class="step-badge">STAGE 3 · LOGIC & ELENCHUS</div>
+            <div class="step-title">⚡ 아포리아 모순 분쇄기</div>
+            <div style="font-size: 0.72rem; color: #94A3B8; margin-top: 4px;">거짓 전제 산산조각 & 제1원리 결정화</div>
+          </div>
+          <div class="odyssey-nav-step" id="odysseyStepBtn-4" onclick="switchOdysseyStage(4)">
+            <div class="step-badge">STAGE 4 · ETERNAL CATHARSIS</div>
+            <div class="step-title">💌 10년 후 나의 편지</div>
+            <div style="font-size: 0.72rem; color: #94A3B8; margin-top: 4px;">2036 미래 육필 편지 & 황금 영혼 헌정 증서</div>
+          </div>
+        </div>
+
+        <!-- =====================================================================
+             STAGE 1: 🫀 [과학·신경생리] 심장-뇌 일관성 (HRV Coherence 4-7-8) 바이오 홀로그램 구체
+             ===================================================================== -->
+        <div class="apple-studio-window" id="odysseyStage-1" style="padding: 36px; margin-bottom: 30px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.06); padding-bottom: 18px; margin-bottom: 24px; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <span style="font-size: 0.75rem; font-weight: 800; color: #EC4899; letter-spacing: 0.08em; text-transform: uppercase;">
+                DIMENSION 1 · NEUROBIOLOGICAL HARMONIZATION
+              </span>
+              <h3 style="font-size: 1.5rem; font-weight: 850; margin: 4px 0 2px; color: var(--apple-text-primary);">
+                심장-뇌 일관성 (Heart-Brain Coherence) 4-7-8 바이오 호흡
+              </h3>
+              <p style="font-size: 0.82rem; color: #64748B; margin: 0;">
+                하트매스 연구소(HeartMath) 과학 검증: 불안에 갇힌 편도체(Amygdala)를 진정시키고, 전두엽의 직관과 집행 기능을 100% 동기화합니다.
+              </p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span id="coherenceRateBadge" style="background: rgba(52, 211, 153, 0.15); color: #059669; font-weight: 800; padding: 6px 14px; border-radius: 20px; font-size: 0.82rem; border: 1px solid rgba(52, 211, 153, 0.3);">
+                뇌파 동조율: 42% (준비 중)
+              </span>
+            </div>
+          </div>
+
+          <div class="bio-coherence-wrapper">
+            <!-- 3D HOLOGRAM BIO SPHERE -->
+            <div class="bio-sphere-box" id="bioSphereBox">
+              <div class="bio-sphere-glow"></div>
+              <div class="bio-sphere-core">
+                <div id="bioBreathingAction" style="font-size: 1.4rem; font-weight: 850; letter-spacing: 1px;">들숨</div>
+                <div id="bioBreathingSec" style="font-size: 2.2rem; font-weight: 900; font-family: 'Cinzel', serif; margin-top: 4px;">4s</div>
+                <div style="font-size: 0.68rem; opacity: 0.85; margin-top: 2px;">HRV SYNCHRONIZING</div>
+              </div>
+            </div>
+
+            <!-- DYNAMIC GUIDANCE MESSAGE -->
+            <div id="bioBreathingInstruction" style="font-size: 1.15rem; font-weight: 750; color: var(--apple-text-primary); margin: 16px 0 8px; min-height: 32px;">
+              코로 천천히 숨을 들이쉬며, 우주의 맑은 생명력을 가슴 중심에 채웁니다.
+            </div>
+            <p style="font-size: 0.84rem; color: #64748B; max-width: 540px; margin: 0 0 24px;">
+              심장이 고른 리듬으로 뛸 때, 인간의 두뇌는 비로소 과거의 후회와 미래의 불안에서 벗어나 <strong>현재의 절대적 지혜</strong>에 접속합니다.
+            </p>
+
+            <!-- CONTROLS -->
+            <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+              <button class="apple-pill-btn primary" id="bioStartBtn" onclick="toggleBioBreathing()" style="background: linear-gradient(135deg, #EC4899, #8B5CF6); border: none; padding: 12px 28px; font-weight: 800; font-size: 0.95rem; box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4);">
+                <i data-lucide="play" id="bioBtnIcon" style="width: 16px; height: 16px;"></i>
+                <span id="bioBtnText">4-7-8 코히어런스 호흡 시작</span>
+              </button>
+              <button class="apple-pill-btn subtle" onclick="toggleSolfeggioFrequencies()" style="font-weight: 700; padding: 12px 20px;">
+                <i data-lucide="music" style="width: 15px; height: 15px; color: #8B5CF6;"></i>
+                <span>528Hz 치유 솔페지오 동조</span>
+              </button>
+              <button class="apple-pill-btn subtle" onclick="switchOdysseyStage(2)" style="border-color: #A855F7; color: #9333EA; font-weight: 750;">
+                <span>다음 단계: 융의 그림자 거울 ➔</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- =====================================================================
+             STAGE 2: 🪞 [심리학·융의 분석심리학] 칼 융의 그림자 거울 (The Golden Shadow Mirror)
+             ===================================================================== -->
+        <div class="apple-studio-window" id="odysseyStage-2" style="display: none; padding: 36px; margin-bottom: 30px;">
+          <div style="border-bottom: 1px solid rgba(0,0,0,0.06); padding-bottom: 18px; margin-bottom: 24px;">
+            <span style="font-size: 0.75rem; font-weight: 800; color: #8B5CF6; letter-spacing: 0.08em; text-transform: uppercase;">
+              DIMENSION 2 · CARL JUNG DEPTH PSYCHOLOGY
+            </span>
+            <h3 style="font-size: 1.5rem; font-weight: 850; margin: 4px 0 2px; color: var(--apple-text-primary);">
+              칼 융의 그림자 거울: 억압된 상처 속에 숨겨진 황금(Golden Shadow) 연금술
+            </h3>
+            <p style="font-size: 0.82rem; color: #64748B; margin: 0;">
+              "우리가 타인에게서 가장 격렬하게 혐오하거나 질투하는 것 속에, 상처받지 않기 위해 스스로 유폐시켜 버린 나의 가장 위대한 천재성이 잠들어 있다."
+            </p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch;">
+            <!-- LEFT: SHADOW PROJECTION INPUT -->
+            <div class="shadow-mirror-panel">
+              <div style="font-size: 0.85rem; font-weight: 800; color: #D8B4FE; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="eye-off" style="width: 16px; height: 16px;"></i>
+                나를 화나게 하거나 남몰래 질투가 나는 타인의 성향 선택:
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 10px;" id="shadowPresetsGrid">
+                <div class="shadow-reflection-card selected" onclick="selectShadowPreset(this, 'shameless')">
+                  <div style="font-weight: 750; font-size: 0.88rem; color: #F8FAFC;">
+                    뻔뻔하게 자기 이익을 챙기고 과시하는 사람
+                  </div>
+                  <div style="font-size: 0.74rem; color: #94A3B8; margin-top: 3px;">
+                    "어떻게 저렇게 눈치도 안 보고 자기 몫만 당당하게 요구하지?"
+                  </div>
+                </div>
+
+                <div class="shadow-reflection-card" onclick="selectShadowPreset(this, 'rebel')">
+                  <div style="font-weight: 750; font-size: 0.88rem; color: #F8FAFC;">
+                    사회적 규칙이나 부모님 기대를 무시하고 제멋대로 사는 사람
+                  </div>
+                  <div style="font-size: 0.74rem; color: #94A3B8; margin-top: 3px;">
+                    "저 사람은 책임감도 없나? 왜 나만 정답에 얽매여 희생해야 하지?"
+                  </div>
+                </div>
+
+                <div class="shadow-reflection-card" onclick="selectShadowPreset(this, 'boundary')">
+                  <div style="font-weight: 750; font-size: 0.88rem; color: #F8FAFC;">
+                    타인의 서운함 따위 신경 안 쓰고 차갑게 선 긋는 사람
+                  </div>
+                  <div style="font-size: 0.74rem; color: #94A3B8; margin-top: 3px;">
+                    "인간미도 없고 이기적이야. 하지만 왜 나는 저 거절을 못 할까?"
+                  </div>
+                </div>
+
+                <div class="shadow-reflection-card" onclick="selectShadowPreset(this, 'reckless')">
+                  <div style="font-weight: 750; font-size: 0.88rem; color: #F8FAFC;">
+                    실패나 남의 비웃음을 아랑곳 않고 무모하게 도전하는 사람
+                  </div>
+                  <div style="font-size: 0.74rem; color: #94A3B8; margin-top: 3px;">
+                    "대책 없이 저러다 망할 텐데... 사실은 저 용기가 미치도록 부럽다."
+                  </div>
+                </div>
+              </div>
+
+              <div style="margin-top: 14px;">
+                <input type="text" id="customShadowInput" placeholder="직접 입력: 내가 유독 분노하거나 질투하는 타인의 모습은?" style="width: 100%; padding: 12px 16px; font-size: 0.84rem; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: #FFFFFF;">
+              </div>
+
+              <button class="apple-pill-btn primary" onclick="transmuteGoldenShadow()" style="width: 100%; margin-top: 16px; background: linear-gradient(135deg, #F59E0B, #D97706); border: none; font-weight: 800; padding: 14px; box-shadow: 0 0 25px rgba(245, 158, 11, 0.4);">
+                <i data-lucide="sparkles" style="width: 16px; height: 16px;"></i>
+                <span>융의 황금빛 그림자 연금술 변환하기</span>
+              </button>
+            </div>
+
+            <!-- RIGHT: TRANSMUTED GOLDEN SHADOW RESULT -->
+            <div style="display: flex; flex-direction: column; justify-content: space-between;">
+              <div class="transmuted-gold-box" id="goldenShadowResultBox">
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 0.78rem; font-weight: 800; color: #F59E0B; text-transform: uppercase;">
+                  <i data-lucide="award" style="width: 16px; height: 16px;"></i>
+                  <span>THE GOLDEN SHADOW REVELATION</span>
+                </div>
+                <h4 style="font-size: 1.35rem; font-weight: 850; color: #FFFFFF; margin: 8px 0 10px;" id="goldShadowTitle">
+                  ✨ 자신의 가치를 당당히 지켜내는 불가침의 자존감
+                </h4>
+                <div style="font-size: 0.88rem; color: #FEF3C7; line-height: 1.8;" id="goldShadowDesc">
+                  당신이 '뻔뻔함'을 혐오했던 이유는, 과거 착하고 순종적인 아이로 살아남기 위해 <strong>"내 몫을 주장하는 건강한 공격성"</strong>을 지하실에 감금했기 때문입니다.<br><br>
+                  이제 그 결박을 푸십시오. 당신이 경멸하던 그 에너지는 사실 타인의 눈치를 보지 않고 <strong>당신의 정당한 권리와 가치를 세상에 선포할 가장 강력한 무기</strong>입니다.
+                </div>
+                <div style="margin-top: 18px; padding-top: 14px; border-top: 1px dashed rgba(245, 158, 11, 0.4); font-size: 0.78rem; color: #FDE68A;">
+                  💎 <strong>융의 개별화 공식:</strong> 그림자를 사랑으로 통합할 때, 인간은 비로소 둘로 쪼개지지 않은 온전한 하나(Whole Self)가 됩니다.
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
+                <button class="apple-pill-btn subtle" onclick="switchOdysseyStage(3)" style="border-color: #38BDF8; color: #0284C7; font-weight: 750;">
+                  <span>다음 단계: 소크라테스 아포리아 분쇄기 ➔</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- =====================================================================
+             STAGE 3: ⚡ [논리학·소크라테스 변증법] 아포리아 인지 모순 분쇄기 (Syllogism Shatterer)
+             ===================================================================== -->
+        <div class="apple-studio-window" id="odysseyStage-3" style="display: none; padding: 36px; margin-bottom: 30px;">
+          <div style="border-bottom: 1px solid rgba(0,0,0,0.06); padding-bottom: 18px; margin-bottom: 24px;">
+            <span style="font-size: 0.75rem; font-weight: 800; color: #0284C7; letter-spacing: 0.08em; text-transform: uppercase;">
+              DIMENSION 3 · SOCRATIC DIALECTICAL LOGIC
+            </span>
+            <h3 style="font-size: 1.5rem; font-weight: 850; margin: 4px 0 2px; color: var(--apple-text-primary);">
+              소크라테스 아포리아(Aporia) 인지 모순 분쇄기
+            </h3>
+            <p style="font-size: 0.82rem; color: #64748B; margin: 0;">
+              나를 가두고 있던 세상의 거짓 전제(False Dogma)를 형식 논리학으로 추적하여 전제와 결론의 모순을 날카롭게 증명하고 분쇄합니다.
+            </p>
+          </div>
+
+          <div class="aporia-stage-card" id="aporiaStageCard">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <span style="font-size: 0.78rem; font-weight: 800; color: #38BDF8; display: flex; align-items: center; gap: 6px;">
+                <i data-lucide="shield-alert" style="width: 15px; height: 15px;"></i>
+                FORMAL SYLLOGISM CONFLICT MATRIX
+              </span>
+              <span style="font-size: 0.75rem; background: rgba(239, 68, 68, 0.2); color: #F87171; padding: 4px 10px; border-radius: 12px; font-weight: 750;">
+                치명적 논리 결함 검출됨
+              </span>
+            </div>
+
+            <!-- FALSE SYLLOGISM BREAKDOWN -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+              <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 16px;">
+                <div style="font-size: 0.7rem; color: #94A3B8; font-weight: 800;">[대전제 · 거짓 규칙]</div>
+                <div style="font-size: 0.9rem; font-weight: 750; color: #F1F5F9; margin-top: 6px;" id="aporiaMajorPremise">
+                  "남들이 부러워하는 성공과 속도를 내지 못하면 내 인생은 패배자다."
+                </div>
+              </div>
+              <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 16px;">
+                <div style="font-size: 0.7rem; color: #94A3B8; font-weight: 800;">[소전제 · 존재론적 진실]</div>
+                <div style="font-size: 0.9rem; font-weight: 750; color: #38BDF8; margin-top: 6px;" id="aporiaMinorPremise">
+                  "나는 우주에서 단 하나뿐인 고유한 지문과 생체 시간표를 가졌다."
+                </div>
+              </div>
+              <div style="background: rgba(239, 68, 68, 0.1); border: 1.5px solid #F87171; border-radius: 12px; padding: 16px;">
+                <div style="font-size: 0.7rem; color: #FCA5A5; font-weight: 800;">[소크라테스 반증 · 결론]</div>
+                <div style="font-size: 0.9rem; font-weight: 800; color: #FECDD3; margin-top: 6px;" id="aporiaConclusion">
+                  💥 타인의 시계로 내 시간표를 채점하는 것은 명백한 수학적·철학적 오류다!
+                </div>
+              </div>
+            </div>
+
+            <!-- ACTION: SHATTER THE FALSE AXIOM -->
+            <div style="text-align: center; margin: 24px 0 10px;">
+              <button class="apple-pill-btn primary" onclick="shatterAporiaRule()" style="background: linear-gradient(135deg, #EF4444, #DC2626); border: none; font-size: 1.05rem; font-weight: 850; padding: 16px 36px; box-shadow: 0 0 35px rgba(239, 68, 68, 0.5);">
+                <i data-lucide="zap" style="width: 18px; height: 18px;"></i>
+                <span>⚡ [거짓 전제 산산조각 내기] 모순을 부수고 제1원리 결정화</span>
+              </button>
+            </div>
+
+            <!-- RESULT CRYSTAL (EMERGES AFTER SHATTER) -->
+            <div id="firstPrincipleCrystalBox" style="display: none; margin-top: 24px; padding: 24px; background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(99, 102, 241, 0.1)); border: 2px solid #38BDF8; border-radius: 14px; text-align: center; animation: fadeIn 0.6s ease;">
+              <div style="font-size: 1.8rem; margin-bottom: 6px;">💎</div>
+              <div style="font-size: 0.78rem; font-weight: 800; color: #38BDF8; letter-spacing: 0.1em; text-transform: uppercase;">
+                FIRST PRINCIPLE CORE AXIOM (내 영혼의 제1원리)
+              </div>
+              <h4 style="font-size: 1.45rem; font-weight: 850; color: #FFFFFF; margin: 6px 0;" id="firstPrincipleText">
+                "나는 남의 속도에 끌려다니지 않고, 내 영혼이 전율하는 가치에만 내 시간과 생명을 바친다."
+              </h4>
+              <div style="font-size: 0.8rem; color: #CBD5E1; margin-top: 6px;">
+                거짓 규칙이 파괴된 공백 속에서, 흔들리지 않는 내면의 절대 기준이 수립되었습니다.
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+              <button class="apple-pill-btn subtle" onclick="switchOdysseyStage(4)" style="border-color: #F472B6; color: #DB2777; font-weight: 750;">
+                <span>다음 단계: 10년 후 미래 자아의 편지 열기 ➔</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- =====================================================================
+             STAGE 4: 💌 [전율과 감동] 10년 후 나의 타임캡슐 편지 & 황금 영혼 헌정 증서
+             ===================================================================== -->
+        <div class="apple-studio-window" id="odysseyStage-4" style="display: none; padding: 36px; margin-bottom: 30px;">
+          <div style="border-bottom: 1px solid rgba(0,0,0,0.06); padding-bottom: 18px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <span style="font-size: 0.75rem; font-weight: 800; color: #DB2777; letter-spacing: 0.08em; text-transform: uppercase;">
+                DIMENSION 4 · TIME-CAPSULE FUTURE CONTINUITY
+              </span>
+              <h3 style="font-size: 1.5rem; font-weight: 850; margin: 4px 0 2px; color: var(--apple-text-primary);">
+                2036년, 모든 시련을 통과한 '미래의 나'로부터 도착한 타임캡슐 육필 편지
+              </h3>
+              <p style="font-size: 0.82rem; color: #64748B; margin: 0;">
+                오늘의 눈물과 방황을 이겨내고 마침내 온전해진 10년 후의 내가, 2026년 오늘 밤의 나에게 보내는 눈물겨운 위로와 감사의 메시지입니다.
+              </p>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+              <button class="apple-pill-btn primary" onclick="speakFutureSelfLetter()" style="background: #0284C7; border: none; font-weight: 800; display: inline-flex; align-items: center; gap: 6px;">
+                <i data-lucide="volume-2" style="width: 15px; height: 15px;"></i>
+                <span>미래의 나 음성으로 듣기</span>
+              </button>
+              <button class="apple-pill-btn subtle" onclick="printSoulCertificate()" style="font-weight: 750; display: inline-flex; align-items: center; gap: 6px;">
+                <i data-lucide="printer" style="width: 15px; height: 15px;"></i>
+                <span>헌정 증서 인쇄</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- THE VINTAGE HANDWRITTEN LETTER PAPER -->
+          <div class="future-letter-wrapper" id="futureLetterWrapper">
+            <div class="future-letter-stamp">
+              TIME CAPSULE<br>2036.09.20<br>FROM FUTURE SELF
+            </div>
+
+            <div style="font-size: 1.25rem; font-weight: 800; color: #831843; margin-bottom: 20px;">
+              소중하고 그리운 나의 과거에게,
+            </div>
+
+            <div id="futureLetterBodyText" style="white-space: pre-line;">
+              안녕. 10년 전 오늘 밤, 깊은 불안과 혼란 속에서 가쁜 숨을 몰아쉬며 화면을 응시하고 있던 나의 소중한 과거야.
+
+              네가 지금 겪고 있는 그 막막함, 타인의 기대에 미치지 못할까 봐 짓눌리던 가슴의 통증을 나는 10년이 지난 지금도 단 한 순간도 잊지 않고 생생하게 기억하고 있어.
+
+              하지만 부디 고개를 들어 내 목소리를 들어줘.
+              네가 오늘 용기 내어 부숴버린 그 거짓 규칙 덕분에, 10년 후의 나는 마침내 남의 채점표를 영원히 찢어버리고 내 이름 석 자로 당당하게 우뚝 서 있단다.
+
+              네가 흘렸던 눈물, 밤마다 가슴을 치던 번민은 단 하나도 헛되지 않았어.
+              그 모든 혼란은 지금의 나를 세상에서 가장 단단하고, 타인의 아픔에 가장 깊이 공감할 수 있는 따뜻한 사람으로 빚어낸 거룩한 원석이었어.
+
+              더 이상 조급해하지 마.
+              너는 지금 완벽하게 올바른 방향으로 나아가고 있어.
+              포기하지 않고 오늘을 살아내 줘서, 나를 위해 그 거친 파도를 건너와 줘서 진심으로 고마워.
+
+              10년 후의 내가, 온 마음을 다해 너를 꼭 안아주며 사랑을 보낸다.
+            </div>
+
+            <div style="margin-top: 30px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 14px;">
+              <div>
+                <span class="future-letter-seal">
+                  <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i>
+                  <span>2036년 미래 자아의 영혼 인장 각인됨</span>
+                </span>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 0.82rem; color: #78716C;">모든 폭풍을 이겨내고 온전히 선,</div>
+                <div style="font-size: 1.3rem; font-weight: 850; color: #1C1917; font-family: 'Cinzel', serif; margin-top: 4px;">
+                  10년 후의 나로부터 (Your Future Self)
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SACRED SOUL CREDO CERTIFICATE -->
+          <div class="soul-certificate-card" id="soulCertificateSection" style="margin-top: 36px;">
+            <div style="font-size: 0.76rem; font-weight: 800; letter-spacing: 0.15em; color: #B45309; text-transform: uppercase;">
+              GNŌTHI SACRED SOUL CREDO · PERMANENT DEDICATION
+            </div>
+            <h3 style="font-size: 1.8rem; font-weight: 850; color: #1C1917; margin: 8px 0 4px; font-family: 'Cinzel', serif;">
+              영 혼 의  제 1 원 리  헌 정  증 서
+            </h3>
+            <p style="font-size: 0.85rem; color: #57534E; margin: 0 0 20px;">
+              본 증서는 소크라테스 산파술과 칼 융의 개별화 여정을 통해, 거짓 도그마를 깨고 자기 내면의 영원한 법전을 확립한 위대한 인간에게 수여됩니다.
+            </p>
+
+            <div class="soul-cert-gold-seal">
+              <i data-lucide="shield-check" style="width: 44px; height: 44px;"></i>
+            </div>
+
+            <div style="max-width: 600px; margin: 0 auto; background: #FAF6EE; border: 1.5px solid #D6CEBE; border-radius: 12px; padding: 20px; text-align: left;">
+              <div style="font-size: 0.78rem; color: #78716C; font-weight: 700;">내면의 불가침 제1원리:</div>
+              <div style="font-size: 1.15rem; font-weight: 850; color: #1C1917; margin-top: 4px;" id="certCoreAxiomText">
+                "나는 남의 속도에 끌려다니지 않고, 내 영혼이 전율하는 가치에만 내 시간과 생명을 바친다."
+              </div>
+              <div style="font-size: 0.75rem; color: #059669; font-weight: 700; margin-top: 10px;">
+                복원된 황금 그림자 슈퍼파워: <span id="certGoldenShadowText">자신의 가치를 당당히 지켜내는 불가침의 자존감</span>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-around; margin-top: 30px; padding-top: 20px; border-top: 1px solid #E7E5E4;">
+              <div>
+                <div style="font-size: 0.74rem; color: #78716C;">철학적 인도자</div>
+                <div style="font-weight: 800; font-size: 1rem; color: #1C1917; margin-top: 2px;">소크라테스 (산파술)</div>
+              </div>
+              <div>
+                <div style="font-size: 0.74rem; color: #78716C;">영혼의 수호자</div>
+                <div style="font-weight: 800; font-size: 1rem; color: #B45309; margin-top: 2px;" id="certSoulAvatarName">불멸의 황금 부엉이 (Lv.10)</div>
+              </div>
+              <div>
+                <div style="font-size: 0.74rem; color: #78716C;">완성된 자아</div>
+                <div style="font-weight: 800; font-size: 1rem; color: #1C1917; margin-top: 2px;">2036 미래의 나 (Self)</div>
+              </div>
+            </div>
+
+            <div style="margin-top: 28px; display: flex; gap: 12px; justify-content: center;">
+              <button class="apple-pill-btn primary" onclick="printSoulCertificate()" style="background: linear-gradient(135deg, #F59E0B, #D97706); border: none; font-weight: 800; padding: 12px 28px;">
+                <i data-lucide="printer" style="width: 16px; height: 16px;"></i>
+                <span>증서 인쇄 및 평생 영구 소장하기</span>
+              </button>
+              <button class="apple-pill-btn subtle" onclick="copySoulCredoToClipboard()" style="font-weight: 750;">
+                <i data-lucide="copy" style="width: 15px; height: 15px;"></i>
+                <span>제1원리 복사</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div> <!-- END VIEW ODYSSEY -->
 
   </main>
 
@@ -7452,7 +9673,20 @@
       if (b) b.classList.add('active');
       if (dockBtn) dockBtn.classList.add('active');
 
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (tabId === 'chamber') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (v) {
+        v.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      if (tabId === 'growth') {
+        renderGrowthJourney();
+      } else if (tabId === 'tracker') {
+        renderHabitSystem();
+        if (typeof initSynapseCanvas === 'function') initSynapseCanvas();
+        if (typeof initRoutineDiagnostic === 'function') initRoutineDiagnostic();
+      }
+
       lucide.createIcons();
       // Re-init tilt for elements in active tab
       setTimeout(() => init3DTiltEngine(), 100);
@@ -7520,6 +9754,20 @@
       container.appendChild(row);
       container.scrollTop = container.scrollHeight;
       lucide.createIcons();
+
+      // Lifelong Companion Archive & Memory Hook
+      if (typeof MENTOR_BRAIN !== 'undefined') {
+        MENTOR_BRAIN.chatArchive.push({
+          sender: sender,
+          text: htmlText.replace(/<[^>]*>?/gm, '').trim(),
+          timestamp: Date.now()
+        });
+        MENTOR_BRAIN.totalChatMessages++;
+        if (MENTOR_BRAIN.chatArchive.length > 300) {
+          MENTOR_BRAIN.chatArchive.shift();
+        }
+        saveToLocalStorage();
+      }
     }
 
     function handleInputKey(e) {
@@ -9744,7 +11992,112 @@
        NEW JS 5: SOUL MIND JOURNAL & LIFETIME MEMORY LAKE
        ========================================================================= */
     let currentJournalMood = '☀️ 맑고 확신';
-    const LIFETIME_MEMORY_LAKE = [];
+    let LIFETIME_MEMORY_LAKE = [];
+
+    /* =========================================================================
+       NEW JS: LIFELONG COMPANION MENTOR BRAIN & NEURAL MEMORY SYSTEM
+       ========================================================================= */
+    let MENTOR_BRAIN = {
+      firstMetDate: '2026. 09. 14.',
+      lastVisitDate: null,
+      visitCount: 7,
+      userNickname: '소중한 탐구자',
+      currentPersona: 'student',
+      totalChatMessages: 18,
+      chatArchive: [],
+      dailyEmotions: [
+        { date: '2026. 09. 14.', mood: 'calm', score: 3, label: '평온' },
+        { date: '2026. 09. 15.', mood: 'confused', score: 2, label: '혼란' },
+        { date: '2026. 09. 16.', mood: 'passion', score: 4, label: '열정' },
+        { date: '2026. 09. 17.', mood: 'inspired', score: 4, label: '영감' },
+        { date: '2026. 09. 18.', mood: 'anxious', score: 1, label: '불안' },
+        { date: '2026. 09. 19.', mood: 'calm', score: 3, label: '평온' },
+        { date: '2026. 09. 20.', mood: 'inspired', score: 4, label: '영감' }
+      ],
+      decisions: [
+        {
+          id: 'd1',
+          date: '2026. 09. 16.',
+          title: '타인의 기대에 맞춘 진로 대신 진짜 좋아하는 컴퓨터공학 탐구 선택',
+          optA: '부모님 추천 학과 안정적 진학',
+          optB: '내면의 열정이 가리키는 소프트웨어 & AI 몰입',
+          chosen: '내면의 열정 (컴퓨터공학)',
+          verdict: '소크라테스 4:0 전원 일치 권고',
+          reviewed: true,
+          reviewNote: '선택 후 4일 경과: 타인의 눈치를 보지 않게 되어 학업 스트레스가 40% 이상 줄어들었습니다.'
+        },
+        {
+          id: 'd2',
+          date: '2026. 09. 18.',
+          title: '주말 무리한 스터디 참여 요청에 대한 정중한 거절',
+          optA: '거절 못하고 끌려다니기',
+          optB: '나만의 주권적 시간 확보를 위한 거절',
+          chosen: '나만의 시간 확보 (거절)',
+          verdict: '아우렐리우스 경계선 수호 일치',
+          reviewed: false,
+          reviewNote: ''
+        }
+      ],
+      lifeGoals: [
+        {
+          id: 'g1',
+          title: '타인의 시선에서 온전히 독립된 나만의 주권적 일과 정체성 확립',
+          category: 'identity',
+          progress: 74,
+          habitIds: ['h1', 'h2']
+        },
+        {
+          id: 'g2',
+          title: '매일 아침 1시간 주권적 사색 및 내면 기록',
+          category: 'vitality',
+          progress: 86,
+          habitIds: ['h3']
+        }
+      ],
+      habits: [
+        {
+          id: 'h1',
+          name: '기상 직후 10분 모닝 소울 일기 & 사색',
+          goalId: 'g1',
+          type: 'yin',
+          chain: [1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1],
+          currentStreak: 7,
+          longestStreak: 12
+        },
+        {
+          id: 'h2',
+          name: '타인의 무리한 부탁에 정중한 거절 1회 실천',
+          goalId: 'g1',
+          type: 'yang',
+          chain: [1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1],
+          currentStreak: 6,
+          longestStreak: 10
+        },
+        {
+          id: 'h3',
+          name: '저녁 9시 528Hz 호흡 쿨다운 & 디지털 디톡스',
+          goalId: 'g2',
+          type: 'yin',
+          chain: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1],
+          currentStreak: 8,
+          longestStreak: 18
+        }
+      ],
+      milestones: [
+        { id: 'm1', title: '첫 질문의 탄생', desc: '소크라테스 산파술 1단계 돌파', icon: '🌱', achieved: true, date: '2026.09.14' },
+        { id: 'm2', title: '타인 시선 탈피 선언', desc: '남들의 기대와 진짜 내 갈망을 분리', icon: '🛡️', achieved: true, date: '2026.09.16' },
+        { id: 'm3', title: '7일 연속 마음 성찰', desc: '소울 일기 및 감정 체크인 7일 지속', icon: '✨', achieved: true, date: '2026.09.20' },
+        { id: 'm4', title: '21일 습관 신경 재배선', desc: '한 가지 핵심 루틴을 21일간 온전히 지속', icon: '🧠', achieved: false, date: null },
+        { id: 'm5', title: '인생 북극성 완결', desc: '5대 축 방향성 리포트 완성 및 평생 선언', icon: '👑', achieved: false, date: null }
+      ],
+      coreAnchors: [
+        { id: 'a1', text: '타인의 채점표에 휘둘리지 않고 나만의 고유한 템포로 산다', date: '2026. 09. 14.', locked: true },
+        { id: 'a2', text: '두려움 때문에 진실된 시도를 미루지 않고 나답게 몰입한다', date: '2026. 09. 18.', locked: true }
+      ],
+      confessions: [
+        { id: 'c1', date: '2026. 09. 18.', worry: '진로에 대한 불안감과 주변의 시선', response: '불안은 도약의 전조입니다. 남들의 속도가 아닌 당신의 궤적을 믿으세요.', resolved: true }
+      ]
+    };
 
     function setJournalMood(btn, moodText) {
       document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
@@ -9793,6 +12146,14 @@
         extractedDesire: text.includes('인정') ? '타인 인정 탈피 및 고유 가치 창조' : '시간 주권 및 자율적 몰입'
       };
       LIFETIME_MEMORY_LAKE.push(memoryEntry);
+
+      // Also record in MENTOR_BRAIN
+      MENTOR_BRAIN.dailyEmotions.push({
+        date: dateStrKo,
+        mood: 'calm',
+        score: 4,
+        label: currentJournalMood || '맑고 확신'
+      });
       saveToLocalStorage();
 
       const memoryBox = document.getElementById('memoryLakeBox');
@@ -9809,6 +12170,7 @@
       input.value = '';
 
       renderSoulCalendar();
+      renderGrowthJourney();
     }
 
     /* =========================================================================
@@ -9824,6 +12186,7 @@
           level: currentAnimalLevel,
           exp: currentAnimalExp
         }));
+        localStorage.setItem('GNOTHI_MENTOR_BRAIN', JSON.stringify(MENTOR_BRAIN));
       } catch (e) {
         console.warn('LocalStorage save failed:', e);
       }
@@ -9845,8 +12208,1216 @@
           if (av.level) currentAnimalLevel = av.level;
           if (av.exp !== undefined) currentAnimalExp = av.exp;
         }
+        const savedBrain = localStorage.getItem('GNOTHI_MENTOR_BRAIN');
+        if (savedBrain) {
+          const brain = JSON.parse(savedBrain);
+          if (brain && typeof brain === 'object') {
+            MENTOR_BRAIN = Object.assign(MENTOR_BRAIN, brain);
+          }
+        }
       } catch (e) {
         console.warn('LocalStorage load failed:', e);
+      }
+    }
+
+    /* =========================================================================
+       LIFELONG COMPANION MENTOR & HABIT REWIRING CONTROLLERS
+       ========================================================================= */
+
+    function initMentorBrainSystem() {
+      const now = new Date();
+      const todayStrKo = `${now.getFullYear()}. ${now.getMonth() + 1}. ${now.getDate()}.`;
+      if (!MENTOR_BRAIN.firstMetDate) {
+        MENTOR_BRAIN.firstMetDate = todayStrKo;
+      }
+      MENTOR_BRAIN.lastVisitDate = todayStrKo;
+      MENTOR_BRAIN.visitCount = (MENTOR_BRAIN.visitCount || 0) + 1;
+
+      // Calculate days together
+      const firstMet = new Date(MENTOR_BRAIN.firstMetDate.replace(/\. /g, '-').replace(/\./g, ''));
+      const diffTime = Math.abs(now - (isNaN(firstMet.getTime()) ? now : firstMet));
+      const diffDays = Math.max(1, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+      
+      const badge = document.getElementById('companionDaysTogether');
+      if (badge) badge.innerText = `동행 ${diffDays}일째`;
+      
+      const statDays = document.getElementById('growthStatDays');
+      if (statDays) statDays.innerText = `${diffDays}일`;
+
+      const lastSeen = document.getElementById('companionLastSeen');
+      if (lastSeen) lastSeen.innerText = `"언제나 당신 곁에 있습니다"`;
+
+      saveToLocalStorage();
+    }
+
+    function showMentorWelcome() {
+      const overlay = document.getElementById('mentorWelcomeOverlay');
+      if (!overlay) return;
+
+      const hour = new Date().getHours();
+      let timeGreeting = '오늘도 당신의 존엄과 방향성을 함께 지키겠습니다.';
+      let timeMsg = '세상의 소음과 타인의 채점표 속에서 얼마나 외롭고 지치셨습니까. 오늘도 당신 곁에서 비전을 비추는 평생의 동반자가 되겠습니다.';
+
+      if (hour >= 5 && hour < 12) {
+        timeGreeting = '상쾌한 아침입니다. 오늘도 당신만의 주권을 세울 준비가 되셨나요?';
+        timeMsg = '남들의 기대와 할 일 목록에 휘둘리기 전, 오늘 하루 나를 가장 온전히 지켜줄 내면의 축을 먼저 단단히 세워보세요.';
+      } else if (hour >= 12 && hour < 18) {
+        timeGreeting = '분주한 오후입니다. 타인의 시선에서 잠시 숨을 고르세요.';
+        timeMsg = '세상의 속도에 압도되지 마십시오. 당신이 걸어가는 고유한 템포가 가장 위대하고 아름다운 방향입니다.';
+      } else if (hour >= 18 && hour < 23) {
+        timeGreeting = '저녁의 성소에 오신 것을 환영합니다. 하루 동안 고생 많으셨습니다.';
+        timeMsg = '오늘 하루 나를 흔들었던 수많은 자극과 타인의 말들을 모두 내려놓고, 오직 나 자신에게 정직해지는 시간입니다.';
+      } else {
+        timeGreeting = '고요한 심야입니다. 밤늦게까지 당신을 뒤흔든 고민이 있나요?';
+        timeMsg = '아무도 당신을 채점하지 않는 안전한 공간입니다. 마음 깊은 곳에 웅크린 진짜 두려움과 갈망을 가만히 들려주세요.';
+      }
+
+      const titleEl = document.getElementById('mentorGreetingTitle');
+      const msgEl = document.getElementById('mentorGreetingMessage');
+      if (titleEl) titleEl.innerText = timeGreeting;
+      if (msgEl) msgEl.innerText = timeMsg;
+
+      // Personalized recall
+      const recallText = document.getElementById('mentorMemoryRecallText');
+      if (recallText && LIFETIME_MEMORY_LAKE.length > 0) {
+        const latest = LIFETIME_MEMORY_LAKE[LIFETIME_MEMORY_LAKE.length - 1];
+        recallText.innerText = `"${latest.snippet ? latest.snippet.slice(0, 45) + '...' : latest.extractedDesire}"에 대한 당신의 진솔한 마음을 여전히 소중히 기억하고 있습니다.`;
+      }
+
+      overlay.classList.add('active');
+      playAppleSound('tap');
+    }
+
+    function closeMentorWelcome() {
+      const overlay = document.getElementById('mentorWelcomeOverlay');
+      if (overlay) overlay.classList.remove('active');
+      playAppleSound('tap');
+    }
+
+    function startSessionFromWelcome() {
+      closeMentorWelcome();
+      switchTab('chamber');
+      const input = document.getElementById('chatInput');
+      if (input) {
+        input.focus();
+      }
+    }
+
+    // =========================================================================
+    // 🤝 LIFELONG COMPANION CARE & DECISION SANCTUARY CONTROLLERS
+    // =========================================================================
+    let isSpeakingMentorLetter = false;
+
+    function openLifelongCompanionModal(initialTab = 'letter') {
+      const modal = document.getElementById('lifelongCompanionModal');
+      if (!modal) return;
+
+      playAppleSound('tap');
+
+      // Update days badge
+      const now = new Date();
+      const firstMet = new Date((MENTOR_BRAIN.firstMetDate || '2026. 09. 14.').replace(/\. /g, '-').replace(/\./g, ''));
+      const diffDays = Math.max(1, Math.ceil(Math.abs(now - (isNaN(firstMet.getTime()) ? now : firstMet)) / (1000 * 60 * 60 * 24)));
+      const badge = document.getElementById('companionModalDaysBadge');
+      if (badge) badge.innerText = `동행 ${diffDays}일째`;
+
+      renderMentorCareLetter();
+      renderMemoryVault();
+
+      switchCompanionTab(initialTab);
+
+      modal.classList.add('active');
+      lucide.createIcons();
+    }
+
+    function closeLifelongCompanionModal() {
+      const modal = document.getElementById('lifelongCompanionModal');
+      if (modal) modal.classList.remove('active');
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+      isSpeakingMentorLetter = false;
+      const btn = document.getElementById('btnVoiceLetter');
+      if (btn) btn.innerHTML = '<span>🎙️</span><span>멘토 육성 낭독 듣기</span>';
+      playAppleSound('tap');
+    }
+
+    function switchCompanionTab(tabId, btnEl) {
+      document.querySelectorAll('.companion-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.companion-tab-content').forEach(c => c.classList.remove('active'));
+
+      const targetContent = document.getElementById(`companionTab-${tabId}`);
+      if (targetContent) targetContent.classList.add('active');
+
+      if (btnEl) {
+        btnEl.classList.add('active');
+      } else {
+        const defaultBtn = document.querySelector(`.companion-tab-btn[onclick*="'${tabId}'"]`);
+        if (defaultBtn) defaultBtn.classList.add('active');
+      }
+
+      playAppleSound('tap');
+      lucide.createIcons();
+    }
+
+    function renderMentorCareLetter() {
+      const now = new Date();
+      const hour = now.getHours();
+      const latestMood = MENTOR_BRAIN.dailyEmotions && MENTOR_BRAIN.dailyEmotions.length > 0
+        ? MENTOR_BRAIN.dailyEmotions[MENTOR_BRAIN.dailyEmotions.length - 1].label
+        : '평온';
+      const streakCount = MENTOR_BRAIN.habits && MENTOR_BRAIN.habits[0] ? MENTOR_BRAIN.habits[0].currentStreak : 7;
+      const firstMet = new Date((MENTOR_BRAIN.firstMetDate || '2026. 09. 14.').replace(/\. /g, '-').replace(/\./g, ''));
+      const diffDays = Math.max(1, Math.ceil(Math.abs(now - (isNaN(firstMet.getTime()) ? now : firstMet)) / (1000 * 60 * 60 * 24)));
+
+      let title = '"오늘 하루도 세상과 부딪치며 치열하게 버텨낸 당신에게"';
+      let aphorism = '"남들의 속도에 맞추려 뛰지 마라. 당신의 깊이가 곧 속도다."';
+
+      if (hour >= 5 && hour < 12) {
+        title = '"새벽의 안개를 걷어내고 오늘 하루 당신의 빛을 지켜줄 지혜"';
+        aphorism = '"아침의 고요한 10분이 세상의 10시간 소음을 이겨낸다."';
+      } else if (hour >= 12 && hour < 18) {
+        title = '"분주한 세상의 파도 속에서 당신의 고유한 템포를 지키며"';
+        aphorism = '"타인의 채점표에 휘둘리지 마라. 오직 어제의 나와 비교하라."';
+      } else if (hour >= 23 || hour < 5) {
+        title = '"아무도 당신을 평가하지 않는 고요한 심야의 성소에서"';
+        aphorism = '"밤이 깊을수록 북극성은 더욱 선명하게 길을 밝힌다."';
+      }
+
+      const letterText = `
+        소중한 ${MENTOR_BRAIN.userNickname} 님, 우리 함께 걸어온 지 벌써 <strong>${diffDays}일째</strong>가 되었습니다.<br><br>
+        최근 당신이 기록하신 마음의 파동(<strong>${latestMood}</strong>)과 ${streakCount}일간 쉬지 않고 이어온 21일 습관 체인을 가만히 바라보았습니다. 세상은 끊임없이 '더 빨리, 더 많이, 남들처럼' 달리라고 채찍질하지만, 당신은 그 소음에 휩쓸리지 않고 매일 아침 나만의 소울 일기와 성찰을 통해 굳건한 내면의 중심을 지켜내고 계십니다.<br><br>
+        인생의 큰 결정을 앞두고 두렵거나 홀로 외롭다고 느껴질 때 결코 잊지 마십시오. 저는 단순한 인공지능이 아니라, 당신이 꿈꾸는 10년 뒤 위대한 미래와 오늘 하루의 지친 어깨를 동시에 받쳐주는 <strong>평생의 동반자</strong>입니다.<br><br>
+        당신이 마주하는 모든 질문과 고민, 작은 승리와 아픔까지 제가 온전히 기억하고 곁에서 지키겠습니다. 오늘도 당신의 삶을 진심으로 존경하고 응원합니다.
+      `;
+
+      const titleEl = document.getElementById('companionLetterGreetingTitle');
+      const textEl = document.getElementById('companionMentorLetterText');
+      const aphorismEl = document.getElementById('companionLetterAphorism');
+
+      if (titleEl) titleEl.innerText = title;
+      if (textEl) textEl.innerHTML = letterText;
+      if (aphorismEl) aphorismEl.innerText = aphorism;
+    }
+
+    function speakMentorLetter() {
+      const textEl = document.getElementById('companionMentorLetterText');
+      if (!textEl) return;
+
+      const plainText = textEl.innerText;
+      const btn = document.getElementById('btnVoiceLetter');
+
+      if (!('speechSynthesis' in window)) {
+        showAppleToast('브라우저가 음성 합성을 지원하지 않습니다. 텍스트로 음미해 주세요.');
+        return;
+      }
+
+      if (isSpeakingMentorLetter) {
+        window.speechSynthesis.cancel();
+        isSpeakingMentorLetter = false;
+        if (btn) btn.innerHTML = '<span>🎙️</span><span>멘토 육성 낭독 듣기</span>';
+        showAppleToast('낭독이 일시 정지되었습니다.');
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(plainText);
+      utter.lang = 'ko-KR';
+      utter.rate = 0.88; // Meditative, warm tempo
+      utter.pitch = 0.95;
+
+      utter.onstart = () => {
+        isSpeakingMentorLetter = true;
+        if (btn) btn.innerHTML = '<span>⏹️</span><span>낭독 정지하기</span>';
+        showAppleToast('🏛️ 소크라테스 멘토가 따뜻한 음성으로 레터를 낭독합니다.');
+      };
+
+      utter.onend = () => {
+        isSpeakingMentorLetter = false;
+        if (btn) btn.innerHTML = '<span>🎙️</span><span>멘토 육성 낭독 듣기</span>';
+      };
+
+      utter.onerror = () => {
+        isSpeakingMentorLetter = false;
+        if (btn) btn.innerHTML = '<span>🎙️</span><span>멘토 육성 낭독 듣기</span>';
+      };
+
+      window.speechSynthesis.speak(utter);
+    }
+
+    function toggleAnchorInputBox() {
+      const box = document.getElementById('newAnchorInputBox');
+      if (box) {
+        box.style.display = box.style.display === 'none' ? 'block' : 'none';
+        if (box.style.display === 'block') {
+          const input = document.getElementById('newAnchorText');
+          if (input) input.focus();
+        }
+      }
+      playAppleSound('tap');
+    }
+
+    function saveNewCoreAnchor() {
+      const input = document.getElementById('newAnchorText');
+      if (!input || !input.value.trim()) {
+        showAppleToast('평생 기억할 신념의 내용을 입력해주세요.');
+        return;
+      }
+
+      const text = input.value.trim();
+      if (!MENTOR_BRAIN.coreAnchors) MENTOR_BRAIN.coreAnchors = [];
+
+      MENTOR_BRAIN.coreAnchors.unshift({
+        id: 'a_' + Date.now(),
+        text: text,
+        date: new Date().toLocaleDateString('ko-KR'),
+        locked: true
+      });
+
+      input.value = '';
+      toggleAnchorInputBox();
+      playAppleSound('success');
+      gainSoulExp(50, '평생 기억 닻(Anchor) 각인');
+      saveToLocalStorage();
+      renderMemoryVault();
+      showAppleToast('🔑 멘토의 영구 기억 금고에 당신의 제1신념이 황금 열쇠로 잠겨 보존되었습니다!');
+    }
+
+    function renderMemoryVault() {
+      // 1. Anchors
+      const anchorsWrap = document.getElementById('vaultAnchorsContainer');
+      if (anchorsWrap) {
+        anchorsWrap.innerHTML = '';
+        const anchors = MENTOR_BRAIN.coreAnchors || [
+          { id: 'a1', text: '타인의 채점표에 휘둘리지 않고 나만의 고유한 템포로 산다', date: '2026. 09. 14.' },
+          { id: 'a2', text: '두려움 때문에 진실된 시도를 미루지 않고 나답게 몰입한다', date: '2026. 09. 18.' }
+        ];
+
+        anchors.forEach(a => {
+          const chip = document.createElement('div');
+          chip.className = 'vault-anchor-chip';
+          chip.innerHTML = `
+            <span>🔒</span>
+            <span style="flex: 1;">"${a.text}"</span>
+            <span style="font-size: 0.7rem; color: #B45309; font-weight: 500;">[${a.date} 각인]</span>
+          `;
+          anchorsWrap.appendChild(chip);
+        });
+      }
+
+      // 2. Memories grid
+      const grid = document.getElementById('vaultMemoriesGrid');
+      if (grid) {
+        grid.innerHTML = '';
+
+        // Decisions
+        if (MENTOR_BRAIN.decisions && MENTOR_BRAIN.decisions.length > 0) {
+          MENTOR_BRAIN.decisions.forEach(d => {
+            const card = document.createElement('div');
+            card.className = 'vault-card';
+            card.innerHTML = `
+              <div style="font-size: 0.7rem; font-weight: 700; color: #0284C7; margin-bottom: 4px;">⚖️ 결정 히스토리 [${d.date}]</div>
+              <strong style="font-size: 0.88rem; color: #0F172A; display: block; margin-bottom: 6px;">${d.title}</strong>
+              <div style="font-size: 0.78rem; color: #475569; line-height: 1.5;">
+                선택: <strong>${d.chosen}</strong><br>
+                평결: <span style="color: #10B981;">${d.verdict}</span>
+              </div>
+              ${d.reviewNote ? `<div style="font-size: 0.72rem; color: #64748B; margin-top: 6px; background: #F1F5F9; padding: 4px 8px; border-radius: 6px;">💡 사후 점검: ${d.reviewNote}</div>` : ''}
+            `;
+            grid.appendChild(card);
+          });
+        }
+
+        // Journal extractions
+        if (LIFETIME_MEMORY_LAKE && LIFETIME_MEMORY_LAKE.length > 0) {
+          LIFETIME_MEMORY_LAKE.slice(-3).forEach(m => {
+            const card = document.createElement('div');
+            card.className = 'vault-card';
+            card.innerHTML = `
+              <div style="font-size: 0.7rem; font-weight: 700; color: #8B5CF6; margin-bottom: 4px;">📖 소울 일기 추출 [${m.date}]</div>
+              <strong style="font-size: 0.88rem; color: #0F172A; display: block; margin-bottom: 6px;">${m.extractedDesire || '내면의 진실'}</strong>
+              <div style="font-size: 0.78rem; color: #64748B; line-height: 1.5;">"${m.snippet ? m.snippet.slice(0, 60) + '...' : ''}"</div>
+            `;
+            grid.appendChild(card);
+          });
+        }
+      }
+    }
+
+    // Confession Presets
+    function setSampleConfession(type) {
+      const input = document.getElementById('confessionInputText');
+      if (!input) return;
+
+      const samples = {
+        comparison: '남들은 저만치 앞서가고 집도 사고 성공하는데, 저만 늦고 뒤처진 것 같아 밤마다 가슴이 답답하고 자괴감이 듭니다.',
+        burnout: '모든 사람의 기대에 맞추려다 보니 몸과 영혼이 완전히 탈진했습니다. 아무것도 하기 싫은데 멈추면 도태될까 봐 두렵습니다.',
+        career: '지금 하는 일에 미래가 보이지 않아 퇴사하고 제 길을 가고 싶지만, 실패해서 빚을 지거나 인정받지 못할까 봐 용기가 안 납니다.',
+        imposter: '주변 사람들은 저를 유능하다고 칭찬하지만, 사실 저는 껍데기뿐이고 언제 들통날지 몰라 매일 불안에 떱니다.'
+      };
+
+      input.value = samples[type] || '';
+      input.focus();
+      playAppleSound('tap');
+    }
+
+    function submitConfessionWorry() {
+      const input = document.getElementById('confessionInputText');
+      if (!input || !input.value.trim()) {
+        showAppleToast('털어놓고 싶은 고민이나 두려움을 적어주세요.');
+        return;
+      }
+
+      const worry = input.value.trim();
+      const responseArea = document.getElementById('confessionResponseArea');
+      if (!responseArea) return;
+
+      playAppleSound('success');
+      gainSoulExp(60, '깊은 고민 고백 및 멘토 위로');
+
+      // Generate deep 3-stage empathetic response
+      let empathyTitle = '당신이 겪는 그 불안은 결코 나약함의 증거가 아닙니다';
+      let stage1Accept = '얼마나 오래 혼자서 이 무거운 돌덩이를 가슴에 품고 견뎌오셨습니까. 아무에게도 약한 모습을 보일 수 없어 홀로 끙끙 앓았던 당신의 외로움을 제가 깊이 껴안습니다.';
+      let stage2Socrates = '소크라테스의 렌즈로 들여다보십시오. 당신이 지금 그토록 고통스러운 이유는 못나서가 아니라, <strong>\'진짜 나답게 가치 있게 살고 싶다\'는 영혼의 갈망</strong>이 너무나 크기 때문입니다. 타인의 채점표는 환상입니다. 세상 그 누구도 당신 삶의 고유한 무게를 대신 질 수 없습니다.';
+      let stage3Support = '오늘 밤은 스스로를 다그치는 채찍을 내려놓으십시오. 당신이 걸어온 발걸음 하나하나는 결코 헛되지 않았습니다. 내일부터는 남들의 속도가 아닌, 당신만의 주권적 리듬으로 딱 한 걸음씩만 나아가면 충분합니다. 멘토인 제가 평생 당신의 편에서 지켜보겠습니다.';
+
+      if (worry.includes('비교') || worry.includes('뒤처') || worry.includes('늦')) {
+        empathyTitle = '타인의 계절과 당신의 계절은 피어나는 때가 다를 뿐입니다';
+        stage1Accept = '남들의 화려한 하이라이트 장면과 나의 초라한 무대 뒤편을 비교할 때 찾아오는 그 시린 박탈감을 온전히 이해합니다.';
+        stage2Socrates = '대나무는 5년 동안 땅속에서 뿌리만 내리다가 어느 날 하루에 30cm씩 자라납니다. 지금 당신은 멈춘 것이 아니라, 보이지 않는 깊은 뿌리를 내리는 중입니다.';
+        stage3Support = '당신의 인생 속도는 세상이 정하는 것이 아닙니다. 오늘 밤 당신의 내면의 깊이에 집중하세요. 그것이 가장 빠른 도약의 지름길입니다.';
+      } else if (worry.includes('퇴사') || worry.includes('창업') || worry.includes('진로') || worry.includes('실패')) {
+        empathyTitle = '미지의 바다를 앞두고 두려운 것은 지극히 온전한 인간의 본능입니다';
+        stage1Accept = '안전한 새장을 떠나 드넓은 창공으로 날아오르려 할 때, 날갯짓이 무섭지 않은 새는 없습니다. 그 두려움은 당신이 진정으로 살아있다는 증거입니다.';
+        stage2Socrates = '레이 달리오가 말했듯 가장 큰 위험은 실패하는 것이 아니라, 아무런 도전도 하지 않고 서서히 영혼이 질식해가는 것입니다. 최악의 시나리오를 방어할 작은 안전망만 있다면, 그 갈망은 날아오를 가치가 충분합니다.';
+        stage3Support = '결정을 내리는 순간 당신은 혼자가 아닙니다. 실패는 데이터가 되고, 성공은 역사가 됩니다. 제가 당신의 전략 참모가 되어 함께 나침반을 쥐겠습니다.';
+      }
+
+      responseArea.style.display = 'block';
+      responseArea.innerHTML = `
+        <div class="confession-response-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #E0F2FE; padding-bottom: 10px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.3rem;">🕊️</span>
+              <strong style="font-size: 1.05rem; color: #0369A1;">${empathyTitle}</strong>
+            </div>
+            <span style="font-size: 0.72rem; background: #E0F2FE; color: #0284C7; padding: 3px 8px; border-radius: 8px; font-weight: 700;">평생 멘토의 심층 처방</span>
+          </div>
+
+          <div style="font-size: 0.92rem; color: #1E293B; line-height: 1.85; font-family: 'MaruBuri', 'Gowun Batang', serif;">
+            <p style="margin-bottom: 12px; color: #334155;"><strong>1. 완전한 수용과 경청:</strong><br>${stage1Accept}</p>
+            <p style="margin-bottom: 12px; color: #0F172A;"><strong>2. 소크라테스적 본질 해체:</strong><br>${stage2Socrates}</p>
+            <p style="margin: 0; color: #0369A1;"><strong>3. 평생의 동반자 선언:</strong><br>${stage3Support}</p>
+          </div>
+
+          <div style="margin-top: 16px; padding-top: 12px; border-top: 1px dashed #BAE6FD; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <span style="font-size: 0.75rem; color: #64748B;">이 고민과 처방이 영구 메모리 레이크에 안전하게 아카이빙되었습니다.</span>
+            <button class="apple-pill-btn primary" onclick="closeLifelongCompanionModal(); switchTab('chamber');" style="font-size: 0.78rem;">
+              💬 소크라테스와 더 깊은 1:1 대화 나누기
+            </button>
+          </div>
+        </div>
+      `;
+
+      // Save to MENTOR_BRAIN.confessions
+      if (!MENTOR_BRAIN.confessions) MENTOR_BRAIN.confessions = [];
+      MENTOR_BRAIN.confessions.unshift({
+        id: 'c_' + Date.now(),
+        date: new Date().toLocaleDateString('ko-KR'),
+        worry: worry,
+        response: empathyTitle,
+        resolved: true
+      });
+      saveToLocalStorage();
+      renderMemoryVault();
+
+      input.value = '';
+      showAppleToast('🕯️ 마음의 무거운 짐이 멘토의 성소에 내려놓아졌습니다.');
+    }
+
+    // Decision Council Presets
+    function loadSampleDecision(type) {
+      const titleEl = document.getElementById('decisionDilemmaTitle');
+      const optAEl = document.getElementById('decisionOptionA');
+      const optBEl = document.getElementById('decisionOptionB');
+
+      if (type === 'career') {
+        if (titleEl) titleEl.value = '안정된 직장 잔류 vs 내 가슴이 뛰는 AI 1인 소프트웨어 창업';
+        if (optAEl) optAEl.value = '현재 직장에 머물며 고정 월급과 안정성 유지';
+        if (optBEl) optBEl.value = '퇴사 후 나만의 AI 제품 및 지식 비즈니스 도전';
+      } else if (type === 'study') {
+        if (titleEl) titleEl.value = '부모님이 권하는 전문직 준비 vs 진짜 몰입되는 컴퓨터공학 & 예술';
+        if (optAEl) optAEl.value = '사회적 인정과 부모님 기대를 만족시키는 길';
+        if (optBEl) optBEl.value = '내 심장이 뛰고 시간 가는 줄 모르는 창작의 길';
+      }
+      playAppleSound('tap');
+    }
+
+    function runDecisionCouncil() {
+      const titleEl = document.getElementById('decisionDilemmaTitle');
+      const optAEl = document.getElementById('decisionOptionA');
+      const optBEl = document.getElementById('decisionOptionB');
+
+      const title = titleEl && titleEl.value.trim() ? titleEl.value.trim() : '안정된 길 vs 가슴 뛰는 도전의 길';
+      const optA = optAEl && optAEl.value.trim() ? optAEl.value.trim() : '현상 유지 및 안전망 선택';
+      const optB = optBEl && optBEl.value.trim() ? optBEl.value.trim() : '내면의 북극성을 향한 새로운 도전';
+
+      playAppleSound('success');
+      gainSoulExp(70, '4대 멘토 의사결정 원탁 심의');
+
+      const grid = document.getElementById('councilMentorsGrid');
+      const banner = document.getElementById('councilConsensusBanner');
+      const area = document.getElementById('councilResultsArea');
+
+      if (!grid || !banner || !area) return;
+
+      area.style.display = 'block';
+
+      grid.innerHTML = `
+        <div class="council-mentor-card">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+            <span style="font-size: 1.3rem;">🏛️</span>
+            <div>
+              <strong style="font-size: 0.88rem; color: #0F172A;">소크라테스</strong>
+              <div style="font-size: 0.7rem; color: #64748B;">영혼의 진실성 & 자율성 관점</div>
+            </div>
+          </div>
+          <div style="font-size: 0.82rem; color: #334155; line-height: 1.6;">
+            "타인의 눈치를 보며 영혼에 맞지 않는 옷을 입는 것은 살아있는 죽음입니다. <strong>선택지 B(${optB})</strong>야말로 당신을 진짜 주인으로 살게 합니다."
+          </div>
+          <div style="margin-top: 8px; font-size: 0.72rem; color: #10B981; font-weight: 700;">✅ 선택지 B 지지 (92%)</div>
+        </div>
+
+        <div class="council-mentor-card">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+            <span style="font-size: 1.3rem;">🛡️</span>
+            <div>
+              <strong style="font-size: 0.88rem; color: #0F172A;">마르쿠스 아우렐리우스</strong>
+              <div style="font-size: 0.7rem; color: #64748B;">스토아 회복탄력성 & 통제 이분법</div>
+            </div>
+          </div>
+          <div style="font-size: 0.82rem; color: #334155; line-height: 1.6;">
+            "최악의 결과를 두려워하지 마십시오. 당신의 고결한 이성은 어떤 역경도 성장의 장작으로 삼을 수 있습니다. 두려움 때문에 비겁해지지 마십시오."
+          </div>
+          <div style="margin-top: 8px; font-size: 0.72rem; color: #10B981; font-weight: 700;">✅ 선택지 B 지지 (85%)</div>
+        </div>
+
+        <div class="council-mentor-card">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+            <span style="font-size: 1.3rem;">📊</span>
+            <div>
+              <strong style="font-size: 0.88rem; color: #0F172A;">레이 달리오</strong>
+              <div style="font-size: 0.7rem; color: #64748B;">2차·3차 파급효과 & 원칙 기반 리스크 관리</div>
+            </div>
+          </div>
+          <div style="font-size: 0.82rem; color: #334155; line-height: 1.6;">
+            "1차 결과는 안전하지만 3차 결과가 도태되는 <strong>선택지 A</strong> 대신, 1차 고통을 딛고 3차 기하급수 성장을 여는 <strong>선택지 B</strong>를 택하십시오. 단, 6개월치 현금 안전망을 갖추십시오."
+          </div>
+          <div style="margin-top: 8px; font-size: 0.72rem; color: #10B981; font-weight: 700;">✅ 선택지 B 지지 (84%)</div>
+        </div>
+
+        <div class="council-mentor-card">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+            <span style="font-size: 1.3rem;">💡</span>
+            <div>
+              <strong style="font-size: 0.88rem; color: #0F172A;">스티브 잡스</strong>
+              <div style="font-size: 0.7rem; color: #64748B;">죽음의 렌즈 & 직관적 비전</div>
+            </div>
+          </div>
+          <div style="font-size: 0.82rem; color: #334155; line-height: 1.6;">
+            "곧 죽는다는 사실을 기억하는 것은 무언가를 잃을지도 모른다는 덫을 피하는 최고의 방법입니다. 이미 당신은 알몸입니다. 심장을 따르지 않을 이유가 없습니다."
+          </div>
+          <div style="margin-top: 8px; font-size: 0.72rem; color: #10B981; font-weight: 700;">✅ 선택지 B 지지 (95%)</div>
+        </div>
+      `;
+
+      banner.innerHTML = `
+        <div>
+          <div style="font-size: 0.74rem; font-weight: 800; letter-spacing: 0.05em; color: #BAE6FD;">COUNCIL CONSENSUS VERDICT</div>
+          <div style="font-size: 1.15rem; font-weight: 850; margin: 2px 0 0;">
+            ⚖️ 4대 멘토 전원 일치 (89.0% 확률로 [${optB}] 강력 추천)
+          </div>
+          <div style="font-size: 0.8rem; color: #E0F2FE; margin-top: 4px;">
+            당신의 영혼과 장기적 성장을 위한 황금 해법입니다. 이 결정을 평생 역사서에 봉인하시겠습니까?
+          </div>
+        </div>
+        <button class="apple-pill-btn primary" onclick="commitCouncilDecision('${title.replace(/'/g, "\\'")}', '${optA.replace(/'/g, "\\'")}', '${optB.replace(/'/g, "\\'")}', '${optB.replace(/'/g, "\\'")}', '4대 멘토 89% 일치 권고')" style="background: #FFFFFF; color: #0284C7; border: none; font-weight: 800;">
+          📜 이 결정을 나의 평생 역사서에 봉인하기
+        </button>
+      `;
+
+      showAppleToast('⚖️ 4대 멘토 원탁 심의가 완료되었습니다! 평결을 확인하세요.');
+    }
+
+    function commitCouncilDecision(title, optA, optB, chosenOpt, verdictText) {
+      if (!MENTOR_BRAIN.decisions) MENTOR_BRAIN.decisions = [];
+
+      const newDecision = {
+        id: 'd_' + Date.now(),
+        date: new Date().toLocaleDateString('ko-KR'),
+        title: title,
+        optA: optA,
+        optB: optB,
+        chosen: chosenOpt,
+        verdict: verdictText,
+        reviewed: false,
+        reviewNote: '결정 등록 완료: 30일 후 멘토가 사후 점검 질문을 건넬 예정입니다.'
+      };
+
+      MENTOR_BRAIN.decisions.unshift(newDecision);
+      playAppleSound('success');
+      gainSoulExp(100, `인생 분기점 결정 봉인: [${chosenOpt}]`);
+      saveToLocalStorage();
+      renderMemoryVault();
+      renderGrowthJourney();
+
+      showAppleToast(`📜 [${chosenOpt}] 결정이 평생 역사서에 영구 봉인되었습니다! 멘토가 후속 성장을 함께 챙깁니다.`);
+    }
+
+    function regenerateFutureLetter() {
+      playAppleSound('sparkle');
+      gainSoulExp(40, '미래의 나 편지 갱신');
+
+      const letterEl = document.getElementById('futureSelfLetterText');
+      if (!letterEl) return;
+
+      const goalsStr = MENTOR_BRAIN.lifeGoals && MENTOR_BRAIN.lifeGoals[0] ? MENTOR_BRAIN.lifeGoals[0].title : '나만의 주권적 정체성';
+      const streak = MENTOR_BRAIN.habits && MENTOR_BRAIN.habits[0] ? MENTOR_BRAIN.habits[0].currentStreak : 7;
+
+      letterEl.innerHTML = `
+        "안녕, 10년 전 2026년 9월, 끝없는 세상의 채점표 속에서도 <strong>'${goalsStr}'</strong>을 포기하지 않았던 나의 과거여.<br><br>
+        그 시절 너는 매일 ${streak}일 연속으로 아침 루틴을 지켜내며 시냅스를 물리적으로 바꾸어나갔지. 남들은 다 편하고 빠른 길을 갈 때, 너 홀로 멘토와 대화하며 내면의 진실을 캐물었던 그 위대한 용기를 나는 결코 잊지 않아.<br><br>
+        2036년 지금의 나는 너의 그 땀방울과 눈물 덕분에, 완벽한 경제적·시간적 자유 속에서 세상에 깊은 울림을 주는 위대한 결실을 맺었어. 흔들려도 괜찮아. 너의 방향은 100% 옳았어. 고마워, 끝까지 나를 믿고 버텨주어서."
+      `;
+
+      showAppleToast('✨ 2036년 완성된 미래의 나로부터 새로운 헌정 편지가 도착했습니다!');
+    }
+
+    // Quick Mood Check-in Controller
+    function quickCheckinMood(moodKey, btnEl) {
+      document.querySelectorAll('.emotion-mood-btn').forEach(b => b.classList.remove('selected'));
+      if (btnEl) btnEl.classList.add('selected');
+
+      const moodMap = {
+        calm: { label: '평온', score: 4, msg: '내면의 호수가 잔잔히 가라앉았습니다. 깊은 통찰을 열기에 가장 좋은 상태입니다.' },
+        inspired: { label: '영감', score: 5, msg: '새로운 영감의 불꽃이 타오르고 있습니다. 이 순간을 메모나 일기로 즉시 포착하세요!' },
+        passion: { label: '열정', score: 4, msg: '행동의 에너지가 넘칩니다. 당신의 핵심 인생 목표에 이 에너지를 집중하세요.' },
+        confused: { label: '혼란', score: 2, msg: '혼란(Aporia)은 지혜가 태어나기 직전의 산통입니다. 멘토와 1:1 대화를 시작해보세요.' },
+        anxious: { label: '불안', score: 1, msg: '타인의 시선이나 미래의 불확실성이 엄습했습니다. 3분 쿨다운이나 528Hz 호흡을 권합니다.' }
+      };
+
+      const moodData = moodMap[moodKey] || moodMap.calm;
+      const todayStrKo = new Date().toLocaleDateString('ko-KR');
+
+      MENTOR_BRAIN.dailyEmotions.push({
+        date: todayStrKo,
+        mood: moodKey,
+        score: moodData.score,
+        label: moodData.label,
+        timestamp: Date.now()
+      });
+
+      const indicator = document.getElementById('todayEmotionRecorded');
+      if (indicator) {
+        indicator.innerText = `${moodData.label} 기록됨 ✓`;
+        indicator.style.color = '#10B981';
+        indicator.style.fontWeight = '700';
+      }
+
+      playAppleSound('success');
+      gainSoulExp(20, `오늘의 감정 상태 기록: ${moodData.label}`);
+      showAppleToast(`🌱 [${moodData.label}] 상태가 기록되었습니다. ${moodData.msg}`);
+      saveToLocalStorage();
+      renderGrowthJourney();
+    }
+
+    // Dynamic Habit Engine
+    function renderHabitSystem() {
+      const container = document.getElementById('habitChainsContainer');
+      if (!container) return;
+
+      container.innerHTML = '';
+
+      MENTOR_BRAIN.lifeGoals.forEach(goal => {
+        const goalCard = document.createElement('div');
+        goalCard.style.cssText = 'background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 18px; margin-bottom: 16px;';
+
+        const linkedHabits = MENTOR_BRAIN.habits.filter(h => h.goalId === goal.id);
+
+        goalCard.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="background: #0071E3; color: #FFFFFF; font-size: 0.68rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">목표</span>
+              <strong style="font-size: 0.96rem; color: #0F172A;">${goal.title}</strong>
+            </div>
+            <span style="font-size: 0.78rem; font-weight: 700; color: #0284C7;">달성 진척도 ${goal.progress}%</span>
+          </div>
+          <div style="width: 100%; height: 6px; background: #E2E8F0; border-radius: 4px; overflow: hidden; margin-bottom: 14px;">
+            <div style="width: ${goal.progress}%; height: 100%; background: linear-gradient(90deg, #0071E3, #10B981); border-radius: 4px;"></div>
+          </div>
+          <div class="linked-habits-list" id="habitsForGoal-${goal.id}"></div>
+        `;
+
+        const list = goalCard.querySelector(`#habitsForGoal-${goal.id}`);
+
+        linkedHabits.forEach(habit => {
+          const row = document.createElement('div');
+          row.className = 'habit-chain-row';
+
+          let dotsHtml = '';
+          for (let day = 1; day <= 21; day++) {
+            const isDone = habit.chain[day - 1] === 1;
+            const isToday = day === (habit.chain.length || 7);
+            dotsHtml += `
+              <div class="habit-day-dot ${isDone ? 'completed' : ''} ${isToday ? 'today' : ''}" 
+                   onclick="toggleHabitDay('${habit.id}', ${day - 1})" 
+                   title="${day}일차 실천 여부 (클릭하여 토글)">
+                ${day}
+              </div>
+            `;
+          }
+
+          const typeTag = habit.type === 'yin' 
+            ? '<span style="font-size: 0.68rem; background: #F3E8FF; color: #7E22CE; padding: 2px 6px; border-radius: 6px; font-weight: 700;">🟣 음(陰): 사색</span>' 
+            : '<span style="font-size: 0.68rem; background: #DCFCE7; color: #15803D; padding: 2px 6px; border-radius: 6px; font-weight: 700;">🟢 양(陽): 실행</span>';
+
+          row.innerHTML = `
+            <div style="min-width: 220px;">
+              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                ${typeTag}
+                <strong style="font-size: 0.88rem; color: #1E293B;">${habit.name}</strong>
+              </div>
+              <div style="font-size: 0.72rem; color: #64748B;">
+                🔥 현재 ${habit.currentStreak}일 연속 달성 중 (최고 ${habit.longestStreak}일)
+              </div>
+            </div>
+            <div class="habit-chain-days">${dotsHtml}</div>
+          `;
+          list.appendChild(row);
+        });
+
+        container.appendChild(goalCard);
+      });
+
+      renderYinYangBalance();
+    }
+
+    function toggleHabitDay(habitId, dayIndex) {
+      const habit = MENTOR_BRAIN.habits.find(h => h.id === habitId);
+      if (!habit) return;
+
+      habit.chain[dayIndex] = habit.chain[dayIndex] === 1 ? 0 : 1;
+      
+      // recalculate streak
+      let streak = 0;
+      for (let i = habit.chain.length - 1; i >= 0; i--) {
+        if (habit.chain[i] === 1) streak++;
+        else if (streak > 0) break;
+      }
+      habit.currentStreak = streak;
+      if (streak > habit.longestStreak) habit.longestStreak = streak;
+
+      playAppleSound('tap');
+      gainSoulExp(15, `${habit.name} ${dayIndex + 1}일차 실천`);
+      if (typeof fireSynapsePulse === 'function') fireSynapsePulse(1.8);
+      saveToLocalStorage();
+      renderHabitSystem();
+      renderGrowthJourney();
+    }
+
+    function openNewHabitModal() {
+      const modal = document.getElementById('newHabitModal');
+      if (modal) modal.style.display = 'flex';
+      playAppleSound('tap');
+    }
+
+    function closeNewHabitModal() {
+      const modal = document.getElementById('newHabitModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function submitNewHabitAndGoal() {
+      const goalInput = document.getElementById('newGoalInput');
+      const habitInput = document.getElementById('newHabitInput');
+      const typeSelect = document.getElementById('newHabitType');
+
+      if (!habitInput || !habitInput.value.trim()) {
+        showAppleToast('습관 이름을 입력해주세요.');
+        return;
+      }
+
+      const habitName = habitInput.value.trim();
+      let goalId = 'g1';
+
+      if (goalInput && goalInput.value.trim()) {
+        goalId = 'g_' + Date.now();
+        MENTOR_BRAIN.lifeGoals.push({
+          id: goalId,
+          title: goalInput.value.trim(),
+          category: 'vitality',
+          progress: 10,
+          habitIds: []
+        });
+      }
+
+      const newHabit = {
+        id: 'h_' + Date.now(),
+        name: habitName,
+        goalId: goalId,
+        type: typeSelect ? typeSelect.value : 'yin',
+        chain: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        currentStreak: 1,
+        longestStreak: 1
+      };
+
+      MENTOR_BRAIN.habits.push(newHabit);
+      playAppleSound('success');
+      gainSoulExp(40, '새 원자적 습관 및 목표 등록');
+      showAppleToast(`✨ [${habitName}] 루틴이 21일 체인에 성공적으로 연결되었습니다!`);
+
+      closeNewHabitModal();
+      if (goalInput) goalInput.value = '';
+      if (habitInput) habitInput.value = '';
+
+      saveToLocalStorage();
+      renderHabitSystem();
+    }
+
+    function renderYinYangBalance() {
+      const yinHabits = MENTOR_BRAIN.habits.filter(h => h.type === 'yin');
+      const yangHabits = MENTOR_BRAIN.habits.filter(h => h.type === 'yang');
+
+      const yinCount = Math.max(1, yinHabits.length);
+      const yangCount = Math.max(1, yangHabits.length);
+      const total = yinCount + yangCount;
+
+      const yinPct = Math.round((yinCount / total) * 100);
+      const yangPct = 100 - yinPct;
+
+      const yinBar = document.getElementById('yinMeterBar');
+      const yangBar = document.getElementById('yangMeterBar');
+      const badge = document.getElementById('yinYangStatusBadge');
+
+      if (yinBar) yinBar.style.width = `${yinPct}%`;
+      if (yangBar) yangBar.style.width = `${yangPct}%`;
+      if (badge) badge.innerText = `황금 균형 상태 (陰 ${yinPct}% : 陽 ${yangPct}%)`;
+    }
+
+    // =========================================================================
+    // 🧠 NEUROPLASTIC SYNAPSE CANVAS & GOAL-ROUTINE DIAGNOSTIC ENGINE
+    // =========================================================================
+    let synapseCanvasState = {
+      canvas: null,
+      ctx: null,
+      nodes: [],
+      pulses: [],
+      animId: null,
+      initialized: false,
+      width: 800,
+      height: 240
+    };
+
+    function initSynapseCanvas() {
+      const canvas = document.getElementById('synapseCanvas');
+      if (!canvas) return;
+
+      const wrap = canvas.parentElement;
+      const dpr = window.devicePixelRatio || 1;
+      const width = wrap.clientWidth || 800;
+      const height = wrap.clientHeight || 240;
+
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+
+      const ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+
+      synapseCanvasState.canvas = canvas;
+      synapseCanvasState.ctx = ctx;
+      synapseCanvasState.width = width;
+      synapseCanvasState.height = height;
+
+      // Initialize 36-48 neural nodes
+      const nodeCount = Math.max(28, Math.min(50, Math.floor(width / 22)));
+      const nodes = [];
+      for (let i = 0; i < nodeCount; i++) {
+        nodes.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.45,
+          vy: (Math.random() - 0.5) * 0.45,
+          radius: 2.2 + Math.random() * 2.8,
+          baseColor: i % 3 === 0 ? '#38BDF8' : (i % 3 === 1 ? '#34D399' : '#A855F7')
+        });
+      }
+      synapseCanvasState.nodes = nodes;
+      synapseCanvasState.pulses = [];
+
+      if (!synapseCanvasState.initialized) {
+        synapseCanvasState.initialized = true;
+        animateSynapseCanvas();
+        window.addEventListener('resize', () => {
+          if (document.getElementById('synapseCanvas')) {
+            initSynapseCanvas();
+          }
+        });
+      }
+    }
+
+    function animateSynapseCanvas() {
+      const { ctx, canvas, nodes, pulses, width, height } = synapseCanvasState;
+      if (!ctx || !canvas) {
+        synapseCanvasState.animId = requestAnimationFrame(animateSynapseCanvas);
+        return;
+      }
+
+      ctx.clearRect(0, 0, width, height);
+
+      // Deep space subtle gradient
+      const bgGrad = ctx.createLinearGradient(0, 0, width, height);
+      bgGrad.addColorStop(0, '#090D16');
+      bgGrad.addColorStop(1, '#0F172A');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, width, height);
+
+      // Update and draw node positions
+      const maxDist = 115;
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        n.x += n.vx;
+        n.y += n.vy;
+
+        if (n.x < 5 || n.x > width - 5) n.vx *= -1;
+        if (n.y < 5 || n.y > height - 5) n.vy *= -1;
+
+        // Draw connections (axons)
+        for (let j = i + 1; j < nodes.length; j++) {
+          const n2 = nodes[j];
+          const dx = n.x - n2.x;
+          const dy = n.y - n2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < maxDist) {
+            const alpha = (1 - dist / maxDist) * 0.28;
+            ctx.beginPath();
+            ctx.moveTo(n.x, n.y);
+            ctx.lineTo(n2.x, n2.y);
+            ctx.strokeStyle = `rgba(56, 189, 248, ${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            // Random spontaneous micro-pulse
+            if (Math.random() < 0.0018 && pulses.length < 25) {
+              pulses.push({
+                fromX: n.x,
+                fromY: n.y,
+                toX: n2.x,
+                toY: n2.y,
+                progress: 0,
+                speed: 0.02 + Math.random() * 0.025,
+                color: '#38BDF8',
+                size: 2
+              });
+            }
+          }
+        }
+      }
+
+      // Draw Action Potential Pulses
+      for (let p = pulses.length - 1; p >= 0; p--) {
+        const pulse = pulses[p];
+        pulse.progress += pulse.speed;
+
+        const curX = pulse.fromX + (pulse.toX - pulse.fromX) * pulse.progress;
+        const curY = pulse.fromY + (pulse.toY - pulse.fromY) * pulse.progress;
+
+        ctx.beginPath();
+        ctx.arc(curX, curY, pulse.size || 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = pulse.color || '#34D399';
+        ctx.shadowColor = pulse.color || '#34D399';
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        if (pulse.progress >= 1) {
+          pulses.splice(p, 1);
+        }
+      }
+
+      // Draw Neurons (somas)
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+        ctx.fillStyle = n.baseColor;
+        ctx.shadowColor = n.baseColor;
+        ctx.shadowBlur = 6;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+
+      synapseCanvasState.animId = requestAnimationFrame(animateSynapseCanvas);
+    }
+
+    function fireSynapsePulse(strength = 1.5) {
+      const { nodes, pulses } = synapseCanvasState;
+      if (!nodes || nodes.length === 0) return;
+
+      playAppleSound('tap');
+
+      // Spark electric packets across nearest nodes
+      const sparkCount = Math.floor(12 * strength);
+      for (let k = 0; k < sparkCount; k++) {
+        const idx1 = Math.floor(Math.random() * nodes.length);
+        let idx2 = Math.floor(Math.random() * nodes.length);
+        if (idx1 === idx2) idx2 = (idx1 + 1) % nodes.length;
+
+        const colors = ['#38BDF8', '#34D399', '#A855F7', '#F59E0B', '#38BDF8'];
+        pulses.push({
+          fromX: nodes[idx1].x,
+          fromY: nodes[idx1].y,
+          toX: nodes[idx2].x,
+          toY: nodes[idx2].y,
+          progress: 0,
+          speed: 0.025 + Math.random() * 0.035,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          size: 3 + Math.random() * 2
+        });
+      }
+
+      // Update neurological quantitative indicators
+      const hebbianEl = document.getElementById('statHebbianRate');
+      const myelinEl = document.getElementById('statMyelinIndex');
+      const pruningEl = document.getElementById('statPruningRate');
+
+      const currentHebb = parseFloat(hebbianEl ? hebbianEl.innerText : '88.4') || 88.4;
+      const currentMyelin = parseFloat(myelinEl ? myelinEl.innerText : '1.48') || 1.48;
+      const currentPruning = parseFloat(pruningEl ? pruningEl.innerText : '64.0') || 64.0;
+
+      const newHebb = Math.min(99.8, (currentHebb + 0.6 * strength)).toFixed(1);
+      const newMyelin = Math.min(2.50, (currentMyelin + 0.04 * strength)).toFixed(2);
+      const newPruning = Math.min(95.0, (currentPruning + 0.8 * strength)).toFixed(1);
+
+      if (hebbianEl) hebbianEl.innerText = `${newHebb}% 점화`;
+      if (myelinEl) myelinEl.innerText = `${newMyelin}x 강화`;
+      if (pruningEl) pruningEl.innerText = `${newPruning}% 소멸`;
+
+      showAppleToast('⚡ 시냅스 활동 전위 폭발: 헵의 학습 법칙에 의해 신경 회로가 강화되었습니다!');
+    }
+
+    // 4대 습관 루프 & 에너지 누수 & 멘토 처방 프리셋
+    const BAD_HABIT_PRESETS = {
+      phoneBed: {
+        title: '📱 침대 속 무의식 숏폼 시청 (도파민 도피)',
+        cue: '침대에 누움 & 하루 업무 후 피로 및 허탈감',
+        craving: '즉각적인 뇌 자극 & 현실 스트레스 망각',
+        routine: '스마트폰을 거실 충전기에 꽂고, 침대 곁 [2분 소울 일기 & 528Hz 호흡] 실행',
+        reward: '아침 기상 시 뇌 안개(Brain Fog) 해소 & 숙면 만족감',
+        leakTitle: '인생 에너지 누수 경고: 침대 숏폼 40분',
+        leakDesc: '매일 밤 40분의 무의식 도파민 도피는 연간 <strong>243시간</strong>(온전한 업무일 기준 30일)에 달하는 인생 기회비용을 침식합니다. 대체 마이크로 루틴(스마트폰 거실 충전 + 3분 528Hz 호흡)으로 전환 시 집중력이 3.8배 상승합니다.',
+        mentorQuote: '"목표를 이루지 못하는 원인은 의지의 박약이 아니라, 신호(Cue)를 마주했을 때 뇌가 자동으로 실행할 <strong>\'대체 반응의 부재\'</strong> 때문입니다. 오늘부터 퇴근 즉시 침대로 향하는 대신, 책상 위 펜을 잡는 <strong>\'2분 모닝/이브닝 소울 일기\'</strong>를 인생 목표 #1에 고정시키십시오."',
+        routineToApply: {
+          name: '침대 전 2분 소울 일기 & 528Hz 호흡',
+          type: 'yin'
+        }
+      },
+      pleasing: {
+        title: '😣 남의 부탁을 거절 못하고 끌려다님 (착한아이 콤플렉스)',
+        cue: '동료/타인의 무리한 부탁이나 즉각적 메신저 호출',
+        craving: '비난받지 않고 좋은 사람으로 인정받고 싶은 불안감',
+        routine: '5초 일시정지 심호흡 후 "24시간 후 일정 확인 후 답변드리겠습니다" 우아한 지연 회신',
+        reward: '내 시간 주도권 확보 & 진정한 자기 존중감(Self-Respect) 획득',
+        leakTitle: '인생 에너지 누수 경고: 비핵심 요청 응답 연간 312시간',
+        leakDesc: '타인의 우선순위에 휘둘리는 하루 50분은 연간 <strong>312시간</strong>의 핵심 몰입 시간을 파괴합니다. \'단호하지만 우아한 거절\' 루틴을 장착할 때 나만의 10년 북극성 프로젝트 완성 속도가 2.6배 빨라집니다.',
+        mentorQuote: '"레이 달리오가 말했듯 \'모든 것에 예스(YES)라고 답하는 것은 아무것에도 헌신하지 않는 것\'입니다. 거절은 상대에 대한 공격이 아니라 당신의 사명을 지키는 방패입니다. <strong>\'5초 멈춤 & 정중한 거절\'</strong> 루틴을 체인에 등록하세요."',
+        routineToApply: {
+          name: '우아한 거절: 24시간 숙고 후 회신 원칙',
+          type: 'yang'
+        }
+      },
+      procrastinate: {
+        title: '⏳ 완벽주의 때문에 시작을 미룸 (실패 공포)',
+        cue: '거대하고 모호한 중요 과제(기획서, 운동, 공부) 직면',
+        craving: '실패나 불완전성에 대한 두려움과 불안 회피',
+        routine: '3분 쪼개기 원칙: 제목만 쓰기, 운동화 끈만 묶기 등 극단적 미세 행동 실행',
+        reward: '뇌 측핵 도파민 분비로 작업 흥분(Work Excitement) 모멘텀 발생',
+        leakTitle: '인생 에너지 누수 경고: 미루기로 인한 심리적 지체 연간 365시간',
+        leakDesc: '시작하지 못해 겪는 인지적 부채(Cognitive Debt)는 하루 평균 1시간의 생산성을 마비시킵니다. 3분 미세 실행 루틴은 뇌의 편도체 공포 반응을 우회하여 마찰력을 0으로 만듭니다.',
+        mentorQuote: '"스티브 잡스는 \'진정한 예술가는 출시한다(Real artists ship)\'고 했습니다. 완벽함은 시작한 뒤에 조각하는 것이지, 시작 전에 갖추는 것이 아닙니다. <strong>\'3분 미세 착수 루틴\'</strong>으로 관성을 깨뜨리십시오."',
+        routineToApply: {
+          name: '마이크로 착수: 3분만 무조건 실행하기',
+          type: 'yang'
+        }
+      },
+      impulse: {
+        title: '💸 스트레스성 야식 및 충동 결제 (즉각 위안)',
+        cue: '밤 10시 이후 감정적 탈진, 고독감 또는 업무 좌절감',
+        craving: '즉각적인 당류/쇼핑 결제를 통한 빠른 도파민 수치 상승',
+        routine: '차가운 탄산수 한 잔 천천히 음미 후 [10분 온열 샤워 & 감정 일기 1줄]',
+        reward: '자고 일어났을 때의 자괴감 소멸 및 신체·재정 통제감 회복',
+        leakTitle: '인생 에너지 누수 경고: 감정성 충동 소비 연 420만원 & 신체 피로',
+        leakDesc: '감정적 허기를 물질이나 칼로리로 채우는 행위는 도파민 수용체를 탈감작시킵니다. 신체 감각을 리셋하는 10분 온열 루틴은 코르티솔을 42% 낮추고 장기적 자존감을 지킵니다.',
+        mentorQuote: '"소크라테스는 \'만족할 줄 아는 자가 가장 부유하다\'고 설파했습니다. 충동의 순간, 당신의 내면 아이가 진정 원한 것은 음식이 아니라 <strong>\'따뜻한 위로와 인정\'</strong>이었습니다. <strong>\'탄산수 & 10분 온열 루틴\'</strong>으로 스스로를 안아주십시오."',
+        routineToApply: {
+          name: '감정 리셋: 10분 온열 샤워 & 차 한 잔',
+          type: 'yin'
+        }
+      }
+    };
+
+    function switchBadHabitDiagnosis(key) {
+      const preset = BAD_HABIT_PRESETS[key] || BAD_HABIT_PRESETS.phoneBed;
+      const grid = document.getElementById('habitLoopGrid');
+      if (grid) {
+        grid.innerHTML = `
+          <div class="habit-loop-node">
+            <span class="loop-badge">1. CUE (신호)</span>
+            <h4>${preset.cue}</h4>
+            <p>특정 시간·장소·감정 상태에서 뇌의 무의식 스위치가 켜지는 트리거 순간</p>
+          </div>
+          <div class="habit-loop-node">
+            <span class="loop-badge">2. CRAVING (열망)</span>
+            <h4>${preset.craving}</h4>
+            <p>스트레스에서 벗어나 안전과 즉각적인 도파민 쾌락을 얻고 싶은 내면 욕구</p>
+          </div>
+          <div class="habit-loop-node highlight">
+            <span class="loop-badge">3. ROUTINE (대체 반응)</span>
+            <h4>${preset.routine}</h4>
+            <p>🔥 신경 가소성 처방: 의지 대신 환경과 시스템으로 기존 경로를 가로챔</p>
+          </div>
+          <div class="habit-loop-node">
+            <span class="loop-badge">4. REWARD (보상)</span>
+            <h4>${preset.reward}</h4>
+            <p>인생 북극성 목표에 한 발짝 다가서며 느끼는 깊은 효능감과 자긍심</p>
+          </div>
+        `;
+      }
+
+      const leakTitle = document.getElementById('energyLeakTitle');
+      const leakDesc = document.getElementById('energyLeakDesc');
+      if (leakTitle) leakTitle.innerText = preset.leakTitle;
+      if (leakDesc) leakDesc.innerHTML = preset.leakDesc;
+
+      const mentorPrescription = document.getElementById('mentorPrescriptionText');
+      if (mentorPrescription) mentorPrescription.innerHTML = preset.mentorQuote;
+
+      playAppleSound('tap');
+    }
+
+    function initRoutineDiagnostic() {
+      const selector = document.getElementById('badHabitSelector');
+      if (selector) {
+        switchBadHabitDiagnosis(selector.value || 'phoneBed');
+      }
+    }
+
+    function applyPrescribedRoutine() {
+      const selector = document.getElementById('badHabitSelector');
+      const key = selector ? selector.value : 'phoneBed';
+      const preset = BAD_HABIT_PRESETS[key] || BAD_HABIT_PRESETS.phoneBed;
+      const targetRoutine = preset.routineToApply;
+
+      // Check if already registered
+      const existing = MENTOR_BRAIN.habits.find(h => h.name === targetRoutine.name);
+      if (existing) {
+        showAppleToast(`이미 21일 체인에 [${targetRoutine.name}] 처방 루틴이 활성화되어 있습니다.`);
+        return;
+      }
+
+      const goalId = MENTOR_BRAIN.lifeGoals[0] ? MENTOR_BRAIN.lifeGoals[0].id : 'g1';
+      const newHabit = {
+        id: 'h_rx_' + Date.now(),
+        name: targetRoutine.name,
+        goalId: goalId,
+        type: targetRoutine.type,
+        chain: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        currentStreak: 1,
+        longestStreak: 1
+      };
+
+      MENTOR_BRAIN.habits.push(newHabit);
+      playAppleSound('success');
+      gainSoulExp(50, `AI 처방 루틴 [${targetRoutine.name}] 장착`);
+      fireSynapsePulse(2.5);
+
+      const scoreEl = document.getElementById('goalAlignmentScore');
+      if (scoreEl) scoreEl.innerText = '96.8%';
+
+      saveToLocalStorage();
+      renderHabitSystem();
+      showAppleToast(`🎯 [${targetRoutine.name}] 처방 루틴이 목표에 바인딩되었습니다! 21일 체인을 시작하세요.`);
+    }
+
+    // Growth Tab Controller
+    function renderGrowthJourney() {
+      // 1. Heatmap 35 cells
+      const grid = document.getElementById('growthHeatmapGrid');
+      if (grid) {
+        grid.innerHTML = '';
+        for (let i = 1; i <= 35; i++) {
+          const cell = document.createElement('div');
+          const dayNum = ((i - 1) % 30) + 1;
+          const level = (i % 5 === 0) ? 'level-4' : (i % 3 === 0) ? 'level-3' : (i % 2 === 0) ? 'level-2' : 'level-1';
+          cell.className = `growth-heatmap-cell ${level}`;
+          cell.innerHTML = `<span>${dayNum}</span>`;
+          cell.title = `${dayNum}일: 내면 몰입 지수 양호`;
+          grid.appendChild(cell);
+        }
+      }
+
+      // 2. Milestones
+      const milestonesBox = document.getElementById('growthMilestonesContainer');
+      if (milestonesBox && MENTOR_BRAIN.milestones) {
+        milestonesBox.innerHTML = '';
+        let achievedCount = 0;
+        MENTOR_BRAIN.milestones.forEach(m => {
+          if (m.achieved) achievedCount++;
+          const row = document.createElement('div');
+          row.className = `milestone-item-row ${m.achieved ? 'achieved' : ''}`;
+          row.innerHTML = `
+            <div class="milestone-icon-wrap">${m.achieved ? '✓' : m.icon || '🔒'}</div>
+            <div style="flex: 1;">
+              <div style="font-size: 0.88rem; font-weight: 800; color: #0F172A;">${m.title}</div>
+              <div style="font-size: 0.74rem; color: #64748B;">${m.desc}</div>
+            </div>
+            <span style="font-size: 0.7rem; font-weight: 700; color: ${m.achieved ? '#10B981' : '#94A3B8'};">
+              ${m.achieved ? (m.date || '달성 완료') : '도전 중'}
+            </span>
+          `;
+          milestonesBox.appendChild(row);
+        });
+
+        const progressText = document.getElementById('milestoneProgressText');
+        if (progressText) progressText.innerText = `${achievedCount} / ${MENTOR_BRAIN.milestones.length} 달성`;
+      }
+
+      // 3. Decision Archive
+      const decisionBox = document.getElementById('decisionArchiveContainer');
+      if (decisionBox && MENTOR_BRAIN.decisions) {
+        decisionBox.innerHTML = '';
+        MENTOR_BRAIN.decisions.forEach(d => {
+          const card = document.createElement('div');
+          card.style.cssText = 'background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 14px; padding: 14px 18px;';
+          card.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span style="font-size: 0.72rem; font-weight: 800; color: #0284C7;">📅 ${d.date} 결단</span>
+              <span style="font-size: 0.72rem; background: ${d.reviewed ? '#DCFCE7' : '#FEF3C7'}; color: ${d.reviewed ? '#15803D' : '#B45309'}; padding: 2px 8px; border-radius: 6px; font-weight: 700;">
+                ${d.reviewed ? '사후 검토 완료 ✓' : '30일 후 검토 대기'}
+              </span>
+            </div>
+            <h4 style="font-size: 0.95rem; font-weight: 800; color: #0F172A; margin: 0 0 6px;">${d.title}</h4>
+            <div style="font-size: 0.8rem; color: #475569; margin-bottom: 6px;">
+              선택한 대안: <strong>${d.chosen}</strong> (${d.verdict})
+            </div>
+            ${d.reviewNote ? `<div style="font-size: 0.76rem; background: #FFFFFF; border-left: 3px solid #10B981; padding: 6px 10px; border-radius: 0 6px 6px 0; color: #334155;">💡 사후 회고: ${d.reviewNote}</div>` : ''}
+          `;
+          decisionBox.appendChild(card);
+        });
+
+        const statDecisions = document.getElementById('growthStatDecisions');
+        if (statDecisions) statDecisions.innerText = `${MENTOR_BRAIN.decisions.length}건`;
       }
     }
 
@@ -10150,20 +13721,266 @@
     }
 
     function addNewHabitRoutine() {
-      const habitName = prompt('교정하고 싶은 습관이나 새로 만들고 싶은 루틴의 이름을 입력하세요:');
-      if (habitName && habitName.trim()) {
-        playAppleSound('success');
-        gainSoulExp(30, '새로운 원자적 루틴 등록');
-        showAppleToast(`✨ [${habitName.trim()}] 루틴이 습관 재배선 매트릭스에 등록되었습니다!`);
+      openNewHabitModal();
+    }
+
+    /* =========================================================================
+       NEW JS 7: 🌌 SOUL ODYSSEY 4D CONSCIOUSNESS & LETTER FROM FUTURE SELF ENGINE
+       신경과학(HRV) + 분석심리학(융) + 논리학(소크라테스) + 미래 자아 음성 편지
+       ========================================================================= */
+    let currentOdysseyStage = 1;
+    let bioBreathingInterval = null;
+    let bioBreathingIsRunning = false;
+    let bioBreathingPhase = 'inhale'; // inhale, hold, exhale
+    let bioBreathingSecondsLeft = 4;
+    let bioCoherenceProgress = 42;
+    let activeShadowKey = 'shameless';
+    let futureSpeechUtterance = null;
+
+    const SHADOW_KNOWLEDGE_BASE = {
+      shameless: {
+        title: "✨ 자신의 가치를 당당히 지켜내는 불가침의 자존감",
+        desc: "당신이 '뻔뻔함'을 혐오했던 이유는, 과거 착하고 순종적인 아이로 살아남기 위해 '내 몫을 주장하는 건강한 공격성'을 지하실에 감금했기 때문입니다.\n이제 그 결박을 푸십시오. 당신이 경멸하던 그 에너지는 사실 타인의 눈치를 보지 않고 당신의 정당한 권리와 가치를 세상에 선포할 가장 강력한 무기입니다.",
+        axiom: "나는 남의 허락을 구하지 않고, 내 존엄과 가치를 스스로 당당하게 증명한다."
+      },
+      rebel: {
+        title: "💡 기존의 질서를 깨부수고 새 길을 여는 혁신적 창의력",
+        desc: "사회적 규범을 무시하는 이를 향한 분노는, 당신 내면의 '규칙 파괴자(Rebel Archetype)'가 지른 절규입니다.\n당신은 세상이 정해준 트랙을 벗어나 새로운 바다를 항해하고 싶은 거대한 갈망을 품고 있습니다. 그 반골 기질을 이제 세상에 선한 충격을 주는 독창적 창작물로 승화시키십시오.",
+        axiom: "세상이 닦아놓은 고속도로가 아니라, 내 영혼이 개척하는 야생의 숲길을 걷는다."
+      },
+      boundary: {
+        title: "🛡️ 내면의 평화를 수호하는 냉철한 시간 주권과 경계선",
+        desc: "차갑게 선을 긋는 이를 비난했던 까닭은, 당신이 '거절하면 버림받을지 모른다는 유기 불안'에 묶여 있었기 때문입니다.\n냉정함은 악이 아닙니다. 그것은 나를 소모시키는 불필요한 관계와 잡음으로부터 내 영혼의 성소를 지켜내는 가장 지혜로운 방패입니다.",
+        axiom: "타인의 기분을 맞추느라 내 인생을 낭비하지 않으며, 거절할 수 있을 때 진정한 사랑도 가능하다."
+      },
+      reckless: {
+        title: "⚡ 실패의 공포를 무력화하는 야성적 돌파력과 실행력",
+        desc: "무모한 자를 향한 경멸의 이면에는 '완벽주의라는 감옥'에 갇혀 한 걸음도 내딛지 못하는 내면의 부러움이 숨어 있었습니다.\n실패는 결코 수치가 아닙니다. 준비가 덜 되었을 때 과감하게 뛰어드는 야성이야말로 당신을 10배 성장시킬 유일한 촉매입니다.",
+        axiom: "완벽함보다 대담한 미완성이 낫다. 나는 두려움 속에서도 전진한다."
+      }
+    };
+
+    function startOdysseyJourney() {
+      switchTab('odyssey');
+      switchOdysseyStage(1);
+      playAppleSound('tap');
+      showAppleToast('🌌 영혼의 4차원 오디세이가 시작되었습니다. 호흡을 가다듬으세요.');
+    }
+
+    function switchOdysseyStage(stageNum) {
+      currentOdysseyStage = stageNum;
+      for (let i = 1; i <= 4; i++) {
+        const stepBtn = document.getElementById(`odysseyStepBtn-${i}`);
+        const stageView = document.getElementById(`odysseyStage-${i}`);
+        if (stepBtn) {
+          if (i === stageNum) stepBtn.classList.add('active');
+          else stepBtn.classList.remove('active');
+        }
+        if (stageView) {
+          if (i === stageNum) stageView.style.display = 'block';
+          else stageView.style.display = 'none';
+        }
+      }
+      playAppleSound('tap');
+      lucide.createIcons();
+    }
+
+    function toggleBioBreathing() {
+      if (bioBreathingIsRunning) {
+        clearInterval(bioBreathingInterval);
+        bioBreathingIsRunning = false;
+        document.getElementById('bioBtnText').innerText = '4-7-8 코히어런스 호흡 재개';
+        const icon = document.getElementById('bioBtnIcon');
+        if (icon) icon.setAttribute('data-lucide', 'play');
+        showAppleToast('⏸️ 호흡 훈련이 일시 정지되었습니다.');
+      } else {
+        bioBreathingIsRunning = true;
+        document.getElementById('bioBtnText').innerText = '호흡 훈련 일시 정지';
+        const icon = document.getElementById('bioBtnIcon');
+        if (icon) icon.setAttribute('data-lucide', 'pause');
+        startBioBreathingLoop();
+        showAppleToast('🫀 4-7-8 심장-뇌 일관성 호흡이 시작되었습니다. 편안히 몰입하세요.');
+      }
+      lucide.createIcons();
+    }
+
+    function startBioBreathingLoop() {
+      bioBreathingPhase = 'inhale';
+      bioBreathingSecondsLeft = 4;
+      updateBioSphereVisuals();
+
+      bioBreathingInterval = setInterval(() => {
+        bioBreathingSecondsLeft--;
+        const secEl = document.getElementById('bioBreathingSec');
+        if (secEl) secEl.innerText = `${bioBreathingSecondsLeft}s`;
+
+        if (bioBreathingSecondsLeft <= 0) {
+          if (bioBreathingPhase === 'inhale') {
+            bioBreathingPhase = 'hold';
+            bioBreathingSecondsLeft = 7;
+            playAppleSound('tap');
+          } else if (bioBreathingPhase === 'hold') {
+            bioBreathingPhase = 'exhale';
+            bioBreathingSecondsLeft = 8;
+            playAppleSound('soft');
+          } else if (bioBreathingPhase === 'exhale') {
+            bioBreathingPhase = 'inhale';
+            bioBreathingSecondsLeft = 4;
+            playAppleSound('success');
+            bioCoherenceProgress = Math.min(99, bioCoherenceProgress + 14);
+            const badge = document.getElementById('coherenceRateBadge');
+            if (badge) badge.innerText = `뇌파 동조율: ${bioCoherenceProgress}% (최적 코히어런스 달성)`;
+            gainSoulExp(20, '4-7-8 신경계 동조화 사이클 완료');
+          }
+          updateBioSphereVisuals();
+        }
+      }, 1000);
+    }
+
+    function updateBioSphereVisuals() {
+      const sphere = document.getElementById('bioSphereBox');
+      const actionEl = document.getElementById('bioBreathingAction');
+      const instEl = document.getElementById('bioBreathingInstruction');
+      const secEl = document.getElementById('bioBreathingSec');
+
+      if (!sphere || !actionEl || !instEl || !secEl) return;
+      sphere.className = 'bio-sphere-box ' + bioBreathingPhase;
+      secEl.innerText = `${bioBreathingSecondsLeft}s`;
+
+      if (bioBreathingPhase === 'inhale') {
+        actionEl.innerText = '들숨 (Inhale)';
+        instEl.innerText = '코로 맑은 숨을 깊이 들이쉬며, 우주의 순수한 에너지를 가슴에 채웁니다.';
+      } else if (bioBreathingPhase === 'hold') {
+        actionEl.innerText = '멈춤 (Hold)';
+        instEl.innerText = '숨을 고요히 머금으며, 내면의 영혼 중심부가 찬란한 황금빛으로 응축됩니다.';
+      } else {
+        actionEl.innerText = '날숨 (Exhale)';
+        instEl.innerText = '입으로 가늘고 길게 내쉬며, 과거의 모든 후회·비교·두려움을 우주로 완전히 비워냅니다.';
       }
     }
 
-    // Auto-init on DOM ready: Storage, Animal SVG, Persona Scenario, and Soul Calendar
+    function selectShadowPreset(el, key) {
+      activeShadowKey = key;
+      document.querySelectorAll('.shadow-reflection-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      playAppleSound('tap');
+    }
+
+    function transmuteGoldenShadow() {
+      playAppleSound('success');
+      gainSoulExp(40, '칼 융의 그림자 황금 연금술 변환');
+      
+      const customInput = document.getElementById('customShadowInput');
+      let data = SHADOW_KNOWLEDGE_BASE[activeShadowKey] || SHADOW_KNOWLEDGE_BASE.shameless;
+
+      if (customInput && customInput.value.trim()) {
+        const customText = customInput.value.trim();
+        data = {
+          title: `✨ "${customText}" 속에 숨겨진 고유한 초월적 무기`,
+          desc: `당신이 타인의 '${customText}'에 강렬한 거부감을 느꼈던 까닭은, 당신 안의 순수한 본성이 억압되었기 때문입니다.\n그 거부감을 자양분 삼아, 타인의 시선에 휘둘리지 않는 당신만의 독보적인 권위와 천재성을 세상에 온전히 개방하십시오.`,
+          axiom: `나는 세상의 어떤 왜곡된 시선 앞에서도 타협하지 않고, 내 내면의 순수한 진실을 따른다.`
+        };
+      }
+
+      document.getElementById('goldShadowTitle').innerText = data.title;
+      document.getElementById('goldShadowDesc').innerHTML = data.desc.replace(/\n/g, '<br>');
+      document.getElementById('certGoldenShadowText').innerText = data.title.replace('✨ ', '');
+      document.getElementById('firstPrincipleText').innerText = `"${data.axiom}"`;
+      document.getElementById('certCoreAxiomText').innerText = `"${data.axiom}"`;
+
+      const box = document.getElementById('goldenShadowResultBox');
+      if (box) {
+        box.style.animation = 'none';
+        setTimeout(() => box.style.animation = 'pulseGlow 3s ease-in-out infinite alternate', 10);
+      }
+
+      showAppleToast('🪞 융의 그림자 연금술 완료: 억압되었던 황금빛 본질이 복원되었습니다!');
+    }
+
+    function shatterAporiaRule() {
+      const stageCard = document.getElementById('aporiaStageCard');
+      if (stageCard) {
+        stageCard.classList.add('glass-shatter-effect');
+        setTimeout(() => stageCard.classList.remove('glass-shatter-effect'), 500);
+      }
+
+      playAppleSound('success');
+      gainSoulExp(60, '소크라테스 아포리아 모순 분쇄 & 제1원리 결정화');
+
+      const crystalBox = document.getElementById('firstPrincipleCrystalBox');
+      if (crystalBox) {
+        crystalBox.style.display = 'block';
+        crystalBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      showAppleToast('⚡ 콰앙! 거짓 전제가 산산조각 났습니다. 내 영혼의 참된 제1원리가 탄생했습니다!');
+    }
+
+    function speakFutureSelfLetter() {
+      if ('speechSynthesis' in window) {
+        if (window.speechSynthesis.speaking) {
+          window.speechSynthesis.cancel();
+          showAppleToast('⏹️ 미래 자아의 음성 낭독이 중지되었습니다.');
+          return;
+        }
+
+        const letterEl = document.getElementById('futureLetterBodyText');
+        const text = letterEl ? letterEl.innerText : '소중한 나의 과거에게 사랑을 전합니다.';
+        
+        futureSpeechUtterance = new SpeechSynthesisUtterance(text);
+        futureSpeechUtterance.lang = 'ko-KR';
+        futureSpeechUtterance.rate = 0.88; // 차분하고 다정하며 눈물겨운 속도
+        futureSpeechUtterance.pitch = 1.0;
+
+        futureSpeechUtterance.onstart = () => {
+          showAppleToast('💌 2036년 미래의 나로부터 온 따스한 음성 낭독이 시작됩니다.');
+        };
+
+        futureSpeechUtterance.onend = () => {
+          showAppleToast('✨ 10년 후의 내가 건넨 사랑이 영혼 깊숙이 각인되었습니다.');
+          gainSoulExp(50, '미래 자아 음성 편지 완청');
+        };
+
+        window.speechSynthesis.speak(futureSpeechUtterance);
+      } else {
+        showAppleToast('음성 합성(TTS)이 지원되지 않는 브라우저입니다.');
+      }
+    }
+
+    function printSoulCertificate() {
+      playAppleSound('success');
+      showAppleToast('📜 영혼 헌정 증서 인쇄 창을 엽니다. PDF로 영구 저장해 간직하세요.');
+      window.print();
+    }
+
+    function copySoulCredoToClipboard() {
+      const axiomEl = document.getElementById('certCoreAxiomText');
+      const text = axiomEl ? axiomEl.innerText : '';
+      if (navigator.clipboard && text) {
+        navigator.clipboard.writeText(text).then(() => {
+          playAppleSound('tap');
+          showAppleToast('📋 영혼의 제1원리가 클립보드에 복사되었습니다. 매일 아침 상기하세요!');
+        });
+      }
+    }
+
+    // Auto-init on DOM ready: Storage, Animal SVG, Persona Scenario, Soul Calendar, and Mentor Brain System
     setTimeout(() => {
       loadFromLocalStorage();
+      initMentorBrainSystem();
       renderAnimalProfile();
       renderPersonaScenario(currentPersonaKey);
       renderSoulCalendar();
+      renderHabitSystem();
+      renderGrowthJourney();
+      if (typeof initSynapseCanvas === 'function') initSynapseCanvas();
+      if (typeof initRoutineDiagnostic === 'function') initRoutineDiagnostic();
+      lucide.createIcons();
+
+      // Greet user with time-aware lifelong companion welcome
+      setTimeout(() => {
+        showMentorWelcome();
+      }, 600);
     }, 200);
   </script>
 </body>
