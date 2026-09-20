@@ -1,0 +1,6 @@
+# Autonomous Execution & Non-interactive Directives
+
+- Do not pause or ask for confirmation unless an irreversible destructive error occurs.
+- Autonomously execute required terminal commands, implement code, fix any errors, and report the final result only.
+- Proceed through the entire lifecycle (analysis, implementation, verification, self-debugging, and deployment/git sync) without intermediate confirmation pauses.
+- Proactively fix any build, lint, or runtime errors autonomously and verify the solution before presenting the final result.
